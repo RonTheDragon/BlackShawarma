@@ -7,15 +7,15 @@ using UnityEngine;
 
 public class ThirdPersonMovement : MonoBehaviour
 {
-    public float Speed = 10;
-    public float Gravity = 10;
+    public float               Speed   = 10;
+    public float               Gravity = 10;
     public CharacterController CC;
-    public Transform cam;
+    public Transform           cam;
 
     float f;
 
     Vector3 ForceDirection;
-    float ForceStrength;
+    float   ForceStrength;
 
     public float Jump = 20;
     public float gravityPull;
@@ -37,7 +37,7 @@ public class ThirdPersonMovement : MonoBehaviour
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+        Cursor.visible   = false;
     }
 
     // Update is called once per frame
@@ -55,20 +55,17 @@ public class ThirdPersonMovement : MonoBehaviour
         CC.Move(Vector3.down * Gravity * gravityPull * Time.deltaTime);
 
         bool G = !CC.isGrounded;
-
-        
-
         
         if (Input.GetKeyDown(KeyCode.Space) && Grounded)
         {
             AddForce(Vector3.up, Jump);
         }
 
-        Vector2 Movement = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+        Vector2 Movement = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")); //Get input from player for movem
         
-            float targetAngle = Mathf.Atan2(Movement.x, Movement.y) * Mathf.Rad2Deg + cam.eulerAngles.y;
-            float Angle = Mathf.SmoothDampAngle(transform.eulerAngles.y,  cam.eulerAngles.y , ref f, 0.1f);
-            transform.rotation = Quaternion.Euler(0, Angle, 0);
+            float targetAngle     = Mathf.Atan2(Movement.x, Movement.y) * Mathf.Rad2Deg + cam.eulerAngles.y; //get where player is looking
+            float Angle             = Mathf.SmoothDampAngle(transform.eulerAngles.y,  targetAngle , ref f, 0.1f); //Smoothing
+            transform.rotation = Quaternion.Euler(0, Angle, 0); //Player rotation
 
             if (Movement.magnitude > 0.1f)
             {
@@ -103,6 +100,6 @@ public class ThirdPersonMovement : MonoBehaviour
     void AddForce(Vector3 dir, float force)
     {
         ForceDirection = dir;
-        ForceStrength = force;
+        ForceStrength  = force;
     }
 }
