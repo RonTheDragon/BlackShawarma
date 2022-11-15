@@ -64,7 +64,7 @@ public class ThirdPersonMovement : MonoBehaviour
         Vector2 Movement = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")); //Get input from player for movem
         
             float targetAngle     = Mathf.Atan2(Movement.x, Movement.y) * Mathf.Rad2Deg + cam.eulerAngles.y; //get where player is looking
-            float Angle             = Mathf.SmoothDampAngle(transform.eulerAngles.y,  targetAngle , ref f, 0.1f); //Smoothing
+            float Angle             = Mathf.SmoothDampAngle(transform.eulerAngles.y, cam.eulerAngles.y, ref f, 0.1f); //Smoothing
             transform.rotation = Quaternion.Euler(0, Angle, 0); //Player rotation
 
             if (Movement.magnitude > 0.1f)
