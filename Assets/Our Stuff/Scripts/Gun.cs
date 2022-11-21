@@ -1,3 +1,4 @@
+using Cinemachine;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -10,8 +11,13 @@ public class Gun : MonoBehaviour
     [SerializeField] float CoolDown = 0.5f;
     [SerializeField] Transform barrel;
     [SerializeField] Transform cam;
+    [SerializeField] CinemachineFreeLook cinemachine;
+    [ReadOnly][SerializeField] bool isAiming;
+    [SerializeField] int fov_aim =40;
+    [SerializeField] int fovnot_aim=70;
     //Private 
     float _cd;
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -22,6 +28,7 @@ public class Gun : MonoBehaviour
     void Update()
     {
         Shoot();
+        Aim();
     }
 
     void Shoot()
@@ -44,6 +51,26 @@ public class Gun : MonoBehaviour
         {
             _cd -= Time.deltaTime;
 
+        }
+    }
+    void Aim()
+    {
+        if (Input.GetMouseButtonDown(1))
+        {
+            isAiming = true;
+        }
+        else if (Input.GetMouseButtonUp(1))
+        {
+            isAiming = false;
+        }
+        if (isAiming)
+        {
+            cinemachine.m_Lens.FieldOfView = fov_aim;
+
+        }
+        else if(!isAiming)
+        {
+           cinemachine.m_Lens.FieldOfView = fovnot_aim;
         }
     }
 
