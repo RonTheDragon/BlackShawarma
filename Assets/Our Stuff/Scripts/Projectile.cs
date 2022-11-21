@@ -5,8 +5,8 @@ using UnityEngine;
 public class Projectile : MonoBehaviour,IpooledObject
 {
     [Tooltip("the force of the bullet ")]
-    [SerializeField] float bullet_speed =100f;
-    Rigidbody body => GetComponent<Rigidbody>();
+    [SerializeField] protected float bullet_speed =100f;
+    protected Rigidbody body => GetComponent<Rigidbody>();
     public void OnObjectSpawn()
     {
         body.velocity = Vector3.zero;

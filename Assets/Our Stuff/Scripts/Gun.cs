@@ -12,16 +12,25 @@ public class Gun : MonoBehaviour
     [SerializeField] Transform barrel;
     [SerializeField] Transform cam;
     [SerializeField] CinemachineFreeLook cinemachine;
+    [Header("Aiming")]
+    [SerializeField] float AimingFOV =40;
+    [SerializeField] float NotAimingFOV=70;
+    [SerializeField] float FovChangingSpeed = 60;
+    [ReadOnly][SerializeField] float CurrentFOV;
     [ReadOnly][SerializeField] bool isAiming;
-    [SerializeField] int fov_aim =40;
-    [SerializeField] int fovnot_aim=70;
+    [Header("Ammo Switching")]
+    [ReadOnly][SerializeField] string CurrentAmmo;
+    [SerializeField] List<string> AmmoTypes;
+
+
     //Private 
     float _cd;
+    int _currentAmmo;
     
     // Start is called before the first frame update
     void Start()
     {
-
+        cinemachine.m_Lens.FieldOfView = NotAimingFOV;
     }
 
     // Update is called once per frame
@@ -29,6 +38,7 @@ public class Gun : MonoBehaviour
     {
         Shoot();
         Aim();
+        AmmoSwitching();
     }
 
     void Shoot()
@@ -44,7 +54,7 @@ public class Gun : MonoBehaviour
         }
         if (Input.GetMouseButton(0) && _cd <= 0)
         {
-            GameObject bullet = ObjectPooler.Instance.SpawnFromPool("bullet", barrel.position, barrel.rotation);
+            GameObject bullet = ObjectPooler.Instance.SpawnFromPool(CurrentAmmo, barrel.position, barrel.rotation);
             _cd = CoolDown;
         }
         if (_cd > 0)
@@ -63,14 +73,48 @@ public class Gun : MonoBehaviour
         {
             isAiming = false;
         }
+
+        CurrentFOV = cinemachine.m_Lens.FieldOfView;
         if (isAiming)
         {
-            cinemachine.m_Lens.FieldOfView = fov_aim;
+            if (CurrentFOV > AimingFOV)
+            {
+                cinemachine.m_Lens.FieldOfView -= FovChangingSpeed * Time.deltaTime;
+            }
+            else { cinemachine.m_Lens.FieldOfView = AimingFOV; }
 
         }
-        else if(!isAiming)
+        else
         {
-           cinemachine.m_Lens.FieldOfView = fovnot_aim;
+            if (CurrentFOV < NotAimingFOV)
+            {
+                cinemachine.m_Lens.FieldOfView += FovChangingSpeed * Time.deltaTime;
+            }
+            else { cinemachine.m_Lens.FieldOfView = NotAimingFOV; }
+        }
+    }
+
+    void AmmoSwitching()
+    {
+        if (AmmoTypes.Count > 1)
+        {
+            if (Input.GetAxis("Mouse ScrollWheel") > 0)
+            {
+                _currentAmmo++;
+                if (_currentAmmo > AmmoTypes.Count-1)
+                {
+                    _currentAmmo = 0;
+                }
+            }
+            else if (Input.GetAxis("Mouse ScrollWheel") < 0)
+            {
+                _currentAmmo--;
+                if (_currentAmmo < 0)
+                {
+                    _currentAmmo = AmmoTypes.Count-1;
+                }
+            }
+            CurrentAmmo = AmmoTypes[_currentAmmo];
         }
     }
 
