@@ -11,8 +11,6 @@ public class ThirdPersonMovement : MonoBehaviour
 {
     // Visible //
 
-    [ReadOnly][SerializeField] int PlayerNumber;
-
     [Header("Walking")]
     [Tooltip("The movement speed of the player")]
     [SerializeField] float Speed = 10;
