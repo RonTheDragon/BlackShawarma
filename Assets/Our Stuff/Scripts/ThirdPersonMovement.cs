@@ -57,21 +57,21 @@ public class ThirdPersonMovement : MonoBehaviour
 
     // Stored Data
     Vector2 _movement;
-    float _gravityPull;
     Vector3 _forceDirection;
-    float _forceStrength;
-    float f;
+    float   _gravityPull;
+    float   _forceStrength;
+    float   f;
 
     // Ground Check 
     Vector3 _boxPosition => CC.transform.position + (Vector3.up * CC.bounds.extents.y) * Y;
-    Vector3 _boxSize => new Vector3(CC.bounds.extents.x + Wide, Height * 2, CC.bounds.extents.z + Wide);
+    Vector3 _boxSize     => new Vector3(CC.bounds.extents.x + Wide, Height * 2, CC.bounds.extents.z + Wide);
 
 
     // Start is called before the first frame update
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+        Cursor.visible   = false;
     }
 
     // Update is called once per frame
@@ -88,11 +88,11 @@ public class ThirdPersonMovement : MonoBehaviour
     /// <summary> Allows the player to walk. </summary>
     void movement()
     {
-        _movement = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+        _movement        = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
         Vector2 Movement = _movement.normalized; //Get input from player for movem
 
-        float targetAngle = Mathf.Atan2(Movement.x, Movement.y) * Mathf.Rad2Deg + cam.eulerAngles.y; //get where player is looking
-        float Angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, cam.eulerAngles.y, ref f, 0.1f); //Smoothing
+        float targetAngle  = Mathf.Atan2(Movement.x, Movement.y) * Mathf.Rad2Deg + cam.eulerAngles.y; //get where player is looking
+        float Angle        = Mathf.SmoothDampAngle(transform.eulerAngles.y, cam.eulerAngles.y, ref f, 0.1f); //Smoothing
         transform.rotation = Quaternion.Euler(0, Angle, 0); //Player rotation
 
         if (Movement.magnitude > 0.1f)
@@ -163,7 +163,7 @@ public class ThirdPersonMovement : MonoBehaviour
     public void AddForce(Vector3 dir, float force)
     {
         _forceDirection = dir;
-        _forceStrength = force;
+        _forceStrength  = force;
     }
 
     /// <summary> Makes the added force move the player Overtime. </summary>

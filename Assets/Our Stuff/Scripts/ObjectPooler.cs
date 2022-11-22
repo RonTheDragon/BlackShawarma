@@ -7,14 +7,14 @@ public class ObjectPooler : MonoBehaviour
     [System.Serializable]
     public class Pool
     {
-        public string tag;
+        public string     tag;
         public GameObject prefab;
-        public int size;
+        public int        size;
     }
     [System.Serializable]
     public class Group
     {
-        public string tag;
+        public string     GroupName;
         public List<Pool> pools;
     }
     #region Singleton
@@ -31,7 +31,7 @@ public class ObjectPooler : MonoBehaviour
     public Dictionary<string, Queue<GameObject>> poolDictionary;
 
 
-    // Start is called before the first frame update
+    // Spawns and disables the objects in queue
     void Start()
     {
         poolDictionary = new Dictionary<string, Queue<GameObject>>();
@@ -52,6 +52,7 @@ public class ObjectPooler : MonoBehaviour
 
     }
 
+    // Sets things active and deactivates things that are oldest (queue)
     public GameObject SpawnFromPool(string tag, Vector3 position, Quaternion rotation, bool DontSpawnIfActive = false)
     {
         if (!poolDictionary.ContainsKey(tag))
@@ -59,6 +60,7 @@ public class ObjectPooler : MonoBehaviour
             Debug.LogWarning("Pool with tag " + tag + " doesn't excist.");
             return null;
         }
+
         GameObject objectToSpawn = poolDictionary[tag].Dequeue();
         if (DontSpawnIfActive)
         {
@@ -85,6 +87,8 @@ public class ObjectPooler : MonoBehaviour
 
         return objectToSpawn;
     }
+    
+    // Same as above, but with a sie variable for the objects
     public GameObject SpawnFromPool(string tag, Vector3 position, Quaternion rotation, Vector3 Scale, bool DontSpawnIfActive = false)
     {
         if (!poolDictionary.ContainsKey(tag))
@@ -126,9 +130,8 @@ public class ObjectPooler : MonoBehaviour
     }
 }
 
+// Resets objects' speed on spawn
 public interface IpooledObject
 {
-
     void OnObjectSpawn();
-
 }

@@ -10,7 +10,7 @@ public class Projectile : MonoBehaviour,IpooledObject
     public void OnObjectSpawn()
     {
         body.velocity = Vector3.zero;
-        body.AddForce(transform.forward*bullet_speed);
+        body.AddForce(transform.forward * bullet_speed);
     }
 
     // Start is called before the first frame update

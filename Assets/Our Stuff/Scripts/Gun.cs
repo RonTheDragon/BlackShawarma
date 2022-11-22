@@ -9,23 +9,37 @@ public class Gun : MonoBehaviour
     //Serializefield 
     [Tooltip("shooting cooldown")]
     [SerializeField] float CoolDown = 0.5f;
-    [SerializeField] Transform barrel;
-    [SerializeField] Transform cam;
-    [SerializeField] CinemachineFreeLook cinemachine;
+
     [Header("Aiming")]
-    [SerializeField] float AimingFOV =40;
-    [SerializeField] float NotAimingFOV=70;
-    [SerializeField] float FovChangingSpeed = 60;
+              [Tooltip("Field of view while aiming")]
+              [SerializeField] float AimingFOV        = 40;
+              [Tooltip("Field of view")]
+              [SerializeField] float NotAimingFOV     = 70;
+              [Tooltip("The seed of the transition from normal to aiming field of view")]
+              [SerializeField] float FovChangingSpeed = 60;
+              [Tooltip("The current field of view")]
     [ReadOnly][SerializeField] float CurrentFOV;
-    [ReadOnly][SerializeField] bool isAiming;
+              [Tooltip("Is the character aiming or not")]
+    [ReadOnly][SerializeField] bool  isAiming;
+
     [Header("Ammo Switching")]
-    [ReadOnly][SerializeField] string CurrentAmmo;
-    [SerializeField] List<string> AmmoTypes;
+    [Tooltip("The current amount of ammo")]
+    [ReadOnly][SerializeField] string       CurrentAmmo;
+              [Tooltip("The types of ammo")]
+              [SerializeField] List<string> AmmoTypes;
+
+    [Header("Refefrences")]
+    [Tooltip("Reference to the point where projectiles spawn")]
+    [SerializeField] Transform           barrel;
+    [Tooltip("Camera reference")]
+    [SerializeField] Transform           cam;
+    [Tooltip("Reference to the cinemachine")]
+    [SerializeField] CinemachineFreeLook cinemachine;
 
 
     //Private 
     float _cd;
-    int _currentAmmo;
+    int   _currentAmmo;
     
     // Start is called before the first frame update
     void Start()
