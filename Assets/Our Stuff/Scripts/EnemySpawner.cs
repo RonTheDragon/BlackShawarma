@@ -47,22 +47,23 @@ public class EnemySpawner : MonoBehaviour
 
     Vector3 GetPreferableDestination()
     {
-        int n = 10000;
+        int SmallestAmountOfPeople = 10000;
         int SmallestLane = 0;
         for (int i = 0; i < CustomersInLane.Length; i++)
         {
-            if (CustomersInLane[i] < n)
+            Debug.Log($"{CustomersInLane[i]} < {SmallestAmountOfPeople} = {CustomersInLane[i] < SmallestAmountOfPeople}");
+            if (CustomersInLane[i] < SmallestAmountOfPeople)
             {
-                n= CustomersInLane[i];
+                SmallestAmountOfPeople = CustomersInLane[i];
                 SmallestLane = i;
             }
         }
-
+        
         List<int> LaneNumbers = new List<int>();
 
         for (int i = 0; i < CustomersInLane.Length; i++)
         {
-            if (SmallestLane == CustomersInLane[i])
+            if (CustomersInLane[SmallestLane] == CustomersInLane[i])
             {
                 LaneNumbers.Add(i);
             }
@@ -70,10 +71,12 @@ public class EnemySpawner : MonoBehaviour
 
         int ChosenRandom = Random.Range(0,LaneNumbers.Count);
 
-        int LaneNumber = CustomersInLane[ChosenRandom];
+        int chosen = LaneNumbers[ChosenRandom];
 
-        Vector3 Destination = new Vector3(LaneNumber*5, 0, CustomersInLane[LaneNumber]*5);
-        CustomersInLane[LaneNumber]++;
+
+
+        Vector3 Destination = new Vector3(chosen * 5, 0, CustomersInLane[chosen] *5);
+        CustomersInLane[chosen]++;
         Debug.Log(Destination);
        
         return Destination;
