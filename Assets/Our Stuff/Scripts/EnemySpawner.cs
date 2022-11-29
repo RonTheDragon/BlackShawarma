@@ -11,7 +11,11 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] Vector2 RandomTime;
 
     [SerializeField] Transform DoorSpawnPoint;
-    
+
+    [SerializeField] Transform LanesBase;
+
+    [SerializeField] float lanesSize = 5;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -75,7 +79,7 @@ public class EnemySpawner : MonoBehaviour
 
 
 
-        Vector3 Destination = new Vector3(chosen * 5, 0, CustomersInLane[chosen] *5);
+        Vector3 Destination = new Vector3(LanesBase.position.x + chosen * lanesSize, LanesBase.position.y, LanesBase.position.z+ CustomersInLane[chosen] * lanesSize);
         CustomersInLane[chosen]++;
         Debug.Log(Destination);
        
