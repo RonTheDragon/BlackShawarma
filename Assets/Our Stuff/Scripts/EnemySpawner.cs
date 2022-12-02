@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -10,11 +11,14 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] float CurrentTimeLeft;
     [SerializeField] Vector2 RandomTime;
 
-    [SerializeField] Transform DoorSpawnPoint;
+    public Transform DoorSpawnPoint;
 
     [SerializeField] Transform LanesBase;
 
-    [SerializeField] float lanesSize = 5;
+    [SerializeField] float DistanceBetweenLanes = 5;
+    [SerializeField] float DistanceInLane = 5;
+
+    [SerializeField] bool DrawGizmos = true;
 
     // Start is called before the first frame update
     void Start()
@@ -46,6 +50,7 @@ public class EnemySpawner : MonoBehaviour
         GameObject Enemy = ObjectPooler.Instance.SpawnFromPool("Enemy", DoorSpawnPoint.position, DoorSpawnPoint.rotation);
         EnemyAI enemyAI = Enemy.GetComponent<EnemyAI>();
         enemyAI.SetDestination(GetPreferableDestination());
+        enemyAI.Spawn(this);
         return enemyAI;
     }
 
@@ -79,14 +84,31 @@ public class EnemySpawner : MonoBehaviour
 
 
 
-        Vector3 Destination = new Vector3(LanesBase.position.x + chosen * lanesSize, LanesBase.position.y, LanesBase.position.z+ CustomersInLane[chosen] * lanesSize);
+        Vector3 Destination = LanesBase.transform.position + LanesBase.transform.right * chosen * DistanceBetweenLanes + LanesBase.transform.forward * CustomersInLane[chosen] * DistanceInLane;
+
         CustomersInLane[chosen]++;
         Debug.Log(Destination);
        
         return Destination;
     }
 
+    private void OnDrawGizmos()
+    {
+        if (DrawGizmos)
+        {
+            for (int i = 0; i < CustomersInLane.Length; i++)
+            {
+                Gizmos.color = Color.cyan;
+                Gizmos.DrawCube(LanesBase.transform.position + LanesBase.transform.right * i * DistanceBetweenLanes + LanesBase.transform.forward * (CustomersInLane[i]+1) * DistanceInLane, Vector3.one);
 
+                Gizmos.color = Color.blue;
+                Gizmos.DrawCube(LanesBase.transform.position + LanesBase.transform.right * i * DistanceBetweenLanes + LanesBase.transform.forward * CustomersInLane[i] * DistanceInLane, Vector3.one);
+            }
+
+            Gizmos.color = Color.red;
+            Gizmos.DrawCube(DoorSpawnPoint.transform.position + Vector3.up, Vector3.one + Vector3.up);
+        }
+    }
 }
 
 

@@ -4,16 +4,30 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class EnemyAI : MonoBehaviour
+public class EnemyAI : MonoBehaviour 
 {
     NavMeshAgent agent=> GetComponent<NavMeshAgent>();
     [SerializeField] float CurrentRage, MaxRage;
     event EventHandler OnRage;
     Vector3 destination;
     public int PlaceInLane;
+
+    [SerializeField] float AngerSmokeAmount=1;
+    [SerializeField] ParticleSystem AngerSmoke;
+
+    EnemySpawner Spawner;
+
+    bool done;
+
+    public void Spawn(EnemySpawner spawner)
+    {
+        Spawner = spawner;
+        done = false;
+    }
+
     void Start()
     {
-        
+        OnRage += (object o, EventArgs e) => AngerSmoke.Emit(100);
     }
 
     
@@ -26,19 +40,46 @@ public class EnemyAI : MonoBehaviour
 
     void Movement()
     {
-        agent.SetDestination(destination);
+        if (done)
+        {
+            agent.SetDestination(Spawner.DoorSpawnPoint.position);
+            if (Vector3.Distance(transform.position, Spawner.DoorSpawnPoint.position) < 2)
+            {
+                gameObject.SetActive(false);
+            }
+        }
+        else
+        {
+            agent.SetDestination(destination);
+        }
     }
     void Rage()
     {
-        if(CurrentRage < MaxRage)
+        ParticleSystem.EmissionModule emission = AngerSmoke.emission;
+        emission.rateOverTime = CurrentRage*0.1f*AngerSmokeAmount;
+        if (CurrentRage < 0)
         {
-            CurrentRage += Time.deltaTime;
+            CurrentRage = 0;
+        }
+        else if (CurrentRage < MaxRage)
+        {
+            if (!done)
+            {
+                CurrentRage += Time.deltaTime;
+            }
         }
         else
         {
             OnRage?.Invoke(this, EventArgs.Empty);
+            done = true;
             CurrentRage = 0;
+
         }
+    }
+
+    public void Eat()
+    {
+        CurrentRage -= 10;
     }
 
     public void SetDestination(Vector3 pos)
