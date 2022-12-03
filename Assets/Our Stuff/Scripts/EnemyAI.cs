@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -8,7 +9,7 @@ public class EnemyAI : MonoBehaviour
 {
     NavMeshAgent agent=> GetComponent<NavMeshAgent>();
     [SerializeField] float CurrentRage, MaxRage;
-    event EventHandler OnRage;
+    Action OnRage;
     Vector3 destination;
     public int PlaceInLane;
 
@@ -17,6 +18,8 @@ public class EnemyAI : MonoBehaviour
 
     EnemySpawner Spawner;
 
+    Action loop;
+
     bool done;
 
     public void Spawn(EnemySpawner spawner)
@@ -24,17 +27,19 @@ public class EnemyAI : MonoBehaviour
         Spawner = spawner;
         done = false;
     }
+    
 
     void Start()
     {
-        OnRage += (object o, EventArgs e) => AngerSmoke.Emit(100);
+        OnRage += () => AngerSmoke.Emit(100);
+        loop += Movement;
+        loop += Rage;
     }
 
     
     void Update()
     {
-        Rage();
-        Movement();
+        loop?.Invoke();
     }
 
 
@@ -70,7 +75,7 @@ public class EnemyAI : MonoBehaviour
         }
         else
         {
-            OnRage?.Invoke(this, EventArgs.Empty);
+            OnRage?.Invoke();
             done = true;
             CurrentRage = 0;
 
