@@ -30,13 +30,13 @@ public class EnemySpawner : MonoBehaviour
 
     void SpawnerTimer()
     {
-       if (CurrentTimeLeft > 0) 
-        { 
+        if (CurrentTimeLeft > 0)
+        {
             CurrentTimeLeft -= Time.deltaTime;
         }
         else
         {
-            CurrentTimeLeft = Random.Range(RandomTime.x,RandomTime.y);
+            CurrentTimeLeft = Random.Range(RandomTime.x, RandomTime.y);
             SpawnEnemy();
         }
     }
@@ -63,7 +63,7 @@ public class EnemySpawner : MonoBehaviour
                 SmallestLane = i;
             }
         }
-        
+
         List<int> LaneNumbers = new List<int>();
 
         for (int i = 0; i < CustomersInLane.Length; i++) // Get All Shortest Lanes 
@@ -74,7 +74,7 @@ public class EnemySpawner : MonoBehaviour
             }
         }
 
-        int ChosenRandom = Random.Range(0,LaneNumbers.Count); // Pick Random of the shortest lane
+        int ChosenRandom = Random.Range(0, LaneNumbers.Count); // Pick Random of the shortest lane
 
         int chosen = LaneNumbers[ChosenRandom];
 
@@ -84,7 +84,7 @@ public class EnemySpawner : MonoBehaviour
         enemyAI.PlaceInLane = CustomersInLane[chosen];
         CustomersInLane[chosen]++; // Tell the enemy manager that place was filled
         Debug.Log(Destination);
-       
+
         return Destination; //Tells the enemy where to go 
     }
 
@@ -98,7 +98,7 @@ public class EnemySpawner : MonoBehaviour
                 Gizmos.DrawCube(LaneDestination(i, 2), Vector3.one);
 
                 Gizmos.color = Color.cyan;
-                Gizmos.DrawCube(LaneDestination(i, 1),Vector3.one);
+                Gizmos.DrawCube(LaneDestination(i, 1), Vector3.one);
 
                 Gizmos.color = Color.blue;
                 Gizmos.DrawCube(LaneDestination(i), Vector3.one);
@@ -107,6 +107,10 @@ public class EnemySpawner : MonoBehaviour
             Gizmos.color = Color.red;
             Gizmos.DrawCube(DoorSpawnPoint.transform.position + Vector3.up, Vector3.one + Vector3.up);
         }
+    }
+    private void Fixture()
+    {
+
     }
 
     Vector3 LaneDestination(int i,int place = 0)
