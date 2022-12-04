@@ -2,9 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Rotate : MonoBehaviour
+public class GameManager : MonoBehaviour
 {
-    public Vector3 Rotating = new Vector3();
     // Start is called before the first frame update
     void Start()
     {
@@ -14,6 +13,6 @@ public class Rotate : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.Rotate(Rotating * Time.deltaTime); //Makes it spin
+        
     }
 }
