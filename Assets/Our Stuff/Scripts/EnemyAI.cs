@@ -12,6 +12,7 @@ public class EnemyAI : MonoBehaviour
     Action OnRage;
     Vector3 destination;
     public int PlaceInLane;
+    public int WhichlineInlane;
 
     [SerializeField] float AngerSmokeAmount=1;
     [SerializeField] ParticleSystem AngerSmoke;
@@ -32,6 +33,7 @@ public class EnemyAI : MonoBehaviour
     void Start()
     {
         OnRage += () => AngerSmoke.Emit(100);
+        OnRage += () => { done = true; CurrentRage = 0;};
         loop += Movement;
         loop += Rage;
     }
@@ -76,9 +78,6 @@ public class EnemyAI : MonoBehaviour
         else
         {
             OnRage?.Invoke();
-            done = true;
-            CurrentRage = 0;
-
         }
     }
 
