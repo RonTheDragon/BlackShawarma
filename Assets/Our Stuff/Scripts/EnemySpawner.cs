@@ -89,7 +89,10 @@ public class EnemySpawner : MonoBehaviour
         if (DrawGizmos)
         {
             for (int i = 0; i < CustomersInLane.Length; i++)
-            {               
+            {
+                Gizmos.color = Color.yellow;
+                Gizmos.DrawCube(LaneDestination(i, 2), Vector3.one);
+
                 Gizmos.color = Color.cyan;
                 Gizmos.DrawCube(LaneDestination(i, 1),Vector3.one);
 
@@ -104,7 +107,9 @@ public class EnemySpawner : MonoBehaviour
 
     Vector3 LaneDestination(int i,int place = 0)
     {
-        return LanesBase.transform.position + LanesBase.transform.right * i * DistanceBetweenLanes + LanesBase.transform.forward * (CustomersInLane[i] + place) * DistanceInLane;
+        return LanesBase.transform.position // Lanes Base
+               + LanesBase.transform.right * i * DistanceBetweenLanes //Lanes Seperation
+               + LanesBase.transform.forward * (CustomersInLane[i] + place) * DistanceInLane; //In Lane Seperation
     }
 }
 
