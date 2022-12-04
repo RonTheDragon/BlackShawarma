@@ -12,7 +12,7 @@ public class EnemyAI : MonoBehaviour
     Action OnRage;
     Vector3 destination;
     public int PlaceInLane;
-    public int WhichlineInlane;
+    public int WhichLane;
 
     [SerializeField] float AngerSmokeAmount=1;
     [SerializeField] ParticleSystem AngerSmoke;
@@ -32,8 +32,7 @@ public class EnemyAI : MonoBehaviour
 
     void Start()
     {
-        OnRage += () => AngerSmoke.Emit(100);
-        OnRage += () => { done = true; CurrentRage = 0;};
+        OnRage += () => { done = true; CurrentRage = 0; AngerSmoke.Emit(100); Spawner.RemoveOnLane(WhichLane,PlaceInLane); };
         loop += Movement;
         loop += Rage;
     }
@@ -52,6 +51,7 @@ public class EnemyAI : MonoBehaviour
             agent.SetDestination(Spawner.DoorSpawnPoint.position);
             if (Vector3.Distance(transform.position, Spawner.DoorSpawnPoint.position) < 2)
             {
+                Spawner.RemoveEnemy(this);
                 gameObject.SetActive(false);
             }
         }

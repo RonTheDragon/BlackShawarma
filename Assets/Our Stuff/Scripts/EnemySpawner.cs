@@ -19,7 +19,8 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] float DistanceInLane = 5;
 
     [SerializeField] bool DrawGizmos = true;
-    List<EnemyAI> enemeis = new List<EnemyAI>();
+
+    List<EnemyAI> enemies = new List<EnemyAI>();
 
 
     // Update is called once per frame
@@ -80,8 +81,9 @@ public class EnemySpawner : MonoBehaviour
 
         Vector3 Destination = LaneDestination(chosen);
 
-        enemyAI.WhichlineInlane = chosen;
+        enemyAI.WhichLane = chosen;
         enemyAI.PlaceInLane = CustomersInLane[chosen];
+        enemies.Add(enemyAI);
         CustomersInLane[chosen]++; // Tell the enemy manager that place was filled
         Debug.Log(Destination);
 
@@ -108,9 +110,24 @@ public class EnemySpawner : MonoBehaviour
             Gizmos.DrawCube(DoorSpawnPoint.transform.position + Vector3.up, Vector3.one + Vector3.up);
         }
     }
-    private void Fixture()
+    
+    public void RemoveOnLane(int Lane, int spotInLane)
     {
+        CustomersInLane[Lane]--;
 
+        foreach(EnemyAI e in enemies)
+        {
+            if (e.WhichLane == Lane && e.PlaceInLane > spotInLane)
+            {
+                e.PlaceInLane--;
+                e.SetDestination(LaneDestination(Lane, -CustomersInLane[Lane]+e.PlaceInLane));
+            }
+        }
+    }
+
+    public void RemoveEnemy(EnemyAI enemyAI)
+    {
+        enemies.Remove(enemyAI);
     }
 
     Vector3 LaneDestination(int i,int place = 0)
