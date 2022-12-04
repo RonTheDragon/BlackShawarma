@@ -35,7 +35,8 @@ public class Gun : MonoBehaviour
     [SerializeField] Transform           cam;
     [Tooltip("Reference to the cinemachine")]
     [SerializeField] CinemachineFreeLook cinemachine;
-
+    //Event
+    Action _loop;
 
     //Private 
     float _cd;
@@ -44,15 +45,16 @@ public class Gun : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        _loop += Shoot;
+        _loop += Aim;
+        _loop += AmmoSwitching;
         cinemachine.m_Lens.FieldOfView = NotAimingFOV;
     }
 
     // Update is called once per frame
     void Update()
     {
-        Shoot();
-        Aim();
-        AmmoSwitching();
+        _loop?.Invoke();   
     }
 
     void Shoot()

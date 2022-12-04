@@ -19,6 +19,8 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] float DistanceInLane = 5;
 
     [SerializeField] bool DrawGizmos = true;
+    List<EnemyAI> enemeis = new List<EnemyAI>();
+
 
     // Update is called once per frame
     void Update()
@@ -43,16 +45,16 @@ public class EnemySpawner : MonoBehaviour
     {
         GameObject Enemy = ObjectPooler.Instance.SpawnFromPool("Enemy", DoorSpawnPoint.position, DoorSpawnPoint.rotation);
         EnemyAI enemyAI = Enemy.GetComponent<EnemyAI>();
-        enemyAI.SetDestination(GetPreferableDestination());
+        enemyAI.SetDestination(GetPreferableDestination(enemyAI));
         enemyAI.Spawn(this);
         return enemyAI;
     }
 
-    Vector3 GetPreferableDestination()
+    Vector3 GetPreferableDestination(EnemyAI enemyAI)
     {
         int SmallestAmountOfPeople = 10000;
         int SmallestLane = 0;
-        for (int i = 0; i < CustomersInLane.Length; i++)
+        for (int i = 0; i < CustomersInLane.Length; i++) //Check the Lowest line length
         {
             Debug.Log($"{CustomersInLane[i]} < {SmallestAmountOfPeople} = {CustomersInLane[i] < SmallestAmountOfPeople}");
             if (CustomersInLane[i] < SmallestAmountOfPeople)
@@ -64,7 +66,7 @@ public class EnemySpawner : MonoBehaviour
         
         List<int> LaneNumbers = new List<int>();
 
-        for (int i = 0; i < CustomersInLane.Length; i++)
+        for (int i = 0; i < CustomersInLane.Length; i++) // Get All Shortest Lanes 
         {
             if (CustomersInLane[SmallestLane] == CustomersInLane[i])
             {
@@ -72,16 +74,18 @@ public class EnemySpawner : MonoBehaviour
             }
         }
 
-        int ChosenRandom = Random.Range(0,LaneNumbers.Count);
+        int ChosenRandom = Random.Range(0,LaneNumbers.Count); // Pick Random of the shortest lane
 
         int chosen = LaneNumbers[ChosenRandom];
 
         Vector3 Destination = LaneDestination(chosen);
 
-        CustomersInLane[chosen]++;
+        enemyAI.WhichlineInlane = chosen;
+        enemyAI.PlaceInLane = CustomersInLane[chosen];
+        CustomersInLane[chosen]++; // Tell the enemy manager that place was filled
         Debug.Log(Destination);
        
-        return Destination;
+        return Destination; //Tells the enemy where to go 
     }
 
     private void OnDrawGizmos()
