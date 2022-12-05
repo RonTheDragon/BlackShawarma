@@ -4,6 +4,12 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.AI;
+public enum Food
+{
+    Falafel,
+    Chips,
+    Eggplant
+}
 
 public class EnemyAI : MonoBehaviour 
 {
@@ -13,6 +19,25 @@ public class EnemyAI : MonoBehaviour
     Vector3 destination;
     public int PlaceInLane;
     public int WhichlineInlane;
+    private Food falfelguy = Food.Falafel;
+    void Enemyfood (Food aocel)
+    {
+        switch (aocel)
+        {
+            case Food.Falafel:
+                _isEatingFalafel = true;
+                break;
+            case Food.Chips:
+                _isEatingChips = true;
+                break;
+            case Food.Eggplant:
+                _isEatingEggplant = true;
+                break;
+            default:
+                break;
+        }
+    }
+    
 
     [SerializeField] float AngerSmokeAmount=1;
     [SerializeField] ParticleSystem AngerSmoke;
@@ -25,12 +50,7 @@ public class EnemyAI : MonoBehaviour
     bool _isEatingChips;
     bool _isEatingFalafel;
     bool _isEatingEggplant;
-    enum Food
-    {
-      Falafel,
-      Chips,
-      Eggplant
-    }
+  
 
     public void Spawn(EnemySpawner spawner)
     {
