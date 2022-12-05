@@ -22,6 +22,15 @@ public class EnemyAI : MonoBehaviour
     Action loop;
 
     bool done;
+    bool _isEatingChips;
+    bool _isEatingFalafel;
+    bool _isEatingEggplant;
+    enum Food
+    {
+      Falafel,
+      Chips,
+      Eggplant
+    }
 
     public void Spawn(EnemySpawner spawner)
     {
