@@ -4,27 +4,17 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.AI;
-public enum Food
-{
-    Falafel,
-    Chips,
-    Eggplant
-}
 
-public class EnemyAI : MonoBehaviour
+public class EnemyAI : MonoBehaviour 
 {
-    NavMeshAgent agent => GetComponent<NavMeshAgent>();
+    NavMeshAgent agent=> GetComponent<NavMeshAgent>();
     [SerializeField] float CurrentRage, MaxRage;
     Action OnRage;
     Vector3 destination;
     public int PlaceInLane;
-    public int WhichlineInlane;
-    public Food _foodkind = Food.Falafel;
-  
+    public int WhichLane;
 
-
-
-    [SerializeField] float AngerSmokeAmount = 1;
+    [SerializeField] float AngerSmokeAmount=1;
     [SerializeField] ParticleSystem AngerSmoke;
 
     EnemySpawner Spawner;
@@ -32,27 +22,22 @@ public class EnemyAI : MonoBehaviour
     Action loop;
 
     bool done;
-    bool _isEatingChips;
-    bool _isEatingFalafel;
-    bool _isEatingEggplant;
-
 
     public void Spawn(EnemySpawner spawner)
     {
         Spawner = spawner;
         done = false;
     }
-
+    
 
     void Start()
     {
-        OnRage += () => AngerSmoke.Emit(100);
-        OnRage += () => { done = true; CurrentRage = 0; };
+        OnRage += () => { done = true; CurrentRage = 0; AngerSmoke.Emit(100); Spawner.RemoveOnLane(WhichLane,PlaceInLane); };
         loop += Movement;
         loop += Rage;
     }
 
-
+    
     void Update()
     {
         loop?.Invoke();
@@ -66,6 +51,7 @@ public class EnemyAI : MonoBehaviour
             agent.SetDestination(Spawner.DoorSpawnPoint.position);
             if (Vector3.Distance(transform.position, Spawner.DoorSpawnPoint.position) < 2)
             {
+                Spawner.RemoveEnemy(this);
                 gameObject.SetActive(false);
             }
         }
@@ -77,7 +63,7 @@ public class EnemyAI : MonoBehaviour
     void Rage()
     {
         ParticleSystem.EmissionModule emission = AngerSmoke.emission;
-        emission.rateOverTime = CurrentRage * 0.1f * AngerSmokeAmount;
+        emission.rateOverTime = CurrentRage*0.1f*AngerSmokeAmount;
         if (CurrentRage < 0)
         {
             CurrentRage = 0;
@@ -95,29 +81,8 @@ public class EnemyAI : MonoBehaviour
         }
     }
 
-    public void Eat(Food foodtype)
+    public void Eat()
     {
-        switch (foodtype)
-        {
-            case Food.Falafel:
-                _isEatingFalafel = true;
-                _isEatingChips = false;
-                _isEatingEggplant = false;
-                break;
-            case Food.Chips:
-                _isEatingChips = true;
-                _isEatingEggplant = false;
-                _isEatingFalafel = false;
-                break;
-            case Food.Eggplant:
-                _isEatingEggplant = true;
-                _isEatingChips = false;
-                _isEatingFalafel = false;
-                break;
-            default:
-                break;
-        }
-
         CurrentRage -= 10;
     }
 
@@ -125,5 +90,4 @@ public class EnemyAI : MonoBehaviour
     {
         destination = pos;
     }
- 
 }
