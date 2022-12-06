@@ -4,12 +4,13 @@ using UnityEngine;
 
 public class Adible : MonoBehaviour
 {
+    public Food foodtype;
     private void OnCollisionEnter(Collision collision)
     {
         EnemyAI enemy = collision.transform.GetComponent<EnemyAI>();
         if (enemy != null )
         {
-            enemy.Eat();
+            enemy.Eat(foodtype);
             gameObject.SetActive(false);
         }
     }
