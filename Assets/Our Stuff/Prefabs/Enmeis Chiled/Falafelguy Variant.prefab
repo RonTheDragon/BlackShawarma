@@ -7,9 +7,13 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -75605627221871459, guid: 397ddbb5c45285c4d80728a808fd65f6, type: 3}
+      propertyPath: _falefelEater
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8332920823170148713, guid: 397ddbb5c45285c4d80728a808fd65f6, type: 3}
       propertyPath: m_Name
-      value: Falafelguy
+      value: Falafelguy Variant
       objectReference: {fileID: 0}
     - target: {fileID: 8332920823170148715, guid: 397ddbb5c45285c4d80728a808fd65f6, type: 3}
       propertyPath: m_Materials.Array.data[0]

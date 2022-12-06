@@ -19,6 +19,7 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] float DistanceInLane = 5;
 
     [SerializeField] bool DrawGizmos = true;
+   [SerializeField] List<string> enemyTypes = new List<string>();
 
     List<EnemyAI> enemies = new List<EnemyAI>();
 
@@ -44,7 +45,7 @@ public class EnemySpawner : MonoBehaviour
 
     EnemyAI SpawnEnemy()
     {
-        GameObject Enemy = ObjectPooler.Instance.SpawnFromPool("Enemy", DoorSpawnPoint.position, DoorSpawnPoint.rotation);
+        GameObject Enemy = ObjectPooler.Instance.SpawnFromPool(enemyTypes[Random.Range(0,enemyTypes.Count)], DoorSpawnPoint.position, DoorSpawnPoint.rotation);
         EnemyAI enemyAI = Enemy.GetComponent<EnemyAI>();
         enemyAI.SetDestination(GetPreferableDestination(enemyAI));
         enemyAI.Spawn(this);
@@ -79,7 +80,7 @@ public class EnemySpawner : MonoBehaviour
 
         int chosen = LaneNumbers[ChosenRandom];
 
-        Vector3 Destination = LaneDestination(chosen);
+        Vector3 Destination = LaneDestination(chosen, CustomersInLane[chosen]);
 
         enemyAI.WhichLane = chosen;
         enemyAI.PlaceInLane = CustomersInLane[chosen];
@@ -97,13 +98,13 @@ public class EnemySpawner : MonoBehaviour
             for (int i = 0; i < CustomersInLane.Length; i++)
             {
                 Gizmos.color = Color.yellow;
-                Gizmos.DrawCube(LaneDestination(i, 2), Vector3.one);
+                Gizmos.DrawCube(LaneDestination(i, 2+ CustomersInLane[i]), Vector3.one);
 
                 Gizmos.color = Color.cyan;
-                Gizmos.DrawCube(LaneDestination(i, 1), Vector3.one);
+                Gizmos.DrawCube(LaneDestination(i, 1+CustomersInLane[i]), Vector3.one);
 
                 Gizmos.color = Color.blue;
-                Gizmos.DrawCube(LaneDestination(i), Vector3.one);
+                Gizmos.DrawCube(LaneDestination(i,CustomersInLane[i]), Vector3.one);
             }
 
             Gizmos.color = Color.red;
@@ -120,7 +121,7 @@ public class EnemySpawner : MonoBehaviour
             if (e.WhichLane == Lane && e.PlaceInLane > spotInLane)
             {
                 e.PlaceInLane--;
-                e.SetDestination(LaneDestination(Lane, -CustomersInLane[Lane]+e.PlaceInLane));
+                e.SetDestination(LaneDestination(Lane,e.PlaceInLane));
             }
         }
     }
@@ -134,7 +135,7 @@ public class EnemySpawner : MonoBehaviour
     {
         return LanesBase.transform.position // Lanes Base
                + LanesBase.transform.right * i * DistanceBetweenLanes //Lanes Seperation
-               + LanesBase.transform.forward * (CustomersInLane[i] + place) * DistanceInLane; //In Lane Seperation
+               + LanesBase.transform.forward *  place * DistanceInLane; //In Lane Seperation
     }
 }
 

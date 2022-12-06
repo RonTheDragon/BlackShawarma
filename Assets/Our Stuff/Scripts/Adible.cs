@@ -4,6 +4,12 @@ using UnityEngine;
 
 public class Adible : MonoBehaviour
 {
+    public enum Food 
+    {
+      falfel,
+      eggplant,
+      chips
+    }
     public Food foodtype;
     private void OnCollisionEnter(Collision collision)
     {
