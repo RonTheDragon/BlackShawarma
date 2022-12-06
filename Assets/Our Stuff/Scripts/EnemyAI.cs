@@ -105,21 +105,21 @@ public class EnemyAI : MonoBehaviour
     }
     bool CaniEAT(int a)
     {
-        bool sabatuvia = false;
+        bool _didIEatit = false;
         switch (a)
         {
             case 0:
-                sabatuvia = _falefelEater;
+                _didIEatit = _falefelEater;
                 break;
             case 1:
-                sabatuvia = _eggplantEater;
+                _didIEatit = _eggplantEater;
                 break;
             case 2:
-                sabatuvia = _friesEater;
+                _didIEatit = _friesEater;
                 break;
             default:
                 break;
         }
-        return sabatuvia;
+        return _didIEatit;
     }
 }
