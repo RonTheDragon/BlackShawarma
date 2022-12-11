@@ -5,38 +5,44 @@ using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class EnemyAI : MonoBehaviour 
+public class EnemyAI : MonoBehaviour
 {
-    NavMeshAgent agent=> GetComponent<NavMeshAgent>();
     [SerializeField] float CurrentRage, MaxRage;
+    [SerializeField] float AngerSmokeAmount = 1;
+    [SerializeField] ParticleSystem AngerSmoke;
+    public int PlaceInLane;
+    public int WhichLane;
+    [SerializeField] bool _falefelEater;
+    [SerializeField] bool _eggplantEater;
+    [SerializeField] bool _friesEater;
+
+
+    NavMeshAgent agent => GetComponent<NavMeshAgent>();
+    EnemySpawner Spawner;
     Action OnRage;
     Vector3 destination;
-    public int PlaceInLane;
 
-    [SerializeField] float AngerSmokeAmount=1;
-    [SerializeField] ParticleSystem AngerSmoke;
-
-    EnemySpawner Spawner;
 
     Action loop;
 
     bool done;
+
 
     public void Spawn(EnemySpawner spawner)
     {
         Spawner = spawner;
         done = false;
     }
-    
+
 
     void Start()
     {
-        OnRage += () => AngerSmoke.Emit(100);
+        OnRage += () => { done = true; CurrentRage = 0; AngerSmoke.Emit(100); Spawner.RemoveOnLane(WhichLane, PlaceInLane); };
         loop += Movement;
         loop += Rage;
     }
 
-    
+
     void Update()
     {
         loop?.Invoke();
@@ -50,6 +56,7 @@ public class EnemyAI : MonoBehaviour
             agent.SetDestination(Spawner.DoorSpawnPoint.position);
             if (Vector3.Distance(transform.position, Spawner.DoorSpawnPoint.position) < 2)
             {
+                Spawner.RemoveEnemy(this);
                 gameObject.SetActive(false);
             }
         }
@@ -61,7 +68,7 @@ public class EnemyAI : MonoBehaviour
     void Rage()
     {
         ParticleSystem.EmissionModule emission = AngerSmoke.emission;
-        emission.rateOverTime = CurrentRage*0.1f*AngerSmokeAmount;
+        emission.rateOverTime = CurrentRage * 0.1f * AngerSmokeAmount;
         if (CurrentRage < 0)
         {
             CurrentRage = 0;
@@ -76,19 +83,43 @@ public class EnemyAI : MonoBehaviour
         else
         {
             OnRage?.Invoke();
-            done = true;
-            CurrentRage = 0;
-
         }
     }
 
-    public void Eat()
+    public void Eat(Adible.Food f)
     {
-        CurrentRage -= 10;
+        if (CaniEAT((int)f))
+        {
+            CurrentRage -= 10;
+        }
+        else
+        {
+
+            CurrentRage += 10;
+        }
     }
 
     public void SetDestination(Vector3 pos)
     {
         destination = pos;
+    }
+    bool CaniEAT(int a)
+    {
+        bool _didIEatit = false;
+        switch (a)
+        {
+            case 0:
+                _didIEatit = _falefelEater;
+                break;
+            case 1:
+                _didIEatit = _eggplantEater;
+                break;
+            case 2:
+                _didIEatit = _friesEater;
+                break;
+            default:
+                break;
+        }
+        return _didIEatit;
     }
 }

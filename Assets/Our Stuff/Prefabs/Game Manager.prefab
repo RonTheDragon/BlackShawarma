@@ -77,14 +77,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3301d8f2b016127478210d67bb94a1d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  DoorSpawnPoint: {fileID: 3773970721764142240}
   CustomersInLane: 0000000000000000000000000000000000000000
   CurrentTimeLeft: 0
-  RandomTime: {x: 3, y: 3}
-  DoorSpawnPoint: {fileID: 3773970721764142240}
+  RandomTime: {x: 10, y: 20}
   LanesBase: {fileID: 6694555045971836296}
   DistanceBetweenLanes: 3
   DistanceInLane: 3
   DrawGizmos: 1
+  enemyTypes:
+  - FalafelGuy
+  - EggplantGuy
+  - FriesGuy
 --- !u!1 &4327540125018967114
 GameObject:
   m_ObjectHideFlags: 0
@@ -138,13 +142,19 @@ MonoBehaviour:
     - tag: Fries
       prefab: {fileID: 169667496105714945, guid: 58f0513c18d926f499177eacc2097e1a, type: 3}
       size: 20
-    - tag: Salad
+    - tag: Eggplant
       prefab: {fileID: 3554867772766992423, guid: 89d867e4e686d3d4f9fe72a26a058ae7, type: 3}
       size: 20
   - GroupName: Enemies
     pools:
-    - tag: Enemy
-      prefab: {fileID: 8332920823170148713, guid: 397ddbb5c45285c4d80728a808fd65f6, type: 3}
+    - tag: FalafelGuy
+      prefab: {fileID: 4293761075693545250, guid: 525f31d1d9762054e8379e993c4db056, type: 3}
+      size: 20
+    - tag: EggplantGuy
+      prefab: {fileID: 7296059904902807253, guid: a8e35a5ef141b9449b1fd692e1df3261, type: 3}
+      size: 20
+    - tag: FriesGuy
+      prefab: {fileID: 6811259236785981918, guid: 4c0c98fd91b5d6846bbf5ee117ad01ca, type: 3}
       size: 20
 --- !u!1 &4970565003502546486
 GameObject:
@@ -170,7 +180,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4970565003502546486}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 1.95, y: 0.99, z: 1.28}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
