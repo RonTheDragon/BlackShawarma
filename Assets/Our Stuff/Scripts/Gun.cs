@@ -2,6 +2,7 @@ using Cinemachine;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class Gun : MonoBehaviour
@@ -30,26 +31,21 @@ public class Gun : MonoBehaviour
 
     [Header("Refefrences")]
     [Tooltip("Reference to the point where projectiles spawn")]
-     public Transform  barrel;
+    [SerializeField] Transform           barrel;
     [Tooltip("Camera reference")]
     [SerializeField] Transform           cam;
     [Tooltip("Reference to the cinemachine")]
-    [SerializeField] CinemachineFreeLook cinemachine;
-    [Header("Projection")]
-    [SerializeField]
-    [Range(10, 100)]
-    private int linepoints = 25;
-    [SerializeField]
-    [Range(0.01f, 0.25f)]
-    private float timeBetweenPoints = 0.1f;
-    [SerializeField] LineRenderer lineRenderer;
-    [SerializeField] LayerMask layer;
+    public CinemachineFreeLook cinemachine;
+
+    [SerializeField] TMP_Text Info;
     //Event
     Action _loop;
 
     //Private 
     float _cd;
     int   _currentAmmo;
+
+    public bool CantShoot;
     
     // Start is called before the first frame update
     void Start()
@@ -57,7 +53,6 @@ public class Gun : MonoBehaviour
         _loop += Shoot;
         _loop += Aim;
         _loop += AmmoSwitching;
-        _loop += DrawProjection;
         cinemachine.m_Lens.FieldOfView = NotAimingFOV;
     }
 
@@ -73,12 +68,26 @@ public class Gun : MonoBehaviour
         if (Physics.Raycast(cam.position,cam.forward,out hit,Mathf.Infinity))
         {
             barrel.LookAt(hit.point);
+            if (hit.distance < 6)
+            {
+                Interactable interact = hit.transform.GetComponent<Interactable>();
+                if (interact != null)
+                {
+                    Info.text = interact.Info;
+                    if (Input.GetKeyDown(KeyCode.E)) { interact.Use(gameObject); }
+                }
+                else
+                {
+                    Info.text = string.Empty;
+                }
+            }
         }
         else
         {
+            Info.text = string.Empty;
             barrel.LookAt(cam.position+cam.forward*200);
         }
-        if (Input.GetMouseButton(0) && _cd <= 0)
+        if (Input.GetMouseButton(0) && _cd <= 0 && !CantShoot)
         {
             GameObject bullet = ObjectPooler.Instance.SpawnFromPool(CurrentAmmo, barrel.position, barrel.rotation);
             _cd = CoolDown;
@@ -141,30 +150,6 @@ public class Gun : MonoBehaviour
                 }
             }
             CurrentAmmo = AmmoTypes[_currentAmmo];
-        }
-    }
-    void DrawProjection()
-    {
-        lineRenderer.enabled = true;
-        lineRenderer.positionCount = Mathf.CeilToInt(linepoints / timeBetweenPoints) + 1;
-        Vector3 StartPosition = barrel.position;
-        Vector3 StartVelocity = 100 * barrel.forward / 1;
-        int i = 0;
-        lineRenderer.SetPosition(i, StartPosition);
-        for (float time = 0;time < linepoints;time+=timeBetweenPoints)
-        {
-            i++;
-            Vector3 point = StartPosition + time * StartVelocity;
-            point.y = StartPosition.y + StartVelocity.y * time + (Physics.gravity.y / 2f * time * time);
-            lineRenderer.SetPosition(i, point);
-            Vector3 lastPostion = lineRenderer.GetPosition(i - 1);
-            if (Physics.Raycast(lastPostion,(point-lastPostion).normalized,
-                out RaycastHit hit,(point-lastPostion).magnitude,layer))
-            {
-                lineRenderer .SetPosition(i,hit.point);
-                lineRenderer.positionCount = i + 1;
-                return;
-            }
         }
     }
 
