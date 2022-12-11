@@ -37,15 +37,19 @@ public class Gun : MonoBehaviour
     [Tooltip("Reference to the cinemachine")]
     public CinemachineFreeLook cinemachine;
 
+    ThirdPersonMovement tpm => GetComponent<ThirdPersonMovement>();
+
     [SerializeField] TMP_Text Info;
     //Event
     Action _loop;
+
+    public Action<Gun> OnUse;
 
     //Private 
     float _cd;
     int   _currentAmmo;
 
-    public bool CantShoot;
+    public bool OnStation;
     
     // Start is called before the first frame update
     void Start()
@@ -74,20 +78,21 @@ public class Gun : MonoBehaviour
                 if (interact != null)
                 {
                     Info.text = interact.Info;
-                    if (Input.GetKeyDown(KeyCode.E)) { interact.Use(gameObject); }
+                    OnUse = interact.Use;
                 }
                 else
-                {
-                    Info.text = string.Empty;
+                {                   
+                    StoppedHoveringStation();
                 }
             }
+            else StoppedHoveringStation();
         }
         else
         {
-            Info.text = string.Empty;
+            StoppedHoveringStation();
             barrel.LookAt(cam.position+cam.forward*200);
         }
-        if (Input.GetMouseButton(0) && _cd <= 0 && !CantShoot)
+        if (Input.GetMouseButton(0) && _cd <= 0 && !OnStation)
         {
             GameObject bullet = ObjectPooler.Instance.SpawnFromPool(CurrentAmmo, barrel.position, barrel.rotation);
             _cd = CoolDown;
@@ -96,6 +101,15 @@ public class Gun : MonoBehaviour
         {
             _cd -= Time.deltaTime;
 
+        }
+
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            OnUse?.Invoke(this);
+        }
+        if (Input.GetKeyDown(KeyCode.Escape)&& OnStation)
+        {
+            OnUse?.Invoke(this);
         }
     }
     void Aim()
@@ -151,6 +165,26 @@ public class Gun : MonoBehaviour
             }
             CurrentAmmo = AmmoTypes[_currentAmmo];
         }
+    }
+    void StoppedHoveringStation()
+    {
+        Info.text = string.Empty;
+        if (OnStation) { OnUse?.Invoke(this); }
+        else
+        {
+            OnUse = null;
+        }
+    }
+
+    public void UsingStation()
+    {
+            OnStation = !OnStation;
+            cinemachine.enabled = !cinemachine.enabled;
+            tpm.enabled = !tpm.enabled;
+            if (Cursor.lockState == CursorLockMode.Locked)
+                Cursor.lockState = CursorLockMode.None;
+            else Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = !Cursor.visible;      
     }
 
 }

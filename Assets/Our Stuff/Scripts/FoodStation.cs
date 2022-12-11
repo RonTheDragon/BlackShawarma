@@ -10,20 +10,12 @@ public class FoodStation : MonoBehaviour , Interactable
 
     [SerializeField] GameObject Panel;
 
-    public void Use(GameObject player)
+    public void Use(Gun g)
     {
         Panel.SetActive(!Panel.activeSelf);
-        Gun g = player.GetComponent<Gun>();
-        if (g != null) 
+        if (g != null)
         {
-            g.CantShoot = !g.CantShoot;
-            g.cinemachine.enabled = !g.cinemachine.enabled;
-            ThirdPersonMovement tpm = g.GetComponent<ThirdPersonMovement>();
-            if (tpm!=null)tpm.enabled = !tpm.enabled;
-            if (Cursor.lockState == CursorLockMode.Locked)
-                Cursor.lockState = CursorLockMode.None;
-            else Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = !Cursor.visible;
+            g.UsingStation();
         }
     }
 
