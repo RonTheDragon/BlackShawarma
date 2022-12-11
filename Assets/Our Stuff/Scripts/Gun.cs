@@ -36,20 +36,25 @@ public class Gun : MonoBehaviour
     [SerializeField] Transform           cam;
     [Tooltip("Reference to the cinemachine")]
     public CinemachineFreeLook cinemachine;
-
-    ThirdPersonMovement tpm => GetComponent<ThirdPersonMovement>();
+    [Header("Projection")]
+    [SerializeField]
+    [Range(10, 100)]
+    private int linepoints = 25;
+    [SerializeField]
+    [Range(0.01f, 0.25f)]
+    private float timeBetweenPoints = 0.1f;
+    [SerializeField] LineRenderer lineRenderer;
+    [SerializeField] LayerMask layer;
 
     [SerializeField] TMP_Text Info;
     //Event
     Action _loop;
 
-    public Action<Gun> OnUse;
-
     //Private 
     float _cd;
     int   _currentAmmo;
 
-    public bool OnStation;
+    public bool CantShoot;
     
     // Start is called before the first frame update
     void Start()
@@ -57,6 +62,7 @@ public class Gun : MonoBehaviour
         _loop += Shoot;
         _loop += Aim;
         _loop += AmmoSwitching;
+        _loop += DrawProjection;
         cinemachine.m_Lens.FieldOfView = NotAimingFOV;
     }
 
@@ -78,21 +84,20 @@ public class Gun : MonoBehaviour
                 if (interact != null)
                 {
                     Info.text = interact.Info;
-                    OnUse = interact.Use;
+                    if (Input.GetKeyDown(KeyCode.E)) { interact.Use(gameObject); }
                 }
                 else
-                {                   
-                    StoppedHoveringStation();
+                {
+                    Info.text = string.Empty;
                 }
             }
-            else StoppedHoveringStation();
         }
         else
         {
-            StoppedHoveringStation();
+            Info.text = string.Empty;
             barrel.LookAt(cam.position+cam.forward*200);
         }
-        if (Input.GetMouseButton(0) && _cd <= 0 && !OnStation)
+        if (Input.GetMouseButton(0) && _cd <= 0 && !CantShoot)
         {
             GameObject bullet = ObjectPooler.Instance.SpawnFromPool(CurrentAmmo, barrel.position, barrel.rotation);
             _cd = CoolDown;
@@ -101,15 +106,6 @@ public class Gun : MonoBehaviour
         {
             _cd -= Time.deltaTime;
 
-        }
-
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            OnUse?.Invoke(this);
-        }
-        if (Input.GetKeyDown(KeyCode.Escape)&& OnStation)
-        {
-            OnUse?.Invoke(this);
         }
     }
     void Aim()
@@ -166,25 +162,29 @@ public class Gun : MonoBehaviour
             CurrentAmmo = AmmoTypes[_currentAmmo];
         }
     }
-    void StoppedHoveringStation()
+    void DrawProjection()
     {
-        Info.text = string.Empty;
-        if (OnStation) { OnUse?.Invoke(this); }
-        else
+        lineRenderer.enabled = true;
+        lineRenderer.positionCount = Mathf.CeilToInt(linepoints / timeBetweenPoints) + 1;
+        Vector3 StartPosition = barrel.position;
+        Vector3 StartVelocity = 100 * barrel.forward / 1;
+        int i = 0;
+        lineRenderer.SetPosition(i, StartPosition);
+        for (float time = 0; time < linepoints; time += timeBetweenPoints)
         {
-            OnUse = null;
+            i++;
+            Vector3 point = StartPosition + time * StartVelocity;
+            point.y = StartPosition.y + StartVelocity.y * time + (Physics.gravity.y / 2f * time * time);
+            lineRenderer.SetPosition(i, point);
+            Vector3 lastPostion = lineRenderer.GetPosition(i - 1);
+            if (Physics.Raycast(lastPostion, (point - lastPostion).normalized,
+                out RaycastHit hit, (point - lastPostion).magnitude, layer))
+            {
+                lineRenderer.SetPosition(i, hit.point);
+                lineRenderer.positionCount = i + 1;
+                return;
+            }
         }
-    }
-
-    public void UsingStation()
-    {
-            OnStation = !OnStation;
-            cinemachine.enabled = !cinemachine.enabled;
-            tpm.enabled = !tpm.enabled;
-            if (Cursor.lockState == CursorLockMode.Locked)
-                Cursor.lockState = CursorLockMode.None;
-            else Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = !Cursor.visible;      
     }
 
 }
