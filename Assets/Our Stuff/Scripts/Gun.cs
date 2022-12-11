@@ -2,6 +2,7 @@ using Cinemachine;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class Gun : MonoBehaviour
@@ -34,13 +35,17 @@ public class Gun : MonoBehaviour
     [Tooltip("Camera reference")]
     [SerializeField] Transform           cam;
     [Tooltip("Reference to the cinemachine")]
-    [SerializeField] CinemachineFreeLook cinemachine;
+    public CinemachineFreeLook cinemachine;
+
+    [SerializeField] TMP_Text Info;
     //Event
     Action _loop;
 
     //Private 
     float _cd;
     int   _currentAmmo;
+
+    public bool CantShoot;
     
     // Start is called before the first frame update
     void Start()
@@ -63,12 +68,26 @@ public class Gun : MonoBehaviour
         if (Physics.Raycast(cam.position,cam.forward,out hit,Mathf.Infinity))
         {
             barrel.LookAt(hit.point);
+            if (hit.distance < 6)
+            {
+                Interactable interact = hit.transform.GetComponent<Interactable>();
+                if (interact != null)
+                {
+                    Info.text = interact.Info;
+                    if (Input.GetKeyDown(KeyCode.E)) { interact.Use(gameObject); }
+                }
+                else
+                {
+                    Info.text = string.Empty;
+                }
+            }
         }
         else
         {
+            Info.text = string.Empty;
             barrel.LookAt(cam.position+cam.forward*200);
         }
-        if (Input.GetMouseButton(0) && _cd <= 0)
+        if (Input.GetMouseButton(0) && _cd <= 0 && !CantShoot)
         {
             GameObject bullet = ObjectPooler.Instance.SpawnFromPool(CurrentAmmo, barrel.position, barrel.rotation);
             _cd = CoolDown;
