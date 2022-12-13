@@ -58,7 +58,7 @@ public class EnemySpawner : MonoBehaviour
         int SmallestLane = 0;
         for (int i = 0; i < CustomersInLane.Length; i++) //Check the Lowest line length
         {
-            Debug.Log($"{CustomersInLane[i]} < {SmallestAmountOfPeople} = {CustomersInLane[i] < SmallestAmountOfPeople}");
+            //Debug.Log($"{CustomersInLane[i]} < {SmallestAmountOfPeople} = {CustomersInLane[i] < SmallestAmountOfPeople}");
             if (CustomersInLane[i] < SmallestAmountOfPeople)
             {
                 SmallestAmountOfPeople = CustomersInLane[i];
