@@ -137,6 +137,7 @@ public class EnemySpawner : MonoBehaviour
     {
         enemies.Remove(enemyAI);
         CurrentEnemyAmmout--;
+      
     }
 
     Vector3 LaneDestination(int i,int place = 0)

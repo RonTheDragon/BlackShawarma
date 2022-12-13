@@ -8,7 +8,10 @@ public class GameManager : MonoBehaviour
     public int tazdokHp =3 ;
     void Awake()
     {
-        
+        if (instance == null)
+        {
+            instance = new GameManager();
+        }
          instance = this;
     }
 }

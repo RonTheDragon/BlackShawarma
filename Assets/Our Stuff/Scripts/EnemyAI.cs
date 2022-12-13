@@ -83,6 +83,7 @@ public class EnemyAI : MonoBehaviour
         else
         {
             OnRage?.Invoke();
+            GameManager.instance.tazdokHp--;
         }
     }
 
