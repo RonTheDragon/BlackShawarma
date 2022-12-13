@@ -152,7 +152,7 @@ Light:
   serializedVersion: 10
   m_Type: 1
   m_Shape: 0
-  m_Color: {r: 1, g: 0.95686275, b: 0.8392157, a: 1}
+  m_Color: {r: 0.4245283, g: 0.40131894, b: 0.33802065, a: 1}
   m_Intensity: 1
   m_Range: 10
   m_SpotAngle: 30
@@ -291,7 +291,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: e18fb98bc800d7d4989285889a8ddf1b, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -517,6 +517,22 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 333396162, guid: 17815853b163b554da771055f6659d6f, type: 3}
+      propertyPath: _projectionColors.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: e18fb98bc800d7d4989285889a8ddf1b, type: 2}
+    - target: {fileID: 6598293734432143873, guid: 17815853b163b554da771055f6659d6f, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.017861282
+      objectReference: {fileID: 0}
+    - target: {fileID: 6598293734432143873, guid: 17815853b163b554da771055f6659d6f, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.18907622
+      objectReference: {fileID: 0}
+    - target: {fileID: 6598293734432143873, guid: 17815853b163b554da771055f6659d6f, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.0034397685
+      objectReference: {fileID: 0}
     - target: {fileID: 6598293734435211305, guid: 17815853b163b554da771055f6659d6f, type: 3}
       propertyPath: m_Name
       value: Player
@@ -567,11 +583,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6598293734642008242, guid: 17815853b163b554da771055f6659d6f, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -1.0070752e-15
+      value: 1.007075e-15
       objectReference: {fileID: 0}
     - target: {fileID: 6598293734642008242, guid: 17815853b163b554da771055f6659d6f, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 1.9394496e-16
+      value: -1.9394492e-16
+      objectReference: {fileID: 0}
+    - target: {fileID: 6598293734886125691, guid: 17815853b163b554da771055f6659d6f, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.017861284
+      objectReference: {fileID: 0}
+    - target: {fileID: 6598293734886125691, guid: 17815853b163b554da771055f6659d6f, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.18907622
+      objectReference: {fileID: 0}
+    - target: {fileID: 6598293734886125691, guid: 17815853b163b554da771055f6659d6f, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.0034397687
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 17815853b163b554da771055f6659d6f, type: 3}
