@@ -53,6 +53,8 @@ public class Gun : MonoBehaviour
     Action _loop;
     public Action<Gun> OnUse;
 
+    [SerializeField] Material[] _projectionColors = new Material[3];
+
     //Private 
     float _cd;
     int   _currentAmmo;
@@ -175,6 +177,14 @@ public class Gun : MonoBehaviour
                 }
             }
             CurrentAmmo = AmmoTypes[_currentAmmo];
+            switch (CurrentAmmo)
+            {
+                case "Falafel": lineRenderer.material = _projectionColors[0];  break;
+                case "Fries": lineRenderer.material = _projectionColors[1]; break;
+                case "Eggplant": lineRenderer.material = _projectionColors[2]; break;
+
+                default: break;
+            }
         }
     }
     void DrawProjection()

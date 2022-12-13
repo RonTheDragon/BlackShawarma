@@ -898,7 +898,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6598293734432143878}
-  m_LocalRotation: {x: -0.017861284, y: 0.18907623, z: 0.0034397687, w: 0.98179394}
+  m_LocalRotation: {x: -0.017861282, y: 0.18907622, z: 0.0034397685, w: 0.98179394}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1068,7 +1068,11 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 55
   Info: {fileID: 5024427214444675767}
-  CantShoot: 0
+  _projectionColors:
+  - {fileID: 2100000, guid: 286a67538a0a95b41b46614da767b274, type: 2}
+  - {fileID: 2100000, guid: 38fd4e785c4799348a1c11bf6ed9fe48, type: 2}
+  - {fileID: 2100000, guid: 38b2979b792acd54f807d155d25a68c5, type: 2}
+  OnStation: 0
 --- !u!1 &6598293734634356847
 GameObject:
   m_ObjectHideFlags: 0
@@ -1095,7 +1099,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6598293734634356847}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.9999999, z: -5}
+  m_LocalPosition: {x: 0, y: 1, z: -5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1263,7 +1267,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6598293734642008243}
-  m_LocalRotation: {x: 1.0070752e-15, y: 0.18910751, z: -1.9394496e-16, w: 0.9819564}
+  m_LocalRotation: {x: 1.007075e-15, y: 0.18910751, z: -1.9394492e-16, w: 0.9819564}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1344,8 +1348,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6598293734886125694}
-  m_LocalRotation: {x: -0.017861286, y: 0.18907622, z: 0.0034397691, w: 0.98179394}
-  m_LocalPosition: {x: 0, y: 0.9999999, z: -5}
+  m_LocalRotation: {x: -0.017861284, y: 0.18907622, z: 0.0034397687, w: 0.98179394}
+  m_LocalPosition: {x: 0, y: 1, z: -5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1460,7 +1464,7 @@ MonoBehaviour:
     m_Bits: 1
   m_VolumeTrigger: {fileID: 0}
   m_VolumeFrameworkUpdateModeOption: 2
-  m_RenderPostProcessing: 0
+  m_RenderPostProcessing: 1
   m_Antialiasing: 0
   m_AntialiasingQuality: 2
   m_StopNaN: 0
@@ -1845,7 +1849,7 @@ LineRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 38fd4e785c4799348a1c11bf6ed9fe48, type: 2}
+  - {fileID: 2100000, guid: 17c15d0a54907f64fbef494ed0302680, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
