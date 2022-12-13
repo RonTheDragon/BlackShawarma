@@ -37,7 +37,7 @@ public class EnemyAI : MonoBehaviour
 
     void Start()
     {
-        OnRage += () => { done = true; CurrentRage = 0; AngerSmoke.Emit(100); Spawner.RemoveOnLane(WhichLane, PlaceInLane); };
+        OnRage += () => { done = true; CurrentRage = 0; AngerSmoke.Emit(100); Spawner.RemoveOnLane(WhichLane, PlaceInLane); GameManager.instance.tazdokHp--; };
         loop += Movement;
         loop += Rage;
     }
@@ -83,6 +83,7 @@ public class EnemyAI : MonoBehaviour
         else
         {
             OnRage?.Invoke();
+            GameManager.instance.tazdokHp--;
         }
     }
 

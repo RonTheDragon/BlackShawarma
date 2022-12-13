@@ -20,8 +20,11 @@ public class EnemySpawner : MonoBehaviour
 
     [SerializeField] bool DrawGizmos = true;
    [SerializeField] List<string> enemyTypes = new List<string>();
+   [ReadOnly] [SerializeField] int CurrentEnemyAmmout = 0;
 
-    List<EnemyAI> enemies = new List<EnemyAI>();
+    [SerializeField] int maxenemyingame ;
+   List<EnemyAI> enemies = new List<EnemyAI>();
+
 
 
     // Update is called once per frame
@@ -38,9 +41,12 @@ public class EnemySpawner : MonoBehaviour
         }
         else
         {
+            if (CurrentEnemyAmmout <maxenemyingame)
+            {
             CurrentTimeLeft = Random.Range(RandomTime.x, RandomTime.y);
             SpawnEnemy();
         }
+            }
     }
 
     EnemyAI SpawnEnemy()
@@ -49,6 +55,7 @@ public class EnemySpawner : MonoBehaviour
         EnemyAI enemyAI = Enemy.GetComponent<EnemyAI>();
         enemyAI.SetDestination(GetPreferableDestination(enemyAI));
         enemyAI.Spawn(this);
+        CurrentEnemyAmmout++;         
         return enemyAI;
     }
 
@@ -129,6 +136,8 @@ public class EnemySpawner : MonoBehaviour
     public void RemoveEnemy(EnemyAI enemyAI)
     {
         enemies.Remove(enemyAI);
+        CurrentEnemyAmmout--;
+      
     }
 
     Vector3 LaneDestination(int i,int place = 0)
