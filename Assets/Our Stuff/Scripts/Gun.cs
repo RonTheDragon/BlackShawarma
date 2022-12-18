@@ -13,11 +13,11 @@ public class Gun : MonoBehaviour
 
     [Header("Aiming")]
               [Tooltip("Field of view while aiming")]
-              [SerializeField] float AimingFOV        = 40;
+              [SerializeField] float AimingFOV        = 3;
               [Tooltip("Field of view")]
-              [SerializeField] float NotAimingFOV     = 70;
+              [SerializeField] float NotAimingFOV     = 0;
               [Tooltip("The seed of the transition from normal to aiming field of view")]
-              [SerializeField] float FovChangingSpeed = 60;
+              [SerializeField] float FovChangingSpeed = 12;
               [Tooltip("The current field of view")]
     [ReadOnly][SerializeField] float CurrentFOV;
               [Tooltip("Is the character aiming or not")]
@@ -36,6 +36,7 @@ public class Gun : MonoBehaviour
     [SerializeField] Transform           cam;
     [Tooltip("Reference to the cinemachine")]
     public CinemachineFreeLook cinemachine;
+    CinemachineCameraOffset offset => cinemachine.GetComponent<CinemachineCameraOffset>();
     ThirdPersonMovement tpm => GetComponent<ThirdPersonMovement>();
 
     [Header("Projection")]
@@ -68,7 +69,7 @@ public class Gun : MonoBehaviour
         _loop += Aim;
         _loop += AmmoSwitching;
         _loop += DrawProjection;
-        cinemachine.m_Lens.FieldOfView = NotAimingFOV;
+        offset.m_Offset.Set(0, 0, NotAimingFOV);
     }
 
     // Update is called once per frame
@@ -136,23 +137,23 @@ public class Gun : MonoBehaviour
             isAiming = false;
         }
 
-        CurrentFOV = cinemachine.m_Lens.FieldOfView;
+        CurrentFOV = offset.m_Offset.z;
         if (isAiming)
         {
-            if (CurrentFOV > AimingFOV)
+            if (CurrentFOV < AimingFOV)
             {
-                cinemachine.m_Lens.FieldOfView -= FovChangingSpeed * Time.deltaTime;
+                offset.m_Offset.Set(0, 0, CurrentFOV += FovChangingSpeed * Time.deltaTime);
             }
-            else { cinemachine.m_Lens.FieldOfView = AimingFOV; }
+            else { offset.m_Offset.Set(0, 0, AimingFOV); }
 
         }
         else
         {
-            if (CurrentFOV < NotAimingFOV)
+            if (CurrentFOV > NotAimingFOV)
             {
-                cinemachine.m_Lens.FieldOfView += FovChangingSpeed * Time.deltaTime;
+                offset.m_Offset.Set(0, 0, CurrentFOV -= FovChangingSpeed * Time.deltaTime);
             }
-            else { cinemachine.m_Lens.FieldOfView = NotAimingFOV; }
+            else { offset.m_Offset.Set(0, 0, NotAimingFOV); }
         }
     }
 
