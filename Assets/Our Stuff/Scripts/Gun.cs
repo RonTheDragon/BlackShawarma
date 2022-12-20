@@ -12,28 +12,34 @@ public class Gun : MonoBehaviour
     [SerializeField] float CoolDown = 0.5f;
 
     [Header("Aiming")]
-              [Tooltip("Field of view while aiming")]
-              [SerializeField] float AimingFOV        = 3;
-              [Tooltip("Field of view")]
-              [SerializeField] float NotAimingFOV     = 0;
-              [Tooltip("The seed of the transition from normal to aiming field of view")]
-              [SerializeField] float FovChangingSpeed = 12;
-              [Tooltip("The current field of view")]
+    [Tooltip("Field of view while aiming")]
+    [SerializeField] float AimingFOV = 3;
+    [Tooltip("Field of view")]
+    [SerializeField] float NotAimingFOV = 0;
+    [Tooltip("The speed of transition from normal to aiming field of view")]
+    [SerializeField] float FovChangingSpeed = 12;
+    [Tooltip("The maximum amount of ammo that can be currently in possession of the player")]
+    [SerializeField] int MaxAmmoAmount = 15;
+    [Tooltip("The amount of ammo currently in possession of the player. 0 is falafel, 1 is fries, 2 is eggplant")]
+    [SerializeField] int[] CurrentAmmoAmount = new int[3];
+    [Tooltip("The current field of view")]
     [ReadOnly][SerializeField] float CurrentFOV;
-              [Tooltip("Is the character aiming or not")]
-    [ReadOnly][SerializeField] bool  isAiming;
+    [Tooltip("Is the character aiming or not")]
+    [ReadOnly][SerializeField] bool isAiming;
 
     [Header("Ammo Switching")]
     [Tooltip("The current amount of ammo")]
-    [ReadOnly][SerializeField] string       CurrentAmmo;
-              [Tooltip("The types of ammo")]
-              [SerializeField] List<string> AmmoTypes;
+    [ReadOnly][SerializeField] string CurrentAmmo;
+    [Tooltip("The current amount of ammo")]
+    [ReadOnly][SerializeField] int CurrentAmmoType;
+    [Tooltip("The types of ammo")]
+    [SerializeField] List<string> AmmoTypes;
 
     [Header("Refefrences")]
     [Tooltip("Reference to the point where projectiles spawn")]
-    [SerializeField] Transform           barrel;
+    [SerializeField] Transform barrel;
     [Tooltip("Camera reference")]
-    [SerializeField] Transform           cam;
+    [SerializeField] Transform cam;
     [Tooltip("Reference to the cinemachine")]
     public CinemachineFreeLook cinemachine;
     CinemachineCameraOffset offset => cinemachine.GetComponent<CinemachineCameraOffset>();
@@ -58,13 +64,14 @@ public class Gun : MonoBehaviour
 
     //Private 
     float _cd;
-    int   _currentAmmo;
+    int _currentAmmo;
 
     public bool OnStation;
 
     // Start is called before the first frame update
     void Start()
     {
+        ResetAmmoToMax();
         _loop += Shoot;
         _loop += Aim;
         _loop += AmmoSwitching;
@@ -75,13 +82,13 @@ public class Gun : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        _loop?.Invoke();   
+        _loop?.Invoke();
     }
 
     void Shoot()
     {
         RaycastHit hit;
-        if (Physics.Raycast(cam.position,cam.forward,out hit,Mathf.Infinity))
+        if (Physics.Raycast(cam.position, cam.forward, out hit, Mathf.Infinity))
         {
             barrel.LookAt(hit.point);
             if (hit.distance < 6)
@@ -96,7 +103,7 @@ public class Gun : MonoBehaviour
                 {
                     StoppedHoveringStation();
                 }
-                
+
             }
             else StoppedHoveringStation();
         }
@@ -104,13 +111,24 @@ public class Gun : MonoBehaviour
         {
             StoppedHoveringStation();
             Info.text = string.Empty;
-            barrel.LookAt(cam.position+cam.forward*200);
+            barrel.LookAt(cam.position + cam.forward * 200);
         }
+
         if (Input.GetMouseButton(0) && _cd <= 0 && !OnStation)
         {
-            GameObject bullet = ObjectPooler.Instance.SpawnFromPool(CurrentAmmo, barrel.position, barrel.rotation);
-            _cd = CoolDown;
+            if (CurrentAmmoAmount[CurrentAmmoType] > 0)
+            {
+                GameObject bullet = ObjectPooler.Instance.SpawnFromPool(CurrentAmmo, barrel.position, barrel.rotation);
+                _cd = CoolDown;
+
+                CurrentAmmoAmount[CurrentAmmoType]--;
+            }
+            else
+            {
+                //play the empty gun sound, if the sound is not playing already.
+            }
         }
+
         if (_cd > 0)
         {
             _cd -= Time.deltaTime;
@@ -164,7 +182,7 @@ public class Gun : MonoBehaviour
             if (Input.GetAxis("Mouse ScrollWheel") > 0)
             {
                 _currentAmmo++;
-                if (_currentAmmo > AmmoTypes.Count-1)
+                if (_currentAmmo > AmmoTypes.Count - 1)
                 {
                     _currentAmmo = 0;
                 }
@@ -174,18 +192,19 @@ public class Gun : MonoBehaviour
                 _currentAmmo--;
                 if (_currentAmmo < 0)
                 {
-                    _currentAmmo = AmmoTypes.Count-1;
+                    _currentAmmo = AmmoTypes.Count - 1;
                 }
             }
             CurrentAmmo = AmmoTypes[_currentAmmo];
             switch (CurrentAmmo)
             {
-                case "Falafel": lineRenderer.material = _projectionColors[0];  break;
-                case "Fries": lineRenderer.material = _projectionColors[1]; break;
-                case "Eggplant": lineRenderer.material = _projectionColors[2]; break;
+                case "Falafel": CurrentAmmoType = 0; break;
+                case "Fries": CurrentAmmoType = 1; break;
+                case "Eggplant": CurrentAmmoType = 2; break;
 
                 default: break;
             }
+            lineRenderer.material = _projectionColors[CurrentAmmoType];
         }
     }
     void DrawProjection()
@@ -228,5 +247,13 @@ public class Gun : MonoBehaviour
             Cursor.lockState = CursorLockMode.None;
         else Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = !Cursor.visible;
+    }
+
+    private void ResetAmmoToMax()
+    {
+        for (int i = 0; i < 3; i++)
+        {
+            CurrentAmmoAmount[i] = MaxAmmoAmount;
+        }
     }
 }

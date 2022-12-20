@@ -22,7 +22,7 @@ public class EnemySpawner : MonoBehaviour
    [SerializeField] List<string> enemyTypes = new List<string>();
    [ReadOnly] [SerializeField] int CurrentEnemyAmmout = 0;
 
-    [SerializeField] int maxenemyingame ;
+    [SerializeField] int _maxEnemyInGame ;
    List<EnemyAI> enemies = new List<EnemyAI>();
 
 
@@ -41,7 +41,7 @@ public class EnemySpawner : MonoBehaviour
         }
         else
         {
-            if (CurrentEnemyAmmout <maxenemyingame)
+            if (CurrentEnemyAmmout <_maxEnemyInGame)
             {
             CurrentTimeLeft = Random.Range(RandomTime.x, RandomTime.y);
             SpawnEnemy();
