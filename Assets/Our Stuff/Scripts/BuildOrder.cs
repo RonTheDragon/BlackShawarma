@@ -23,7 +23,7 @@ public class BuildOrder : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        MaxFillers = GameManager.instance.MaxFillers;
     }
 
     // Update is called once per frame

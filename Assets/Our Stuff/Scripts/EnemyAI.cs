@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -34,6 +35,7 @@ public class EnemyAI : MonoBehaviour
     {
         Spawner = spawner;
         done = false;
+        GenerateRandomOrder();
     }
 
 
@@ -155,5 +157,20 @@ public class EnemyAI : MonoBehaviour
                 break;
         }
         return _didIEatit;
+    }
+
+    public void GenerateRandomOrder()
+    {
+        List<BuildOrder.Fillers> RandomOrder = new List<BuildOrder.Fillers>();
+
+        int FillerAmount = UnityEngine.Random.Range(1, GameManager.instance.MaxFillers+1);
+        int count = Enum.GetValues(typeof(BuildOrder.Fillers)).Length;
+
+        for (int i = 0; i < FillerAmount; i++)
+        {
+            RandomOrder.Add((BuildOrder.Fillers)UnityEngine.Random.Range(0,count));
+        }
+
+        Order = RandomOrder;
     }
 }
