@@ -61,12 +61,14 @@ public class Gun : MonoBehaviour
     public Action<Gun> OnUse;
 
     [SerializeField] Material[] _projectionColors = new Material[3];
+    List<BuildOrder.Fillers> currentpita = new List<BuildOrder.Fillers>();
 
     //Private 
     float _cd;
     int _currentAmmo;
 
     public bool OnStation;
+    bool ispitta = false;
 
     // Start is called before the first frame update
     void Start()
@@ -116,16 +118,24 @@ public class Gun : MonoBehaviour
 
         if (Input.GetMouseButton(0) && _cd <= 0 && !OnStation)
         {
+            if (ispitta && isAiming)
+            {
+                PitaShoot();
+            }
+            else
+            {
             if (CurrentAmmoAmount[CurrentAmmoType] > 0)
             {
                 GameObject bullet = ObjectPooler.Instance.SpawnFromPool(CurrentAmmo, barrel.position, barrel.rotation);
                 _cd = CoolDown;
-
+                
                 CurrentAmmoAmount[CurrentAmmoType]--;
             }
             else
             {
                 //play the empty gun sound, if the sound is not playing already.
+            }
+
             }
         }
 
@@ -255,5 +265,16 @@ public class Gun : MonoBehaviour
         {
             CurrentAmmoAmount[i] = MaxAmmoAmount;
         }
+    }
+    void PitaShoot()
+    {
+        GameObject pita = ObjectPooler.Instance.SpawnFromPool("pita", barrel.position, barrel.rotation);
+        _cd = CoolDown;
+       Pita a = pita.GetComponent<Pita>();
+        a.pitashoot = currentpita;
+        currentpita.Clear();
+        ispitta = false;
+        
+
     }
 }
