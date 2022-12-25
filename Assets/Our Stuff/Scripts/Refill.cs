@@ -11,7 +11,7 @@ public class Refill : MonoBehaviour, Interactable
 
     public void Use(Gun g)
     {
-        g.CurrentAmmoAmount[ammoToRefill] = g.MaxAmmoAmount;
+        g.CurrentAmmoType.CurrentAmmo = g.CurrentAmmoType.MaxAmmo;
     }
 
     void Start()

@@ -18,10 +18,6 @@ public class Gun : MonoBehaviour
     [SerializeField] float NotAimingFOV = 0;
     [Tooltip("The speed of transition from normal to aiming field of view")]
     [SerializeField] float FovChangingSpeed = 12;
-    [Tooltip("The maximum amount of ammo that can be currently in possession of the player")]
-    public           int   MaxAmmoAmount = 15;
-    [Tooltip("The amount of ammo currently in possession of the player. 0 is falafel, 1 is fries, 2 is eggplant")]
-    public           int[] CurrentAmmoAmount = new int[3];
     [Tooltip("The current field of view")]
     [ReadOnly][SerializeField] float CurrentFOV;
     [Tooltip("Is the character aiming or not")]
@@ -29,11 +25,9 @@ public class Gun : MonoBehaviour
 
     [Header("Ammo Switching")]
     [Tooltip("The current amount of ammo")]
-    [ReadOnly][SerializeField] string CurrentAmmo;
-    [Tooltip("The current amount of ammo")]
-    [ReadOnly][SerializeField] int CurrentAmmoType;
+    [ReadOnly]public AmmoType CurrentAmmoType;
     [Tooltip("The types of ammo")]
-    [SerializeField] List<string> AmmoTypes;
+    [SerializeField] List<AmmoType> AmmoTypes;
 
     [Header("Refefrences")]
     [Tooltip("Reference to the point where projectiles spawn")]
@@ -60,7 +54,6 @@ public class Gun : MonoBehaviour
     Action _loop;
     public Action<Gun> OnUse;
 
-    [SerializeField] Material[] _projectionColors = new Material[3];
     List<BuildOrder.Fillers> currentpita = new List<BuildOrder.Fillers>();
 
     //Private 
@@ -124,18 +117,17 @@ public class Gun : MonoBehaviour
             }
             else
             {
-            if (CurrentAmmoAmount[CurrentAmmoType] > 0)
-            {
-                GameObject bullet = ObjectPooler.Instance.SpawnFromPool(CurrentAmmo, barrel.position, barrel.rotation);
-                _cd = CoolDown;
-                
-                CurrentAmmoAmount[CurrentAmmoType]--;
-            }
-            else
-            {
-                //play the empty gun sound, if the sound is not playing already.
-            }
-
+                 if (CurrentAmmoType.CurrentAmmo > 0)
+                 {
+                        GameObject bullet = ObjectPooler.Instance.SpawnFromPool(CurrentAmmoType.AmmoTag, barrel.position, barrel.rotation);
+                        _cd = CoolDown;
+    
+                        CurrentAmmoType.CurrentAmmo--;
+                 }
+                 else
+                 {
+                     //play the empty gun sound, if the sound is not playing already.
+                 }
             }
         }
 
@@ -205,16 +197,8 @@ public class Gun : MonoBehaviour
                     _currentAmmo = AmmoTypes.Count - 1;
                 }
             }
-            CurrentAmmo = AmmoTypes[_currentAmmo];
-            switch (CurrentAmmo)
-            {
-                case "Falafel": CurrentAmmoType = 0; break;
-                case "Fries": CurrentAmmoType = 1; break;
-                case "Eggplant": CurrentAmmoType = 2; break;
-
-                default: break;
-            }
-            lineRenderer.material = _projectionColors[CurrentAmmoType];
+            CurrentAmmoType = AmmoTypes[_currentAmmo];
+            lineRenderer.material = CurrentAmmoType.TrajectoryMaterial;
         }
     }
     void DrawProjection()
@@ -263,7 +247,7 @@ public class Gun : MonoBehaviour
     {
         for (int i = 0; i < 3; i++)
         {
-            CurrentAmmoAmount[i] = MaxAmmoAmount;
+            AmmoTypes[i].CurrentAmmo = AmmoTypes[i].MaxAmmo;
         }
     }
     void PitaShoot()

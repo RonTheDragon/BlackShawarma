@@ -93,7 +93,7 @@ public class EnemySpawner : MonoBehaviour
         enemyAI.PlaceInLane = CustomersInLane[chosen];
         enemies.Add(enemyAI);
         CustomersInLane[chosen]++; // Tell the enemy manager that place was filled
-        Debug.Log(Destination);
+        //Debug.Log(Destination);
 
         return Destination; //Tells the enemy where to go 
     }
