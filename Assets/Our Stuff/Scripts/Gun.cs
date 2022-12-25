@@ -19,9 +19,9 @@ public class Gun : MonoBehaviour
     [Tooltip("The speed of transition from normal to aiming field of view")]
     [SerializeField] float FovChangingSpeed = 12;
     [Tooltip("The maximum amount of ammo that can be currently in possession of the player")]
-    [SerializeField] int MaxAmmoAmount = 15;
+    public           int   MaxAmmoAmount = 15;
     [Tooltip("The amount of ammo currently in possession of the player. 0 is falafel, 1 is fries, 2 is eggplant")]
-    [SerializeField] int[] CurrentAmmoAmount = new int[3];
+    public           int[] CurrentAmmoAmount = new int[3];
     [Tooltip("The current field of view")]
     [ReadOnly][SerializeField] float CurrentFOV;
     [Tooltip("Is the character aiming or not")]
@@ -31,9 +31,9 @@ public class Gun : MonoBehaviour
     [Tooltip("The current amount of ammo")]
     [ReadOnly][SerializeField] string CurrentAmmo;
     [Tooltip("The current amount of ammo")]
-    [ReadOnly][SerializeField] int CurrentAmmoType;
+    [ReadOnly][SerializeField] int    CurrentAmmoType;
     [Tooltip("The types of ammo")]
-    [SerializeField] List<string> AmmoTypes;
+    [SerializeField] List<string>     AmmoTypes;
 
     [Header("Refefrences")]
     [Tooltip("Reference to the point where projectiles spawn")]
@@ -43,7 +43,7 @@ public class Gun : MonoBehaviour
     [Tooltip("Reference to the cinemachine")]
     public CinemachineFreeLook cinemachine;
     CinemachineCameraOffset offset => cinemachine.GetComponent<CinemachineCameraOffset>();
-    ThirdPersonMovement tpm => GetComponent<ThirdPersonMovement>();
+    ThirdPersonMovement     tpm    => GetComponent<ThirdPersonMovement>();
 
     [Header("Projection")]
     [SerializeField]
@@ -51,24 +51,25 @@ public class Gun : MonoBehaviour
     private int linepoints = 25;
     [SerializeField]
     [Range(0.01f, 0.25f)]
-    private float timeBetweenPoints = 0.1f;
+    private          float        timeBetweenPoints = 0.1f;
     [SerializeField] LineRenderer lineRenderer;
-    [SerializeField] LayerMask layer;
+    [SerializeField] LayerMask    layer;
 
     [SerializeField] TMP_Text Info;
+    [SerializeField] TMP_Text AmmoCounter;
+
     //Event
-    Action _loop;
+    Action             _loop;
     public Action<Gun> OnUse;
 
     [SerializeField] Material[] _projectionColors = new Material[3];
 
     //Private 
     float _cd;
-    int _currentAmmo;
+    int   _currentAmmo;
 
     public bool OnStation;
 
-    // Start is called before the first frame update
     void Start()
     {
         ResetAmmoToMax();
@@ -79,10 +80,10 @@ public class Gun : MonoBehaviour
         offset.m_Offset.Set(0, 0, NotAimingFOV);
     }
 
-    // Update is called once per frame
     void Update()
     {
         _loop?.Invoke();
+        AmmoUI();
     }
 
     void Shoot()
@@ -198,8 +199,8 @@ public class Gun : MonoBehaviour
             CurrentAmmo = AmmoTypes[_currentAmmo];
             switch (CurrentAmmo)
             {
-                case "Falafel": CurrentAmmoType = 0; break;
-                case "Fries": CurrentAmmoType = 1; break;
+                case "Falafel":  CurrentAmmoType = 0; break;
+                case "Fries":    CurrentAmmoType = 1; break;
                 case "Eggplant": CurrentAmmoType = 2; break;
 
                 default: break;
@@ -255,5 +256,10 @@ public class Gun : MonoBehaviour
         {
             CurrentAmmoAmount[i] = MaxAmmoAmount;
         }
+    }
+
+    void AmmoUI()
+    {
+        
     }
 }

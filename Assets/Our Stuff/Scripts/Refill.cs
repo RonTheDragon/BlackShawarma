@@ -4,13 +4,14 @@ using UnityEngine;
 
 public class Refill : MonoBehaviour, Interactable
 {
+    [SerializeField] int ammoToRefill;
     [SerializeField]
     private string _info;
     public string Info { get => _info; set => _info = value; }
 
-    public void Use(GameObject player)
+    public void Use(Gun g)
     {
-        throw new System.NotImplementedException();
+        g.CurrentAmmoAmount[ammoToRefill] = g.MaxAmmoAmount;
     }
 
     void Start()
