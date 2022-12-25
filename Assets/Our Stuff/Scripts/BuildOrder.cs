@@ -23,7 +23,7 @@ public class BuildOrder : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        MaxFillers = GameManager.instance.MaxFillers;
     }
 
     // Update is called once per frame
@@ -68,6 +68,7 @@ public class BuildOrder : MonoBehaviour
     public void AddFiller(Fillers filler)
     {
         if (Pita.Count == MaxFillers) return;
+        if (Pita.Contains(filler)) return;
 
         Pita.Add(filler);
         ReadOutPita();

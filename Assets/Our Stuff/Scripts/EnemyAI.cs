@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -25,6 +26,8 @@ public class EnemyAI : MonoBehaviour
 
     Action loop;
 
+    List<BuildOrder.Fillers> Order = new List<BuildOrder.Fillers>();
+
     bool done;
 
 
@@ -32,6 +35,7 @@ public class EnemyAI : MonoBehaviour
     {
         Spawner = spawner;
         done = false;
+        GenerateRandomOrder();
     }
 
 
@@ -100,6 +104,37 @@ public class EnemyAI : MonoBehaviour
         }
     }
 
+    public void EatPita(List<BuildOrder.Fillers> pita)
+    {
+        bool CorrectOrder = true;
+
+        if (pita.Count == Order.Count) // if the pita and the order contains the same amount
+        {
+            for (int i = 0; i < Order.Count; i++) //going over the order
+            {
+                if (!pita.Contains(Order[i])) // if the pita doesnt contains what the order requires
+                {
+                    CorrectOrder = false; break; // then the order is incorrent
+                }
+            }
+        }
+        else
+        {
+            CorrectOrder = false;
+        }
+
+
+
+        if (CorrectOrder)
+        {
+            done= true;
+        }
+        else
+        {
+            CurrentRage += 10;
+        }
+    }
+
     public void SetDestination(Vector3 pos)
     {
         destination = pos;
@@ -122,5 +157,20 @@ public class EnemyAI : MonoBehaviour
                 break;
         }
         return _didIEatit;
+    }
+
+    public void GenerateRandomOrder()
+    {
+        List<BuildOrder.Fillers> RandomOrder = new List<BuildOrder.Fillers>();
+
+        int FillerAmount = UnityEngine.Random.Range(1, GameManager.instance.MaxFillers+1);
+        int count = Enum.GetValues(typeof(BuildOrder.Fillers)).Length;
+
+        for (int i = 0; i < FillerAmount; i++)
+        {
+            RandomOrder.Add((BuildOrder.Fillers)UnityEngine.Random.Range(0,count));
+        }
+
+        Order = RandomOrder;
     }
 }
