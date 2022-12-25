@@ -68,6 +68,7 @@ public class BuildOrder : MonoBehaviour
     public void AddFiller(Fillers filler)
     {
         if (Pita.Count == MaxFillers) return;
+        if (Pita.Contains(filler)) return;
 
         Pita.Add(filler);
         ReadOutPita();
