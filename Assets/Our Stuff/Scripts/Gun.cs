@@ -19,9 +19,9 @@ public class Gun : MonoBehaviour
     [Tooltip("The speed of transition from normal to aiming field of view")]
     [SerializeField] float FovChangingSpeed = 12;
     [Tooltip("The maximum amount of ammo that can be currently in possession of the player")]
-    [SerializeField] int MaxAmmoAmount = 15;
+    public           int   MaxAmmoAmount = 15;
     [Tooltip("The amount of ammo currently in possession of the player. 0 is falafel, 1 is fries, 2 is eggplant")]
-    [SerializeField] int[] CurrentAmmoAmount = new int[3];
+    public           int[] CurrentAmmoAmount = new int[3];
     [Tooltip("The current field of view")]
     [ReadOnly][SerializeField] float CurrentFOV;
     [Tooltip("Is the character aiming or not")]
