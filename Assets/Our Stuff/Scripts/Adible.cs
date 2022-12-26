@@ -6,9 +6,9 @@ public class Adible : MonoBehaviour
 {
     public enum Food 
     {
-      falfel,
-      eggplant,
-      chips
+      Falafel,
+      Eggplant,
+      Fries
     }
     public Food foodtype;
     private void OnCollisionEnter(Collision collision)

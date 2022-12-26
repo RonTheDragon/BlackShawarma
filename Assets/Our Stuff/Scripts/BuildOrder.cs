@@ -20,16 +20,9 @@ public class BuildOrder : MonoBehaviour
 
     public List<Fillers> Pita = new List<Fillers>();
 
-    // Start is called before the first frame update
     void Start()
     {
         MaxFillers = GameManager.instance.MaxFillers;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
     public void AddHumus()
@@ -78,6 +71,16 @@ public class BuildOrder : MonoBehaviour
     {
         Pita.Clear();
         ReadOutPita();
+    }
+
+    public void GetPita()
+    {
+        if (Pita.Count > 0)
+        {
+            List<Fillers> temporary =  new List<Fillers>(Pita);
+            GetComponent<Gun>().SetPita(temporary);       
+            Pita.Clear();
+        }
     }
 
     void ReadOutPita()

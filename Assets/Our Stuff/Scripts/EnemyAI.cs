@@ -93,7 +93,7 @@ public class EnemyAI : MonoBehaviour
 
     public void Eat(Adible.Food f)
     {
-        if (CaniEAT((int)f))
+        if (CaniEAT(f))
         {
             CurrentRage -= 10;
         }
@@ -139,18 +139,18 @@ public class EnemyAI : MonoBehaviour
     {
         destination = pos;
     }
-    bool CaniEAT(int a)
+    bool CaniEAT(Adible.Food food)
     {
         bool _didIEatit = false;
-        switch (a)
+        switch (food)
         {
-            case 0:
+            case Adible.Food.Falafel:
                 _didIEatit = _falefelEater;
                 break;
-            case 1:
+            case Adible.Food.Eggplant:
                 _didIEatit = _eggplantEater;
                 break;
-            case 2:
+            case Adible.Food.Fries:
                 _didIEatit = _friesEater;
                 break;
             default:

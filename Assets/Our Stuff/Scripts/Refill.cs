@@ -14,13 +14,4 @@ public class Refill : MonoBehaviour, Interactable
         g.CurrentAmmoType.CurrentAmmo = g.CurrentAmmoType.MaxAmmo;
     }
 
-    void Start()
-    {
-        
-    }
-
-    void Update()
-    {
-        
-    }
 }

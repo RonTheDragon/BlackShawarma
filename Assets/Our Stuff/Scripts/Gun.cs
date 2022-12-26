@@ -2,7 +2,7 @@ using Cinemachine;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using TMPro;
+//using TMPro;
 using UnityEngine;
 
 public class Gun : MonoBehaviour
@@ -49,24 +49,34 @@ public class Gun : MonoBehaviour
     [SerializeField] LineRenderer lineRenderer;
     [SerializeField] LayerMask layer;
 
-    [SerializeField] TMP_Text Info;
+    //[SerializeField] TMP_Text Info;
     //Event
     Action _loop;
+
+    public Action<String> infoUpdate;
+
     public Action<Gun> OnUse;
 
-    List<BuildOrder.Fillers> currentpita = new List<BuildOrder.Fillers>();
+    public Action<AmmoType> OnSwitchWeapon;
+
+    public Action<List<BuildOrder.Fillers>> OnPitaAim;
+
+    List<BuildOrder.Fillers> _currentPita = new List<BuildOrder.Fillers>();
+
+    [SerializeField] Material PitaTrajectoryMaterial;
 
     //Private 
     float _cd;
     int _currentAmmo;
 
     public bool OnStation;
-    bool ispitta = false;
+    bool _hasPita = false;
 
     // Start is called before the first frame update
     void Start()
     {
         ResetAmmoToMax();
+        ammoChanged();
         _loop += Shoot;
         _loop += Aim;
         _loop += AmmoSwitching;
@@ -91,8 +101,12 @@ public class Gun : MonoBehaviour
                 Interactable interact = hit.transform.GetComponent<Interactable>();
                 if (interact != null)
                 {
-                    Info.text = interact.Info;
-                    OnUse = interact.Use;
+                    if (!OnStation)
+                    {
+                        //Info.text = interact.Info;
+                        infoUpdate?.Invoke(interact.Info);
+                        OnUse = interact.Use;
+                    }
                 }
                 else
                 {
@@ -105,13 +119,13 @@ public class Gun : MonoBehaviour
         else
         {
             StoppedHoveringStation();
-            Info.text = string.Empty;
+            infoUpdate?.Invoke(string.Empty);
             barrel.LookAt(cam.position + cam.forward * 200);
         }
 
         if (Input.GetMouseButton(0) && _cd <= 0 && !OnStation)
         {
-            if (ispitta && isAiming)
+            if (_hasPita && isAiming)
             {
                 PitaShoot();
             }
@@ -120,10 +134,10 @@ public class Gun : MonoBehaviour
                  if (CurrentAmmoType.CurrentAmmo > 0)
                  {
                         GameObject bullet = ObjectPooler.Instance.SpawnFromPool(CurrentAmmoType.AmmoTag, barrel.position, barrel.rotation);
-                        _cd = CoolDown;
-    
+                        _cd = CoolDown;         
                         CurrentAmmoType.CurrentAmmo--;
-                 }
+                        ammoChanged();
+                }
                  else
                  {
                      //play the empty gun sound, if the sound is not playing already.
@@ -181,25 +195,40 @@ public class Gun : MonoBehaviour
     {
         if (AmmoTypes.Count > 1)
         {
-            if (Input.GetAxis("Mouse ScrollWheel") > 0)
+            if (_hasPita && isAiming)
             {
-                _currentAmmo++;
-                if (_currentAmmo > AmmoTypes.Count - 1)
+                lineRenderer.material = PitaTrajectoryMaterial;
+                OnPitaAim?.Invoke(_currentPita);
+            }
+            else
+            {
+                if (Input.GetAxis("Mouse ScrollWheel") > 0)
                 {
-                    _currentAmmo = 0;
+                    _currentAmmo++;
+                    if (_currentAmmo > AmmoTypes.Count - 1)
+                    {
+                        _currentAmmo = 0;
+                    }
+                    ammoChanged();
+                }
+                else if (Input.GetAxis("Mouse ScrollWheel") < 0)
+                {
+                    _currentAmmo--;
+                    if (_currentAmmo < 0)
+                    {
+                        _currentAmmo = AmmoTypes.Count - 1;
+                    }
+                    ammoChanged();
                 }
             }
-            else if (Input.GetAxis("Mouse ScrollWheel") < 0)
-            {
-                _currentAmmo--;
-                if (_currentAmmo < 0)
-                {
-                    _currentAmmo = AmmoTypes.Count - 1;
-                }
-            }
-            CurrentAmmoType = AmmoTypes[_currentAmmo];
-            lineRenderer.material = CurrentAmmoType.TrajectoryMaterial;
         }
+    }
+
+    void ammoChanged()
+    {
+        CurrentAmmoType = AmmoTypes[_currentAmmo];
+        lineRenderer.material = CurrentAmmoType.TrajectoryMaterial;
+        OnSwitchWeapon?.Invoke(CurrentAmmoType);
     }
     void DrawProjection()
     {
@@ -227,7 +256,7 @@ public class Gun : MonoBehaviour
     }
     void StoppedHoveringStation()
     {
-        Info.text = string.Empty;
+        infoUpdate?.Invoke(string.Empty);
         if (OnStation) { OnUse?.Invoke(this); }
         else OnUse = null;
     }
@@ -241,6 +270,7 @@ public class Gun : MonoBehaviour
             Cursor.lockState = CursorLockMode.None;
         else Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = !Cursor.visible;
+        infoUpdate?.Invoke(string.Empty);
     }
 
     private void ResetAmmoToMax()
@@ -252,13 +282,19 @@ public class Gun : MonoBehaviour
     }
     void PitaShoot()
     {
-        GameObject pita = ObjectPooler.Instance.SpawnFromPool("pita", barrel.position, barrel.rotation);
+        GameObject pita = ObjectPooler.Instance.SpawnFromPool("Pita", barrel.position, barrel.rotation);
         _cd = CoolDown;
        Pita a = pita.GetComponent<Pita>();
-        a.pitashoot = currentpita;
-        currentpita.Clear();
-        ispitta = false;
-        
+        a.Ingridients = _currentPita;
+        _currentPita.Clear();
+        _hasPita = false;
+        ammoChanged();
+    }
 
+    public void SetPita(List<BuildOrder.Fillers> f)
+    {
+        _currentPita = f;
+        _hasPita = true;
+        StoppedHoveringStation();
     }
 }
