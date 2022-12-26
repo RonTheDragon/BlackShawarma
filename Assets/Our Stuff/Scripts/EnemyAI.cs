@@ -5,10 +5,11 @@ using System.Runtime.CompilerServices;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.AI;
+using TMPro;
 
 public class EnemyAI : MonoBehaviour
 {
-    [SerializeField] float CurrentRage, MaxRage;
+    [SerializeField] float CurrentRage, MaxRage, CalmEnoughToEat;
     [SerializeField] float AngerSmokeAmount = 1;
     [SerializeField] ParticleSystem AngerSmoke;
     public int PlaceInLane;
@@ -16,12 +17,15 @@ public class EnemyAI : MonoBehaviour
     [SerializeField] bool _falefelEater;
     [SerializeField] bool _eggplantEater;
     [SerializeField] bool _friesEater;
-
+    [SerializeField] GameObject Canvas;
+    [SerializeField] TMP_Text OrderText;
 
     NavMeshAgent agent => GetComponent<NavMeshAgent>();
     EnemySpawner Spawner;
     Action OnRage;
     Vector3 destination;
+
+    Camera PlayerCamera => Camera.main;
 
 
     Action loop;
@@ -44,6 +48,7 @@ public class EnemyAI : MonoBehaviour
         OnRage += () => { done = true; CurrentRage = 0; AngerSmoke.Emit(100); Spawner.RemoveOnLane(WhichLane, PlaceInLane); GameManager.instance.tazdokHp--; };
         loop += Movement;
         loop += Rage;
+        loop += ShowOrder;
     }
 
 
@@ -91,6 +96,21 @@ public class EnemyAI : MonoBehaviour
         }
     }
 
+    void ShowOrder() 
+    {
+        if (CalmEnoughToEat >= CurrentRage && !done) //if calm enough to eat
+        {
+            if (Canvas.activeSelf==false)
+            Canvas.gameObject.SetActive(true);
+            Canvas.transform.LookAt(PlayerCamera.transform.position);
+        }
+        else
+        {
+            if (Canvas.activeSelf == true)
+                Canvas.gameObject.SetActive(false);
+        }
+    }
+
     public void Eat(Adible.Food f)
     {
         if (CaniEAT(f))
@@ -108,7 +128,7 @@ public class EnemyAI : MonoBehaviour
     {
         bool CorrectOrder = true;
 
-        if (pita.Count == Order.Count) // if the pita and the order contains the same amount
+        if (pita.Count == Order.Count && CalmEnoughToEat>=CurrentRage  ) // if the pita and the order contains the same amount
         {
             for (int i = 0; i < Order.Count; i++) //going over the order
             {
@@ -127,12 +147,18 @@ public class EnemyAI : MonoBehaviour
 
         if (CorrectOrder)
         {
-            done= true;
+            HappyCustomer();
         }
         else
         {
             CurrentRage += 10;
         }
+    }
+
+    void HappyCustomer()
+    {
+        done = true;
+        CurrentRage = 0;
     }
 
     public void SetDestination(Vector3 pos)
@@ -168,9 +194,24 @@ public class EnemyAI : MonoBehaviour
 
         for (int i = 0; i < FillerAmount; i++)
         {
-            RandomOrder.Add((BuildOrder.Fillers)UnityEngine.Random.Range(0,count));
+            BuildOrder.Fillers fill = (BuildOrder.Fillers)UnityEngine.Random.Range(0, count);
+            if (!RandomOrder.Contains(fill))
+            {
+                RandomOrder.Add(fill);
+            }
+            else
+            {
+                i--;
+            }
         }
 
         Order = RandomOrder;
+
+        string orderInText = "Order:";
+        foreach(BuildOrder.Fillers f in Order)
+        {
+            orderInText += $"\n{f}";
+        }
+        OrderText.text = orderInText;
     }
 }

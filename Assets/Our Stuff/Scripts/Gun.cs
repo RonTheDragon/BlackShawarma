@@ -187,7 +187,7 @@ public class Gun : MonoBehaviour
             {
                 offset.m_Offset.Set(0, 0, CurrentFOV -= FovChangingSpeed * Time.deltaTime);
             }
-            else { offset.m_Offset.Set(0, 0, NotAimingFOV); }
+            else { offset.m_Offset.Set(0, 0, NotAimingFOV); ammoChanged(); }
         }
     }
 
@@ -285,7 +285,8 @@ public class Gun : MonoBehaviour
         GameObject pita = ObjectPooler.Instance.SpawnFromPool("Pita", barrel.position, barrel.rotation);
         _cd = CoolDown;
        Pita a = pita.GetComponent<Pita>();
-        a.Ingridients = _currentPita;
+        List<BuildOrder.Fillers> temp = new List<BuildOrder.Fillers>(_currentPita);
+        a.Ingridients = temp;
         _currentPita.Clear();
         _hasPita = false;
         ammoChanged();
