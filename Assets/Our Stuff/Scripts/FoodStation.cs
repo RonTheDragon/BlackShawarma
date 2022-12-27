@@ -10,12 +10,17 @@ public class FoodStation : MonoBehaviour , Interactable
 
     [SerializeField] GameObject Panel;
 
-    public void Use(Gun g)
+    public void Use(GameObject player)
     {
+        Gun g = player.GetComponent<Gun>();
+
         Panel.SetActive(!Panel.activeSelf);
         if (g != null)
         {
             g.UsingStation();
         }
+
+        BuildOrder b = player.GetComponent<BuildOrder>();
+        b.hasSupplies = false;
     }
 }

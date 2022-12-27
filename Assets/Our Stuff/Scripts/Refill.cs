@@ -4,14 +4,23 @@ using UnityEngine;
 
 public class Refill : MonoBehaviour, Interactable
 {
-    [SerializeField] int ammoToRefill;
-    [SerializeField]
+    [SerializeField] Edible.Food FillType;
+
     private string _info;
     public string Info { get => _info; set => _info = value; }
 
-    public void Use(Gun g)
+    public void Use(GameObject player)
     {
-        g.CurrentAmmoType.CurrentAmmo = g.CurrentAmmoType.MaxAmmo;
+        Gun g = player.GetComponent<Gun>();
+
+        foreach (AmmoType i in g.AmmoTypes)
+        {
+            if(i.FoodType == FillType)
+            {
+                i.CurrentAmmo = i.MaxAmmo;
+                break;
+            }
+        }
     }
 
 }

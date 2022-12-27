@@ -7,7 +7,7 @@ using UnityEngine;
 public class AmmoType : ScriptableObject
 {
     public string AmmoTag;
-    public Adible.Food FoodType;
+    public Edible.Food FoodType;
     public Material TrajectoryMaterial;
     public Color AmmoColor;
     [HideInInspector]public int CurrentAmmo;

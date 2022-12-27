@@ -9,21 +9,21 @@ using TMPro;
 
 public class EnemyAI : MonoBehaviour
 {
-    [SerializeField] float CurrentRage, MaxRage, CalmEnoughToEat;
-    [SerializeField] float AngerSmokeAmount = 1;
+    [SerializeField] float          CurrentRage, MaxRage, CalmEnoughToEat;
+    [SerializeField] float          AngerSmokeAmount = 1;
     [SerializeField] ParticleSystem AngerSmoke;
-    public int PlaceInLane;
-    public int WhichLane;
-    [SerializeField] bool _falefelEater;
-    [SerializeField] bool _eggplantEater;
-    [SerializeField] bool _friesEater;
-    [SerializeField] GameObject Canvas;
-    [SerializeField] TMP_Text OrderText;
+    public           int            PlaceInLane;
+    public           int            WhichLane;
+    [SerializeField] bool           _falefelEater;
+    [SerializeField] bool           _eggplantEater;
+    [SerializeField] bool           _friesEater;
+    [SerializeField] GameObject     Canvas;
+    [SerializeField] TMP_Text       OrderText;
 
     NavMeshAgent agent => GetComponent<NavMeshAgent>();
     EnemySpawner Spawner;
-    Action OnRage;
-    Vector3 destination;
+    Action       OnRage;
+    Vector3      destination;
 
     Camera PlayerCamera => Camera.main;
 
@@ -45,7 +45,8 @@ public class EnemyAI : MonoBehaviour
 
     void Start()
     {
-        OnRage += () => { done = true; CurrentRage = 0; AngerSmoke.Emit(100); Spawner.RemoveOnLane(WhichLane, PlaceInLane); GameManager.instance.tazdokHp--; };
+        OnRage += () => { done = true; CurrentRage = 0; AngerSmoke.Emit(100);
+            Spawner.RemoveOnLane(WhichLane, PlaceInLane); GameManager.instance.tzadokHp--; };
         loop += Movement;
         loop += Rage;
         loop += ShowOrder;
@@ -92,7 +93,7 @@ public class EnemyAI : MonoBehaviour
         else
         {
             OnRage?.Invoke();
-            GameManager.instance.tazdokHp--;
+            GameManager.instance.tzadokHp--;
         }
     }
 
@@ -107,11 +108,13 @@ public class EnemyAI : MonoBehaviour
         else
         {
             if (Canvas.activeSelf == true)
+            {
                 Canvas.gameObject.SetActive(false);
+            }
         }
     }
 
-    public void Eat(Adible.Food f)
+    public void Eat(Edible.Food f)
     {
         if (CaniEAT(f))
         {
@@ -157,26 +160,27 @@ public class EnemyAI : MonoBehaviour
 
     void HappyCustomer()
     {
-        done = true;
+        done        = true;
         CurrentRage = 0;
+        Spawner.RemoveOnLane(WhichLane, PlaceInLane);
     }
 
     public void SetDestination(Vector3 pos)
     {
         destination = pos;
     }
-    bool CaniEAT(Adible.Food food)
+    bool CaniEAT(Edible.Food food)
     {
         bool _didIEatit = false;
         switch (food)
         {
-            case Adible.Food.Falafel:
+            case Edible.Food.Falafel:
                 _didIEatit = _falefelEater;
                 break;
-            case Adible.Food.Eggplant:
+            case Edible.Food.Eggplant:
                 _didIEatit = _eggplantEater;
                 break;
-            case Adible.Food.Fries:
+            case Edible.Food.Fries:
                 _didIEatit = _friesEater;
                 break;
             default:

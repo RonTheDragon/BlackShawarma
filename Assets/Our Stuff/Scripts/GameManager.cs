@@ -5,7 +5,7 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
-    public int tazdokHp =3 ;
+    public int tzadokHp =3 ;
     public int MaxFillers = 4;
     void Awake()
     {
