@@ -6,7 +6,7 @@ public class Refill : MonoBehaviour, Interactable
 {
     [SerializeField] Edible.Food FillType;
 
-    private string _info;
+    [SerializeField] private string _info;
     public string Info { get => _info; set => _info = value; }
 
     public void Use(GameObject player)
