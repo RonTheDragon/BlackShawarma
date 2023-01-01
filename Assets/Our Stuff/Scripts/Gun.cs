@@ -27,7 +27,7 @@ public class Gun : MonoBehaviour
     [Tooltip("The current amount of ammo")]
     [ReadOnly]public AmmoType CurrentAmmoType;
     [Tooltip("The types of ammo")]
-    [SerializeField] List<AmmoType> AmmoTypes;
+    public List<AmmoType> AmmoTypes;
 
     [Header("Refefrences")]
     [Tooltip("Reference to the point where projectiles spawn")]
@@ -55,7 +55,7 @@ public class Gun : MonoBehaviour
 
     public Action<String> infoUpdate;
 
-    public Action<Gun> OnUse;
+    public Action<GameObject> OnUse;
 
     public Action<AmmoType> OnSwitchWeapon;
 
@@ -153,11 +153,11 @@ public class Gun : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.E))
         {
-            OnUse?.Invoke(this);
+            OnUse?.Invoke(gameObject);
         }
         if (Input.GetKeyDown(KeyCode.Escape) && OnStation)
         {
-            OnUse?.Invoke(this);
+            OnUse?.Invoke(gameObject);
         }
     }
     void Aim()
@@ -257,7 +257,7 @@ public class Gun : MonoBehaviour
     void StoppedHoveringStation()
     {
         infoUpdate?.Invoke(string.Empty);
-        if (OnStation) { OnUse?.Invoke(this); }
+        if (OnStation) { OnUse?.Invoke(gameObject); }
         else OnUse = null;
     }
 

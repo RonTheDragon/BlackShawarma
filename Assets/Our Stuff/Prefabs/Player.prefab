@@ -433,6 +433,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 6598293734435211305}
   Info: {fileID: 5024427214444675767}
+  Ammo: {fileID: 7079335992399690797}
 --- !u!1 &1681662163
 GameObject:
   m_ObjectHideFlags: 0
@@ -728,13 +729,13 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
+      - m_Target: {fileID: 838788667}
+        m_TargetAssemblyTypeName: BuildOrder, Assembly-CSharp
+        m_MethodName: GetPita
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -1559,7 +1560,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 
+  m_text: 67
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1592,7 +1593,7 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 0
+  m_fontStyle: 1
   m_HorizontalAlignment: 4
   m_VerticalAlignment: 1024
   m_textAlignment: 65535
@@ -1622,7 +1623,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_margin: {x: -114.882385, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -1787,7 +1788,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6598293733855215905}
-  m_LocalRotation: {x: 0.42284608, y: 0.2848039, z: -0.14193158, w: 0.8484948}
+  m_LocalRotation: {x: 0.41280407, y: 0.3389726, z: -0.16892645, w: 0.82834435}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1992,7 +1993,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6598293734432143878}
-  m_LocalRotation: {x: 0.4364346, y: 0.18465541, z: -0.09202275, w: 0.875762}
+  m_LocalRotation: {x: 0.43100128, y: 0.23038037, z: -0.11480971, w: 0.8648593}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -2162,6 +2163,7 @@ MonoBehaviour:
   layer:
     serializedVersion: 2
     m_Bits: 55
+  PitaTrajectoryMaterial: {fileID: 2100000, guid: b9f9e3bb455a75945aa2c9b2afa73f65, type: 2}
   OnStation: 0
 --- !u!114 &838788667
 MonoBehaviour:
@@ -2387,7 +2389,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6598293734642008243}
-  m_LocalRotation: {x: 0.4285048, y: 0.24842533, z: -0.1238024, w: 0.8598497}
+  m_LocalRotation: {x: 0.42002338, y: 0.3011529, z: -0.15007909, w: 0.8428307}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -2468,7 +2470,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6598293734886125694}
-  m_LocalRotation: {x: 0.42850477, y: 0.24842532, z: -0.12380237, w: 0.8598497}
+  m_LocalRotation: {x: 0.42002338, y: 0.30115297, z: -0.15007909, w: 0.8428307}
   m_LocalPosition: {x: 0, y: 2.5, z: -1.1499999}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0

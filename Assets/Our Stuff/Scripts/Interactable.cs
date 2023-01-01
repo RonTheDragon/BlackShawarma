@@ -6,5 +6,5 @@ public interface Interactable
 {
     public string Info { get; set; }
 
-    public abstract void Use(Gun g);
+    public abstract void Use(GameObject player);
 }
