@@ -16,13 +16,14 @@ public class UiManager : MonoBehaviour
     {
         gun.infoUpdate += UpdateInfo;
         gun.OnSwitchWeapon += SwitchAmmoType;
-        gun.OnPitaAim += SwitchToPita;
+        gun.OnPitaAim += SwitchToPita;       
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        UpdateMoney();
+
     }
 
     void UpdateInfo(string info)
@@ -48,6 +49,6 @@ public class UiManager : MonoBehaviour
     }
     void UpdateMoney()
     {
-        MoneyText.text = GameManager.instance.Money.ToString();
+         MoneyText.text = "joobot ="+ GameManager.instance.Money.ToString() ;
     }
 }
