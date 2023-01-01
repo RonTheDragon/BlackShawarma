@@ -6,6 +6,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.AI;
 using TMPro;
+using Random = System.Random;
 
 public class EnemyAI : MonoBehaviour
 {
@@ -24,6 +25,7 @@ public class EnemyAI : MonoBehaviour
     EnemySpawner Spawner;
     Action OnRage;
     Vector3 destination;
+     public int enemyworth { get; set; }
 
     Camera PlayerCamera => Camera.main;
 
@@ -147,7 +149,7 @@ public class EnemyAI : MonoBehaviour
 
         if (CorrectOrder)
         {
-            HappyCustomer();
+            HappyCustomer();           
         }
         else
         {
@@ -159,6 +161,7 @@ public class EnemyAI : MonoBehaviour
     {
         done = true;
         CurrentRage = 0;
+        Price();
     }
 
     public void SetDestination(Vector3 pos)
@@ -213,5 +216,11 @@ public class EnemyAI : MonoBehaviour
             orderInText += $"\n{f}";
         }
         OrderText.text = orderInText;
+    }
+    void Price()
+    {
+        var random = new Random();
+        enemyworth = random.Next(10, 25);
+        GameManager.instance.Money += enemyworth;
     }
 }
