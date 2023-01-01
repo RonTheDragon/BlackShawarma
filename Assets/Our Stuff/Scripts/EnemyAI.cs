@@ -173,7 +173,7 @@ public class EnemyAI : MonoBehaviour
     {
         done = true;
         CurrentRage = 0;
-        GameManager.instance.Money += _enemyMaxPayment;
+        GameManager.instance.Money += CurrentPayment;
     }
 
     public void SetDestination(Vector3 pos)

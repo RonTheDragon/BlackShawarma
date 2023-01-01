@@ -49,6 +49,6 @@ public class UiManager : MonoBehaviour
     }
     void UpdateMoney()
     {
-         MoneyText.text = "joobot ="+ GameManager.instance.Money.ToString() ;
+         MoneyText.text = "Joobot = "+ GameManager.instance.Money.ToString() + "¤";
     }
 }
