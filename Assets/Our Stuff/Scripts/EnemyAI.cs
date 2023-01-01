@@ -7,6 +7,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using TMPro;
 using Random = System.Random;
+using System.Runtime.InteropServices;
 
 public class EnemyAI : MonoBehaviour
 {
@@ -20,12 +21,20 @@ public class EnemyAI : MonoBehaviour
     [SerializeField] bool _friesEater;
     [SerializeField] GameObject Canvas;
     [SerializeField] TMP_Text OrderText;
+    [SerializeField] float mintime=60 ;
+    [SerializeField] float maxtime = 180;
+    [SerializeField] Vector2 randompayment = new Vector2(10,25);
 
     NavMeshAgent agent => GetComponent<NavMeshAgent>();
     EnemySpawner Spawner;
     Action OnRage;
     Vector3 destination;
-     public int enemyworth { get; set; }
+     int _enemyMaxPayment;
+     int _enemyMinPayment;
+    public int CurrentPayment;
+    float time;
+   
+
 
     Camera PlayerCamera => Camera.main;
 
@@ -39,9 +48,10 @@ public class EnemyAI : MonoBehaviour
 
     public void Spawn(EnemySpawner spawner)
     {
+        time = 0;
         Spawner = spawner;
         done = false;
-        Price();
+        SetEnemyPayment();
         GenerateRandomOrder();
     }
 
@@ -52,6 +62,7 @@ public class EnemyAI : MonoBehaviour
         loop += Movement;
         loop += Rage;
         loop += ShowOrder;
+        loop += EnemyTimer;
     }
 
 
@@ -162,7 +173,7 @@ public class EnemyAI : MonoBehaviour
     {
         done = true;
         CurrentRage = 0;
-        GameManager.instance.Money += enemyworth;
+        GameManager.instance.Money += _enemyMaxPayment;
     }
 
     public void SetDestination(Vector3 pos)
@@ -218,9 +229,21 @@ public class EnemyAI : MonoBehaviour
         }
         OrderText.text = orderInText;
     }
-    void Price()
+    void SetEnemyPayment()
     {
         var random = new Random();
-        enemyworth = random.Next(10, 25);
+        _enemyMaxPayment = random.Next((int)randompayment.x,(int)randompayment.y);
+        _enemyMinPayment = _enemyMaxPayment / 2;
+        CurrentPayment = _enemyMaxPayment;
+    }
+    void EnemyTimer()
+    {
+        time += Time.deltaTime;
+        if (time>mintime&&time<maxtime)
+        {         
+            float n = (1 - (time - mintime) / (maxtime - mintime));//min and max of the time for the payment 
+            CurrentPayment = (int)Mathf.Lerp(_enemyMinPayment,_enemyMaxPayment, n);
+
+        }
     }
 }
