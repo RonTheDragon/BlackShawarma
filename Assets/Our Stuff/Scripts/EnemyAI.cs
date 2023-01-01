@@ -41,6 +41,7 @@ public class EnemyAI : MonoBehaviour
     {
         Spawner = spawner;
         done = false;
+        Price();
         GenerateRandomOrder();
     }
 
@@ -161,7 +162,7 @@ public class EnemyAI : MonoBehaviour
     {
         done = true;
         CurrentRage = 0;
-        Price();
+        GameManager.instance.Money += enemyworth;
     }
 
     public void SetDestination(Vector3 pos)
@@ -221,6 +222,5 @@ public class EnemyAI : MonoBehaviour
     {
         var random = new Random();
         enemyworth = random.Next(10, 25);
-        GameManager.instance.Money += enemyworth;
     }
 }

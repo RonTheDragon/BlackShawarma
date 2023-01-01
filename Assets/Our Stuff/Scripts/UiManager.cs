@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -9,6 +10,7 @@ public class UiManager : MonoBehaviour
     Gun gun => player.GetComponent<Gun>();
     [SerializeField] TMP_Text Info;
     [SerializeField] TMP_Text Ammo;
+    [SerializeField] TMP_Text MoneyText;
     // Start is called before the first frame update
     void Start()
     {
@@ -43,5 +45,9 @@ public class UiManager : MonoBehaviour
             txt += $"\n{f}";
         }
         Ammo.text = txt;
+    }
+    void UpdateMoney()
+    {
+        MoneyText.text = GameManager.instance.Money.ToString();
     }
 }
