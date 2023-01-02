@@ -13,14 +13,17 @@ public class FoodStation : MonoBehaviour , Interactable
     public void Use(GameObject player)
     {
         Gun g = player.GetComponent<Gun>();
-
+        BuildOrder b = player.GetComponent<BuildOrder>();
         Panel.SetActive(!Panel.activeSelf);
+
         if (g != null)
         {
-            g.UsingStation();
+            if (!g.OnStation)
+                g.StartUsingStation();
+            else
+                g.StopUsingStation();
         }
 
-        BuildOrder b = player.GetComponent<BuildOrder>();
         if (b.hasSupplies)
         {
             b.FillAll();

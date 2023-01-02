@@ -261,7 +261,8 @@ public class Gun : MonoBehaviour
         else OnUse = null;
     }
 
-    public void UsingStation()
+    /*
+    public void ToggleUsingStation()
     {
         OnStation = !OnStation;
         cinemachine.enabled = !cinemachine.enabled;
@@ -271,6 +272,26 @@ public class Gun : MonoBehaviour
         else Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = !Cursor.visible;
         infoUpdate?.Invoke(string.Empty);
+    }
+    */ // replaced due to causing too many bugs.
+
+    public void StartUsingStation()
+    {
+        OnStation = true;
+        cinemachine.enabled = false;
+        tpm.enabled = false;
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+        infoUpdate?.Invoke(string.Empty);
+    }
+
+    public void StopUsingStation()
+    {
+        OnStation = false;
+        cinemachine.enabled = true;
+        tpm.enabled = true;
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
 
     private void ResetAmmoToMax()

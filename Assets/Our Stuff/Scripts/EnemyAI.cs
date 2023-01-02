@@ -38,6 +38,7 @@ public class EnemyAI : MonoBehaviour
 
     Camera PlayerCamera => Camera.main;
 
+    GameManager GM => GameManager.instance;
 
     Action loop;
 
@@ -58,7 +59,7 @@ public class EnemyAI : MonoBehaviour
 
     void Start()
     {
-        OnRage += () => { done = true; CurrentRage = 0; AngerSmoke.Emit(100); Spawner.RemoveOnLane(WhichLane, PlaceInLane); GameManager.instance.tzadokHp--; };
+        OnRage += () => { done = true; CurrentRage = 0; AngerSmoke.Emit(100); Spawner.RemoveOnLane(WhichLane, PlaceInLane); GM.tzadokHp--; };
         loop += Movement;
         loop += Rage;
         loop += ShowOrder;
@@ -106,7 +107,7 @@ public class EnemyAI : MonoBehaviour
         else
         {
             OnRage?.Invoke();
-            GameManager.instance.tzadokHp--;
+            GM.tzadokHp--;
         }
     }
 
@@ -173,7 +174,8 @@ public class EnemyAI : MonoBehaviour
     {
         done = true;
         CurrentRage = 0;
-        GameManager.instance.Money += CurrentPayment;
+        GM.AddMoney(CurrentPayment);
+        GM.UpdateMoney?.Invoke();
     }
 
     public void SetDestination(Vector3 pos)
@@ -204,7 +206,7 @@ public class EnemyAI : MonoBehaviour
     {
         List<BuildOrder.Fillers> RandomOrder = new List<BuildOrder.Fillers>();
 
-        int FillerAmount = UnityEngine.Random.Range(1, GameManager.instance.MaxFillers+1);
+        int FillerAmount = UnityEngine.Random.Range(1, GM.MaxFillers+1);
         int count = Enum.GetValues(typeof(BuildOrder.Fillers)).Length;
 
         for (int i = 0; i < FillerAmount; i++)

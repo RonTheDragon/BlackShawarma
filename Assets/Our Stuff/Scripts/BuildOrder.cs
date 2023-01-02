@@ -25,6 +25,8 @@ public class BuildOrder : MonoBehaviour
 
     public bool hasSupplies;
 
+    public Action<List<Ingredient>> OnUseIngridients;
+
     public int supplies = 8;
     [SerializeField] List<Ingredient> ingredients = new List<Ingredient>();
     public enum Fillers : int
@@ -89,7 +91,10 @@ public class BuildOrder : MonoBehaviour
     {
         if (Pita.Count == MaxFillers) return;
         if (Pita.Contains(filler)) return;
-
+        Ingredient i = ingredients.Find(x => x.Type == filler);
+        if (i.CurrentAmount <= 0) return;
+        i.CurrentAmount--;
+        OnUseIngridients?.Invoke(ingredients);
         Pita.Add(filler);
         ReadOutPita();
     }
@@ -108,6 +113,11 @@ public class BuildOrder : MonoBehaviour
             GetComponent<Gun>().SetPita(temporary);       
             Pita.Clear();
         }
+    }
+
+    public void FillAll()
+    {
+        foreach (Ingredient i in ingredients) i.CurrentAmount = i.MaxAmount;
     }
 
     void ReadOutPita()

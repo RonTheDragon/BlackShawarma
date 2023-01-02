@@ -8,22 +8,24 @@ public class UiManager : MonoBehaviour
 {
     [SerializeField] GameObject player;
     Gun gun => player.GetComponent<Gun>();
+    BuildOrder BO => player.GetComponent<BuildOrder>();
+
+    GameManager GM;
+
     [SerializeField] TMP_Text Info;
     [SerializeField] TMP_Text Ammo;
     [SerializeField] TMP_Text MoneyText;
     // Start is called before the first frame update
     void Start()
     {
+        GM = GameManager.instance;
+        GM.UpdateMoney += UpdateMoney;
         gun.infoUpdate += UpdateInfo;
         gun.OnSwitchWeapon += SwitchAmmoType;
-        gun.OnPitaAim += SwitchToPita;       
-    }
+        gun.OnPitaAim += SwitchToPita;
+        BO.OnUseIngridients += UpdateIngridients;
 
-    // Update is called once per frame
-    void Update()
-    {
         UpdateMoney();
-
     }
 
     void UpdateInfo(string info)
@@ -49,6 +51,11 @@ public class UiManager : MonoBehaviour
     }
     void UpdateMoney()
     {
-         MoneyText.text = "Joobot = "+ GameManager.instance.Money.ToString() + "¤";
+         MoneyText.text = "Joobot = "+ GM.GetMoney().ToString() + "¤";
+    }
+
+    void UpdateIngridients(List<Ingredient> ingredients)
+    {
+
     }
 }
