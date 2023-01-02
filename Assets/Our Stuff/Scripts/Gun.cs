@@ -77,6 +77,7 @@ public class Gun : MonoBehaviour
     {
         ResetAmmoToMax();
         ammoChanged();
+        StopUsingStation();
         _loop += Shoot;
         _loop += Aim;
         _loop += AmmoSwitching;

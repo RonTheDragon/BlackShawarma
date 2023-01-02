@@ -5157,7 +5157,7 @@ NavMeshAgent:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8332920823170148713}
-  m_Enabled: 1
+  m_Enabled: 0
   m_AgentTypeID: 0
   m_Radius: 0.5
   m_Speed: 3.5
@@ -5196,3 +5196,7 @@ MonoBehaviour:
   _friesEater: 0
   Canvas: {fileID: 4775296178984883849}
   OrderText: {fileID: 6117607829218496303}
+  mintime: 60
+  maxtime: 180
+  randompayment: {x: 10, y: 25}
+  CurrentPayment: 0

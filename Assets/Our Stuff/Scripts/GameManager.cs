@@ -12,6 +12,8 @@ public class GameManager : MonoBehaviour
 
     public Action UpdateMoney;
 
+    public Action Loop;
+
     void Awake()
     {
          instance = this;

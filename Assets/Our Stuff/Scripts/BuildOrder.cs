@@ -118,6 +118,7 @@ public class BuildOrder : MonoBehaviour
     public void FillAll()
     {
         foreach (Ingredient i in ingredients) i.CurrentAmount = i.MaxAmount;
+        OnUseIngridients?.Invoke(ingredients);
     }
 
     void ReadOutPita()

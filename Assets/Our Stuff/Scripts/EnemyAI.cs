@@ -52,6 +52,7 @@ public class EnemyAI : MonoBehaviour
         time = 0;
         Spawner = spawner;
         done = false;
+        agent.enabled = true;
         SetEnemyPayment();
         GenerateRandomOrder();
     }
