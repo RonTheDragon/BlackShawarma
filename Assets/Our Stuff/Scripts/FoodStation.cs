@@ -21,6 +21,10 @@ public class FoodStation : MonoBehaviour , Interactable
         }
 
         BuildOrder b = player.GetComponent<BuildOrder>();
-        b.hasSupplies = false;
+        if (b.hasSupplies)
+        {
+            b.FillAll();
+            b.hasSupplies = false;
+        }
     }
 }

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Supplies : MonoBehaviour, Interactable
 {
-    private string _info;
+    [SerializeField] private string _info;
     public string Info { get => _info; set => _info = value; }
 
     public void Use(GameObject player)
