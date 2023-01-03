@@ -6,9 +6,9 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
-    public int tzadokHp =3 ;
-    public int MaxFillers = 4;
-    private int Money;
+    public        int         tzadokHp   = 3;
+    public        int         MaxFillers = 4;
+    private       int         Money;
 
     public Action UpdateMoney;
 
@@ -27,10 +27,12 @@ public class GameManager : MonoBehaviour
     public void AddMoney(int m)
     {
         Money += m;
+        UpdateMoney?.Invoke();
     }
 
     public void SetMoney(int m)
     {
         Money = m;
+        UpdateMoney?.Invoke();
     }
 }

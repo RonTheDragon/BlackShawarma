@@ -55,8 +55,10 @@ public class LevelTimer : MonoBehaviour
 
     public void StartTimer(int S, int M = 0)
     {
+        Minutes  = 0;
+        Seconds  = 0;
         Minutes += (S / 60) + M; // add minutes from the seconds
-        Seconds = (S+1) % 60; // Clean the seconds from minutes
-        loop += RunTimer;
+        Seconds  = (S + 1) % 60; // Clean the seconds from minutes
+        loop    += RunTimer;
     }
 }

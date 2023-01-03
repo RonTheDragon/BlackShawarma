@@ -176,7 +176,6 @@ public class EnemyAI : MonoBehaviour
         done = true;
         CurrentRage = 0;
         GM.AddMoney(CurrentPayment);
-        GM.UpdateMoney?.Invoke();
     }
 
     public void SetDestination(Vector3 pos)
@@ -208,7 +207,7 @@ public class EnemyAI : MonoBehaviour
         List<BuildOrder.Fillers> RandomOrder = new List<BuildOrder.Fillers>();
 
         int FillerAmount = UnityEngine.Random.Range(1, GM.MaxFillers+1);
-        int count = Enum.GetValues(typeof(BuildOrder.Fillers)).Length;
+        int count        = Enum.GetValues(typeof(BuildOrder.Fillers)).Length;
 
         for (int i = 0; i < FillerAmount; i++)
         {
@@ -234,10 +233,10 @@ public class EnemyAI : MonoBehaviour
     }
     void SetEnemyPayment()
     {
-        var random = new Random();
+        var random       = new Random();
         _enemyMaxPayment = random.Next((int)randompayment.x,(int)randompayment.y);
         _enemyMinPayment = _enemyMaxPayment / 2;
-        CurrentPayment = _enemyMaxPayment;
+        CurrentPayment   = _enemyMaxPayment;
     }
     void EnemyTimer()
     {

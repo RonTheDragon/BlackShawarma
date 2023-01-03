@@ -12,7 +12,7 @@ public class UiManager : MonoBehaviour
     BuildOrder BO => player.GetComponent<BuildOrder>();
 
     GameManager GM;
-    LevelTimer LT;
+    LevelTimer  LT;
 
     [SerializeField] List<Image> Fillers;
 
@@ -26,12 +26,12 @@ public class UiManager : MonoBehaviour
         GM = GameManager.instance;
         LT = GM.GetComponent<LevelTimer>();
 
-        GM.UpdateMoney += UpdateMoney;
-        gun.infoUpdate += UpdateInfo;
-        gun.OnSwitchWeapon += SwitchAmmoType;
-        gun.OnPitaAim += SwitchToPita;
+        GM.UpdateMoney      += UpdateMoney;
+        gun.infoUpdate      += UpdateInfo;
+        gun.OnSwitchWeapon  += SwitchAmmoType;
+        gun.OnPitaAim       += SwitchToPita;
         BO.OnUseIngridients += UpdateIngridients;
-        LT.OnUpdateTimer += UpdateTimer;
+        LT.OnUpdateTimer    += UpdateTimer;
 
         UpdateMoney();
     }
@@ -44,7 +44,7 @@ public class UiManager : MonoBehaviour
     void SwitchAmmoType(AmmoType a)
     {
         Ammo.color = a.AmmoColor;
-        Ammo.text = $"{a.AmmoTag}\nAmmo:\n{a.CurrentAmmo}/{a.MaxAmmo}";
+        Ammo.text  = $"{a.AmmoTag}\nAmmo:\n{a.CurrentAmmo}/{a.MaxAmmo}";
     }
 
     void SwitchToPita(List<BuildOrder.Fillers> pita)

@@ -45,7 +45,7 @@ public class BuildOrder : MonoBehaviour
 
     void Start()
     {
-        int count = Enum.GetValues(typeof(BuildOrder.Fillers)).Length;
+        int count  = Enum.GetValues(typeof(BuildOrder.Fillers)).Length;
         MaxFillers = GameManager.instance.MaxFillers;
         for (int i = 0; i < count; i++)
         {
