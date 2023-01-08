@@ -22,43 +22,12 @@ public class MainMenuButtons : MonoBehaviour
         Application.Quit();
     }
 
-    public void ShowMainMenu()
+    public void ShowPanel(int menuNum)
     {
-        Menus[0].gameObject.SetActive(true);
-        for (int i = 1; i < Menus.Count; i++)
-        {
-            Menus[i].gameObject.SetActive(false);
-        }
-        Menus[0].SetActive(true);
-    }
-
-    public void ShowOptions()
-    {
-        Menus[0].gameObject.SetActive(true);
         for (int i = 0; i < Menus.Count; i++)
         {
             Menus[i].gameObject.SetActive(false);
         }
-        Menus[1].SetActive(true);
-    }
-
-    public void ShowScoreboard()
-    {
-        Menus[0].gameObject.SetActive(true);
-        for (int i = 0; i < Menus.Count; i++)
-        {
-            Menus[i].gameObject.SetActive(false);
-        }
-        Menus[2].SetActive(true);
-    }
-
-    public void ShowCredits()
-    {
-        Menus[0].gameObject.SetActive(true);
-        for (int i = 0; i < Menus.Count; i++)
-        {
-            Menus[i].gameObject.SetActive(false);
-        }
-        Menus[3].SetActive(true);
+        Menus[menuNum].SetActive(true);
     }
 }
