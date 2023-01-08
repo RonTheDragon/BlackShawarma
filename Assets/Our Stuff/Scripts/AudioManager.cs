@@ -9,14 +9,13 @@ public class Sound
 {
     public string Name;
     // public enum SoundType { Normal, Music };
-    public enum Activation { Custom, Shoot, ParticleSpawn, PlayInstantly };
+    public enum Activation { Custom, PlayInstantly };
     //  public SoundType soundType;
-    public Activation activation;
+    public Activation ActivationType;
     public AudioClip Clip;
     public bool Loop;
     public bool HearEveryWhere;
-    public float MinRange = 20;
-    public float MaxRange = 30;
+    public Vector2 Range = new Vector2(20, 30);
     [Range(0f, 1f)]
     public float Volume = 1f;
     [Range(.1f, 3f)]
@@ -25,7 +24,7 @@ public class Sound
     public float RandomizedPitch;
 
     [HideInInspector]
-    public AudioSource source;
+    public AudioSource Source;
 
 }
 
@@ -35,24 +34,19 @@ public class AudioManager : MonoBehaviour
 
     public Sound[] Sounds;
 
-    bool started;
-
-    private void Awake()
-    {
-
-    }
+    private bool _started;
 
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         CustomStart();
     }
 
     public void CustomStart()
     {
-        if (!started)
+        if (!_started)
         {
-            started = true;
+            _started = true;
             SetSounds();
         }
     }
@@ -81,7 +75,7 @@ public class AudioManager : MonoBehaviour
                 {
                     foreach (Sound s in Sounds)
                     {
-                        if (s.activation == a)
+                        if (s.ActivationType == a)
                         {
                             PlaySound(s);
                         }
@@ -91,7 +85,7 @@ public class AudioManager : MonoBehaviour
             }
         }
     }
-    void PlaySound(Sound s)
+    private void PlaySound(Sound s)
     {
         if (s.RandomizedPitch > 0)
         {
@@ -99,29 +93,29 @@ public class AudioManager : MonoBehaviour
             if (minPitch < 0.1f) minPitch = 0.1f;
             float maxPitch = s.Pitch + s.RandomizedPitch;
             if (maxPitch > 3) maxPitch = 3;
-            s.source.pitch = UnityEngine.Random.Range(minPitch, maxPitch);
+            s.Source.pitch = UnityEngine.Random.Range(minPitch, maxPitch);
         }
-        else s.source.pitch = s.Pitch;
-        s.source.Play();
+        else s.Source.pitch = s.Pitch;
+        s.Source.Play();
     }
 
-    void SetSounds()
+    private void SetSounds()
     {
         //  AudioMixers = Settings.audiomixergroup;
 
         foreach (Sound s in Sounds)
         {
-            s.source = gameObject.AddComponent<AudioSource>();
-            s.source.clip = s.Clip;
-            s.source.volume = s.Volume;
-            s.source.loop = s.Loop;
-            s.source.playOnAwake = false;
+            s.Source = gameObject.AddComponent<AudioSource>();
+            s.Source.clip = s.Clip;
+            s.Source.volume = s.Volume;
+            s.Source.loop = s.Loop;
+            s.Source.playOnAwake = false;
             if (!s.HearEveryWhere)
             {
-                s.source.spatialBlend = 1;
-                s.source.rolloffMode = AudioRolloffMode.Linear;
-                s.source.minDistance = s.MinRange;
-                s.source.maxDistance = s.MaxRange;
+                s.Source.spatialBlend = 1;
+                s.Source.rolloffMode = AudioRolloffMode.Linear;
+                s.Source.minDistance = s.Range.x;
+                s.Source.maxDistance = s.Range.y;
             }
             //     if (s.soundType == Sound.SoundType.Normal)
             //   {
@@ -131,24 +125,18 @@ public class AudioManager : MonoBehaviour
             //   {
             //      s.source.outputAudioMixerGroup = AudioMixers[1];
             //    }
-            if (s.activation == Sound.Activation.PlayInstantly)
+            if (s.ActivationType == Sound.Activation.PlayInstantly)
             {
                 PlaySound(s);
             }
         }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
     public void StopAllSound()
     {
         foreach (Sound s in Sounds)
         {
-            s.source.Stop();
+            s.Source.Stop();
         }
     }
 }

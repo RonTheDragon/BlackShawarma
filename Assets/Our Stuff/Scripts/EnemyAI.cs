@@ -60,7 +60,7 @@ public class EnemyAI : MonoBehaviour
 
     void Start()
     {
-        OnRage += () => { done = true; CurrentRage = 0; AngerSmoke.Emit(100); Spawner.RemoveOnLane(WhichLane, PlaceInLane); GM.tzadokHp--; };
+        OnRage += MadCustomer;
         loop += Movement;
         loop += Rage;
         loop += ShowOrder;
@@ -170,13 +170,23 @@ public class EnemyAI : MonoBehaviour
             CurrentRage += 10;
         }
     }
-
+    #region CustomerReaction
     void HappyCustomer()
     {
         done = true;
         CurrentRage = 0;
         GM.AddMoney(CurrentPayment);
     }
+    
+    void MadCustomer()
+    {
+        done = true;
+        CurrentRage = 0;
+        AngerSmoke.Emit(100);
+        Spawner.RemoveOnLane(WhichLane, PlaceInLane);
+        GM.tzadokHp--;
+    }
+    #endregion
 
     public void SetDestination(Vector3 pos)
     {
