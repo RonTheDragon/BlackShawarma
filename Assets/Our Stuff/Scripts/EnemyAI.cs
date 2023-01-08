@@ -1,38 +1,30 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.AI;
 using TMPro;
 using Random = System.Random;
-using System.Runtime.InteropServices;
 
 public class EnemyAI : MonoBehaviour
 {
-    [SerializeField] float CurrentRage, MaxRage, CalmEnoughToEat;
-    [SerializeField] float AngerSmokeAmount = 1;
-    [SerializeField] ParticleSystem AngerSmoke;
-    public int PlaceInLane;
-    public int WhichLane;
-    [SerializeField] bool _falefelEater;
-    [SerializeField] bool _eggplantEater;
-    [SerializeField] bool _friesEater;
-    [SerializeField] GameObject Canvas;
-    [SerializeField] TMP_Text OrderText;
-    [SerializeField] float mintime=60 ;
-    [SerializeField] float maxtime = 180;
-    [SerializeField] Vector2 randompayment = new Vector2(10,25);
+    [SerializeField] float          _currentRage, _maxRage, _calmEnoughToEat;
+    [SerializeField] float          _angerSmokeAmount = 1;
+    [SerializeField] ParticleSystem _angerSmoke;
+    public           int            PlaceInLane,   WhichLane;
+    [SerializeField] bool           _falefelEater, _eggplantEater, _friesEater;
+    [SerializeField] GameObject     _canvas;
+    [SerializeField] TMP_Text       _orderText;
+    [SerializeField] float          _minTime       = 60;
+    [SerializeField] float          _maxTime       = 180;
+    [SerializeField] Vector2        _randompayment = new Vector2(10,25);
 
-    NavMeshAgent agent => GetComponent<NavMeshAgent>();
-    EnemySpawner Spawner;
-    Action OnRage;
-    Vector3 destination;
-     int _enemyMaxPayment;
-     int _enemyMinPayment;
-    public int CurrentPayment;
-    float time;
+    NavMeshAgent _agent => GetComponent<NavMeshAgent>();
+    EnemySpawner _spawner;
+    Action       _onRage;
+    Vector3      _destination;
+    int          _enemyMaxPayment, _enemyMinPayment;
+    float        _time;
+    public int   CurrentPayment;
    
 
 
@@ -40,19 +32,19 @@ public class EnemyAI : MonoBehaviour
 
     GameManager GM => GameManager.instance;
 
-    Action loop;
+    Action Loop;
 
     List<BuildOrder.Fillers> Order = new List<BuildOrder.Fillers>();
 
-    bool done;
+    bool _done;
 
 
     public void Spawn(EnemySpawner spawner)
     {
-        time = 0;
-        Spawner = spawner;
-        done = false;
-        agent.enabled = true;
+        _time          = 0;
+        _spawner       = spawner;
+        _done          = false;
+        _agent.enabled = true;
         SetEnemyPayment();
         GenerateRandomOrder();
     }
@@ -60,83 +52,82 @@ public class EnemyAI : MonoBehaviour
 
     void Start()
     {
-        OnRage += MadCustomer;
-        loop += Movement;
-        loop += Rage;
-        loop += ShowOrder;
-        loop += EnemyTimer;
+        _onRage += MadCustomer;
+        Loop += Movement;
+        Loop += Rage;
+        Loop += ShowOrder;
+        Loop += EnemyTimer;
     }
 
 
     void Update()
     {
-        loop?.Invoke();
+        Loop?.Invoke();
     }
 
 
     void Movement()
     {
-        if (done)
+        if (_done)
         {
-            agent.SetDestination(Spawner.DoorSpawnPoint.position);
-            if (Vector3.Distance(transform.position, Spawner.DoorSpawnPoint.position) < 2)
+            _agent.SetDestination(_spawner.DoorSpawnPoint.position);
+            if (Vector3.Distance(transform.position, _spawner.DoorSpawnPoint.position) < 2)
             {
-                Spawner.RemoveEnemy(this);
+                _spawner.RemoveEnemy(this);
                 gameObject.SetActive(false);
             }
         }
         else
         {
-            agent.SetDestination(destination);
+            _agent.SetDestination(_destination);
         }
     }
     void Rage()
     {
-        ParticleSystem.EmissionModule emission = AngerSmoke.emission;
-        emission.rateOverTime = CurrentRage * 0.1f * AngerSmokeAmount;
-        if (CurrentRage < 0)
+        ParticleSystem.EmissionModule emission = _angerSmoke.emission;
+        emission.rateOverTime = _currentRage * 0.1f * _angerSmokeAmount;
+        if (_currentRage < 0)
         {
-            CurrentRage = 0;
+            _currentRage = 0;
         }
-        else if (CurrentRage < MaxRage)
+        else if (_currentRage < _maxRage)
         {
-            if (!done)
+            if (!_done)
             {
-                CurrentRage += Time.deltaTime;
+                _currentRage += Time.deltaTime;
             }
         }
         else
         {
-            OnRage?.Invoke();
+            _onRage?.Invoke();
             GM.tzadokHp--;
         }
     }
 
     void ShowOrder() 
     {
-        if (CalmEnoughToEat >= CurrentRage && !done) //if calm enough to eat
+        if (_calmEnoughToEat >= _currentRage && !_done) //if calm enough to eat
         {
-            if (Canvas.activeSelf==false)
-            Canvas.gameObject.SetActive(true);
-            Canvas.transform.LookAt(PlayerCamera.transform.position);
+            if (_canvas.activeSelf == false)
+            _canvas.gameObject.SetActive(true);
+            _canvas.transform.LookAt(PlayerCamera.transform.position);
         }
         else
         {
-            if (Canvas.activeSelf == true)
-                Canvas.gameObject.SetActive(false);
+            if (_canvas.activeSelf == true)
+                _canvas.gameObject.SetActive(false);
         }
     }
 
     public void Eat(Edible.Food f)
     {
-        if (CaniEAT(f))
+        if (CanIEat(f))
         {
-            CurrentRage -= 10;
+            _currentRage -= 10;
         }
         else
         {
-
-            CurrentRage += 10;
+            _currentRage += 10;
         }
     }
 
@@ -144,7 +135,7 @@ public class EnemyAI : MonoBehaviour
     {
         bool CorrectOrder = true;
 
-        if (pita.Count == Order.Count && CalmEnoughToEat>=CurrentRage  ) // if the pita and the order contains the same amount
+        if (pita.Count == Order.Count && _calmEnoughToEat >= _currentRage  ) // if the pita and the order contains the same amount
         {
             for (int i = 0; i < Order.Count; i++) //going over the order
             {
@@ -159,40 +150,40 @@ public class EnemyAI : MonoBehaviour
             CorrectOrder = false;
         }
 
-
-
         if (CorrectOrder)
         {
             HappyCustomer();           
         }
         else
         {
-            CurrentRage += 10;
+            _currentRage += 10;
         }
     }
+
     #region CustomerReaction
     void HappyCustomer()
     {
-        done = true;
-        CurrentRage = 0;
+        _done        = true;
+        _currentRage = 0;
         GM.AddMoney(CurrentPayment);
     }
     
     void MadCustomer()
     {
-        done = true;
-        CurrentRage = 0;
-        AngerSmoke.Emit(100);
-        Spawner.RemoveOnLane(WhichLane, PlaceInLane);
+        _done        = true;
+        _currentRage = 0;
+        _angerSmoke.Emit(100);
+        _spawner.RemoveOnLane(WhichLane, PlaceInLane);
         GM.tzadokHp--;
     }
     #endregion
 
     public void SetDestination(Vector3 pos)
     {
-        destination = pos;
+        _destination = pos;
     }
-    bool CaniEAT(Edible.Food food)
+
+    bool CanIEat(Edible.Food food)
     {
         bool _didIEatit = false;
         switch (food)
@@ -239,21 +230,23 @@ public class EnemyAI : MonoBehaviour
         {
             orderInText += $"\n{f}";
         }
-        OrderText.text = orderInText;
+        _orderText.text = orderInText;
     }
+
     void SetEnemyPayment()
     {
-        var random       = new Random();
-        _enemyMaxPayment = random.Next((int)randompayment.x,(int)randompayment.y);
+        Random random    = new Random();
+        _enemyMaxPayment = random.Next((int)_randompayment.x,(int)_randompayment.y);
         _enemyMinPayment = _enemyMaxPayment / 2;
         CurrentPayment   = _enemyMaxPayment;
     }
+
     void EnemyTimer()
     {
-        time += Time.deltaTime;
-        if (time>mintime&&time<maxtime)
+        _time += Time.deltaTime;
+        if (_time > _minTime && _time < _maxTime)
         {         
-            float n = (1 - (time - mintime) / (maxtime - mintime));//min and max of the time for the payment 
+            float n = (1 - (_time - _minTime) / (_maxTime - _minTime));//min and max of the time for the payment 
             CurrentPayment = (int)Mathf.Lerp(_enemyMinPayment,_enemyMaxPayment, n);
 
         }

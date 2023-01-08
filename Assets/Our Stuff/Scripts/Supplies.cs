@@ -13,7 +13,7 @@ public class Supplies : MonoBehaviour, Interactable
 
         if (b != null)
         {
-            b.hasSupplies = true;
+            b.HasSupplies = true;
         }
     }
 }
