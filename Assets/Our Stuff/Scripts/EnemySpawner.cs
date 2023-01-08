@@ -1,8 +1,5 @@
-using System.Collections;
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class EnemySpawner : MonoBehaviour
 {
@@ -10,24 +7,22 @@ public class EnemySpawner : MonoBehaviour
 
     [SerializeField] int[] CustomersInLane = new int[5];
 
-    [SerializeField] float CurrentTimeLeft;
-    [SerializeField] Vector2 RandomTime;
+    [SerializeField] float   _currentTimeLeft;
+    [SerializeField] Vector2 _randomTime;
 
-    [SerializeField] Transform LanesBase;
+    [SerializeField] Transform _lanesBase;
 
-    [SerializeField] float DistanceBetweenLanes = 5;
-    [SerializeField] float DistanceInLane = 5;
+    [SerializeField] float _distanceBetweenLanes = 5;
+    [SerializeField] float _distanceInLane       = 5;
 
-    [SerializeField] bool DrawGizmos = true;
-   [SerializeField] List<string> enemyTypes = new List<string>();
-   [ReadOnly] [SerializeField] int CurrentEnemyAmmout = 0;
+    [SerializeField]            bool         _drawGizmos          = true;
+    [SerializeField]            List<string> _enemyTypes          = new List<string>();
+    [ReadOnly] [SerializeField] int          _currentEnemyAmmout  = 0;
 
-    [SerializeField] int _maxEnemyInGame ;
-   List<EnemyAI> enemies = new List<EnemyAI>();
+    [SerializeField] int           _maxEnemyInGame;
+                     List<EnemyAI> _enemies = new List<EnemyAI>();
 
 
-
-    // Update is called once per frame
     void Update()
     {
         SpawnerTimer();
@@ -35,41 +30,42 @@ public class EnemySpawner : MonoBehaviour
 
     void SpawnerTimer()
     {
-        if (CurrentTimeLeft > 0)
+        if (_currentTimeLeft > 0)
         {
-            CurrentTimeLeft -= Time.deltaTime;
+            _currentTimeLeft -= Time.deltaTime;
         }
         else
         {
-            if (CurrentEnemyAmmout <_maxEnemyInGame)
+            if (_currentEnemyAmmout <_maxEnemyInGame)
             {
-            CurrentTimeLeft = Random.Range(RandomTime.x, RandomTime.y);
-            SpawnEnemy();
-        }
+                _currentTimeLeft = Random.Range(_randomTime.x, _randomTime.y);
+                SpawnEnemy();
             }
+        }
     }
 
     EnemyAI SpawnEnemy()
     {
-        GameObject Enemy = ObjectPooler.Instance.SpawnFromPool(enemyTypes[Random.Range(0,enemyTypes.Count)], DoorSpawnPoint.position, DoorSpawnPoint.rotation);
-        EnemyAI enemyAI = Enemy.GetComponent<EnemyAI>();
+        GameObject Enemy = ObjectPooler.Instance.SpawnFromPool(_enemyTypes[Random.Range(0, _enemyTypes.Count)], DoorSpawnPoint.position, DoorSpawnPoint.rotation);
+        EnemyAI enemyAI  = Enemy.GetComponent<EnemyAI>();
         enemyAI.SetDestination(GetPreferableDestination(enemyAI));
         enemyAI.Spawn(this);
-        CurrentEnemyAmmout++;         
+        _currentEnemyAmmout++;         
         return enemyAI;
     }
 
     Vector3 GetPreferableDestination(EnemyAI enemyAI)
     {
         int SmallestAmountOfPeople = 10000;
-        int SmallestLane = 0;
+        int SmallestLane           = 0;
+
         for (int i = 0; i < CustomersInLane.Length; i++) //Check the Lowest line length
         {
             //Debug.Log($"{CustomersInLane[i]} < {SmallestAmountOfPeople} = {CustomersInLane[i] < SmallestAmountOfPeople}");
             if (CustomersInLane[i] < SmallestAmountOfPeople)
             {
                 SmallestAmountOfPeople = CustomersInLane[i];
-                SmallestLane = i;
+                SmallestLane           = i;
             }
         }
 
@@ -89,9 +85,9 @@ public class EnemySpawner : MonoBehaviour
 
         Vector3 Destination = LaneDestination(chosen, CustomersInLane[chosen]);
 
-        enemyAI.WhichLane = chosen;
+        enemyAI.WhichLane   = chosen;
         enemyAI.PlaceInLane = CustomersInLane[chosen];
-        enemies.Add(enemyAI);
+        _enemies.Add(enemyAI);
         CustomersInLane[chosen]++; // Tell the enemy manager that place was filled
         //Debug.Log(Destination);
 
@@ -100,7 +96,7 @@ public class EnemySpawner : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        if (DrawGizmos)
+        if (_drawGizmos)
         {
             for (int i = 0; i < CustomersInLane.Length; i++)
             {
@@ -123,7 +119,7 @@ public class EnemySpawner : MonoBehaviour
     {
         CustomersInLane[Lane]--;
 
-        foreach(EnemyAI e in enemies)
+        foreach(EnemyAI e in _enemies)
         {
             if (e.WhichLane == Lane && e.PlaceInLane > spotInLane)
             {
@@ -135,16 +131,16 @@ public class EnemySpawner : MonoBehaviour
 
     public void RemoveEnemy(EnemyAI enemyAI)
     {
-        enemies.Remove(enemyAI);
-        CurrentEnemyAmmout--;
+        _enemies.Remove(enemyAI);
+        _currentEnemyAmmout--;
       
     }
 
     Vector3 LaneDestination(int i,int place = 0)
     {
-        return LanesBase.transform.position // Lanes Base
-               + LanesBase.transform.right * i * DistanceBetweenLanes //Lanes Seperation
-               + LanesBase.transform.forward *  place * DistanceInLane; //In Lane Seperation
+        return _lanesBase.transform.position                                 // Lanes Base
+               + _lanesBase.transform.right   *   i   * _distanceBetweenLanes //Lanes Seperation
+               + _lanesBase.transform.forward * place * _distanceInLane;      //In Lane Seperation
     }
 }
 

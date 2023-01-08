@@ -1,8 +1,6 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Rendering;
 
 [System.Serializable]
 public class Ingredient
@@ -21,14 +19,14 @@ public class Ingredient
 
 public class BuildOrder : MonoBehaviour
 {
-    [SerializeField] int MaxFillers;
+    [SerializeField] int _maxFillers;
 
-    public bool hasSupplies;
+    public bool HasSupplies;
 
     public Action<List<Ingredient>> OnUseIngridients;
 
-    public int supplies = 8;
-    [SerializeField] List<Ingredient> ingredients = new List<Ingredient>();
+    public int Supplies = 8;
+    [SerializeField] List<Ingredient> _ingredients = new List<Ingredient>();
     public enum Fillers : int
     {
         Humus,
@@ -46,23 +44,23 @@ public class BuildOrder : MonoBehaviour
     void Start()
     {
         int count  = Enum.GetValues(typeof(BuildOrder.Fillers)).Length;
-        MaxFillers = GameManager.instance.MaxFillers;
+        _maxFillers = GameManager.instance.MaxFillers;
         for (int i = 0; i < count; i++)
         {
             Fillers f = (Fillers)i;
-            ingredients.Add(new Ingredient(f,3));
+            _ingredients.Add(new Ingredient(f,3));
         }
     }
 
     public void AddFiller(int fillerNumber)
     {
         Fillers filler = (Fillers)fillerNumber;
-        if (Pita.Count == MaxFillers) return;
+        if (Pita.Count == _maxFillers) return;
         if (Pita.Contains(filler)) return;
-        Ingredient i = ingredients.Find(x => x.Type == filler);
+        Ingredient i = _ingredients.Find(x => x.Type == filler);
         if (i.CurrentAmount <= 0) return;
         i.CurrentAmount--;
-        OnUseIngridients?.Invoke(ingredients);
+        OnUseIngridients?.Invoke(_ingredients);
         Pita.Add(filler);
         ReadOutPita();
     }
@@ -85,8 +83,8 @@ public class BuildOrder : MonoBehaviour
 
     public void FillAll()
     {
-        foreach (Ingredient i in ingredients) i.CurrentAmount = i.MaxAmount;
-        OnUseIngridients?.Invoke(ingredients);
+        foreach (Ingredient i in _ingredients) i.CurrentAmount = i.MaxAmount;
+        OnUseIngridients?.Invoke(_ingredients);
     }
 
     void ReadOutPita()

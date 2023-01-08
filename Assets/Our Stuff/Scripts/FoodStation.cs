@@ -24,10 +24,10 @@ public class FoodStation : MonoBehaviour , Interactable
                 g.StopUsingStation();
         }
 
-        if (b.hasSupplies)
+        if (b.HasSupplies)
         {
             b.FillAll();
-            b.hasSupplies = false;
+            b.HasSupplies = false;
         }
     }
 }
