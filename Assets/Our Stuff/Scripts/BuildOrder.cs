@@ -54,41 +54,9 @@ public class BuildOrder : MonoBehaviour
         }
     }
 
-    public void AddHumus()
+    public void AddFiller(int fillerNumber)
     {
-        AddFiller(Fillers.Humus);
-    }
-    public void AddPickles()
-    {
-        AddFiller(Fillers.Pickles);
-    }
-    public void AddCabbage()
-    {
-        AddFiller(Fillers.Cabbage);
-    }
-    public void AddOnions()
-    {
-        AddFiller(Fillers.Onions);
-    }
-    public void AddSalad()
-    {
-        AddFiller(Fillers.Salad);
-    }
-    public void AddSpicy()
-    {
-        AddFiller(Fillers.Spicy);
-    }
-    public void AddAmba()
-    {
-        AddFiller(Fillers.Amba);
-    }
-    public void AddThina()
-    {
-        AddFiller(Fillers.Thina);
-    }
-
-    public void AddFiller(Fillers filler)
-    {
+        Fillers filler = (Fillers)fillerNumber;
         if (Pita.Count == MaxFillers) return;
         if (Pita.Contains(filler)) return;
         Ingredient i = ingredients.Find(x => x.Type == filler);
