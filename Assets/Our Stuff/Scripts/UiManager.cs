@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class UiManager : MonoBehaviour
@@ -12,7 +13,7 @@ public class UiManager : MonoBehaviour
     BuildOrder BO => player.GetComponent<BuildOrder>();
 
     GameManager GM;
-    LevelTimer  LT;
+    LevelTimer LT;
 
     [SerializeField] List<Image> Fillers;
 
@@ -26,12 +27,12 @@ public class UiManager : MonoBehaviour
         GM = GameManager.instance;
         LT = GM.GetComponent<LevelTimer>();
 
-        GM.UpdateMoney      += UpdateMoney;
-        gun.infoUpdate      += UpdateInfo;
-        gun.OnSwitchWeapon  += SwitchAmmoType;
-        gun.OnPitaAim       += SwitchToPita;
+        GM.UpdateMoney += UpdateMoney;
+        gun.infoUpdate += UpdateInfo;
+        gun.OnSwitchWeapon += SwitchAmmoType;
+        gun.OnPitaAim += SwitchToPita;
         BO.OnUseIngridients += UpdateIngridients;
-        LT.OnUpdateTimer    += UpdateTimer;
+        LT.OnUpdateTimer += UpdateTimer;
 
         UpdateMoney();
     }
@@ -44,14 +45,14 @@ public class UiManager : MonoBehaviour
     void SwitchAmmoType(AmmoType a)
     {
         Ammo.color = a.AmmoColor;
-        Ammo.text  = $"{a.AmmoTag}\nAmmo:\n{a.CurrentAmmo}/{a.MaxAmmo}";
+        Ammo.text = $"{a.AmmoTag}\nAmmo:\n{a.CurrentAmmo}/{a.MaxAmmo}";
     }
 
     void SwitchToPita(List<BuildOrder.Fillers> pita)
     {
         Ammo.color = Color.white;
         string txt = "Pita with:";
-        foreach(BuildOrder.Fillers f in pita)
+        foreach (BuildOrder.Fillers f in pita)
         {
             txt += $"\n{f}";
         }
@@ -59,7 +60,7 @@ public class UiManager : MonoBehaviour
     }
     void UpdateMoney()
     {
-         MoneyText.text = "Joobot = "+ GM.GetMoney().ToString() + "¤";
+        MoneyText.text = "Joobot = " + GM.GetMoney().ToString() + "¤";
     }
 
     void UpdateIngridients(List<Ingredient> ingredients)
@@ -74,7 +75,7 @@ public class UiManager : MonoBehaviour
     {
         string S, M;
 
-        if (seconds < 10)  S = $"0{seconds}";
+        if (seconds < 10) S = $"0{seconds}";
         else S = $"{seconds}";
 
         if (minutes < 10) M = $"0{minutes}";
