@@ -24,13 +24,20 @@ public class EnemySpawner : MonoBehaviour
 
     [SerializeField] Transform _sideOrdersContent;
     [SerializeField] GameObject _sideOrderPrefab;
+    public GameManager Gm => GameManager.instance;
+    LevelTimer _leveltimer;
 
+    private void Start()
+    {
+       _leveltimer = Gm.GetComponent<LevelTimer>();
+        _leveltimer.OnTimerDone += StoreIsClose;
+
+    }
 
     void Update()
     {
         SpawnerTimer();
     }
-
     void SpawnerTimer()
     {
         if (_currentTimeLeft > 0)
@@ -149,6 +156,17 @@ public class EnemySpawner : MonoBehaviour
                + _lanesBase.transform.right   *   i   * _distanceBetweenLanes //Lanes Seperation
                + _lanesBase.transform.forward * place * _distanceInLane;      //In Lane Seperation
     }
+     void StoreIsClose()
+    {
+        _maxEnemyInGame = 0;
+       
+    }
+   public int HowManyEnemiesInTheStore()
+    {
+       return _enemies.Count;
+        
+    }
+
 }
 
 

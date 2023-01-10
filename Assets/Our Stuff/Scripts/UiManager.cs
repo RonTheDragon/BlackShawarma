@@ -21,6 +21,7 @@ public class UiManager : MonoBehaviour
     [SerializeField] TMP_Text Ammo;
     [SerializeField] TMP_Text MoneyText;
     [SerializeField] TMP_Text Timer;
+    [SerializeField] Image VictoryScreen;
     // Start is called before the first frame update
     void Start()
     {
@@ -33,6 +34,7 @@ public class UiManager : MonoBehaviour
         gun.OnPitaAim += SwitchToPita;
         BO.OnUseIngridients += UpdateIngridients;
         LT.OnUpdateTimer += UpdateTimer;
+        GM.OnVictoryScreen += () => VictoryScreen.gameObject.SetActive(true); 
 
         UpdateMoney();
     }
@@ -83,4 +85,5 @@ public class UiManager : MonoBehaviour
 
         Timer.text = $"Time Left: {M}:{S}";
     }
+
 }

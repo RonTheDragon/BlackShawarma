@@ -15,14 +15,15 @@ public class LevelTimer : MonoBehaviour
     public Action<int, int> OnUpdateTimer;
 
     public Action OnTimerDone;
+    public bool IsDone = false;
     
 
     // Start is called before the first frame update
     void Start()
     {
         StartTimer(10, 1);
-
-        OnTimerDone = () => Debug.Log("Timer Done");
+        
+        OnTimerDone = () => { Debug.Log("Timer Done"); IsDone = true; };
     }
 
     // Update is called once per frame
@@ -61,4 +62,5 @@ public class LevelTimer : MonoBehaviour
         _seconds  = (S + 1) % 60; // Clean the seconds from minutes
         _loop    += RunTimer;
     }
+    
 }

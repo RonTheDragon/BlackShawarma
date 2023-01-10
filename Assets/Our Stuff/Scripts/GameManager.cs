@@ -13,7 +13,13 @@ public class GameManager : MonoBehaviour
     public Action UpdateMoney;
 
     public Action Loop;
-
+    public Action OnVictoryScreen;
+    public EnemySpawner _enemySpawner;
+    public LevelTimer _lvlTimer;
+    void Start()
+    {
+      
+    }
     void Awake()
     {
          instance = this;
@@ -34,5 +40,13 @@ public class GameManager : MonoBehaviour
     {
         Money = m;
         UpdateMoney?.Invoke();
+    }
+  
+    public void DidWeWin()
+    {
+        if (_enemySpawner.HowManyEnemiesInTheStore() ==0 && _lvlTimer.IsDone==true && tzadokHp >0)
+        {
+            OnVictoryScreen?.Invoke();
+        }
     }
 }
