@@ -79,18 +79,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   DoorSpawnPoint: {fileID: 3773970721764142240}
   CustomersInLane: 0000000000000000000000000000000000000000
-  CurrentTimeLeft: 0
-  RandomTime: {x: 7, y: 20}
-  LanesBase: {fileID: 6694555045971836296}
-  DistanceBetweenLanes: 3
-  DistanceInLane: 3
-  DrawGizmos: 1
-  enemyTypes:
+  _currentTimeLeft: 0
+  _randomTime: {x: 3, y: 10}
+  _lanesBase: {fileID: 6694555045971836296}
+  _distanceBetweenLanes: 5
+  _distanceInLane: 5
+  _drawGizmos: 1
+  _enemyTypes:
   - FalafelGuy
   - EggplantGuy
   - FriesGuy
-  CurrentEnemyAmmout: 0
+  _currentEnemyAmmout: 0
   _maxEnemyInGame: 20
+  _sideOrdersContent: {fileID: 0}
+  _sideOrderPrefab: {fileID: 7795570131750160977, guid: 534d29b3bd217ef44b55a1e1066dd723, type: 3}
 --- !u!1 &4327540125018967114
 GameObject:
   m_ObjectHideFlags: 0

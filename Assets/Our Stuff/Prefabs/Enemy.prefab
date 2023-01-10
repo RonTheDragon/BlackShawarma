@@ -5184,19 +5184,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e0b4b36b9dae7a41834f068add68ccb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CurrentRage: 0
-  MaxRage: 100
-  CalmEnoughToEat: 20
-  AngerSmokeAmount: 1
-  AngerSmoke: {fileID: 7294808988973554292}
+  _currentRage: 0
+  _maxRage: 100
+  _calmEnoughToEat: 30
+  _angerSmokeAmount: 1
+  _angerSmoke: {fileID: 7294808988973554292}
   PlaceInLane: 0
   WhichLane: 0
+  Picture: {fileID: 0}
   _falefelEater: 0
   _eggplantEater: 0
   _friesEater: 0
-  Canvas: {fileID: 4775296178984883849}
-  OrderText: {fileID: 6117607829218496303}
-  mintime: 60
-  maxtime: 180
-  randompayment: {x: 10, y: 25}
+  _canvas: {fileID: 4775296178984883849}
+  _orderText: {fileID: 6117607829218496303}
+  _minTime: 60
+  _maxTime: 180
+  _randompayment: {x: 10, y: 25}
   CurrentPayment: 0
+  SideOrder: {fileID: 0}
+  Order: 

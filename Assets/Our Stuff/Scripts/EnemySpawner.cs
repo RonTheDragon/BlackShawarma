@@ -22,6 +22,9 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] int           _maxEnemyInGame;
                      List<EnemyAI> _enemies = new List<EnemyAI>();
 
+    [SerializeField] Transform _sideOrdersContent;
+    [SerializeField] GameObject _sideOrderPrefab;
+
 
     void Update()
     {
@@ -50,7 +53,12 @@ public class EnemySpawner : MonoBehaviour
         EnemyAI enemyAI  = Enemy.GetComponent<EnemyAI>();
         enemyAI.SetDestination(GetPreferableDestination(enemyAI));
         enemyAI.Spawn(this);
-        _currentEnemyAmmout++;         
+        _currentEnemyAmmout++;
+
+        SideOrderUI order = Instantiate(_sideOrderPrefab, _sideOrdersContent.position, Quaternion.identity, _sideOrdersContent).GetComponent<SideOrderUI>();
+        enemyAI.SideOrder = order;
+        order.SetUp(enemyAI);
+
         return enemyAI;
     }
 
@@ -133,7 +141,6 @@ public class EnemySpawner : MonoBehaviour
     {
         _enemies.Remove(enemyAI);
         _currentEnemyAmmout--;
-      
     }
 
     Vector3 LaneDestination(int i,int place = 0)

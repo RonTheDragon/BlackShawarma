@@ -11,6 +11,7 @@ public class EnemyAI : MonoBehaviour
     [SerializeField] float          _angerSmokeAmount = 1;
     [SerializeField] ParticleSystem _angerSmoke;
     public           int            PlaceInLane,   WhichLane;
+    public           Sprite          Picture;
     [SerializeField] bool           _falefelEater, _eggplantEater, _friesEater;
     [SerializeField] GameObject     _canvas;
     [SerializeField] TMP_Text       _orderText;
@@ -25,6 +26,7 @@ public class EnemyAI : MonoBehaviour
     int          _enemyMaxPayment, _enemyMinPayment;
     float        _time;
     public int   CurrentPayment;
+    public SideOrderUI SideOrder;
    
 
 
@@ -34,7 +36,9 @@ public class EnemyAI : MonoBehaviour
 
     Action Loop;
 
-    List<BuildOrder.Fillers> Order = new List<BuildOrder.Fillers>();
+    public Action<float,bool> OnRageAmountChange;
+
+    [HideInInspector] public List<BuildOrder.Fillers> Order = new List<BuildOrder.Fillers>();
 
     bool _done;
 
@@ -50,7 +54,7 @@ public class EnemyAI : MonoBehaviour
     }
 
 
-    void Start()
+    private void Start()
     {
         _onRage += MadCustomer;
         Loop += Movement;
@@ -60,13 +64,13 @@ public class EnemyAI : MonoBehaviour
     }
 
 
-    void Update()
+    private void Update()
     {
         Loop?.Invoke();
     }
 
 
-    void Movement()
+    private void Movement()
     {
         if (_done)
         {
@@ -82,7 +86,7 @@ public class EnemyAI : MonoBehaviour
             _agent.SetDestination(_destination);
         }
     }
-    void Rage()
+    private void Rage()
     {
         ParticleSystem.EmissionModule emission = _angerSmoke.emission;
         emission.rateOverTime = _currentRage * 0.1f * _angerSmokeAmount;
@@ -102,9 +106,10 @@ public class EnemyAI : MonoBehaviour
             _onRage?.Invoke();
             GM.tzadokHp--;
         }
+        OnRageAmountChange?.Invoke(1 -(_currentRage / _maxRage), _currentRage > _calmEnoughToEat);
     }
 
-    void ShowOrder() 
+    private void ShowOrder() 
     {
         if (_calmEnoughToEat >= _currentRage && !_done) //if calm enough to eat
         {
@@ -161,20 +166,28 @@ public class EnemyAI : MonoBehaviour
     }
 
     #region CustomerReaction
-    void HappyCustomer()
+    private void HappyCustomer()
     {
+        RemoveSideOrder();
         _done        = true;
         _currentRage = 0;
         GM.AddMoney(CurrentPayment);
     }
-    
-    void MadCustomer()
+
+    private void MadCustomer()
     {
+        RemoveSideOrder();
         _done        = true;
         _currentRage = 0;
         _angerSmoke.Emit(100);
         _spawner.RemoveOnLane(WhichLane, PlaceInLane);
         GM.tzadokHp--;
+    }
+
+    private void RemoveSideOrder()
+    {
+        OnRageAmountChange = null;
+        Destroy(SideOrder.gameObject);
     }
     #endregion
 
