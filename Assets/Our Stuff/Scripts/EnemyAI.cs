@@ -172,6 +172,7 @@ public class EnemyAI : MonoBehaviour
         _done        = true;
         _currentRage = 0;
         GM.AddMoney(CurrentPayment);
+        _spawner.RemoveOnLane(WhichLane, PlaceInLane);
     }
 
     private void MadCustomer()
