@@ -47,6 +47,8 @@ public class GameManager : MonoBehaviour
         if (_enemySpawner.HowManyEnemiesInTheStore() ==0 && _lvlTimer.IsDone==true && tzadokHp >0)
         {
             OnVictoryScreen?.Invoke();
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
         }
     }
 }
