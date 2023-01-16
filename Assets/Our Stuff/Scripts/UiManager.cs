@@ -44,7 +44,7 @@ public class UiManager : MonoBehaviour
         Info.text = info;
     }
 
-    void SwitchAmmoType(AmmoType a)
+    void SwitchAmmoType(SOAmmoType a)
     {
         Ammo.color = a.AmmoColor;
         Ammo.text = $"{a.AmmoTag}\nAmmo:\n{a.CurrentAmmo}/{a.MaxAmmo}";

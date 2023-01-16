@@ -23,9 +23,9 @@ public class Gun : MonoBehaviour
 
     [Header("Ammo Switching")]
     [Tooltip("The current amount of ammo")]
-    [ReadOnly]public AmmoType CurrentAmmoType;
+    [ReadOnly]public SOAmmoType CurrentAmmoType;
     [Tooltip("The types of ammo")]
-    public List<AmmoType> AmmoTypes;
+    public List<SOAmmoType> AmmoTypes;
 
     [Header("Refefrences")]
     [Tooltip("Reference to the point where projectiles spawn")]
@@ -56,7 +56,7 @@ public class Gun : MonoBehaviour
 
     public Action<GameObject> OnUse;
 
-    public Action<AmmoType> OnSwitchWeapon;
+    public Action<SOAmmoType> OnSwitchWeapon;
 
     public Action<List<BuildOrder.Fillers>> OnPitaAim;
 

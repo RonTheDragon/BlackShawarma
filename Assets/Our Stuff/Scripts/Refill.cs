@@ -13,7 +13,7 @@ public class Refill : MonoBehaviour, Interactable
     {
         Gun g = player.GetComponent<Gun>();
 
-        foreach (AmmoType i in g.AmmoTypes)
+        foreach (SOAmmoType i in g.AmmoTypes)
         {
             if(i.FoodType == FillType)
             {

@@ -4,7 +4,7 @@ using UnityEngine;
 
 [CreateAssetMenu(fileName = "Ammo Type", menuName = "Food")]
 
-public class AmmoType : ScriptableObject
+public class SOAmmoType : ScriptableObject
 {
     public string AmmoTag;
     public Edible.Food FoodType;

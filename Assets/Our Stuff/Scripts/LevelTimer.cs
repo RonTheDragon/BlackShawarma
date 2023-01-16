@@ -26,7 +26,7 @@ public class LevelTimer : MonoBehaviour
     {
         StartTimer(3, 0);
         
-        OnTimerDone = () => { Debug.Log("Timer Done"); IsDone = true; _gm.DidWeWin(); };
+        OnTimerDone += () => { Debug.Log("Timer Done"); IsDone = true; _gm.DidWeWin(); };
     }
 
     // Update is called once per frame
