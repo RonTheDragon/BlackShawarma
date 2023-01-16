@@ -834,10 +834,34 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1828760321}
-        m_TargetAssemblyTypeName: UiManager, Assembly-CSharp
-        m_MethodName: ReloadScene
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: LevelManager, Assembly-CSharp
+        m_MethodName: RepeatLevel
         m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 333396162}
+        m_TargetAssemblyTypeName: Gun, Assembly-CSharp
+        m_MethodName: StopUsingStation
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 177688605918217436}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -1087,6 +1111,10 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 0b6fc867b51bbad448c80b7fd8f08bc9, type: 2}
   _upgradePrefab: {fileID: 2381089303279995743, guid: bc7a4be22c729ad44ab97c6de6f99b49, type: 3}
   _upgradesContent: {fileID: 8121488956601856056}
+  _ammoTypes:
+  - {fileID: 11400000, guid: 2112f983041912c44a7b93d6058e1142, type: 2}
+  - {fileID: 11400000, guid: ed62d7941221b3340a62189892d7c939, type: 2}
+  - {fileID: 11400000, guid: fd03a01de9b404845b677e119723b0d9, type: 2}
 --- !u!1 &1509950136
 GameObject:
   m_ObjectHideFlags: 0
@@ -2120,6 +2148,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8121488956601856056}
   - component: {fileID: 1564028944540577919}
+  - component: {fileID: 1672064319}
   m_Layer: 5
   m_Name: Content
   m_TagString: Untagged
@@ -2163,7 +2192,7 @@ MonoBehaviour:
     m_Left: 35
     m_Right: 0
     m_Top: 35
-    m_Bottom: 0
+    m_Bottom: 35
   m_ChildAlignment: 0
   m_StartCorner: 0
   m_StartAxis: 0
@@ -2171,6 +2200,20 @@ MonoBehaviour:
   m_Spacing: {x: 20, y: 20}
   m_Constraint: 0
   m_ConstraintCount: 2
+--- !u!114 &1672064319
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1004731171272692935}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3245ec927659c4140ac4f8d17403cc18, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_HorizontalFit: 0
+  m_VerticalFit: 2
 --- !u!1 &1026747573935216243
 GameObject:
   m_ObjectHideFlags: 0
@@ -4626,7 +4669,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6598293733855215905}
-  m_LocalRotation: {x: -0.008795641, y: 0.047103293, z: 0.00041478014, w: 0.99885124}
+  m_LocalRotation: {x: -0.008795632, y: 0.047103304, z: 0.0004147798, w: 0.99885124}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -4831,7 +4874,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6598293734432143878}
-  m_LocalRotation: {x: -0.008783648, y: -0.07028217, z: -0.0006188883, w: 0.9974883}
+  m_LocalRotation: {x: -0.008783644, y: -0.07028217, z: -0.00061888807, w: 0.9974883}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -5230,7 +5273,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6598293734642008243}
-  m_LocalRotation: {x: -0.00880534, y: 0.004160687, z: 0.000036637994, w: 0.9999526}
+  m_LocalRotation: {x: -0.008805341, y: 0.0041607386, z: 0.00003663845, w: 0.9999526}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -5311,7 +5354,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6598293734886125694}
-  m_LocalRotation: {x: -0.008783661, y: -0.07028216, z: -0.00061888865, w: 0.9974883}
+  m_LocalRotation: {x: -0.008783653, y: -0.07028216, z: -0.0006188881, w: 0.9974883}
   m_LocalPosition: {x: 2.6812267, y: 1, z: -4.22031}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -6837,10 +6880,34 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1828760321}
-        m_TargetAssemblyTypeName: UiManager, Assembly-CSharp
-        m_MethodName: ReloadScene
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: LevelManager, Assembly-CSharp
+        m_MethodName: NextLevel
         m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 333396162}
+        m_TargetAssemblyTypeName: Gun, Assembly-CSharp
+        m_MethodName: StopUsingStation
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 177688605918217436}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine

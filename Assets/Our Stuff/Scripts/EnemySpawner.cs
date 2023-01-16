@@ -180,6 +180,14 @@ public class EnemySpawner : MonoBehaviour
         
     }
 
+    public void LevelSetUp(List<string> enemies, Vector2 RandomTime, Vector2 WarmUpTime, int maxEnemies)
+    {
+        _enemyTypes = enemies;
+        _randomTime = RandomTime;
+        _currentTimeLeft= Random.Range(WarmUpTime.x,WarmUpTime.y);
+        _maxEnemyInGame = maxEnemies;
+    }
+
 }
 
 

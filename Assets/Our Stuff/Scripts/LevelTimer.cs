@@ -24,7 +24,7 @@ public class LevelTimer : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        StartTimer(3, 0);
+        //StartTimer(3, 0);
         
         OnTimerDone += () => { Debug.Log("Timer Done"); IsDone = true; _gm.DidWeWin(); };
     }
@@ -59,6 +59,7 @@ public class LevelTimer : MonoBehaviour
 
     public void StartTimer(int S, int M = 0)
     {
+        IsDone = false;
         _minutes  = 0;
         _seconds  = 0;
         _minutes += (S / 60) + M; // add minutes from the seconds
