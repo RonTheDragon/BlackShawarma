@@ -27,20 +27,20 @@ public class EnemyAI : MonoBehaviour
     float        _time;
     public int   CurrentPayment;
     public SideOrderUI SideOrder;
-   
 
 
-    Camera PlayerCamera => Camera.main;
 
-    GameManager GM => GameManager.instance;
+    private Camera PlayerCamera => Camera.main;
 
-    Action Loop;
+    private GameManager _gm => GameManager.instance;
+
+    private Action Loop;
 
     public Action<float,bool> OnRageAmountChange;
 
     [HideInInspector] public List<BuildOrder.Fillers> Order = new List<BuildOrder.Fillers>();
 
-    bool _done;
+    private bool _done;
 
 
     public void Spawn(EnemySpawner spawner)
@@ -72,20 +72,27 @@ public class EnemyAI : MonoBehaviour
 
     private void Movement()
     {
-        if (_done)
+        if (!_done)
+        {
+            _agent.SetDestination(_destination);
+        }
+        else
         {
             _agent.SetDestination(_spawner.DoorSpawnPoint.position);
             if (Vector3.Distance(transform.position, _spawner.DoorSpawnPoint.position) < 2)
             {
-                _spawner.RemoveEnemy(this);
-                gameObject.SetActive(false);
+                LeavingTheStore();
             }
         }
-        else
-        {
-            _agent.SetDestination(_destination);
-        }
     }
+
+    private void LeavingTheStore()
+    {
+        _spawner.RemoveEnemy(this);
+        _gm.DidWeWin();
+        gameObject.SetActive(false);
+    }
+
     private void Rage()
     {
         ParticleSystem.EmissionModule emission = _angerSmoke.emission;
@@ -104,7 +111,7 @@ public class EnemyAI : MonoBehaviour
         else
         {
             _onRage?.Invoke();
-            GM.tzadokHp--;
+            _gm.tzadokHp--;
         }
         OnRageAmountChange?.Invoke(1 -(_currentRage / _maxRage), _currentRage > _calmEnoughToEat);
     }
@@ -168,25 +175,25 @@ public class EnemyAI : MonoBehaviour
     #region CustomerReaction
     private void HappyCustomer()
     {
-        RemoveSideOrder();
-        _done        = true;
-        _currentRage = 0;
-        GM.AddMoney(CurrentPayment);
-        _spawner.RemoveOnLane(WhichLane, PlaceInLane);
+        _gm.AddMoney(CurrentPayment);
+
+        RemoveCustomer();
     }
 
     private void MadCustomer()
     {
-        RemoveSideOrder();
-        _done        = true;
-        _currentRage = 0;
         _angerSmoke.Emit(100);
-        _spawner.RemoveOnLane(WhichLane, PlaceInLane);
-        GM.tzadokHp--;
+        _gm.tzadokHp--;
+
+        RemoveCustomer();
     }
 
-    private void RemoveSideOrder()
+    private void RemoveCustomer()
     {
+        _done = true;
+        _currentRage = 0;
+        _spawner.RemoveOnLane(WhichLane, PlaceInLane);
+
         OnRageAmountChange = null;
         Destroy(SideOrder.gameObject);
     }
@@ -221,7 +228,7 @@ public class EnemyAI : MonoBehaviour
     {
         List<BuildOrder.Fillers> RandomOrder = new List<BuildOrder.Fillers>();
 
-        int FillerAmount = UnityEngine.Random.Range(1, GM.MaxFillers+1);
+        int FillerAmount = UnityEngine.Random.Range(1, _gm.MaxFillers+1);
         int count        = Enum.GetValues(typeof(BuildOrder.Fillers)).Length;
 
         for (int i = 0; i < FillerAmount; i++)

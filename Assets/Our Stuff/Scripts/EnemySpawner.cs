@@ -30,14 +30,14 @@ public class EnemySpawner : MonoBehaviour
     private void Start()
     {
        _leveltimer = Gm.GetComponent<LevelTimer>();
-        _leveltimer.OnTimerDone += StoreIsClose;
-
+       _leveltimer.OnTimerDone += StoreIsClose;
     }
 
     void Update()
     {
         SpawnerTimer();
     }
+
     void SpawnerTimer()
     {
         if (_currentTimeLeft > 0)
@@ -144,6 +144,18 @@ public class EnemySpawner : MonoBehaviour
         }
     }
 
+    public void AddInFrontOfLane(int Lane, int spotInLane) //for soldier (future use)
+    {
+        foreach (EnemyAI e in _enemies)
+        {
+            if (e.WhichLane == Lane && e.PlaceInLane > spotInLane)
+            {
+                e.PlaceInLane++;
+                e.SetDestination(LaneDestination(Lane, e.PlaceInLane));
+            }
+        }
+    }
+
     public void RemoveEnemy(EnemyAI enemyAI)
     {
         _enemies.Remove(enemyAI);
@@ -156,11 +168,12 @@ public class EnemySpawner : MonoBehaviour
                + _lanesBase.transform.right   *   i   * _distanceBetweenLanes //Lanes Seperation
                + _lanesBase.transform.forward * place * _distanceInLane;      //In Lane Seperation
     }
-     void StoreIsClose()
+    void StoreIsClose()
     {
         _maxEnemyInGame = 0;
        
     }
+
    public int HowManyEnemiesInTheStore()
     {
        return _enemies.Count;

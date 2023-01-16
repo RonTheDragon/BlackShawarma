@@ -56,7 +56,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3958112182002989514}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -8, y: 0, z: 0}
+  m_LocalPosition: {x: -0.12, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -80,7 +80,7 @@ MonoBehaviour:
   DoorSpawnPoint: {fileID: 3773970721764142240}
   CustomersInLane: 0000000000000000000000000000000000000000
   _currentTimeLeft: 0
-  _randomTime: {x: 3, y: 10}
+  _randomTime: {x: 30, y: 40}
   _lanesBase: {fileID: 6694555045971836296}
   _distanceBetweenLanes: 5
   _distanceInLane: 5
@@ -313,6 +313,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tzadokHp: 3
   MaxFillers: 4
+  _enemySpawner: {fileID: 1493421660946856226}
 --- !u!114 &4334797393951331528
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -342,5 +343,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee1670f24135bf5479c7f951a740facc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Seconds: 0
-  Minutes: 0
+  IsDone: 0

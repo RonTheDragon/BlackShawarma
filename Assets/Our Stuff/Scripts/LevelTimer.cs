@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Security.AccessControl;
+using UnityEditorInternal;
 using UnityEngine;
 
 public class LevelTimer : MonoBehaviour
@@ -16,14 +17,16 @@ public class LevelTimer : MonoBehaviour
 
     public Action OnTimerDone;
     public bool IsDone = false;
+
+    private GameManager _gm => GameManager.instance;
     
 
     // Start is called before the first frame update
     void Start()
     {
-        StartTimer(10, 1);
+        StartTimer(3, 0);
         
-        OnTimerDone = () => { Debug.Log("Timer Done"); IsDone = true; };
+        OnTimerDone = () => { Debug.Log("Timer Done"); IsDone = true; _gm.DidWeWin(); };
     }
 
     // Update is called once per frame

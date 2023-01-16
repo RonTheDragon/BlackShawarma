@@ -15,11 +15,8 @@ public class GameManager : MonoBehaviour
     public Action Loop;
     public Action OnVictoryScreen;
     public EnemySpawner _enemySpawner;
-    public LevelTimer _lvlTimer;
-    void Start()
-    {
-      
-    }
+    public LevelTimer _lvlTimer => GetComponent<LevelTimer>();
+
     void Awake()
     {
          instance = this;

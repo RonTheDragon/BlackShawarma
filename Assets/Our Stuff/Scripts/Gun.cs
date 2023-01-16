@@ -1,8 +1,6 @@
 using Cinemachine;
 using System;
-using System.Collections;
 using System.Collections.Generic;
-//using TMPro;
 using UnityEngine;
 
 public class Gun : MonoBehaviour
@@ -36,8 +34,9 @@ public class Gun : MonoBehaviour
     [SerializeField] Transform cam;
     [Tooltip("Reference to the cinemachine")]
     public CinemachineFreeLook cinemachine;
-    CinemachineCameraOffset offset => cinemachine.GetComponent<CinemachineCameraOffset>();
-    ThirdPersonMovement tpm => GetComponent<ThirdPersonMovement>();
+    private CinemachineCameraOffset offset => cinemachine.GetComponent<CinemachineCameraOffset>();
+    private ThirdPersonMovement tpm => GetComponent<ThirdPersonMovement>();
+    private GameManager _gm => GameManager.instance;
 
     [Header("Projection")]
     [SerializeField]
@@ -53,7 +52,7 @@ public class Gun : MonoBehaviour
     //Event
     Action _loop;
 
-    public Action<String> infoUpdate;
+    public Action<string> infoUpdate;
 
     public Action<GameObject> OnUse;
 
@@ -82,6 +81,7 @@ public class Gun : MonoBehaviour
         _loop += Aim;
         _loop += AmmoSwitching;
         _loop += DrawProjection;
+        _gm.OnVictoryScreen += StartUsingStation;
         offset.m_Offset.Set(0, 0, NotAimingFOV);
     }
 
