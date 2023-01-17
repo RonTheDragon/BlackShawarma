@@ -11,21 +11,21 @@ public class Gun : MonoBehaviour
 
     [Header("Aiming")]
     [Tooltip("Field of view while aiming")]
-    [SerializeField] float AimingFOV = 3;
+    [SerializeField]           float AimingFOV        = 3;
     [Tooltip("Field of view")]
-    [SerializeField] float NotAimingFOV = 0;
+    [SerializeField]           float NotAimingFOV     = 0;
     [Tooltip("The speed of transition from normal to aiming field of view")]
-    [SerializeField] float FovChangingSpeed = 12;
+    [SerializeField]           float FovChangingSpeed = 12;
     [Tooltip("The current field of view")]
     [ReadOnly][SerializeField] float CurrentFOV;
     [Tooltip("Is the character aiming or not")]
-    [ReadOnly][SerializeField] bool isAiming;
+    [ReadOnly][SerializeField] bool  isAiming;
 
     [Header("Ammo Switching")]
     [Tooltip("The current amount of ammo")]
     [ReadOnly]public SOAmmoType CurrentAmmoType;
     [Tooltip("The types of ammo")]
-    public List<SOAmmoType> AmmoTypes;
+    public List<SOAmmoType>     AmmoTypes;
 
     [Header("Refefrences")]
     [Tooltip("Reference to the point where projectiles spawn")]
@@ -35,18 +35,21 @@ public class Gun : MonoBehaviour
     [Tooltip("Reference to the cinemachine")]
     public CinemachineFreeLook cinemachine;
     private CinemachineCameraOffset offset => cinemachine.GetComponent<CinemachineCameraOffset>();
-    private ThirdPersonMovement tpm => GetComponent<ThirdPersonMovement>();
-    private GameManager _gm => GameManager.instance;
+    private ThirdPersonMovement     tpm    => GetComponent<ThirdPersonMovement>();
+    private GameManager             _gm    => GameManager.Instance;
+
+    private LevelTimer _levelTimer => _gm.GetComponent<LevelTimer>();
 
     [Header("Projection")]
     [SerializeField]
     [Range(10, 100)]
     private int linepoints = 25;
+
     [SerializeField]
     [Range(0.01f, 0.25f)]
-    private float timeBetweenPoints = 0.1f;
+    private          float        timeBetweenPoints = 0.1f;
     [SerializeField] LineRenderer lineRenderer;
-    [SerializeField] LayerMask layer;
+    [SerializeField] LayerMask    layer;
 
     //[SerializeField] TMP_Text Info;
     //Event
@@ -66,26 +69,27 @@ public class Gun : MonoBehaviour
 
     //Private 
     float _cd;
-    int _currentAmmo;
+    int   _currentAmmo;
 
     public bool OnStation;
-    bool _hasPita = false;
+           bool _hasPita = false;
 
-    // Start is called before the first frame update
     void Start()
     {
         ResetAmmoToMax();
         ammoChanged();
         StopUsingStation();
+
         _loop += Shoot;
         _loop += Aim;
         _loop += AmmoSwitching;
         _loop += DrawProjection;
+        _loop += _levelTimer.SetTimerTo0;
+
         _gm.OnVictoryScreen += StartUsingStation;
         offset.m_Offset.Set(0, 0, NotAimingFOV);
     }
 
-    // Update is called once per frame
     void Update()
     {
         _loop?.Invoke();
@@ -317,7 +321,7 @@ public class Gun : MonoBehaviour
     public void SetPita(List<BuildOrder.Fillers> f)
     {
         _currentPita = f;
-        _hasPita = true;
+        _hasPita     = true;
         StoppedHoveringStation();
     }
 }

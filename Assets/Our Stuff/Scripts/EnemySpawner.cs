@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using TMPro.EditorUtilities;
 using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour
@@ -22,14 +23,14 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] int           _maxEnemyInGame;
                      List<EnemyAI> _enemies = new List<EnemyAI>();
 
-    [SerializeField] Transform _sideOrdersContent;
+    [SerializeField] Transform  _sideOrdersContent;
     [SerializeField] GameObject _sideOrderPrefab;
-    public GameManager Gm => GameManager.instance;
+    public GameManager Gm => GameManager.Instance;
     LevelTimer _leveltimer;
 
     private void Start()
     {
-       _leveltimer = Gm.GetComponent<LevelTimer>();
+       _leveltimer              = Gm.GetComponent<LevelTimer>();
        _leveltimer.OnTimerDone += StoreIsClose;
     }
 
@@ -56,8 +57,8 @@ public class EnemySpawner : MonoBehaviour
 
     EnemyAI SpawnEnemy()
     {
-        GameObject Enemy = ObjectPooler.Instance.SpawnFromPool(_enemyTypes[Random.Range(0, _enemyTypes.Count)], DoorSpawnPoint.position, DoorSpawnPoint.rotation);
-        EnemyAI enemyAI  = Enemy.GetComponent<EnemyAI>();
+        GameObject Enemy   = ObjectPooler.Instance.SpawnFromPool(_enemyTypes[Random.Range(0, _enemyTypes.Count)], DoorSpawnPoint.position, DoorSpawnPoint.rotation);
+        EnemyAI    enemyAI = Enemy.GetComponent<EnemyAI>();
         enemyAI.SetDestination(GetPreferableDestination(enemyAI));
         enemyAI.Spawn(this);
         _currentEnemyAmmout++;
@@ -119,10 +120,10 @@ public class EnemySpawner : MonoBehaviour
                 Gizmos.DrawCube(LaneDestination(i, 2+ CustomersInLane[i]), Vector3.one);
 
                 Gizmos.color = Color.cyan;
-                Gizmos.DrawCube(LaneDestination(i, 1+CustomersInLane[i]), Vector3.one);
+                Gizmos.DrawCube(LaneDestination(i, 1+ CustomersInLane[i]), Vector3.one);
 
                 Gizmos.color = Color.blue;
-                Gizmos.DrawCube(LaneDestination(i,CustomersInLane[i]), Vector3.one);
+                Gizmos.DrawCube(LaneDestination(i,    CustomersInLane[i]), Vector3.one);
             }
 
             Gizmos.color = Color.red;
@@ -164,7 +165,7 @@ public class EnemySpawner : MonoBehaviour
 
     Vector3 LaneDestination(int i,int place = 0)
     {
-        return _lanesBase.transform.position                                 // Lanes Base
+        return _lanesBase.transform.position                                  // Lanes Base
                + _lanesBase.transform.right   *   i   * _distanceBetweenLanes //Lanes Seperation
                + _lanesBase.transform.forward * place * _distanceInLane;      //In Lane Seperation
     }
@@ -182,10 +183,11 @@ public class EnemySpawner : MonoBehaviour
 
     public void LevelSetUp(List<string> enemies, Vector2 RandomTime, Vector2 WarmUpTime, int maxEnemies)
     {
-        _enemyTypes = enemies;
-        _randomTime = RandomTime;
-        _currentTimeLeft= Random.Range(WarmUpTime.x,WarmUpTime.y);
-        _maxEnemyInGame = maxEnemies;
+        _enemyTypes      = enemies;
+        _randomTime      = RandomTime;
+        _currentTimeLeft = Random.Range(WarmUpTime.x,WarmUpTime.y);
+        _maxEnemyInGame  = maxEnemies;
+        Gm.TzadokHp      = Gm.MaxTzadokHp;
     }
 
 }

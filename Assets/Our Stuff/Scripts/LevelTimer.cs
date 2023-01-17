@@ -1,8 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Security.AccessControl;
-using UnityEditorInternal;
 using UnityEngine;
 
 public class LevelTimer : MonoBehaviour
@@ -18,7 +14,7 @@ public class LevelTimer : MonoBehaviour
     public Action OnTimerDone;
     public bool IsDone = false;
 
-    private GameManager _gm => GameManager.instance;
+    private GameManager _gm => GameManager.Instance;
     
 
     // Start is called before the first frame update
@@ -59,12 +55,21 @@ public class LevelTimer : MonoBehaviour
 
     public void StartTimer(int S, int M = 0)
     {
-        IsDone = false;
+        IsDone    = false;
         _minutes  = 0;
         _seconds  = 0;
         _minutes += (S / 60) + M; // add minutes from the seconds
         _seconds  = (S + 1) % 60; // Clean the seconds from minutes
         _loop    += RunTimer;
     }
-    
+
+    public void SetTimerTo0()
+    {
+        if (Input.GetKeyDown("N"))
+        {
+             _minutes = 0;
+             _seconds = 0;
+
+        }
+    }
 }

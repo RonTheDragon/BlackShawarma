@@ -14,6 +14,7 @@ public class SOUpgrade : ScriptableObject
     {
         MoreFalafel,
         MoreFries,
-        MoreEggplant
+        MoreEggplant,
+        Armor
     }
 }

@@ -5,21 +5,22 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    public static GameManager instance;
-    public        int         tzadokHp   = 3;
-    public        int         MaxFillers = 4;
+    public static GameManager Instance;
+    public        int         TzadokHp    = 3;
+    public        int         MaxTzadokHp = 3;
+    public        int         MaxFillers  = 4;
     private       int         Money;
 
     public Action UpdateMoney;
 
-    public Action Loop;
-    public Action OnVictoryScreen;
-    public EnemySpawner _enemySpawner;
-    public LevelTimer _lvlTimer => GetComponent<LevelTimer>();
+    public Action       Loop;
+    public Action       OnVictoryScreen;
+    public EnemySpawner EnemySpawner;
+    public LevelTimer LvlTimer => GetComponent<LevelTimer>();
 
     void Awake()
     {
-         instance = this;
+         Instance = this;
     }
 
     public int GetMoney()
@@ -41,11 +42,11 @@ public class GameManager : MonoBehaviour
   
     public void DidWeWin()
     {
-        if (_enemySpawner.HowManyEnemiesInTheStore() ==0 && _lvlTimer.IsDone==true && tzadokHp >0)
+        if (EnemySpawner.HowManyEnemiesInTheStore() == 0 && LvlTimer.IsDone == true && TzadokHp > 0)
         {
             OnVictoryScreen?.Invoke();
             Cursor.lockState = CursorLockMode.None;
-            Cursor.visible = true;
+            Cursor.visible   = true;
         }
     }
 }

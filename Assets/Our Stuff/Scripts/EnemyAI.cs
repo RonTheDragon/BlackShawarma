@@ -32,7 +32,7 @@ public class EnemyAI : MonoBehaviour
 
     private Camera PlayerCamera => Camera.main;
 
-    private GameManager _gm => GameManager.instance;
+    private GameManager _gm => GameManager.Instance;
 
     private Action Loop;
 
@@ -111,7 +111,7 @@ public class EnemyAI : MonoBehaviour
         else
         {
             _onRage?.Invoke();
-            _gm.tzadokHp--;
+            _gm.TzadokHp--;
         }
         OnRageAmountChange?.Invoke(1 -(_currentRage / _maxRage), _currentRage > _calmEnoughToEat);
     }
@@ -183,7 +183,7 @@ public class EnemyAI : MonoBehaviour
     private void MadCustomer()
     {
         _angerSmoke.Emit(100);
-        _gm.tzadokHp--;
+        _gm.TzadokHp--;
 
         RemoveCustomer();
     }

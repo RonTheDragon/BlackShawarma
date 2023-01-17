@@ -1,17 +1,17 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class UpgradeSystem : MonoBehaviour
 {
     [SerializeField] private List<SOUpgrade> _upgrades;
-    [SerializeField] private GameObject _upgradePrefab;
-    [SerializeField] private Transform _upgradesContent;
+    [SerializeField] private GameObject      _upgradePrefab;
+    [SerializeField] private Transform       _upgradesContent;
 
-    [SerializeField] private List<SOAmmoType> _ammoTypes = new List<SOAmmoType>(); 
+    [SerializeField] private List<SOAmmoType> _ammoTypes = new List<SOAmmoType>();
 
-    // Start is called before the first frame update
+    private GameManager _gm => GameManager.Instance;
+
     private void Start()
     {
         BuildShop();
@@ -42,9 +42,10 @@ public class UpgradeSystem : MonoBehaviour
     {
         switch (upgrade)
         {
-            case SOUpgrade.Upgrade.MoreFalafel: return UpgradeFalafel;
-            case SOUpgrade.Upgrade.MoreFries: return UpgradeFries;
+            case SOUpgrade.Upgrade.MoreFalafel:  return UpgradeFalafel;
+            case SOUpgrade.Upgrade.MoreFries:    return UpgradeFries;
             case SOUpgrade.Upgrade.MoreEggplant: return UpgradeEggplant;
+            case SOUpgrade.Upgrade.Armor:        return Armor;
         }
         return null;
     }
@@ -82,5 +83,24 @@ public class UpgradeSystem : MonoBehaviour
             case 2: _ammoTypes[2].MaxAmmo = 20; break;
         }
     }
+    private void Armor(int level)
+    {
+        Debug.Log($"Upgraded Armor Level {level}");
+        _gm.MaxTzadokHp += 1;
+    }
+    
 
+
+    public void RemoveUpgradeLevel(SOUpgrade.Upgrade upgradeType)
+    {
+        foreach (Transform t in _upgradesContent)
+        {
+            ShopUpgradeUI ui = t.GetComponent<ShopUpgradeUI>();
+            
+            if (ui.GetAction() == enumToAction(upgradeType))
+            {
+                ui.RemoveLevel(); return;
+            }
+        }
+    }
 }

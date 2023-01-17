@@ -25,7 +25,7 @@ public class UiManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        GM = GameManager.instance;
+        GM = GameManager.Instance;
         LT = GM.GetComponent<LevelTimer>();
 
         GM.UpdateMoney += UpdateMoney;
