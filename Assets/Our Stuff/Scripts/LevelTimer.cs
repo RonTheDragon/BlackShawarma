@@ -65,7 +65,7 @@ public class LevelTimer : MonoBehaviour
 
     public void SetTimerTo0()
     {
-        if (Input.GetKeyDown("N"))
+        if (Input.GetKeyDown(KeyCode.N))
         {
              _minutes = 0;
              _seconds = 0;

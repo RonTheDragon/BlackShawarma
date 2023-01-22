@@ -11,7 +11,6 @@ public class ShopUpgradeUI : MonoBehaviour
                      private int       _currentLevel,   _maxLevel;
                      private List<int> _costs;
     private Button        _button        => _productPicture.GetComponent<Button>();
-    private UpgradeSystem _upgradeSystem => GetComponent<UpgradeSystem>();
     private GameManager   _gm            => GameManager.Instance;
     private Action<int>   _onBuy;
     public void SetupUpgrade(string name, string explain, List<int> costs, Sprite Icon, Action<int> onClickMethod)
