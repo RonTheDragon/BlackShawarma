@@ -27,6 +27,8 @@ public class EnemyAI : MonoBehaviour
     float        _time;
     public int   CurrentPayment;
     public SideOrderUI SideOrder;
+    public int EnemyDamage = 1;
+
 
 
 
@@ -111,7 +113,7 @@ public class EnemyAI : MonoBehaviour
         else
         {
             _onRage?.Invoke();
-            _gm.TzadokHp--;
+            _gm.TazdokGetDamage(EnemyDamage);
         }
         OnRageAmountChange?.Invoke(1 -(_currentRage / _maxRage), _currentRage > _calmEnoughToEat);
     }
@@ -183,7 +185,7 @@ public class EnemyAI : MonoBehaviour
     private void MadCustomer()
     {
         _angerSmoke.Emit(100);
-        _gm.TzadokHp--;
+        _gm._tzadokHp--;
 
         RemoveCustomer();
     }

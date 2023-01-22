@@ -53,7 +53,7 @@ public class ShopUpgradeUI : MonoBehaviour
         }
         else
         {
-            Debug.Log("Not Enough Money");
+            Debug.Log("Not Enough _money");
         }
     }
 

@@ -22,6 +22,8 @@ public class UiManager : MonoBehaviour
     [SerializeField] TMP_Text MoneyText;
     [SerializeField] TMP_Text Timer;
     [SerializeField] Image VictoryScreen;
+    [SerializeField] Image LoseScreenUi;
+    [SerializeField] Image TazdokHp;
     // Start is called before the first frame update
     void Start()
     {
@@ -94,6 +96,37 @@ public class UiManager : MonoBehaviour
     public void GoToMainMenuScene()
     {
         SceneManager.LoadScene(0);
+    }
+    
+    public void LoseScreen()
+    {
+        if (GameManager.Instance.GetTazdokHp()<=0)
+        {
+            LoseScreenUi.gameObject.SetActive(true);
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+        }
+    }
+    public void UpdateTazdokHPUI()
+    {
+        switch (GameManager.Instance.GetTazdokHp())
+        {
+            case 4:
+                TazdokHp.fillAmount = 1;
+                break;
+            case 3:
+                TazdokHp.fillAmount = 0.749f;
+                break;
+            case 2:
+                TazdokHp.fillAmount = 0.581f;
+                break;
+            case 1:
+                TazdokHp.fillAmount = 0.414f;
+                break;
+           
+            default:
+                break;
+        }
     }
 
     public void QuitGame()

@@ -187,7 +187,7 @@ public class EnemySpawner : MonoBehaviour
         _randomTime      = RandomTime;
         _currentTimeLeft = Random.Range(WarmUpTime.x,WarmUpTime.y);
         _maxEnemyInGame  = maxEnemies;
-        Gm.TzadokHp      = Gm.MaxTzadokHp;
+        Gm._tzadokHp      = Gm.MaxTzadokHp;
     }
 
 }
