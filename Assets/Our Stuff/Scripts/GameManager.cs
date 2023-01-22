@@ -49,17 +49,25 @@ public class GameManager : MonoBehaviour
         return _tzadokHp;
     }
 
+    public void SetTazdokHp(int m)
+    {
+        _tzadokHp = m;
+        UpdateTazdokHp?.Invoke();
+    }
+
     public void AddTazdokHp(int m)
     {
         _tzadokHp += m;
         UpdateTazdokHp?.Invoke();
     }
 
-    public void TazdokGetDamage(int m)
+    public void TazdokTakeDamage(int m)
     {
+        Debug.Log("pain");
         _tzadokHp -= m;
         UpdateTazdokHp?.Invoke();
     }
+
     #endregion
     public void DidWeWin()
     {

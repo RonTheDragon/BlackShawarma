@@ -113,7 +113,6 @@ public class EnemyAI : MonoBehaviour
         else
         {
             _onRage?.Invoke();
-            _gm.TazdokGetDamage(EnemyDamage);
         }
         OnRageAmountChange?.Invoke(1 -(_currentRage / _maxRage), _currentRage > _calmEnoughToEat);
     }
@@ -185,7 +184,7 @@ public class EnemyAI : MonoBehaviour
     private void MadCustomer()
     {
         _angerSmoke.Emit(100);
-        _gm._tzadokHp--;
+        _gm.TazdokTakeDamage(1);
 
         RemoveCustomer();
     }

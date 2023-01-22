@@ -25,12 +25,12 @@ public class EnemySpawner : MonoBehaviour
 
     [SerializeField] Transform  _sideOrdersContent;
     [SerializeField] GameObject _sideOrderPrefab;
-    public GameManager Gm => GameManager.Instance;
+    private GameManager _gm => GameManager.Instance;
     LevelTimer _leveltimer;
 
     private void Start()
     {
-       _leveltimer              = Gm.GetComponent<LevelTimer>();
+       _leveltimer              = _gm.GetComponent<LevelTimer>();
        _leveltimer.OnTimerDone += StoreIsClose;
     }
 
@@ -187,7 +187,7 @@ public class EnemySpawner : MonoBehaviour
         _randomTime      = RandomTime;
         _currentTimeLeft = Random.Range(WarmUpTime.x,WarmUpTime.y);
         _maxEnemyInGame  = maxEnemies;
-        Gm._tzadokHp      = Gm.MaxTzadokHp;
+        _gm.SetTazdokHp(_gm.MaxTzadokHp);
     }
 
 }

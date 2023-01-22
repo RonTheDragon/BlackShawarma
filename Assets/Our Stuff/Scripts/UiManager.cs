@@ -9,11 +9,11 @@ using UnityEngine.UI;
 public class UiManager : MonoBehaviour
 {
     [SerializeField] GameObject player;
-    Gun gun => player.GetComponent<Gun>();
-    BuildOrder BO => player.GetComponent<BuildOrder>();
+    private Gun _gun => player.GetComponent<Gun>();
+    private BuildOrder _bo => player.GetComponent<BuildOrder>();
 
-    GameManager GM;
-    LevelTimer LT;
+    GameManager _gm;
+    LevelTimer _lt;
 
     [SerializeField] List<Image> Fillers;
 
@@ -27,16 +27,17 @@ public class UiManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        GM = GameManager.Instance;
-        LT = GM.GetComponent<LevelTimer>();
+        _gm = GameManager.Instance;
+        _lt = _gm.GetComponent<LevelTimer>();
 
-        GM.UpdateMoney += UpdateMoney;
-        gun.infoUpdate += UpdateInfo;
-        gun.OnSwitchWeapon += SwitchAmmoType;
-        gun.OnPitaAim += SwitchToPita;
-        BO.OnUseIngridients += UpdateIngridients;
-        LT.OnUpdateTimer += UpdateTimer;
-        GM.OnVictoryScreen += () => VictoryScreen.gameObject.SetActive(true); 
+        _gm.UpdateMoney += UpdateMoney;
+        _gm.UpdateTazdokHp += UpdateTazdokHPUI;
+        _gun.infoUpdate += UpdateInfo;
+        _gun.OnSwitchWeapon += SwitchAmmoType;
+        _gun.OnPitaAim += SwitchToPita;
+        _bo.OnUseIngridients += UpdateIngridients;
+        _lt.OnUpdateTimer += UpdateTimer;
+        _gm.OnVictoryScreen += () => VictoryScreen.gameObject.SetActive(true); 
 
         UpdateMoney();
     }
@@ -64,7 +65,7 @@ public class UiManager : MonoBehaviour
     }
     void UpdateMoney()
     {
-        MoneyText.text = "Joobot = " + GM.GetMoney().ToString() + "¤";
+        MoneyText.text = "Joobot = " + _gm.GetMoney().ToString() + "¤";
     }
 
     void UpdateIngridients(List<Ingredient> ingredients)
@@ -111,17 +112,17 @@ public class UiManager : MonoBehaviour
     {
         switch (GameManager.Instance.GetTazdokHp())
         {
-            case 4:
+            case 3:
                 TazdokHp.fillAmount = 1;
                 break;
-            case 3:
-                TazdokHp.fillAmount = 0.749f;
-                break;
             case 2:
-                TazdokHp.fillAmount = 0.581f;
+                TazdokHp.fillAmount = 0.745f;
                 break;
             case 1:
-                TazdokHp.fillAmount = 0.414f;
+                TazdokHp.fillAmount = 0.58f;
+                break;
+            case 0:
+                TazdokHp.fillAmount = 0.415f;
                 break;
            
             default:

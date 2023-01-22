@@ -312,9 +312,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dca863e3640782e499bbeac8dc399339, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tzadokHp: 3
+  MaxTzadokHp: 3
   MaxFillers: 4
-  _enemySpawner: {fileID: 1493421660946856226}
+  TzadokMaxHP: 4
+  EnemySpawner: {fileID: 1493421660946856226}
 --- !u!114 &4334797393951331528
 MonoBehaviour:
   m_ObjectHideFlags: 0
