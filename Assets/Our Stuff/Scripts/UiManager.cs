@@ -37,7 +37,8 @@ public class UiManager : MonoBehaviour
         _gun.OnPitaAim += SwitchToPita;
         _bo.OnUseIngridients += UpdateIngridients;
         _lt.OnUpdateTimer += UpdateTimer;
-        _gm.OnVictoryScreen += () => VictoryScreen.gameObject.SetActive(true); 
+        _gm.OnVictoryScreen += () => VictoryScreen.gameObject.SetActive(true);
+        _gm.OnLoseScreen += LoseScreen;
 
         UpdateMoney();
     }
@@ -100,13 +101,10 @@ public class UiManager : MonoBehaviour
     }
     
     public void LoseScreen()
-    {
-        if (GameManager.Instance.GetTazdokHp()<=0)
-        {
+    {     
             LoseScreenUi.gameObject.SetActive(true);
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
-        }
     }
     public void UpdateTazdokHPUI()
     {

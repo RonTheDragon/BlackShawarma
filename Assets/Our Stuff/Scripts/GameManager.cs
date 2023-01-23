@@ -18,6 +18,7 @@ public class GameManager : MonoBehaviour
 
     public Action       Loop;
     public Action       OnVictoryScreen;
+    public Action       OnLoseScreen;
     public EnemySpawner EnemySpawner;
     public LevelTimer LvlTimer => GetComponent<LevelTimer>();
 
@@ -66,6 +67,12 @@ public class GameManager : MonoBehaviour
         Debug.Log("pain");
         _tzadokHp -= m;
         UpdateTazdokHp?.Invoke();
+
+        if (_tzadokHp <= 0)
+        {
+            OnLoseScreen?.Invoke();
+            EnemySpawner.ClearingLevel();
+        }
     }
 
     #endregion

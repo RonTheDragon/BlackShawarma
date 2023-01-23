@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using TMPro.EditorUtilities;
 using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour
@@ -188,6 +187,15 @@ public class EnemySpawner : MonoBehaviour
         _currentTimeLeft = Random.Range(WarmUpTime.x,WarmUpTime.y);
         _maxEnemyInGame  = maxEnemies;
         _gm.SetTazdokHp(_gm.MaxTzadokHp);
+    }
+
+    public void ClearingLevel()
+    {
+        _leveltimer.SetTimerTo0();
+        for (int i = 0; i < _enemies.Count; i++)
+        {
+            _enemies[i].InstantlyRemoveCustomer();
+        }
     }
 
 }

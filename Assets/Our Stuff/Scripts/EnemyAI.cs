@@ -7,7 +7,7 @@ using Random = System.Random;
 
 public class EnemyAI : MonoBehaviour
 {
-    [SerializeField] float          _currentRage, _maxRage, _calmEnoughToEat;
+    [SerializeField] float          _currentRage, _maxRage, _calmEnoughToEat , _startingRage;
     [SerializeField] float          _angerSmokeAmount = 1;
     [SerializeField] ParticleSystem _angerSmoke;
     public           int            PlaceInLane,   WhichLane;
@@ -47,6 +47,7 @@ public class EnemyAI : MonoBehaviour
 
     public void Spawn(EnemySpawner spawner)
     {
+        _currentRage   = _startingRage;
         _time          = 0;
         _spawner       = spawner;
         _done          = false;
@@ -88,12 +89,6 @@ public class EnemyAI : MonoBehaviour
         }
     }
 
-    private void LeavingTheStore()
-    {
-        _spawner.RemoveEnemy(this);
-        _gm.DidWeWin();
-        gameObject.SetActive(false);
-    }
 
     private void Rage()
     {
@@ -196,9 +191,33 @@ public class EnemyAI : MonoBehaviour
         _spawner.RemoveOnLane(WhichLane, PlaceInLane);
 
         OnRageAmountChange = null;
+        if (SideOrder!=null)
         Destroy(SideOrder.gameObject);
     }
     #endregion
+
+    private void LeavingTheStore()
+    {
+        _spawner.RemoveEnemy(this);
+        _gm.DidWeWin();
+        gameObject.SetActive(false);
+    }
+
+    public void InstantlyRemoveCustomer()
+    {
+        StartCoroutine("DeletingEnemy");
+    }
+
+    private System.Collections.IEnumerator DeletingEnemy()
+    {
+        yield return null;
+
+        if (!_done)
+        {
+            RemoveCustomer();
+        }
+        LeavingTheStore();
+    }
 
     public void SetDestination(Vector3 pos)
     {

@@ -10,13 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 96e5bcaebae947c419084cccca755844, type: 3}
-  m_Name: Level 1
+  m_Name: Lose
   m_EditorClassIdentifier: 
   Enemies:
   - FalafelGuy
   - FriesGuy
   - EggplantGuy
-  RandomSpawnRate: {x: 30, y: 60}
+  RandomSpawnRate: {x: 1, y: 1}
+  WarmUpTime: {x: 0, y: 3}
   MaxEnemiesAtOnce: 10
   Seconds: 10
-  Minutes: 0
+  Minutes: 3

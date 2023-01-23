@@ -84,9 +84,9 @@ public class Gun : MonoBehaviour
         _loop += Aim;
         _loop += AmmoSwitching;
         _loop += DrawProjection;
-        _loop += _levelTimer.SetTimerTo0;
 
         _gm.OnVictoryScreen += StartUsingStation;
+        _gm.OnLoseScreen+= StartUsingStation;
         offset.m_Offset.Set(0, 0, NotAimingFOV);
     }
 
