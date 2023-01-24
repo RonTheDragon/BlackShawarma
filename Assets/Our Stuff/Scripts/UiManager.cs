@@ -1,5 +1,3 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -17,28 +15,31 @@ public class UiManager : MonoBehaviour
 
     [SerializeField] List<Image> Fillers;
 
-    [SerializeField] TMP_Text Info;
-    [SerializeField] TMP_Text Ammo;
-    [SerializeField] TMP_Text MoneyText;
-    [SerializeField] TMP_Text Timer;
-    [SerializeField] Image VictoryScreen;
-    [SerializeField] Image LoseScreenUi;
-    [SerializeField] Image TazdokHp;
+    [SerializeField] private TMP_Text         Info;
+    [SerializeField] private TMP_Text         Ammo;
+    [SerializeField] private TMP_Text         MoneyText;
+    [SerializeField] private TMP_Text         Timer;
+    [SerializeField] private Image            VictoryScreen;
+    [SerializeField] private Image            LoseScreenUi;
+    [SerializeField] private Image            TazdokHp;
+    [SerializeField] private List<GameObject> _endLevelReset;
+
     // Start is called before the first frame update
     void Start()
     {
         _gm = GameManager.Instance;
         _lt = _gm.GetComponent<LevelTimer>();
 
-        _gm.UpdateMoney += UpdateMoney;
-        _gm.UpdateTazdokHp += UpdateTazdokHPUI;
-        _gun.infoUpdate += UpdateInfo;
-        _gun.OnSwitchWeapon += SwitchAmmoType;
-        _gun.OnPitaAim += SwitchToPita;
+        _gm.UpdateMoney      += UpdateMoney;
+        _gm.UpdateTazdokHp   += UpdateTazdokHPUI;
+        _gun.infoUpdate      += UpdateInfo;
+        _gun.OnSwitchWeapon  += SwitchAmmoType;
+        _gun.OnPitaAim       += SwitchToPita;
         _bo.OnUseIngridients += UpdateIngridients;
-        _lt.OnUpdateTimer += UpdateTimer;
-        _gm.OnVictoryScreen += () => VictoryScreen.gameObject.SetActive(true);
-        _gm.OnLoseScreen += LoseScreen;
+        _lt.OnUpdateTimer    += UpdateTimer;
+        _gm.OnVictoryScreen  += () => VictoryScreen.gameObject.SetActive(true);
+        _gm.OnLoseScreen     += LoseScreen;
+        _gm.OnEndLevel       += EndLevel;
 
         UpdateMoney();
     }
@@ -51,7 +52,7 @@ public class UiManager : MonoBehaviour
     void SwitchAmmoType(SOAmmoType a)
     {
         Ammo.color = a.AmmoColor;
-        Ammo.text = $"{a.AmmoTag}\nAmmo:\n{a.CurrentAmmo}/{a.MaxAmmo}";
+        Ammo.text  = $"{a.AmmoTag}\nAmmo:\n{a.CurrentAmmo}/{a.MaxAmmo}";
     }
 
     void SwitchToPita(List<BuildOrder.Fillers> pita)
@@ -104,7 +105,7 @@ public class UiManager : MonoBehaviour
     {     
             LoseScreenUi.gameObject.SetActive(true);
             Cursor.lockState = CursorLockMode.None;
-            Cursor.visible = true;
+            Cursor.visible   = true;
     }
     public void UpdateTazdokHPUI()
     {
@@ -125,6 +126,14 @@ public class UiManager : MonoBehaviour
            
             default:
                 break;
+        }
+    }
+
+    private void EndLevel()
+    {
+        foreach (GameObject item in _endLevelReset)
+        {
+            item.SetActive(false);
         }
     }
 

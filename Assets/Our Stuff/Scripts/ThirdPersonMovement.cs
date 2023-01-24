@@ -47,7 +47,6 @@ public class ThirdPersonMovement : MonoBehaviour
     [Tooltip("Place The Player's Camera Here")]
     [SerializeField] Transform cam;
 
-
     // Invisible //
 
     // Auto Referencing

@@ -198,7 +198,7 @@ public class Gun : MonoBehaviour
 
     void AmmoSwitching()
     {
-        if (AmmoTypes.Count > 1)
+        if (AmmoTypes.Count > 1 && !OnStation)
         {
             if (_hasPita && isAiming)
             {

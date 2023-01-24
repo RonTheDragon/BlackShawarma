@@ -19,6 +19,7 @@ public class GameManager : MonoBehaviour
     public Action       Loop;
     public Action       OnVictoryScreen;
     public Action       OnLoseScreen;
+    public Action       OnEndLevel;
     public EnemySpawner EnemySpawner;
     public LevelTimer LvlTimer => GetComponent<LevelTimer>();
 
@@ -71,9 +72,10 @@ public class GameManager : MonoBehaviour
         if (_tzadokHp <= 0)
         {
             OnLoseScreen?.Invoke();
+            OnEndLevel?.Invoke();
             EnemySpawner.ClearingLevel();
         }
-    }
+    } 
 
     #endregion
     public void DidWeWin()
@@ -81,8 +83,7 @@ public class GameManager : MonoBehaviour
         if (EnemySpawner.HowManyEnemiesInTheStore() == 0 && LvlTimer.IsDone == true && _tzadokHp > 0)
         {
             OnVictoryScreen?.Invoke();
-            Cursor.lockState = CursorLockMode.None;
-            Cursor.visible   = true;
+            OnEndLevel?.Invoke();
         }
     } 
 }

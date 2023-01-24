@@ -92,6 +92,7 @@ public class EnemyAI : MonoBehaviour
 
     private void Rage()
     {
+        if (_done) return;
         ParticleSystem.EmissionModule emission = _angerSmoke.emission;
         emission.rateOverTime = _currentRage * 0.1f * _angerSmokeAmount;
         if (_currentRage < 0)
@@ -128,7 +129,7 @@ public class EnemyAI : MonoBehaviour
     }
 
     public void Eat(Edible.Food f)
-    {
+    {if (_done) return;
         if (CanIEat(f))
         {
             _currentRage -= 10;
@@ -141,6 +142,7 @@ public class EnemyAI : MonoBehaviour
 
     public void EatPita(List<BuildOrder.Fillers> pita)
     {
+        if (_done) return;
         bool CorrectOrder = true;
 
         if (pita.Count == Order.Count && _calmEnoughToEat >= _currentRage  ) // if the pita and the order contains the same amount

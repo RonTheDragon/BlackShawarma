@@ -12,7 +12,7 @@ public class FoodStation : MonoBehaviour , Interactable
 
     public void Use(GameObject player)
     {
-        Gun g        = player.GetComponent<Gun>();
+        Gun        g = player.GetComponent<Gun>();
         BuildOrder b = player.GetComponent<BuildOrder>();
         Panel.SetActive(!Panel.activeSelf);
 
