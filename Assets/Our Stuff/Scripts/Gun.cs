@@ -20,6 +20,10 @@ public class Gun : MonoBehaviour
     [ReadOnly][SerializeField] float CurrentFOV;
     [Tooltip("Is the character aiming or not")]
     [ReadOnly][SerializeField] bool  isAiming;
+    [Tooltip("Too Close To Aim At")]
+    [SerializeField] private float _tooClose = 3;
+    [Tooltip("Too Close To Aim At")]
+    [SerializeField] private float _aimAtSpeed = 3;
 
     [Header("Ammo Switching")]
     [Tooltip("The current amount of ammo")]
@@ -81,6 +85,7 @@ public class Gun : MonoBehaviour
         StopUsingStation();
 
         _loop += Shoot;
+        _loop += UseStationRaycast;
         _loop += Aim;
         _loop += AmmoSwitching;
         _loop += DrawProjection;
@@ -98,34 +103,15 @@ public class Gun : MonoBehaviour
     void Shoot()
     {
         RaycastHit hit;
-        if (Physics.Raycast(cam.position, cam.forward, out hit, Mathf.Infinity))
+        if (Physics.Raycast(cam.position+ cam.forward* _tooClose, cam.forward, out hit, Mathf.Infinity))
         {
-            barrel.LookAt(hit.point);
-            if (hit.distance < 6)
-            {
-                Interactable interact = hit.transform.GetComponent<Interactable>();
-                if (interact != null)
-                {
-                    if (!OnStation)
-                    {
-                        //Info.text = interact.Info;
-                        infoUpdate?.Invoke(interact.Info);
-                        OnUse = interact.Use;
-                    }
-                }
-                else
-                {
-                    StoppedHoveringStation();
-                }
-
-            }
-            else StoppedHoveringStation();
+            //barrel.LookAt(hit.point);
+            AimAt(hit.point);
+            
         }
         else
         {
-            StoppedHoveringStation();
-            infoUpdate?.Invoke(string.Empty);
-            barrel.LookAt(cam.position + cam.forward * 200);
+            AimAt(cam.position + cam.forward * 200);
         }
 
         if (Input.GetMouseButton(0) && _cd <= 0 && !OnStation)
@@ -155,6 +141,38 @@ public class Gun : MonoBehaviour
             _cd -= Time.deltaTime;
 
         }
+    }
+
+    private void UseStationRaycast()
+    {
+        RaycastHit hit;
+        if (Physics.Raycast(cam.position, cam.forward, out hit, Mathf.Infinity))
+        {
+            if (hit.distance < 6)
+            {
+                Interactable interact = hit.transform.GetComponent<Interactable>();
+                if (interact != null)
+                {
+                    if (!OnStation)
+                    {
+                        //Info.text = interact.Info;
+                        infoUpdate?.Invoke(interact.Info);
+                        OnUse = interact.Use;
+                    }
+                }
+                else
+                {
+                    StoppedHoveringStation();
+                }
+
+            }
+            else StoppedHoveringStation();
+        }
+        else
+        {
+            StoppedHoveringStation();
+            infoUpdate?.Invoke(string.Empty);
+        }
 
         if (Input.GetKeyDown(KeyCode.E))
         {
@@ -165,6 +183,13 @@ public class Gun : MonoBehaviour
             OnUse?.Invoke(gameObject);
         }
     }
+
+    private void AimAt(Vector3 pos)
+    {
+        Quaternion targetRotation = Quaternion.LookRotation(pos - barrel.position);
+        barrel.rotation = Quaternion.Lerp(barrel.rotation, targetRotation, _aimAtSpeed * Time.deltaTime);
+    }
+
     void Aim()
     {
         if (Input.GetMouseButtonDown(1))
