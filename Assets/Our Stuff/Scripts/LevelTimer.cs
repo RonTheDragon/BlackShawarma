@@ -10,6 +10,8 @@ public class LevelTimer : MonoBehaviour
     private Action _loop;
 
     public Action<int, int> OnUpdateTimer;
+    public Action<float> OnUpdateCigar;
+    public Action<float> OnSetTimer;
 
     public Action OnTimerDone;
     public bool IsDone = false;
@@ -50,6 +52,7 @@ public class LevelTimer : MonoBehaviour
             _seconds--;
             _second = 1;
             OnUpdateTimer?.Invoke(_seconds,_minutes);
+            OnUpdateCigar?.Invoke(TurnTimeToFloat(_seconds, _minutes));
         }
     }
 
@@ -60,6 +63,8 @@ public class LevelTimer : MonoBehaviour
         _seconds  = 0;
         _minutes += (S / 60) + M; // add minutes from the seconds
         _seconds  = (S + 1) % 60; // Clean the seconds from minutes
+
+        OnSetTimer?.Invoke(TurnTimeToFloat(_seconds, _minutes));
         _loop    += RunTimer;
     }
 
@@ -67,5 +72,11 @@ public class LevelTimer : MonoBehaviour
     {
              _minutes = 0;
              _seconds = 0;
+    }
+
+    public float TurnTimeToFloat(int S, int M = 0)
+    {
+        S += M * 60;
+        return S;
     }
 }

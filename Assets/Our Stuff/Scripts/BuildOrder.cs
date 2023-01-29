@@ -24,6 +24,7 @@ public class BuildOrder : MonoBehaviour
     public bool HasSupplies;
 
     public Action<List<Ingredient>> OnUseIngridients;
+    public Action<List<Fillers>> OnPitaUpdate;
 
     public int Supplies = 8;
     [SerializeField] List<Ingredient> _ingredients = new List<Ingredient>();
@@ -62,13 +63,13 @@ public class BuildOrder : MonoBehaviour
         i.CurrentAmount--;
         OnUseIngridients?.Invoke(_ingredients);
         Pita.Add(filler);
-        ReadOutPita();
+        UpdatePita();
     }
 
     public void Trash()
     {
         Pita.Clear();
-        ReadOutPita();
+        UpdatePita();
     }
 
     public void GetPita()
@@ -78,6 +79,7 @@ public class BuildOrder : MonoBehaviour
             List<Fillers> temporary =  new List<Fillers>(Pita);
             GetComponent<Gun>().SetPita(temporary);       
             Pita.Clear();
+            UpdatePita();
         }
     }
 
@@ -87,8 +89,9 @@ public class BuildOrder : MonoBehaviour
         OnUseIngridients?.Invoke(_ingredients);
     }
 
-    void ReadOutPita()
+    private void UpdatePita()
     {
+        OnPitaUpdate(Pita);
         string msg = string.Empty;
         foreach (Fillers f in Pita)
         {

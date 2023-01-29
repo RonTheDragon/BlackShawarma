@@ -14,7 +14,7 @@ public class EnemyAI : MonoBehaviour
     public           Sprite          Picture;
     [SerializeField] bool           _falefelEater, _eggplantEater, _friesEater;
     [SerializeField] GameObject     _canvas;
-    [SerializeField] TMP_Text       _orderText;
+    [SerializeField] private List<GameObject> _orderFillers;
     [SerializeField] float          _minTime       = 60;
     [SerializeField] float          _maxTime       = 180;
     [SerializeField] Vector2        _randompayment = new Vector2(10,25);
@@ -268,12 +268,48 @@ public class EnemyAI : MonoBehaviour
 
         Order = RandomOrder;
 
-        string orderInText = "Order:";
-        foreach(BuildOrder.Fillers f in Order)
+        //string orderInText = "Order:";
+        //foreach(BuildOrder.Fillers f in Order)
+        //{
+        //    orderInText += $"\n{f}";
+        //}
+        //_orderText.text = orderInText;
+
+        foreach(GameObject go in _orderFillers)
         {
-            orderInText += $"\n{f}";
+            go.SetActive(false);
         }
-        _orderText.text = orderInText;
+
+        foreach (BuildOrder.Fillers filler in Order)
+        {
+            switch (filler)
+            {
+                case BuildOrder.Fillers.Humus:
+                    _orderFillers[0].SetActive(true);
+                    break;
+                case BuildOrder.Fillers.Pickles:
+                    _orderFillers[1].SetActive(true);
+                    break;
+                case BuildOrder.Fillers.Cabbage:
+                    _orderFillers[2].SetActive(true);
+                    break;
+                case BuildOrder.Fillers.Onions:
+                    _orderFillers[3].SetActive(true);
+                    break;
+                case BuildOrder.Fillers.Salad:
+                    _orderFillers[4].SetActive(true);
+                    break;
+                case BuildOrder.Fillers.Spicy:
+                    _orderFillers[5].SetActive(true);
+                    break;
+                case BuildOrder.Fillers.Amba:
+                    _orderFillers[6].SetActive(true);
+                    break;
+                case BuildOrder.Fillers.Thina:
+                    _orderFillers[7].SetActive(true);
+                    break;
+            }
+        }
     }
 
     void SetEnemyPayment()

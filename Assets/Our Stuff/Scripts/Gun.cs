@@ -148,7 +148,7 @@ public class Gun : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(cam.position, cam.forward, out hit, Mathf.Infinity))
         {
-            if (hit.distance < 6)
+            if (hit.distance < 8)
             {
                 Interactable interact = hit.transform.GetComponent<Interactable>();
                 if (interact != null)
