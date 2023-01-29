@@ -12,5 +12,4 @@ public class SOLevel : ScriptableObject
 
     [Header("Timer")]
     public int Seconds = 10;
-    public int Minutes = 0;
 }
