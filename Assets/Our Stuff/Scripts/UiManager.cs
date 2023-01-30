@@ -24,11 +24,8 @@ public class UiManager : MonoBehaviour
     [SerializeField] private TMP_Text         MoneyText;
 
     [Header("Timer")]
-    [SerializeField] private TMP_Text         Timer;
     [SerializeField] private Image            _cigar;
     [SerializeField] private RectTransform    _cigarFlame;
-                     private float _cigarSize;
-                     private float _flamePos;
                      private float _fullTime;   
 
     [SerializeField] private Image            VictoryScreen;
@@ -52,10 +49,7 @@ public class UiManager : MonoBehaviour
         _gun.OnPitaAim       += SwitchToPita;
         _bo.OnUseIngridients += UpdateIngridients;
         _bo.OnPitaUpdate     += PitaUpdate;
-        _lt.OnUpdateTimer    += UpdateTimer;
-        _lt.OnUpdateCigar    += UpdateCigar;
         _lt.OnSetTimer       += SetTimer;
-        _loop                += UpdateCigarWithLerp;
         _gm.OnVictoryScreen  += () => VictoryScreen.gameObject.SetActive(true);
         _gm.OnLoseScreen     += LoseScreen;
         _gm.OnEndLevel       += EndLevel;
@@ -141,40 +135,21 @@ public class UiManager : MonoBehaviour
         }
     }
 
-    private void UpdateTimer(int seconds, int minutes)
+    private void UpdateCigar()
     {
-        string S, M;
-
-        if (seconds < 10) S = $"0{seconds}";
-        else S = $"{seconds}";
-
-        if (minutes < 10) M = $"0{minutes}";
-        else M = $"{minutes}";
-
-        Timer.text = $"{M}:{S}";
-    }
-
-    private void UpdateCigar(float timeLeft)
-    {
-        float fa = 1 -(timeLeft / _fullTime);
-        _cigarSize = Mathf.Lerp(1, 0.28f, fa);
-        _flamePos = Mathf.Lerp(528,119,fa);
+        _lt.TimeLeft -= Time.deltaTime;
+        float fa = 1 -(_lt.TimeLeft / _fullTime);
+        _cigar.fillAmount = Mathf.Lerp(1, 0.28f, fa);
+        _cigarFlame.position = new Vector3(Mathf.Lerp(528, 119, fa), _cigarFlame.position.y, 0);
+        if (_lt.TimeLeft < 0) { _lt.OnTimerDone?.Invoke(); _loop -= UpdateCigar; }
     }
 
     private void SetTimer(float fullTime)
     {
+        _loop += UpdateCigar;
         _fullTime = fullTime;
-        _cigarSize = 1;
-        _flamePos = 528;
         _cigar.fillAmount = 1;
         _cigarFlame.position = new Vector3(528, _cigarFlame.position.y, 0);
-    }
-
-    private void UpdateCigarWithLerp()
-    {
-        float LerpSpeed = 1 / (_fullTime*10);
-        _cigar.fillAmount = Mathf.Lerp(_cigar.fillAmount, _cigarSize, LerpSpeed);
-        _cigarFlame.position = new Vector3(Mathf.Lerp(_cigarFlame.position.x, _flamePos, LerpSpeed), _cigarFlame.position.y, 0);
     }
 
     public void ReloadScene()
