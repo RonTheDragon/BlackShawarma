@@ -3,7 +3,87 @@ guid: 4efa4566ba9e6a345a7f8011f8ee6846
 ModelImporter:
   serializedVersion: 21300
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Beard_Low
+    second: {fileID: 2100000, guid: 0f5d8de9719c7a740b85d1021546e711, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Belt_High
+    second: {fileID: 2100000, guid: 90f62e9efe8929d4ba3c40472c99a940, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Buckler_High
+    second: {fileID: 2100000, guid: 0a6a02b91623be84ab967d14ff8d213a, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Earrings_High
+    second: {fileID: 2100000, guid: 0ce2dba72a2979146a4b43a3533635a2, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: EyeBrows_Low
+    second: {fileID: 2100000, guid: c51e2b6efc6e12a4bb59f9517c0befa3, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Finger_Low
+    second: {fileID: 2100000, guid: 09c0351b703a988409d61f75b08e9107, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Glasses_Low
+    second: {fileID: 2100000, guid: 8742f4ef74ea7d740bdd058da5173715, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Hair_Low
+    second: {fileID: 2100000, guid: 96d9ace01fe84614fac8a00121a9376e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Hipstor_Low
+    second: {fileID: 2100000, guid: cc3ffb69733c6ed44b63ee6975afb163, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Jacket_Low
+    second: {fileID: 2100000, guid: 8ca9d60142403ea4ebd91a7e6b5d369b, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Kuku_high
+    second: {fileID: 2100000, guid: f1f300f6eee38654bb9f41a9c739d255, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Man_Bun_High
+    second: {fileID: 2100000, guid: 415c15cbecc43eb41bb98edaff58eacc, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Mustache_Low
+    second: {fileID: 2100000, guid: c734f928e57484d4eacefc299b26fbd0, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Pants_Low
+    second: {fileID: 2100000, guid: 726537bee595861459be5989aeecea11, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Shirt_Low
+    second: {fileID: 2100000, guid: 82900dd0a3fa04c4fab593d3064d2796, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Shoes_Low
+    second: {fileID: 2100000, guid: 4ff8734683cfeaa47869afe1159cbb35, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
@@ -35,7 +115,7 @@ ModelImporter:
     isReadable: 0
   meshes:
     lODScreenPercentages: []
-    globalScale: 1
+    globalScale: 15
     meshCompression: 0
     addColliders: 0
     useSRGBMaterialColor: 1
@@ -88,7 +168,7 @@ ModelImporter:
     armStretch: 0.05
     legStretch: 0.05
     feetSpacing: 0
-    globalScale: 1
+    globalScale: 0.14999999
     rootMotionBoneName: 
     hasTranslationDoF: 0
     hasExtraRoot: 0
