@@ -210,14 +210,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9872573}
-  m_LocalRotation: {x: 0.18507469, y: -0.6565303, z: 0.13934214, w: 0.71784335}
+  m_LocalRotation: {x: 0.34205177, y: -0.59968495, z: 0.28712514, w: 0.6640315}
   m_LocalPosition: {x: -9.8, y: 22.74, z: 1.83}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 26.659, y: -85.544, z: -2.755}
+  m_LocalEulerAnglesHint: {x: 53, y: -85.544, z: -2.755}
 --- !u!114 &9872576
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -650,7 +650,7 @@ Light:
   m_Type: 0
   m_Shape: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 10.1
+  m_Intensity: 5.5
   m_Range: 11.6
   m_SpotAngle: 179
   m_InnerSpotAngle: 151.98283
@@ -1234,7 +1234,7 @@ Light:
   m_Type: 0
   m_Shape: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 10.1
+  m_Intensity: 5.5
   m_Range: 11.6
   m_SpotAngle: 179
   m_InnerSpotAngle: 151.98283
@@ -1401,7 +1401,7 @@ Light:
   m_Type: 0
   m_Shape: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 10.1
+  m_Intensity: 5.5
   m_Range: 11.6
   m_SpotAngle: 179
   m_InnerSpotAngle: 151.98283
@@ -3032,7 +3032,7 @@ Light:
   m_Type: 0
   m_Shape: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 10.1
+  m_Intensity: 5.5
   m_Range: 11.6
   m_SpotAngle: 179
   m_InnerSpotAngle: 151.98283
@@ -3305,7 +3305,7 @@ Light:
   m_Type: 0
   m_Shape: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 10.1
+  m_Intensity: 5.5
   m_Range: 11.6
   m_SpotAngle: 179
   m_InnerSpotAngle: 151.98283
@@ -3621,7 +3621,7 @@ Light:
   m_Type: 0
   m_Shape: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 10.1
+  m_Intensity: 5.5
   m_Range: 11.6
   m_SpotAngle: 179
   m_InnerSpotAngle: 151.98283
@@ -4155,10 +4155,10 @@ RectTransform:
   m_Father: {fileID: 1212341661}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 50, y: -35}
+  m_SizeDelta: {x: 60, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1496482208
 MonoBehaviour:
@@ -4607,7 +4607,7 @@ Light:
   m_Type: 0
   m_Shape: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 10.1
+  m_Intensity: 5.5
   m_Range: 11.6
   m_SpotAngle: 179
   m_InnerSpotAngle: 151.98283
@@ -4903,11 +4903,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6598293734432143873, guid: 17815853b163b554da771055f6659d6f, type: 3}
       propertyPath: m_LocalRotation.w
-      value: -0.18010966
+      value: -0.18010965
       objectReference: {fileID: 0}
     - target: {fileID: 6598293734432143873, guid: 17815853b163b554da771055f6659d6f, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.052267477
+      value: 0.05226748
       objectReference: {fileID: 0}
     - target: {fileID: 6598293734432143873, guid: 17815853b163b554da771055f6659d6f, type: 3}
       propertyPath: m_LocalRotation.y
@@ -4915,7 +4915,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6598293734432143873, guid: 17815853b163b554da771055f6659d6f, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.27375492
+      value: -0.27375495
       objectReference: {fileID: 0}
     - target: {fileID: 6598293734435211305, guid: 17815853b163b554da771055f6659d6f, type: 3}
       propertyPath: m_Name
@@ -11402,7 +11402,7 @@ Light:
   m_Type: 0
   m_Shape: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 10.1
+  m_Intensity: 5.5
   m_Range: 11.6
   m_SpotAngle: 179
   m_InnerSpotAngle: 151.98283
@@ -11569,7 +11569,7 @@ Light:
   m_Type: 0
   m_Shape: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 10.1
+  m_Intensity: 5.5
   m_Range: 11.6
   m_SpotAngle: 179
   m_InnerSpotAngle: 151.98283
