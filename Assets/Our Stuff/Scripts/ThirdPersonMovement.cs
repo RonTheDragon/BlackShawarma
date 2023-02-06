@@ -15,6 +15,11 @@ public class ThirdPersonMovement : MonoBehaviour
     [Tooltip("The movement speed of the player")]
     [SerializeField] float Speed = 10;
 
+    [Header("Look")]
+    [SerializeField] private Transform _lookAt;
+    [SerializeField] private Cinemachine.AxisState _xAxis;
+    [SerializeField] private Cinemachine.AxisState _yAxis;
+
     [Header("Jumping")]
     [Tooltip("The Height of the jumps")]
     [SerializeField] float Jump = 20;
@@ -84,6 +89,11 @@ public class ThirdPersonMovement : MonoBehaviour
         slide();
     }
 
+    private void FixedUpdate()
+    {
+        Look();
+    }
+
     /// <summary> Allows the player to walk. </summary>
     void movement()
     {
@@ -99,6 +109,14 @@ public class ThirdPersonMovement : MonoBehaviour
             Vector3 MoveDir = Quaternion.Euler(0, targetAngle, 0) * Vector3.forward;
             CC.Move(MoveDir * Speed * Time.deltaTime);
         }
+    }
+
+    private void Look()
+    {
+        _xAxis.Update(Time.fixedDeltaTime);
+        _yAxis.Update(Time.fixedDeltaTime);
+
+        _lookAt.eulerAngles = new Vector3(_yAxis.Value, _xAxis.Value, 0);
     }
 
     /// <summary> Allows the player to jump. </summary>

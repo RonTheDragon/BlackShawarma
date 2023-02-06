@@ -37,7 +37,7 @@ public class Gun : MonoBehaviour
     [Tooltip("Camera reference")]
     [SerializeField] Transform cam;
     [Tooltip("Reference to the cinemachine")]
-    public CinemachineFreeLook cinemachine;
+    public CinemachineVirtualCamera cinemachine;
     private CinemachineCameraOffset offset => cinemachine.GetComponent<CinemachineCameraOffset>();
     private ThirdPersonMovement     tpm    => GetComponent<ThirdPersonMovement>();
     private GameManager             _gm    => GameManager.Instance;
