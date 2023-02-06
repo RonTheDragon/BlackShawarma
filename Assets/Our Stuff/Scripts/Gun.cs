@@ -88,7 +88,7 @@ public class Gun : MonoBehaviour
         _loop += UseStationRaycast;
         _loop += Aim;
         _loop += AmmoSwitching;
-        _loop += DrawProjection;
+        //_loop += DrawProjection;
 
         _gm.OnVictoryScreen += StartUsingStation;
         _gm.OnLoseScreen+= StartUsingStation;
