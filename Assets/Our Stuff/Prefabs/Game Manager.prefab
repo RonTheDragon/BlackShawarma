@@ -24,7 +24,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3807506361775286721}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 20}
+  m_LocalPosition: {x: 1.667, y: 8.19, z: -3.368}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -56,7 +56,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3958112182002989514}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.12, y: 0, z: 0}
+  m_LocalPosition: {x: -2.31, y: -1.67, z: -0.11}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -78,19 +78,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DoorSpawnPoint: {fileID: 3773970721764142240}
-  CustomersInLane: 0000000000000000000000000000000000000000
+  CustomersInLane: 000000000000000000000000
   _currentTimeLeft: 0
   _randomTime: {x: 30, y: 40}
   _lanesBase: {fileID: 6694555045971836296}
-  _distanceBetweenLanes: 5
-  _distanceInLane: 5
+  _distanceBetweenLanes: 1.7
+  _distanceInLane: 3
   _drawGizmos: 1
   _enemyTypes:
   - FalafelGuy
   - EggplantGuy
   - FriesGuy
   _currentEnemyAmmout: 0
-  _maxEnemyInGame: 20
+  _maxEnemyInGame: 9
   _sideOrdersContent: {fileID: 0}
   _sideOrderPrefab: {fileID: 7795570131750160977, guid: 534d29b3bd217ef44b55a1e1066dd723, type: 3}
 --- !u!1 &4327540125018967114
@@ -117,7 +117,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4327540125018967114}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -156,7 +156,7 @@ MonoBehaviour:
     pools:
     - tag: FalafelGuy
       prefab: {fileID: 4293761075693545250, guid: 525f31d1d9762054e8379e993c4db056, type: 3}
-      size: 200
+      size: 20
     - tag: EggplantGuy
       prefab: {fileID: 7296059904902807253, guid: a8e35a5ef141b9449b1fd692e1df3261, type: 3}
       size: 20
@@ -186,14 +186,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4970565003502546486}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.95, y: 0.99, z: 1.28}
+  m_LocalRotation: {x: -0, y: 1, z: -0, w: 0.0000029504295}
+  m_LocalPosition: {x: 3.4, y: 7.61, z: 4.54}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3716296056414235962}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!1 &6291814979971796767
 GameObject:
   m_ObjectHideFlags: 0
@@ -345,6 +345,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee1670f24135bf5479c7f951a740facc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  TimeLeft: 0
   IsDone: 0
 --- !u!114 &244923802
 MonoBehaviour:

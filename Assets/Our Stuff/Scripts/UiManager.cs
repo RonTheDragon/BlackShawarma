@@ -32,6 +32,7 @@ public class UiManager : MonoBehaviour
     [SerializeField] private Image            LoseScreenUi;
     [SerializeField] private Image            TazdokHp;
     [SerializeField] private List<GameObject> _endLevelReset;
+    [SerializeField] private GameObject       _exitMenu;
 
     private Action _loop;
 
@@ -47,6 +48,7 @@ public class UiManager : MonoBehaviour
         _gun.infoUpdate      += UpdateInfo;
         _gun.OnSwitchWeapon  += SwitchAmmoType;
         _gun.OnPitaAim       += SwitchToPita;
+        _gun.OnExit          += OpenExitMenu;
         _bo.OnUseIngridients += UpdateIngridients;
         _bo.OnPitaUpdate     += PitaUpdate;
         _lt.OnSetTimer       += SetTimer;
@@ -199,6 +201,20 @@ public class UiManager : MonoBehaviour
         {
             item.SetActive(false);
         }
+    }
+
+    private void OpenExitMenu()
+    {
+        _exitMenu.SetActive(true);
+        _gun.StartUsingStation();
+        Time.timeScale = 0;
+    }
+
+    public void CloseExitMenu()
+    {
+        Time.timeScale= 1;
+        _exitMenu.SetActive(false);
+        _gun.StopUsingStation();
     }
 
     public void QuitGame()

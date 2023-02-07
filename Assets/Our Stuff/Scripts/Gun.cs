@@ -36,6 +36,9 @@ public class Gun : MonoBehaviour
     [SerializeField] Transform barrel;
     [Tooltip("Camera reference")]
     [SerializeField] Transform cam;
+
+    [SerializeField] private Transform _aimAt;
+
     [Tooltip("Reference to the cinemachine")]
     public CinemachineVirtualCamera cinemachine;
     private CinemachineCameraOffset offset => cinemachine.GetComponent<CinemachineCameraOffset>();
@@ -62,6 +65,8 @@ public class Gun : MonoBehaviour
     public Action<string> infoUpdate;
 
     public Action<GameObject> OnUse;
+
+    public Action OnExit;
 
     public Action<SOAmmoType> OnSwitchWeapon;
 
@@ -107,11 +112,14 @@ public class Gun : MonoBehaviour
         {
             //barrel.LookAt(hit.point);
             AimAt(hit.point);
-            
+            _aimAt.position = hit.point;
+
+
         }
         else
         {
             AimAt(cam.position + cam.forward * 200);
+            _aimAt.position = cam.position + cam.forward * 200;
         }
 
         if (Input.GetMouseButton(0) && _cd <= 0 && !OnStation)
@@ -178,9 +186,11 @@ public class Gun : MonoBehaviour
         {
             OnUse?.Invoke(gameObject);
         }
-        if (Input.GetKeyDown(KeyCode.Escape) && OnStation)
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
-            OnUse?.Invoke(gameObject);
+            if (OnStation)
+                OnUse?.Invoke(gameObject);
+            else OnExit?.Invoke();
         }
     }
 
