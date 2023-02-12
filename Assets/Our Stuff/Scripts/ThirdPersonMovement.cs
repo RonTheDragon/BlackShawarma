@@ -87,11 +87,12 @@ public class ThirdPersonMovement : MonoBehaviour
         movement();
         applyingForce();
         slide();
+        Look();
     }
 
     private void FixedUpdate()
     {
-        Look();
+        //Look();
     }
 
     /// <summary> Allows the player to walk. </summary>
@@ -139,7 +140,7 @@ public class ThirdPersonMovement : MonoBehaviour
         {
             _gravityPull += .2f * Time.deltaTime;
         }
-        CC.Move(Vector3.down * Gravity * _gravityPull * Time.deltaTime);
+       // CC.Move(Vector3.down * Gravity * _gravityPull * Time.deltaTime);
     }
 
     /// <summary> Checking the ground and tell the player if he is grounded or sliding. </summary>
@@ -171,7 +172,7 @@ public class ThirdPersonMovement : MonoBehaviour
             slid.x += ((1f - hitNormal.y) * hitNormal.x * SlideSpeed);
             slid.z += ((1f - hitNormal.y) * hitNormal.z * SlideSpeed);
 
-            CC.Move(slid * Time.deltaTime);
+         //   CC.Move(slid * Time.deltaTime);
         }
     }
 
@@ -188,7 +189,7 @@ public class ThirdPersonMovement : MonoBehaviour
     {
         if (_forceStrength > 0)
         {
-            CC.Move(_forceDirection.normalized * _forceStrength * Time.deltaTime);
+          //  CC.Move(_forceDirection.normalized * _forceStrength * Time.deltaTime);
             _forceStrength -= _forceStrength * 2 * Time.deltaTime;
         }
     }
