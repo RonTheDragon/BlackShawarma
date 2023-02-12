@@ -111,14 +111,14 @@ public class Gun : MonoBehaviour
         if (Physics.Raycast(cam.position+ cam.forward* _tooClose, cam.forward, out hit, Mathf.Infinity))
         {
             //barrel.LookAt(hit.point);
-            AimAt(hit.point);
+            //AimAt(hit.point);
             _aimAt.position = hit.point;
 
 
         }
         else
         {
-            AimAt(cam.position + cam.forward * 200);
+            //AimAt(cam.position + cam.forward * 200);
             _aimAt.position = cam.position + cam.forward * 200;
         }
 
