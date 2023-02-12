@@ -64,6 +64,9 @@ public class UiManager : MonoBehaviour
     private void Update()
     {
         _loop?.Invoke();
+        OpenEnemyInfo();
+
+
     }
 
     void UpdateInfo(string info)
@@ -200,12 +203,13 @@ public class UiManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Tab))
         {
+
           _enemyInfoUi.gameObject.SetActive(true);
         }
-        //else if (Input.GetKeyDown(KeyCode.Tab) && isEnemyInfoOpen == true)
-        //{
-        //  _enemyInfoUi.gameObject.SetActive(false);
-        //}
+        else if (Input.GetKeyUp(KeyCode.Tab))
+        {
+            _enemyInfoUi.gameObject.SetActive(false);
+        }
     }
 
     private void EndLevel()
