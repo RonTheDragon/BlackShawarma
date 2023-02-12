@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using TMPro;
 using Unity.Mathematics;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -33,8 +34,10 @@ public class UiManager : MonoBehaviour
     [SerializeField] private Image            TazdokHp;
     [SerializeField] private List<GameObject> _endLevelReset;
     [SerializeField] private GameObject       _exitMenu;
+    [SerializeField] private Image            _enemyInfoUi;
 
     private Action _loop;
+    bool isEnemyInfoOpen = false;
 
 
     // Start is called before the first frame update
@@ -55,7 +58,6 @@ public class UiManager : MonoBehaviour
         _gm.OnVictoryScreen  += () => VictoryScreen.gameObject.SetActive(true);
         _gm.OnLoseScreen     += LoseScreen;
         _gm.OnEndLevel       += EndLevel;
-
         UpdateMoney();
     }
 
@@ -193,6 +195,17 @@ public class UiManager : MonoBehaviour
             default:
                 break;
         }
+    }
+    private void OpenEnemyInfo()
+    {
+        if (Input.GetKeyDown(KeyCode.Tab))
+        {
+          _enemyInfoUi.gameObject.SetActive(true);
+        }
+        //else if (Input.GetKeyDown(KeyCode.Tab) && isEnemyInfoOpen == true)
+        //{
+        //  _enemyInfoUi.gameObject.SetActive(false);
+        //}
     }
 
     private void EndLevel()
