@@ -1,15 +1,10 @@
-using Cinemachine;
-using System.Collections;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq.Expressions;
+using System;
 using Unity.Mathematics;
-using UnityEditor;
 using UnityEngine;
+using UnityEngine.Animations.Rigging;
 
 public class ThirdPersonMovement : MonoBehaviour
 {
-    // Visible //
 
     [Header("Walking")]
     [Tooltip("The movement speed of the player")]
@@ -20,51 +15,62 @@ public class ThirdPersonMovement : MonoBehaviour
     [SerializeField] private Cinemachine.AxisState _xAxis;
     [SerializeField] private Cinemachine.AxisState _yAxis;
 
-    [Header("Jumping")]
-    [Tooltip("The Height of the jumps")]
-    [SerializeField] float Jump = 20;
-    [Tooltip("The Falling Speed")]
-    [SerializeField] float Gravity = 10;
+    [Header("FreeRoam")]
+    public bool FreeRoam = true;
 
+    [SerializeField] private float _freeRoamAfterDuration=2;
+    private float _freeRoamAfter;
+
+    [SerializeField] private Rig _rig;
+    [SerializeField] private float _rigChangeSpeed = 3;
+
+    #region Unused
+    //[Header("Jumping")]
+    [Tooltip("The Height of the jumps")]
+    float Jump = 20;
+    [Tooltip("The Falling Speed")]
+    float Gravity = 10;
     [Header("Sliding")]
     [Tooltip("on What floor angle we start to slide and cant jump on")]
-    [SerializeField] float slopeLimit = 45;
+    float slopeLimit = 45;
     [Tooltip("The Speed of sliding")]
-    [SerializeField] float SlideSpeed = 5;
+    float SlideSpeed = 5;
     [Tooltip("Are we sliding?")]
-    [ReadOnly][SerializeField] bool isSliding;
+    bool isSliding;
     [Tooltip("The Normal of the floor, (how steep is the floor)")]
-    [ReadOnly][SerializeField] Vector3 hitNormal;
+    Vector3 hitNormal;
 
     [Header("Ground Check")]
     [Tooltip("the Y position of the Ground Checkbox")]
-    [SerializeField] float Y;
+    float Y;
     [Tooltip("how wide the Ground Checkbox")]
-    [SerializeField] float Wide = 0;
+    float Wide = 0;
     [Tooltip("how tall the Ground Checkbox")]
-    [SerializeField] float Height = .15f;
+    float Height = .15f;
     [Tooltip("a layer that contains anything we can jump on")]
-    [SerializeField] LayerMask Jumpable;
+    LayerMask Jumpable;
     [Tooltip("Are we On The Ground?")]
-    [ReadOnly][SerializeField] bool isGrounded;
+    bool isGrounded;
+
+    Vector3 _forceDirection;
+    float   _gravityPull;
+    float   _forceStrength;
+    #endregion
 
     [Header("References")]
     [Tooltip("Place The Player's Camera Here")]
     [SerializeField] Transform cam;
 
-    // Invisible //
 
     // Auto Referencing
     CharacterController CC => GetComponent<CharacterController>();
-    Camera _cam => cam.GetComponent<Camera>();
+    //Camera _cam => cam.GetComponent<Camera>();
 
 
     // Stored Data
     Vector2 _movement;
-    Vector3 _forceDirection;
-    float   _gravityPull;
-    float   _forceStrength;
-    float   f;
+    float   _f;
+
 
     // Ground Check 
     Vector3 _boxPosition => CC.transform.position + (Vector3.up * CC.bounds.extents.y) * Y;
@@ -81,18 +87,14 @@ public class ThirdPersonMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        groundCheck();
-        gravitation();
-        jumping();
+        //groundCheck();
+        //gravitation();
+        //jumping();
+        //slide();
+        //applyingForce();
         movement();
-        applyingForce();
-        slide();
         Look();
-    }
-
-    private void FixedUpdate()
-    {
-        //Look();
+        FreeRoamSupport();
     }
 
     /// <summary> Allows the player to walk. </summary>
@@ -102,14 +104,34 @@ public class ThirdPersonMovement : MonoBehaviour
         Vector2 Movement = _movement.normalized; //Get input from player for movem
 
         float targetAngle  = Mathf.Atan2(Movement.x, Movement.y) * Mathf.Rad2Deg + cam.eulerAngles.y; //get where player is looking
-        float Angle        = Mathf.SmoothDampAngle(transform.eulerAngles.y, cam.eulerAngles.y, ref f, 0.1f); //Smoothing
+        float Angle        = Mathf.SmoothDampAngle(transform.eulerAngles.y, FreeRoam ? targetAngle : cam.eulerAngles.y, ref _f, 0.1f); //Smoothing
+
+        if (!FreeRoam)
         transform.rotation = Quaternion.Euler(0, Angle, 0); //Player rotation
 
         if (Movement.magnitude > 0.1f)
         {
+            if (FreeRoam)
+            {
+                transform.rotation = Quaternion.Euler(0, Angle, 0); //Player rotation
+            }
             Vector3 MoveDir = Quaternion.Euler(0, targetAngle, 0) * Vector3.forward;
             CC.Move(MoveDir * Speed * Time.deltaTime);
         }
+    }
+
+    private void FreeRoamSupport()
+    {
+        if (_freeRoamAfter > 0) _freeRoamAfter -= Time.deltaTime;
+        else FreeRoam = true;
+
+        _rig.weight = Mathf.Lerp(_rig.weight, FreeRoam ? 0 : 1, _rigChangeSpeed* Time.deltaTime);
+    }
+
+    public void StopFreeRoaming()
+    {
+        FreeRoam = false;
+        _freeRoamAfter = _freeRoamAfterDuration;
     }
 
     private void Look()
@@ -119,6 +141,16 @@ public class ThirdPersonMovement : MonoBehaviour
 
         _lookAt.eulerAngles = new Vector3(_yAxis.Value, _xAxis.Value, 0);
     }
+
+
+    //Gizmos
+    void OnDrawGizmosSelected()
+    {
+        // Draw a Box in the Editor to show whether we are touching the ground, Blue is Touching, Red is Not Touching.
+        Gizmos.color = isGrounded ? Color.blue : Color.red; Gizmos.DrawCube(_boxPosition, _boxSize * 2);
+    }
+
+    #region Unused
 
     /// <summary> Allows the player to jump. </summary>
     private void jumping()
@@ -193,13 +225,8 @@ public class ThirdPersonMovement : MonoBehaviour
             _forceStrength -= _forceStrength * 2 * Time.deltaTime;
         }
     }
+    #endregion
 
-    //Gizmos
-    void OnDrawGizmosSelected()
-    {
-        // Draw a Box in the Editor to show whether we are touching the ground, Blue is Touching, Red is Not Touching.
-        Gizmos.color = isGrounded ? Color.blue : Color.red; Gizmos.DrawCube(_boxPosition, _boxSize * 2);
-    }
 }
 
 #region Magic Trick That enables ReadOnly

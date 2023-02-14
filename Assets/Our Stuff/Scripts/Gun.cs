@@ -38,6 +38,7 @@ public class Gun : MonoBehaviour
     [SerializeField] Transform cam;
 
     [SerializeField] private Transform _aimAt;
+    //[SerializeField] private float _aimAtSpeed;
 
     [Tooltip("Reference to the cinemachine")]
     public CinemachineVirtualCamera cinemachine;
@@ -112,14 +113,15 @@ public class Gun : MonoBehaviour
         {
             //barrel.LookAt(hit.point);
             //AimAt(hit.point);
-            _aimAt.position = hit.point;
-
+            //_aimAt.position = hit.point;
+            AimAt(hit.point);
 
         }
         else
         {
             //AimAt(cam.position + cam.forward * 200);
-            _aimAt.position = cam.position + cam.forward * 200;
+            //_aimAt.position = cam.position + cam.forward * 200;
+            AimAt(cam.position + cam.forward * 200);
         }
 
         if (Input.GetMouseButton(0) && _cd <= 0 && !OnStation)
@@ -130,18 +132,24 @@ public class Gun : MonoBehaviour
             }
             else
             {
-                 if (CurrentAmmoType.CurrentAmmo > 0)
-                 {
+                if (CurrentAmmoType.CurrentAmmo > 0)
+                {
+                    _cd = CoolDown;
+
+                    if (!tpm.FreeRoam)
+                    {
                         GameObject bullet = ObjectPooler.Instance.SpawnFromPool(CurrentAmmoType.AmmoTag, barrel.position, barrel.rotation);
-                        _cd = CoolDown;         
                         CurrentAmmoType.CurrentAmmo--;
                         ammoChanged();
+                    }
                 }
-                 else
-                 {
-                     //play the empty gun sound, if the sound is not playing already.
-                 }
+                else
+                {
+                    //play the empty gun sound, if the sound is not playing already.
+                }
             }
+
+            tpm.StopFreeRoaming();
         }
 
         if (_cd > 0)
@@ -151,6 +159,10 @@ public class Gun : MonoBehaviour
         }
     }
 
+    private void AimAt(Vector3 pos)
+    {
+        _aimAt.position = Vector3.MoveTowards(_aimAt.position, pos, Vector3.Distance(_aimAt.position,pos) * _aimAtSpeed * Time.deltaTime);
+    }
     private void UseStationRaycast()
     {
         RaycastHit hit;
@@ -194,12 +206,6 @@ public class Gun : MonoBehaviour
         }
     }
 
-    private void AimAt(Vector3 pos)
-    {
-        Quaternion targetRotation = Quaternion.LookRotation(pos - barrel.position);
-        barrel.rotation = Quaternion.Lerp(barrel.rotation, targetRotation, _aimAtSpeed * Time.deltaTime);
-    }
-
     void Aim()
     {
         if (Input.GetMouseButtonDown(1))
@@ -214,6 +220,7 @@ public class Gun : MonoBehaviour
         CurrentFOV = offset.m_Offset.z;
         if (isAiming)
         {
+            tpm.StopFreeRoaming();
             if (CurrentFOV < AimingFOV)
             {
                 offset.m_Offset.Set(0, 0, CurrentFOV += FovChangingSpeed * Time.deltaTime);
