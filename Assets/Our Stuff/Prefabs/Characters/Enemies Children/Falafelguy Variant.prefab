@@ -8,6 +8,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: -75605627221871459, guid: 397ddbb5c45285c4d80728a808fd65f6, type: 3}
+      propertyPath: _anim
+      value: 
+      objectReference: {fileID: 5336787128442486284}
+    - target: {fileID: -75605627221871459, guid: 397ddbb5c45285c4d80728a808fd65f6, type: 3}
       propertyPath: Picture
       value: 
       objectReference: {fileID: 21300000, guid: 65f0e363b74cf5845ab8c3fbc14f39ac, type: 3}
@@ -271,3 +275,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d0833de381df6e14fb16da48bb16958b, type: 3}
+--- !u!95 &5336787128442486284 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 4340002518249805541, guid: d0833de381df6e14fb16da48bb16958b, type: 3}
+  m_PrefabInstance: {fileID: 8514858657620715753}
+  m_PrefabAsset: {fileID: 0}

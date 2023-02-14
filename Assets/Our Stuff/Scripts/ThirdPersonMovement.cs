@@ -60,6 +60,7 @@ public class ThirdPersonMovement : MonoBehaviour
     [Header("References")]
     [Tooltip("Place The Player's Camera Here")]
     [SerializeField] Transform cam;
+    [SerializeField] private Animator _anim;
 
 
     // Auto Referencing
@@ -117,6 +118,12 @@ public class ThirdPersonMovement : MonoBehaviour
             }
             Vector3 MoveDir = Quaternion.Euler(0, targetAngle, 0) * Vector3.forward;
             CC.Move(MoveDir * Speed * Time.deltaTime);
+
+            _anim.SetBool("Walk", true);
+        }
+        else
+        {
+            _anim.SetBool("Walk", false);
         }
     }
 

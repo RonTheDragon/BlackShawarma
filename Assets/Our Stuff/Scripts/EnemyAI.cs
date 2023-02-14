@@ -30,7 +30,7 @@ public class EnemyAI : MonoBehaviour
     public int EnemyDamage = 1;
 
 
-
+    [SerializeField] private Animator _anim;
 
     private Camera PlayerCamera => Camera.main;
 
@@ -43,6 +43,8 @@ public class EnemyAI : MonoBehaviour
     [HideInInspector] public List<BuildOrder.Fillers> Order = new List<BuildOrder.Fillers>();
 
     private bool _done;
+
+    private Vector3 PreviousPos;
 
 
     public void Spawn(EnemySpawner spawner)
@@ -87,6 +89,15 @@ public class EnemyAI : MonoBehaviour
                 LeavingTheStore();
             }
         }
+        if (PreviousPos != transform.position)
+        {
+            _anim.SetBool("Walk", true);
+        }
+        else
+        {
+            _anim.SetBool("Walk", false);
+        }
+        PreviousPos = transform.position;
     }
 
 
