@@ -92,7 +92,7 @@ public class ThirdPersonMovement : MonoBehaviour
         //groundCheck();
         //jumping();
         //slide();
-        //applyingForce();
+        applyingForce();
         gravitation();
         movement();
         Look();
@@ -230,7 +230,7 @@ public class ThirdPersonMovement : MonoBehaviour
     {
         if (_forceStrength > 0)
         {
-          //  CC.Move(_forceDirection.normalized * _forceStrength * Time.deltaTime);
+            CC.Move(_forceDirection.normalized * _forceStrength * Time.deltaTime);
             _forceStrength -= _forceStrength * 2 * Time.deltaTime;
         }
     }

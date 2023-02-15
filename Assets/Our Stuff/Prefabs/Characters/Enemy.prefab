@@ -873,8 +873,8 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 1
-      minScalar: 1
+      scalar: 3
+      minScalar: 3
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -5349,7 +5349,7 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 21e82b4ab5c6fca45963617d6c247d77, type: 2}
+  - {fileID: 2100000, guid: ababefa1a38aa5a419ba7b450a3618eb, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -15717,8 +15717,8 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 1
-      minScalar: 1
+      scalar: 3
+      minScalar: 3
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -20193,7 +20193,7 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 5632f15692c73894aad6b8aa64c417b1, type: 2}
+  - {fileID: 2100000, guid: 672c31eba505a1742bae1bdcadd85b2f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -21120,7 +21120,7 @@ MonoBehaviour:
   _currentRage: 0
   _maxRage: 100
   _calmEnoughToEat: 30
-  _startingRage: 0
+  _startingRage: 30
   _angerSmokeAmount: 0.05
   _angerSmoke: {fileID: 7294808988973554292}
   _veryAngrySmoke: {fileID: 4702568234983034285}

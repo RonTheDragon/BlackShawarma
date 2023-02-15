@@ -11,9 +11,9 @@ public class Gun : MonoBehaviour
 
     [Header("Aiming")]
     [Tooltip("Field of view while aiming")]
-    [SerializeField]           float AimingFOV        = 3;
+    [SerializeField]           float AimingFOV        = 20;
     [Tooltip("Field of view")]
-    [SerializeField]           float NotAimingFOV     = 0;
+    [SerializeField]           float NotAimingFOV     = 40;
     [Tooltip("The speed of transition from normal to aiming field of view")]
     [SerializeField]           float FovChangingSpeed = 12;
     [Tooltip("The current field of view")]
@@ -46,7 +46,6 @@ public class Gun : MonoBehaviour
 
     [SerializeField] private Transform _cursor;
 
-    private CinemachineCameraOffset offset => cinemachine.GetComponent<CinemachineCameraOffset>();
     private ThirdPersonMovement     tpm    => GetComponent<ThirdPersonMovement>();
     private GameManager             _gm    => GameManager.Instance;
 
@@ -82,6 +81,8 @@ public class Gun : MonoBehaviour
 
     [SerializeField] Material PitaTrajectoryMaterial;
 
+    [SerializeField] private float _pitaKnockback;
+
     //Private 
     float _cd;
     int   _currentAmmo;
@@ -91,6 +92,7 @@ public class Gun : MonoBehaviour
 
     void Start()
     {
+        cinemachine.m_Lens.FieldOfView = NotAimingFOV;
         ResetAmmoToMax();
         ammoChanged();
         StopUsingStation();
@@ -105,7 +107,6 @@ public class Gun : MonoBehaviour
 
         _gm.OnVictoryScreen += StartUsingStation;
         _gm.OnLoseScreen+= StartUsingStation;
-        offset.m_Offset.Set(0, 0, NotAimingFOV);
     }
 
     void Update()
@@ -140,6 +141,7 @@ public class Gun : MonoBehaviour
         {
             if (_hasPita && isAiming)
             {
+                tpm.AddForce(-transform.forward, _pitaKnockback*_currentPita.Count); 
                 PitaShoot();
             }
             else
@@ -230,24 +232,24 @@ public class Gun : MonoBehaviour
             isAiming = false;
         }
 
-        CurrentFOV = offset.m_Offset.z;
+        CurrentFOV = cinemachine.m_Lens.FieldOfView;
         if (isAiming)
         {
             tpm.StopFreeRoaming();
-            if (CurrentFOV < AimingFOV)
+            if (CurrentFOV > AimingFOV)
             {
-                offset.m_Offset.Set(0, 0, CurrentFOV += FovChangingSpeed * Time.deltaTime);
+                cinemachine.m_Lens.FieldOfView = CurrentFOV - FovChangingSpeed * Time.deltaTime;
             }
-            else { offset.m_Offset.Set(0, 0, AimingFOV); }
+            else { cinemachine.m_Lens.FieldOfView= AimingFOV; }
 
         }
         else
         {
-            if (CurrentFOV > NotAimingFOV)
+            if (CurrentFOV < NotAimingFOV)
             {
-                offset.m_Offset.Set(0, 0, CurrentFOV -= FovChangingSpeed * Time.deltaTime);
+                cinemachine.m_Lens.FieldOfView = CurrentFOV + FovChangingSpeed * Time.deltaTime;
             }
-            else { offset.m_Offset.Set(0, 0, NotAimingFOV); ammoChanged(); }
+            else { cinemachine.m_Lens.FieldOfView = NotAimingFOV; ammoChanged(); }
         }
     }
 

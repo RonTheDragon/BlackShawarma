@@ -156,7 +156,7 @@ public class EnemyAI : MonoBehaviour
         else
         {
             _currentRage += 10;
-            _veryAngrySmoke.Emit(1);
+            _angerSmoke.Emit(1);
         }
     }
 
@@ -188,7 +188,7 @@ public class EnemyAI : MonoBehaviour
         else
         {
             _currentRage += 10;
-            _veryAngrySmoke.Emit(1);
+            _angerSmoke.Emit(1);
         }
     }
 
@@ -202,7 +202,7 @@ public class EnemyAI : MonoBehaviour
 
     private void MadCustomer()
     {
-        _veryAngrySmoke.Emit(5);
+        _veryAngrySmoke.Emit(1);
         _gm.TazdokTakeDamage(1);
 
         RemoveCustomer();
