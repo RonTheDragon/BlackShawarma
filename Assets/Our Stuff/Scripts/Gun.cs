@@ -43,6 +43,9 @@ public class Gun : MonoBehaviour
 
     [Tooltip("Reference to the cinemachine")]
     public CinemachineVirtualCamera cinemachine;
+
+    [SerializeField] private Transform _cursor;
+
     private CinemachineCameraOffset offset => cinemachine.GetComponent<CinemachineCameraOffset>();
     private ThirdPersonMovement     tpm    => GetComponent<ThirdPersonMovement>();
     private GameManager             _gm    => GameManager.Instance;
@@ -97,6 +100,7 @@ public class Gun : MonoBehaviour
         _loop += Aim;
         _loop += AmmoSwitching;
         _loop += DrawRope;
+        _loop += DrawCursor;
         //_loop += DrawProjection;
 
         _gm.OnVictoryScreen += StartUsingStation;
@@ -117,7 +121,7 @@ public class Gun : MonoBehaviour
     void Shoot()
     {
         RaycastHit hit;
-        if (Physics.Raycast(cam.position+ cam.forward* _tooClose, cam.forward, out hit, Mathf.Infinity))
+        if (Physics.Raycast(cam.position+ cam.forward* _tooClose, cam.forward, out hit, Mathf.Infinity,_gm.NotPlayerLayer))
         {
             //barrel.LookAt(hit.point);
             //AimAt(hit.point);
@@ -175,7 +179,7 @@ public class Gun : MonoBehaviour
     private void UseStationRaycast()
     {
         RaycastHit hit;
-        if (Physics.Raycast(cam.position, cam.forward, out hit, Mathf.Infinity))
+        if (Physics.Raycast(cam.position, cam.forward, out hit, Mathf.Infinity, _gm.NotPlayerLayer))
         {
             if (hit.distance < 8)
             {
@@ -321,6 +325,11 @@ public class Gun : MonoBehaviour
         }
     }
 
+    private void DrawCursor()
+    {
+        _cursor.position = Input.mousePosition;
+    }
+
     void StoppedHoveringStation()
     {
         infoUpdate?.Invoke(string.Empty);
@@ -348,7 +357,8 @@ public class Gun : MonoBehaviour
         cinemachine.enabled = false;
         tpm.enabled = false;
         Cursor.lockState = CursorLockMode.None;
-        Cursor.visible = true;
+        //Cursor.visible = true;
+        _cursor.gameObject.SetActive(true);
         infoUpdate?.Invoke(string.Empty);
     }
 
@@ -359,6 +369,7 @@ public class Gun : MonoBehaviour
         tpm.enabled = true;
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+        _cursor.gameObject.SetActive(false);
     }
 
     private void ResetAmmoToMax()

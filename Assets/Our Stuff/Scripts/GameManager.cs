@@ -23,6 +23,8 @@ public class GameManager : MonoBehaviour
     public EnemySpawner EnemySpawner;
     public LevelTimer LvlTimer => GetComponent<LevelTimer>();
 
+    public LayerMask NotPlayerLayer;
+
     void Awake()
     {
          Instance = this;
