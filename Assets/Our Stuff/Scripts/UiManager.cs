@@ -147,7 +147,7 @@ public class UiManager : MonoBehaviour
         _lt.TimeLeft -= Time.deltaTime;
         float fa = 1 -(_lt.TimeLeft / _fullTime);
         _cigar.fillAmount = Mathf.Lerp(1, 0.28f, fa);
-        _cigarFlame.position = new Vector3(Mathf.Lerp(528, 119, fa), _cigarFlame.position.y, 0);
+        _cigarFlame.localPosition = new Vector3(Mathf.Lerp(510.4f, 210.8f, fa), _cigarFlame.localPosition.y, 0);
         if (_lt.TimeLeft < 0) { _lt.OnTimerDone?.Invoke(); _loop -= UpdateCigar; }
     }
 
@@ -156,7 +156,7 @@ public class UiManager : MonoBehaviour
         _loop += UpdateCigar;
         _fullTime = fullTime;
         _cigar.fillAmount = 1;
-        _cigarFlame.position = new Vector3(528, _cigarFlame.position.y, 0);
+        _cigarFlame.localPosition = new Vector3(510.4f, _cigarFlame.localPosition.y, 0);
     }
 
     public void ReloadScene()

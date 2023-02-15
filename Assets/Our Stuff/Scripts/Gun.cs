@@ -36,6 +36,7 @@ public class Gun : MonoBehaviour
     [SerializeField] Transform barrel;
     [Tooltip("Camera reference")]
     [SerializeField] Transform cam;
+    [SerializeField] private List<Transform> _ropePositions;
 
     [SerializeField] private Transform _aimAt;
     //[SerializeField] private float _aimAtSpeed;
@@ -57,6 +58,7 @@ public class Gun : MonoBehaviour
     [Range(0.01f, 0.25f)]
     private          float        timeBetweenPoints = 0.1f;
     [SerializeField] LineRenderer lineRenderer;
+    [SerializeField] LineRenderer _rope;
     [SerializeField] LayerMask    layer;
 
     //[SerializeField] TMP_Text Info;
@@ -94,6 +96,7 @@ public class Gun : MonoBehaviour
         _loop += UseStationRaycast;
         _loop += Aim;
         _loop += AmmoSwitching;
+        _loop += DrawRope;
         //_loop += DrawProjection;
 
         _gm.OnVictoryScreen += StartUsingStation;
@@ -104,6 +107,11 @@ public class Gun : MonoBehaviour
     void Update()
     {
         _loop?.Invoke();
+    }
+
+    private void FixedUpdate()
+    {
+        DrawRope();
     }
 
     void Shoot()
@@ -161,6 +169,7 @@ public class Gun : MonoBehaviour
 
     private void AimAt(Vector3 pos)
     {
+        barrel.LookAt(pos);
         _aimAt.position = Vector3.MoveTowards(_aimAt.position, pos, Vector3.Distance(_aimAt.position,pos) * _aimAtSpeed * Time.deltaTime);
     }
     private void UseStationRaycast()
@@ -301,6 +310,17 @@ public class Gun : MonoBehaviour
             }
         }
     }
+
+    private void DrawRope()
+    {
+        _rope.enabled = true;
+        _rope.positionCount = _ropePositions.Count;
+        for (int i =0; i<_ropePositions.Count; i++)
+        {
+            _rope.SetPosition(i, _ropePositions[i].position);
+        }
+    }
+
     void StoppedHoveringStation()
     {
         infoUpdate?.Invoke(string.Empty);

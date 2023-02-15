@@ -10,6 +10,9 @@ public class EnemyAI : MonoBehaviour
     [SerializeField] float          _currentRage, _maxRage, _calmEnoughToEat , _startingRage;
     [SerializeField] float          _angerSmokeAmount = 1;
     [SerializeField] ParticleSystem _angerSmoke;
+    [SerializeField] private ParticleSystem _veryAngrySmoke;
+    [SerializeField] private ParticleSystem _happy;
+    [SerializeField] private ParticleSystem _veryHappy;
     public           int            PlaceInLane,   WhichLane;
     public           Sprite          Picture;
     [SerializeField] bool           _falefelEater, _eggplantEater, _friesEater;
@@ -103,8 +106,12 @@ public class EnemyAI : MonoBehaviour
 
     private void Rage()
     {
-        if (_done) return;
         ParticleSystem.EmissionModule emission = _angerSmoke.emission;
+        if (_done) 
+        {
+            emission.rateOverTime = 0;
+            return; 
+        }
         emission.rateOverTime = _currentRage * 0.1f * _angerSmokeAmount;
         if (_currentRage < 0)
         {
@@ -144,10 +151,12 @@ public class EnemyAI : MonoBehaviour
         if (CanIEat(f))
         {
             _currentRage -= 10;
+            _happy.Emit(1);
         }
         else
         {
             _currentRage += 10;
+            _veryAngrySmoke.Emit(1);
         }
     }
 
@@ -173,11 +182,13 @@ public class EnemyAI : MonoBehaviour
 
         if (CorrectOrder)
         {
-            HappyCustomer();           
+            HappyCustomer();
+            _veryHappy.Emit(1);
         }
         else
         {
             _currentRage += 10;
+            _veryAngrySmoke.Emit(1);
         }
     }
 
@@ -191,7 +202,7 @@ public class EnemyAI : MonoBehaviour
 
     private void MadCustomer()
     {
-        _angerSmoke.Emit(100);
+        _veryAngrySmoke.Emit(5);
         _gm.TazdokTakeDamage(1);
 
         RemoveCustomer();

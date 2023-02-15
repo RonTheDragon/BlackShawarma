@@ -20,6 +20,7 @@ public class ThirdPersonMovement : MonoBehaviour
 
     [SerializeField] private float _freeRoamAfterDuration=2;
     private float _freeRoamAfter;
+    [SerializeField] private float _rotateSpeed = 0.1f;
 
     [SerializeField] private Rig _rig;
     [SerializeField] private float _rigChangeSpeed = 3;
@@ -89,10 +90,10 @@ public class ThirdPersonMovement : MonoBehaviour
     void Update()
     {
         //groundCheck();
-        //gravitation();
         //jumping();
         //slide();
         //applyingForce();
+        gravitation();
         movement();
         Look();
         FreeRoamSupport();
@@ -105,7 +106,7 @@ public class ThirdPersonMovement : MonoBehaviour
         Vector2 Movement = _movement.normalized; //Get input from player for movem
 
         float targetAngle  = Mathf.Atan2(Movement.x, Movement.y) * Mathf.Rad2Deg + cam.eulerAngles.y; //get where player is looking
-        float Angle        = Mathf.SmoothDampAngle(transform.eulerAngles.y, FreeRoam ? targetAngle : cam.eulerAngles.y, ref _f, 0.1f); //Smoothing
+        float Angle        = Mathf.SmoothDampAngle(transform.eulerAngles.y, FreeRoam ? targetAngle : cam.eulerAngles.y, ref _f, _rotateSpeed); //Smoothing
 
         if (!FreeRoam)
         transform.rotation = Quaternion.Euler(0, Angle, 0); //Player rotation
@@ -151,11 +152,11 @@ public class ThirdPersonMovement : MonoBehaviour
 
 
     //Gizmos
-    void OnDrawGizmosSelected()
-    {
-        // Draw a Box in the Editor to show whether we are touching the ground, Blue is Touching, Red is Not Touching.
-        Gizmos.color = isGrounded ? Color.blue : Color.red; Gizmos.DrawCube(_boxPosition, _boxSize * 2);
-    }
+    //void OnDrawGizmosSelected()
+    //{
+    //    // Draw a Box in the Editor to show whether we are touching the ground, Blue is Touching, Red is Not Touching.
+    //   // Gizmos.color = isGrounded ? Color.blue : Color.red; Gizmos.DrawCube(_boxPosition, _boxSize * 2);
+    //}
 
     #region Unused
 
@@ -171,15 +172,16 @@ public class ThirdPersonMovement : MonoBehaviour
     /// <summary> Takes care of Gravity </summary>
     private void gravitation()
     {
-        if (isGrounded)
-        {
-            _gravityPull = .1f;
-        }
-        else if (_gravityPull < 1)
-        {
-            _gravityPull += .2f * Time.deltaTime;
-        }
-       // CC.Move(Vector3.down * Gravity * _gravityPull * Time.deltaTime);
+        //if (isGrounded)
+        //{
+        //    _gravityPull = .1f;
+        //}
+        //else if (_gravityPull < 1)
+        //{
+        //    _gravityPull += .2f * Time.deltaTime;
+        //}
+        //CC.Move(Vector3.down * Gravity * _gravityPull * Time.deltaTime);
+        CC.Move(Vector3.down * 0.1f * Time.deltaTime);
     }
 
     /// <summary> Checking the ground and tell the player if he is grounded or sliding. </summary>
