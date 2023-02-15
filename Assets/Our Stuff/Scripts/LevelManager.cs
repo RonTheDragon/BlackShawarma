@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,6 +12,8 @@ public class LevelManager : MonoBehaviour
 
     private int _currentLevel;
 
+    public Action OnSetUpLevel;
+
     // Start is called before the first frame update
     private void Start()
     {
@@ -21,6 +24,7 @@ public class LevelManager : MonoBehaviour
     {
         _spawner.LevelSetUp(lvl.Enemies, lvl.RandomSpawnRate, lvl.WarmUpTime, lvl.MaxEnemiesAtOnce);
         _timer.StartTimer(lvl.Seconds);
+        OnSetUpLevel?.Invoke();
     }
 
     public void NextLevel()

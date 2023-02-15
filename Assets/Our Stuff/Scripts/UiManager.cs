@@ -1,8 +1,7 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
-using Unity.Mathematics;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -65,8 +64,6 @@ public class UiManager : MonoBehaviour
     {
         _loop?.Invoke();
         OpenEnemyInfo();
-
-
     }
 
     void UpdateInfo(string info)
@@ -218,6 +215,13 @@ public class UiManager : MonoBehaviour
         {
             item.SetActive(false);
         }
+        StartCoroutine("StopTime");
+    }
+
+    private IEnumerator StopTime()
+    {
+        yield return null;
+        Time.timeScale = 0;
     }
 
     private void OpenExitMenu()

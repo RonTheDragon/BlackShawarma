@@ -49,7 +49,12 @@ public class Gun : MonoBehaviour
     private ThirdPersonMovement     tpm    => GetComponent<ThirdPersonMovement>();
     private GameManager             _gm    => GameManager.Instance;
 
+    private CinemachineImpulseSource _cis => GetComponent<CinemachineImpulseSource>();
+
+    private BuildOrder _buildOrder => GetComponent<BuildOrder>();
     private LevelTimer _levelTimer => _gm.GetComponent<LevelTimer>();
+
+    private LevelManager _levelManager => _gm.GetComponent<LevelManager>();
 
     [Header("Projection")]
     [SerializeField]
@@ -82,13 +87,15 @@ public class Gun : MonoBehaviour
     [SerializeField] Material PitaTrajectoryMaterial;
 
     [SerializeField] private float _pitaKnockback;
+    [SerializeField] private float _recoil = 10;
+
 
     //Private 
     float _cd;
     int   _currentAmmo;
 
-    public bool OnStation;
-           bool _hasPita = false;
+    public bool UsingUI;
+    bool _hasPita = false;
 
     void Start()
     {
@@ -107,6 +114,7 @@ public class Gun : MonoBehaviour
 
         _gm.OnVictoryScreen += StartUsingStation;
         _gm.OnLoseScreen+= StartUsingStation;
+        _levelManager.OnSetUpLevel += RefillAll;
     }
 
     void Update()
@@ -137,11 +145,13 @@ public class Gun : MonoBehaviour
             AimAt(cam.position + cam.forward * 200);
         }
 
-        if (Input.GetMouseButton(0) && _cd <= 0 && !OnStation)
+        if (Input.GetMouseButton(0) && _cd <= 0 && !UsingUI)
         {
             if (_hasPita && isAiming)
             {
-                tpm.AddForce(-transform.forward, _pitaKnockback*_currentPita.Count); 
+                tpm.AddForce(-transform.forward, _pitaKnockback*_currentPita.Count);
+                tpm.AddLookTorque(Vector2.down, _recoil * _currentPita.Count);
+                _cis.GenerateImpulse(_recoil * _currentPita.Count);
                 PitaShoot();
             }
             else
@@ -155,6 +165,9 @@ public class Gun : MonoBehaviour
                         GameObject bullet = ObjectPooler.Instance.SpawnFromPool(CurrentAmmoType.AmmoTag, barrel.position, barrel.rotation);
                         CurrentAmmoType.CurrentAmmo--;
                         ammoChanged();
+                        float r = isAiming ? _recoil / 3 : _recoil;
+                        tpm.AddLookTorque(Vector2.down, r);
+                        _cis.GenerateImpulse(r);
                     }
                 }
                 else
@@ -188,7 +201,7 @@ public class Gun : MonoBehaviour
                 Interactable interact = hit.transform.GetComponent<Interactable>();
                 if (interact != null)
                 {
-                    if (!OnStation)
+                    if (!UsingUI)
                     {
                         //Info.text = interact.Info;
                         infoUpdate?.Invoke(interact.Info);
@@ -215,8 +228,10 @@ public class Gun : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if (OnStation)
-                OnUse?.Invoke(gameObject);
+            if (UsingUI)
+            {             
+              OnUse?.Invoke(gameObject);
+            }
             else OnExit?.Invoke();
         }
     }
@@ -255,7 +270,7 @@ public class Gun : MonoBehaviour
 
     void AmmoSwitching()
     {
-        if (AmmoTypes.Count > 1 && !OnStation)
+        if (AmmoTypes.Count > 1 && !UsingUI)
         {
             if (_hasPita && isAiming)
             {
@@ -284,6 +299,15 @@ public class Gun : MonoBehaviour
                 }
             }
         }
+    }
+
+    public void RefillAll()
+    {
+        foreach(SOAmmoType sat in AmmoTypes)
+        {
+            sat.CurrentAmmo = sat.MaxAmmo;
+        }
+        _buildOrder.FillAll();
     }
 
     void ammoChanged()
@@ -335,7 +359,7 @@ public class Gun : MonoBehaviour
     void StoppedHoveringStation()
     {
         infoUpdate?.Invoke(string.Empty);
-        if (OnStation) { OnUse?.Invoke(gameObject); }
+        if (UsingUI) { OnUse?.Invoke(gameObject); }
         else OnUse = null;
     }
 
@@ -355,7 +379,7 @@ public class Gun : MonoBehaviour
 
     public void StartUsingStation()
     {
-        OnStation = true;
+        UsingUI = true;
         cinemachine.enabled = false;
         tpm.enabled = false;
         Cursor.lockState = CursorLockMode.None;
@@ -366,7 +390,7 @@ public class Gun : MonoBehaviour
 
     public void StopUsingStation()
     {
-        OnStation = false;
+        UsingUI = false;
         cinemachine.enabled = true;
         tpm.enabled = true;
         Cursor.lockState = CursorLockMode.Locked;

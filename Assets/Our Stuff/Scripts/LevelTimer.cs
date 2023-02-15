@@ -24,6 +24,7 @@ public class LevelTimer : MonoBehaviour
         IsDone    = false;
         TimeLeft= time;
         OnSetTimer?.Invoke(time);
+        Time.timeScale = 1;
     }
 
     public void SetTimerTo0()

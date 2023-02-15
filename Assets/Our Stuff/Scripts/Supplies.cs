@@ -7,6 +7,7 @@ public class Supplies : MonoBehaviour, Interactable
     [SerializeField] private string _info;
     public string Info { get => _info; set => _info = value; }
 
+
     public void Use(GameObject player)
     {
         BuildOrder b = player.GetComponent<BuildOrder>();

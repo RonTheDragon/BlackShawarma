@@ -58,6 +58,9 @@ public class ThirdPersonMovement : MonoBehaviour
     float   _forceStrength;
     #endregion
 
+    Vector2 _torqueDirection;
+    float _torqueStrength;
+
     [Header("References")]
     [Tooltip("Place The Player's Camera Here")]
     [SerializeField] Transform cam;
@@ -147,9 +150,24 @@ public class ThirdPersonMovement : MonoBehaviour
         _xAxis.Update(Time.fixedDeltaTime);
         _yAxis.Update(Time.fixedDeltaTime);
 
+        if (_torqueStrength > 0)
+        {
+            Vector2 rot = _torqueDirection.normalized * _torqueStrength * Time.deltaTime;
+
+            _xAxis.Value += rot.x;
+            _yAxis.Value += rot.y;
+
+            _torqueStrength -= (_torqueStrength + 0.01f) * 15 * Time.deltaTime;
+        }
+
         _lookAt.eulerAngles = new Vector3(_yAxis.Value, _xAxis.Value, 0);
     }
 
+    public void AddLookTorque(Vector2 dir, float force)
+    {
+        _torqueDirection = dir;
+        _torqueStrength = force;       
+    }
 
     //Gizmos
     //void OnDrawGizmosSelected()
@@ -231,7 +249,7 @@ public class ThirdPersonMovement : MonoBehaviour
         if (_forceStrength > 0)
         {
             CC.Move(_forceDirection.normalized * _forceStrength * Time.deltaTime);
-            _forceStrength -= _forceStrength * 2 * Time.deltaTime;
+            _forceStrength -= (_forceStrength+0.01f) * 2 * Time.deltaTime;
         }
     }
     #endregion

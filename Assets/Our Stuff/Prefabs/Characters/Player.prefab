@@ -1769,11 +1769,11 @@ RectTransform:
   - {fileID: 3503427663532933621}
   - {fileID: 4954092257916580065}
   - {fileID: 8447529514090075212}
-  - {fileID: 1097769387}
   - {fileID: 1509950137}
   - {fileID: 6872159253695635968}
   - {fileID: 3372999375308514103}
   - {fileID: 2068205540144029033}
+  - {fileID: 1097769387}
   - {fileID: 1456858001025661649}
   - {fileID: 6216325887593668698}
   - {fileID: 954458864}
@@ -2215,7 +2215,7 @@ RectTransform:
   m_Children:
   - {fileID: 473036645}
   m_Father: {fileID: 1319481876}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
@@ -3670,7 +3670,7 @@ RectTransform:
   m_Children:
   - {fileID: 1742184205}
   m_Father: {fileID: 1319481876}
-  m_RootOrder: 8
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -5092,6 +5092,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8840776063545812225}
   - component: {fileID: 8877952502269139079}
+  - component: {fileID: 2787774633715631702}
   m_Layer: 0
   m_Name: CM vcam1
   m_TagString: Untagged
@@ -5153,6 +5154,29 @@ MonoBehaviour:
         m_Calls: []
   m_LegacyBlendHint: 0
   m_ComponentOwner: {fileID: 8010286580291658422}
+--- !u!114 &2787774633715631702
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1222078681122328204}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00b2d199b96b516448144ab30fb26aed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ApplyAfter: 2
+  m_ChannelMask: 1
+  m_Gain: 0.002
+  m_Use2DDistance: 0
+  m_UseCameraSpace: 1
+  m_ReactionSettings:
+    m_SecondaryNoise: {fileID: 0}
+    m_AmplitudeGain: 1
+    m_FrequencyGain: 1
+    m_Duration: 1
+    m_NoiseOffsets: {x: 0, y: 0, z: 0}
 --- !u!1 &1239269441378008951
 GameObject:
   m_ObjectHideFlags: 0
@@ -8995,7 +9019,7 @@ RectTransform:
   m_Children:
   - {fileID: 244903340150692838}
   m_Father: {fileID: 1319481876}
-  m_RootOrder: 10
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -10213,7 +10237,7 @@ RectTransform:
   m_Children:
   - {fileID: 823427248}
   m_Father: {fileID: 1319481876}
-  m_RootOrder: 9
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -10776,6 +10800,7 @@ GameObject:
   - component: {fileID: 6598293734435211304}
   - component: {fileID: 333396162}
   - component: {fileID: 838788667}
+  - component: {fileID: 4629178098506559021}
   m_Layer: 3
   m_Name: Player
   m_TagString: Player
@@ -10931,7 +10956,8 @@ MonoBehaviour:
     m_Bits: 55
   PitaTrajectoryMaterial: {fileID: 2100000, guid: b9f9e3bb455a75945aa2c9b2afa73f65, type: 2}
   _pitaKnockback: 1
-  OnStation: 0
+  _recoil: 20
+  UsingUI: 0
 --- !u!114 &838788667
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10949,6 +10975,59 @@ MonoBehaviour:
   Supplies: 8
   _ingredients: []
   Pita: 
+--- !u!114 &4629178098506559021
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6598293734435211305}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 180ecf9b41d478f468eb3e9083753217, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ImpulseDefinition:
+    m_ImpulseChannel: 1
+    m_ImpulseShape: 3
+    m_CustomImpulseShape:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_ImpulseDuration: 0.2
+    m_ImpulseType: 0
+    m_DissipationRate: 0.25
+    m_RawSignal: {fileID: 0}
+    m_AmplitudeGain: 1
+    m_FrequencyGain: 1
+    m_RepeatMode: 0
+    m_Randomize: 1
+    m_TimeEnvelope:
+      m_AttackShape:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      m_DecayShape:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      m_AttackTime: 0
+      m_SustainTime: 0.2
+      m_DecayTime: 0.7
+      m_ScaleWithImpact: 1
+      m_HoldForever: 0
+    m_ImpactRadius: 100
+    m_DirectionMode: 0
+    m_DissipationMode: 2
+    m_DissipationDistance: 100
+    m_PropagationSpeed: 343
+  m_DefaultVelocity: {x: -1, y: -1, z: -1}
 --- !u!1 &6598293734886125694
 GameObject:
   m_ObjectHideFlags: 0
@@ -14809,7 +14888,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7043666344164515165, guid: d2426daa08334c841adf074d419e6f41, type: 3}
       propertyPath: m_RootOrder
-      value: 6
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 7043666344164515165, guid: d2426daa08334c841adf074d419e6f41, type: 3}
       propertyPath: m_AnchorMax.x
