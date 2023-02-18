@@ -159,6 +159,7 @@ public class EnemyAI : MonoBehaviour
             _currentRage += 10;
             _angerSmoke.Emit(1);
         }
+        OnBeingShot?.Invoke();
     }
 
     public void EatPita(List<BuildOrder.Fillers> pita)
@@ -190,6 +191,7 @@ public class EnemyAI : MonoBehaviour
         {
             _currentRage += 10;
             _angerSmoke.Emit(1);
+            OnBeingShot?.Invoke();
         }
     }
 
