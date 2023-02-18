@@ -42,6 +42,7 @@ public class EnemyAI : MonoBehaviour
     private Action Loop;
 
     public Action<float,bool> OnRageAmountChange;
+    public Action OnBeingShot;
 
     [HideInInspector] public List<BuildOrder.Fillers> Order = new List<BuildOrder.Fillers>();
 
