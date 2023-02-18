@@ -89,7 +89,7 @@ public class Gun : MonoBehaviour
     [SerializeField] private float _pitaKnockback;
     [SerializeField] private float _recoil = 10;
 
-    [SerializeField] private Transform _fireImpacts;
+    [SerializeField] private Animator _gunAnimator;
 
 
     //Private 
@@ -242,10 +242,7 @@ public class Gun : MonoBehaviour
 
     private void ShootImpact()
     {
-        foreach(Transform t in _fireImpacts)
-        {
-            t.GetComponent<Animator>().SetTrigger("Play");
-        }
+        _gunAnimator.SetTrigger("Play");
     }
 
     void Aim()

@@ -5,6 +5,9 @@ using System.Collections.Generic;
 
 public class SideOrderUI : MonoBehaviour
 {
+    [SerializeField] private float _showForSeconds = 3;
+    private float _showSecondsLeft;
+
     [SerializeField] private TMP_Text _order;
                    //private string   _savedOrder;
                              bool     _tooAngry;
@@ -14,6 +17,7 @@ public class SideOrderUI : MonoBehaviour
     private EnemyAI _enemy;
 
     [SerializeField] private List<GameObject> _fillers;
+
     
 
     public void SetUp(EnemyAI enemy)
@@ -32,6 +36,18 @@ public class SideOrderUI : MonoBehaviour
         _guyImage.sprite = enemy.Picture;
         _enemy=enemy; 
         enemy.OnRageAmountChange += ChangeRageBar;
+        enemy.OnBeingShot += ShowRageBar;
+    }
+
+    private void Update()
+    {
+        if (_showSecondsLeft > 0) { _showSecondsLeft -= Time.deltaTime; }
+    }
+
+    private void ShowRageBar()
+    {
+
+        gameObject.SetActive(true);
     }
 
     private void ChangeRageBar(float f,bool tooAngry)
@@ -47,15 +63,20 @@ public class SideOrderUI : MonoBehaviour
             if (tooAngry)
             {
                 _order.text = "???";
-                foreach(GameObject go in _fillers)
+                //foreach(GameObject go in _fillers)
+                //{
+                //    go.SetActive(false);
+                //}
+                if (true) 
                 {
-                    go.SetActive(false);
+                    gameObject.SetActive(false); 
                 }
             }
             else
             {
+                gameObject.SetActive(true);
                 _order.text = "";
-                foreach(BuildOrder.Fillers filler in _enemy.Order)
+                foreach (BuildOrder.Fillers filler in _enemy.Order)
                 {
                     switch (filler)
                     {
