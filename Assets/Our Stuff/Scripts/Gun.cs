@@ -89,6 +89,8 @@ public class Gun : MonoBehaviour
     [SerializeField] private float _pitaKnockback;
     [SerializeField] private float _recoil = 10;
 
+    [SerializeField] private Transform _fireImpacts;
+
 
     //Private 
     float _cd;
@@ -153,6 +155,7 @@ public class Gun : MonoBehaviour
                 tpm.AddLookTorque(Vector2.down, _recoil * _currentPita.Count);
                 _cis.GenerateImpulse(_recoil * _currentPita.Count);
                 PitaShoot();
+                ShootImpact();
             }
             else
             {
@@ -168,6 +171,7 @@ public class Gun : MonoBehaviour
                         float r = isAiming ? _recoil / 3 : _recoil;
                         tpm.AddLookTorque(Vector2.down, r);
                         _cis.GenerateImpulse(r);
+                        ShootImpact();
                     }
                 }
                 else
@@ -233,6 +237,14 @@ public class Gun : MonoBehaviour
               OnUse?.Invoke(gameObject);
             }
             else OnExit?.Invoke();
+        }
+    }
+
+    private void ShootImpact()
+    {
+        foreach(Transform t in _fireImpacts)
+        {
+            t.GetComponent<Animator>().SetTrigger("Play");
         }
     }
 
