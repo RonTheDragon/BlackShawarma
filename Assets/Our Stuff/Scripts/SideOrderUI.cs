@@ -8,11 +8,16 @@ public class SideOrderUI : MonoBehaviour
     [SerializeField] private float _showForSeconds = 3;
     [ReadOnly][SerializeField] private float _showSecondsLeft;
 
-    [SerializeField] private TMP_Text _order;
+    [SerializeField] private TMP_Text _number;
                    //private string   _savedOrder;
                              bool     _tooAngry;
                              bool     _started;
     [SerializeField] private Image    _guyImage;
+    private Sprite    _guyHappyImage;
+    private Sprite    _guyAngryImage;
+    [SerializeField] private Image    _pitaIcon;
+    [SerializeField] private Image    _wantedFoodIcon;
+    [SerializeField] private Image    _panel;
     [SerializeField] private Image    _angerBar;
     private EnemyAI _enemy;
 
@@ -22,19 +27,14 @@ public class SideOrderUI : MonoBehaviour
 
     public void SetUp(EnemyAI enemy)
     {
-        //string ordertxt = string.Empty;
+        _panel.sprite = enemy.SideOrderPanel;
+        _guyHappyImage = enemy.HappyPicture;
+        _guyAngryImage = enemy.AngryPicture;
+        _guyImage.sprite = _guyAngryImage;
+        _number.text = $"{enemy.CustomerNumber}";
+        _wantedFoodIcon.sprite = enemy.RequestedFood;
 
-        //for (int i = 0; i < enemy.Order.Count; i++)
-        //{
-        //    if (i == enemy.Order.Count - 1)          
-        //        ordertxt += $"{enemy.Order[i]}.";
-        //    else
-        //         ordertxt += $"{enemy.Order[i]}, ";
-        //}
-
-        //_savedOrder = ordertxt;
-        _guyImage.sprite = enemy.Picture;
-        _enemy=enemy; 
+        _enemy =enemy; 
         enemy.OnRageAmountChange += ChangeRageBar;
         enemy.OnBeingShot += ShowRageBar;
     }
@@ -60,8 +60,11 @@ public class SideOrderUI : MonoBehaviour
             // _order.text = tooAngry ? "???" : _savedOrder;
             if (tooAngry)
             {
-                _order.text = "???";
-                foreach(GameObject go in _fillers)
+                _guyImage.sprite = _guyAngryImage;
+                _angerBar.color = Color.red;
+                _pitaIcon.enabled = false;
+                _wantedFoodIcon.enabled = true;
+                foreach (GameObject go in _fillers)
                 {
                     go.SetActive(false);
                 }
@@ -73,7 +76,10 @@ public class SideOrderUI : MonoBehaviour
             else
             {
                 gameObject.SetActive(true);
-                _order.text = "";
+                _guyImage.sprite = _guyHappyImage;
+                _angerBar.color = Color.green;
+                _pitaIcon.enabled = true;
+                _wantedFoodIcon.enabled = false;
                 foreach (BuildOrder.Fillers filler in _enemy.Order)
                 {
                     switch (filler)

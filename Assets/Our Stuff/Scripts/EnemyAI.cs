@@ -14,7 +14,13 @@ public class EnemyAI : MonoBehaviour
     [SerializeField] private ParticleSystem _happy;
     [SerializeField] private ParticleSystem _veryHappy;
     public           int            PlaceInLane,   WhichLane;
-    public           Sprite          Picture;
+
+    public           Sprite          HappyPicture;
+    public           Sprite          AngryPicture;
+    public           Sprite          SideOrderPanel;
+    public           Sprite          RequestedFood;
+    public           int             CustomerNumber;
+
     [SerializeField] bool           _falefelEater, _eggplantEater, _friesEater;
     [SerializeField] GameObject     _canvas;
     [SerializeField] private List<GameObject> _orderFillers;
@@ -51,13 +57,14 @@ public class EnemyAI : MonoBehaviour
     private Vector3 PreviousPos;
 
 
-    public void Spawn(EnemySpawner spawner)
+    public void Spawn(EnemySpawner spawner,int num)
     {
         _currentRage   = _startingRage;
         _time          = 0;
         _spawner       = spawner;
         _done          = false;
         _agent.enabled = true;
+        CustomerNumber= num;
         SetEnemyPayment();
         GenerateRandomOrder();
     }

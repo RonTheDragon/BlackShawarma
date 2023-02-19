@@ -10,6 +10,7 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] float   _currentTimeLeft;
     [SerializeField] Vector2 _randomTime;
 
+
     [SerializeField] Transform _lanesBase;
 
     [SerializeField] float _distanceBetweenLanes = 5;
@@ -26,6 +27,8 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] GameObject _sideOrderPrefab;
     private GameManager _gm => GameManager.Instance;
     LevelTimer _leveltimer;
+
+    public int CustomerCounter;
 
     private void Start()
     {
@@ -59,7 +62,8 @@ public class EnemySpawner : MonoBehaviour
         GameObject Enemy   = ObjectPooler.Instance.SpawnFromPool(_enemyTypes[Random.Range(0, _enemyTypes.Count)], DoorSpawnPoint.position, DoorSpawnPoint.rotation);
         EnemyAI    enemyAI = Enemy.GetComponent<EnemyAI>();
         enemyAI.SetDestination(GetPreferableDestination(enemyAI));
-        enemyAI.Spawn(this);
+        CustomerCounter++;
+        enemyAI.Spawn(this, CustomerCounter);
         _currentEnemyAmmout++;
 
         SideOrderUI order = Instantiate(_sideOrderPrefab, _sideOrdersContent.position, Quaternion.identity, _sideOrdersContent).GetComponent<SideOrderUI>();
@@ -187,6 +191,7 @@ public class EnemySpawner : MonoBehaviour
         _currentTimeLeft = Random.Range(WarmUpTime.x,WarmUpTime.y);
         _maxEnemyInGame  = maxEnemies;
         _gm.SetTazdokHp(_gm.MaxTzadokHp);
+        CustomerCounter = 0;
     }
 
     public void ClearingLevel()
