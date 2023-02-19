@@ -169,8 +169,6 @@ public class UiManager : MonoBehaviour
     public void LoseScreen()
     {     
             LoseScreenUi.gameObject.SetActive(true);
-            Cursor.lockState = CursorLockMode.None;
-            Cursor.visible   = true;
     }
     public void UpdateTazdokHPUI()
     {

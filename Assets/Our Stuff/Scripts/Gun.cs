@@ -44,7 +44,7 @@ public class Gun : MonoBehaviour
     [Tooltip("Reference to the cinemachine")]
     public CinemachineVirtualCamera cinemachine;
 
-    [SerializeField] private Transform _cursor;
+    public Transform CursorHand;
 
     private ThirdPersonMovement     tpm    => GetComponent<ThirdPersonMovement>();
     private GameManager             _gm    => GameManager.Instance;
@@ -362,7 +362,7 @@ public class Gun : MonoBehaviour
 
     private void DrawCursor()
     {
-        _cursor.position = Input.mousePosition;
+        CursorHand.position = Input.mousePosition;
     }
 
     void StoppedHoveringStation()
@@ -393,7 +393,7 @@ public class Gun : MonoBehaviour
         tpm.enabled = false;
         Cursor.lockState = CursorLockMode.None;
         //Cursor.visible = true;
-        _cursor.gameObject.SetActive(true);
+        CursorHand.gameObject.SetActive(true);
         infoUpdate?.Invoke(string.Empty);
     }
 
@@ -404,7 +404,7 @@ public class Gun : MonoBehaviour
         tpm.enabled = true;
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
-        _cursor.gameObject.SetActive(false);
+        CursorHand.gameObject.SetActive(false);
     }
 
     private void ResetAmmoToMax()
