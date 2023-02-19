@@ -6,7 +6,7 @@ using System.Collections.Generic;
 public class SideOrderUI : MonoBehaviour
 {
     [SerializeField] private float _showForSeconds = 3;
-    private float _showSecondsLeft;
+    [ReadOnly][SerializeField] private float _showSecondsLeft;
 
     [SerializeField] private TMP_Text _order;
                    //private string   _savedOrder;
@@ -39,21 +39,19 @@ public class SideOrderUI : MonoBehaviour
         enemy.OnBeingShot += ShowRageBar;
     }
 
-    private void Update()
-    {
-        if (_showSecondsLeft > 0) { _showSecondsLeft -= Time.deltaTime; }
-    }
-
     private void ShowRageBar()
     {
-
+        _showSecondsLeft = _showForSeconds;
         gameObject.SetActive(true);
     }
 
     private void ChangeRageBar(float f,bool tooAngry)
     {
         _angerBar.fillAmount = f;
-        
+
+        if (_showSecondsLeft > 0) { _showSecondsLeft -= Time.deltaTime; }
+        else if (_tooAngry) { gameObject.SetActive(false); }
+
         if (_tooAngry != tooAngry || !_started)
         {
             _started = true;
@@ -63,13 +61,13 @@ public class SideOrderUI : MonoBehaviour
             if (tooAngry)
             {
                 _order.text = "???";
-                //foreach(GameObject go in _fillers)
-                //{
-                //    go.SetActive(false);
-                //}
-                if (true) 
+                foreach(GameObject go in _fillers)
                 {
-                    gameObject.SetActive(false); 
+                    go.SetActive(false);
+                }
+                if (_showSecondsLeft <= 0) 
+                {
+                    gameObject.SetActive(false);
                 }
             }
             else
