@@ -25,6 +25,7 @@ public class LevelTimer : MonoBehaviour
         TimeLeft= time;
         OnSetTimer?.Invoke(time);
         Time.timeScale = 1;
+        Debug.Log("time started");
     }
 
     public void SetTimerTo0()
