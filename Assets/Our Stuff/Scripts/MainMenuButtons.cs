@@ -5,6 +5,13 @@ using UnityEngine.SceneManagement;
 
 public class MainMenuButtons : MonoBehaviour
 {
+    private void Start()
+    {
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+    }
+
+
     [SerializeField] private List<GameObject> Menus = new List<GameObject>();
 
     public void SceneMainMenu()

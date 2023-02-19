@@ -14,8 +14,6 @@ public class FoodStation : MonoBehaviour , Interactable
 
     public void Use(GameObject player)
     {
-        if (Time.timeScale==0) return;
-
         _gun = player.GetComponent<Gun>();
         BuildOrder b = player.GetComponent<BuildOrder>();
         Panel.SetActive(!Panel.activeSelf);

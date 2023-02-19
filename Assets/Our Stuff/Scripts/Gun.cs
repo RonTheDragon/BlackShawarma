@@ -78,6 +78,8 @@ public class Gun : MonoBehaviour
 
     public Action OnExit;
 
+    public Action<bool> OnHasPitaChanging;
+
     public Action<SOAmmoType> OnSwitchWeapon;
 
     public Action<List<BuildOrder.Fillers>> OnPitaAim;
@@ -226,11 +228,11 @@ public class Gun : MonoBehaviour
             infoUpdate?.Invoke(string.Empty);
         }
 
-        if (Input.GetKeyDown(KeyCode.E))
+        if (Input.GetKeyDown(KeyCode.E) && Time.timeScale>0)
         {
             OnUse?.Invoke(gameObject);
         }
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape) && Time.timeScale > 0)
         {
             if (UsingUI)
             {             
@@ -288,7 +290,7 @@ public class Gun : MonoBehaviour
             }
             else
             {
-                if (Input.GetAxis("Mouse ScrollWheel") > 0)
+                if (Input.GetAxis("Mouse ScrollWheel") < 0)
                 {
                     _currentAmmo++;
                     if (_currentAmmo > AmmoTypes.Count - 1)
@@ -297,7 +299,7 @@ public class Gun : MonoBehaviour
                     }
                     ammoChanged();
                 }
-                else if (Input.GetAxis("Mouse ScrollWheel") < 0)
+                else if (Input.GetAxis("Mouse ScrollWheel") > 0)
                 {
                     _currentAmmo--;
                     if (_currentAmmo < 0)
@@ -423,6 +425,7 @@ public class Gun : MonoBehaviour
         a.Ingridients = temp;
         _currentPita.Clear();
         _hasPita = false;
+        OnHasPitaChanging?.Invoke(_hasPita);
         ammoChanged();
     }
 
@@ -430,6 +433,7 @@ public class Gun : MonoBehaviour
     {
         _currentPita = f;
         _hasPita     = true;
+        OnHasPitaChanging?.Invoke(_hasPita);
         StoppedHoveringStation();
     }
 }

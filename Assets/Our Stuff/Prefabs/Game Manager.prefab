@@ -142,6 +142,7 @@ MonoBehaviour:
   _maxEnemyInGame: 9
   _sideOrdersContent: {fileID: 0}
   _sideOrderPrefab: {fileID: 7795570131750160977, guid: 534d29b3bd217ef44b55a1e1066dd723, type: 3}
+  CustomerCounter: 0
 --- !u!1 &4327540125018967114
 GameObject:
   m_ObjectHideFlags: 0
@@ -415,5 +416,5 @@ MonoBehaviour:
   _levels:
   - {fileID: 11400000, guid: 4978ddfa5c56034459a7c40e749c780f, type: 2}
   - {fileID: 11400000, guid: 3f01cbd9cdcb03a4caa4a66a36d08b3c, type: 2}
-  - {fileID: 11400000, guid: 911231801d284bc419bd25d3556b5ab4, type: 2}
+  - {fileID: 11400000, guid: 0bd0f6f14be47b64093659b41b40254e, type: 2}
   _spawner: {fileID: 1493421660946856226}

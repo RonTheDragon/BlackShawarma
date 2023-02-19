@@ -102,6 +102,11 @@ public class ThirdPersonMovement : MonoBehaviour
         FreeRoamSupport();
     }
 
+    private void OnDisable()
+    {
+        _anim.SetBool("Walk", false);
+    }
+
     /// <summary> Allows the player to walk. </summary>
     void movement()
     {

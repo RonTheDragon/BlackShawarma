@@ -20310,7 +20310,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: df0c2b9d75e8ebe47a201bae8408eb8f, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 25b94d699696cf44cb6447765a9ac824, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -20386,7 +20386,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 12c056fe01e7dac4b9131ada7e742e8c, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 697e907031fe7eb4093559fe2b420076, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -20538,7 +20538,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 65c8851e693e6db42b97565e93df2e33, type: 3}
+  m_Sprite: {fileID: 21300000, guid: ff0a191f4d24a074c8a8cff5470d9a8c, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -20614,7 +20614,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: fce4f34c9f31e7645b6ff72cb54f764b, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 87d2bc210e4d3bc49a46b1b159693459, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -20690,7 +20690,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 2331108e1999cf74ca4807c7eaf99e79, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 78480147c74c967419dd4138a495eb13, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -20971,7 +20971,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: d8815f8f78932e940a40153237f1fb4d, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 2d14b5db7fd288b4e9f3009e2a4cd73a, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -21128,7 +21128,11 @@ MonoBehaviour:
   _veryHappy: {fileID: 7029901860964469181}
   PlaceInLane: 0
   WhichLane: 0
-  Picture: {fileID: 0}
+  HappyPicture: {fileID: 0}
+  AngryPicture: {fileID: 0}
+  SideOrderPanel: {fileID: 0}
+  RequestedFood: {fileID: 0}
+  CustomerNumber: 0
   _falefelEater: 0
   _eggplantEater: 0
   _friesEater: 0

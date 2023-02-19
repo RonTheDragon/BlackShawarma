@@ -35,6 +35,17 @@ public class UiManager : MonoBehaviour
     [SerializeField] private GameObject       _exitMenu;
     [SerializeField] private Image            _enemyInfoUi;
 
+    [Header("The Ammo Panel")]
+    [SerializeField] private Image _eggplant;
+    [SerializeField] private Image _fries;
+    [SerializeField] private Image _falafel;
+    [SerializeField] private Image _gunWithPita;
+    [SerializeField] private List<GameObject> _loadedPitaFillers;
+
+    [SerializeField] private GameObject _shootAmmoPanel;
+    [SerializeField] private GameObject _shootPitaPanel;
+
+
     private Action _loop;
     bool isEnemyInfoOpen = false;
 
@@ -50,6 +61,7 @@ public class UiManager : MonoBehaviour
         _gun.infoUpdate      += UpdateInfo;
         _gun.OnSwitchWeapon  += SwitchAmmoType;
         _gun.OnPitaAim       += SwitchToPita;
+        _gun.OnHasPitaChanging += HasPitaChange;
         _gun.OnExit          += OpenExitMenu;
         _bo.OnUseIngridients += UpdateIngridients;
         _bo.OnPitaUpdate     += PitaUpdate;
@@ -73,20 +85,42 @@ public class UiManager : MonoBehaviour
 
     void SwitchAmmoType(SOAmmoType a)
     {
+
         Ammo.color = a.AmmoColor;
-        Ammo.text  = $"{a.AmmoTag}\nAmmo:\n{a.CurrentAmmo}/{a.MaxAmmo}";
+        Ammo.text  = $"{a.CurrentAmmo}/{a.MaxAmmo}";
+        _shootAmmoPanel.SetActive(true);
+        _shootPitaPanel.SetActive(false);
+
+        _eggplant.enabled = false;
+        _fries.enabled = false;
+        _falafel.enabled = false;
+
+        switch (a.FoodType)
+        {
+            case Edible.Food.Eggplant: 
+                _eggplant.enabled= true;
+                break;
+            case Edible.Food.Fries:
+                _fries.enabled = true;
+                break;
+            case Edible.Food.Falafel:
+                _falafel.enabled = true;
+                break;
+        }
+    }
+
+    private void HasPitaChange(bool hasPita)
+    {
+        _gunWithPita.enabled = hasPita;
     }
 
     void SwitchToPita(List<BuildOrder.Fillers> pita)
     {
-        Ammo.color = Color.white;
-        string txt = "Pita with:";
-        foreach (BuildOrder.Fillers f in pita)
-        {
-            txt += $"\n{f}";
-        }
-        Ammo.text = txt;
+        PitaEdit(ref _loadedPitaFillers, pita);
+        _shootAmmoPanel.SetActive(false);
+        _shootPitaPanel.SetActive(true);
     }
+
     void UpdateMoney()
     {
         MoneyText.text = "Joobot = " + _gm.GetMoney().ToString() + "¤";
@@ -102,38 +136,43 @@ public class UiManager : MonoBehaviour
 
     private void PitaUpdate(List<Fillers> pita)
     {
-        foreach(GameObject g in InsidePitaFiller)
+        PitaEdit(ref InsidePitaFiller, pita);
+    }
+
+    private void PitaEdit(ref List<GameObject> p, List<Fillers> pita)
+    {
+        foreach (GameObject g in p)
         {
             g.SetActive(false);
         }
 
-        foreach(Fillers f in pita)
+        foreach (Fillers f in pita)
         {
             switch (f)
             {
                 case BuildOrder.Fillers.Humus:
-                    InsidePitaFiller[0].SetActive(true);
+                    p[0].SetActive(true);
                     break;
                 case BuildOrder.Fillers.Pickles:
-                    InsidePitaFiller[1].SetActive(true);
+                    p[1].SetActive(true);
                     break;
                 case BuildOrder.Fillers.Cabbage:
-                    InsidePitaFiller[2].SetActive(true);
+                    p[2].SetActive(true);
                     break;
                 case BuildOrder.Fillers.Onions:
-                    InsidePitaFiller[3].SetActive(true);
+                    p[3].SetActive(true);
                     break;
                 case BuildOrder.Fillers.Salad:
-                    InsidePitaFiller[4].SetActive(true);
+                    p[4].SetActive(true);
                     break;
                 case BuildOrder.Fillers.Spicy:
-                    InsidePitaFiller[5].SetActive(true);
+                    p[5].SetActive(true);
                     break;
                 case BuildOrder.Fillers.Amba:
-                    InsidePitaFiller[6].SetActive(true);
+                    p[6].SetActive(true);
                     break;
                 case BuildOrder.Fillers.Thina:
-                    InsidePitaFiller[7].SetActive(true);
+                    p[7].SetActive(true);
                     break;
             }
         }
