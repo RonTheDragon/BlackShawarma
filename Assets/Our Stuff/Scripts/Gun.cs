@@ -308,6 +308,21 @@ public class Gun : MonoBehaviour
                     }
                     ammoChanged();
                 }
+                else if (Input.GetKeyDown(KeyCode.Alpha1))
+                {
+                    _currentAmmo = 0;
+                    ammoChanged();
+                }
+                else if (Input.GetKeyDown(KeyCode.Alpha2))
+                {
+                    _currentAmmo = 2;
+                    ammoChanged();
+                }
+                else if (Input.GetKeyDown(KeyCode.Alpha3))
+                {
+                    _currentAmmo = 1;
+                    ammoChanged();
+                }
             }
         }
     }

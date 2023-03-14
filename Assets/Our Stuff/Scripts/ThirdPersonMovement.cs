@@ -2,6 +2,7 @@ using System;
 using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
+using static UnityEngine.Rendering.DebugUI.Table;
 
 public class ThirdPersonMovement : MonoBehaviour
 {
@@ -12,8 +13,11 @@ public class ThirdPersonMovement : MonoBehaviour
 
     [Header("Look")]
     [SerializeField] private Transform _lookAt;
+    [SerializeField] private Vector2 _sensitivity;
+    private float _currentSensitivity;
     [SerializeField] private Cinemachine.AxisState _xAxis;
     [SerializeField] private Cinemachine.AxisState _yAxis;
+
 
     [Header("FreeRoam")]
     public bool FreeRoam = true;
@@ -85,8 +89,7 @@ public class ThirdPersonMovement : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible   = false;
+        SetupMouse();
     }
 
     // Update is called once per frame
@@ -148,6 +151,16 @@ public class ThirdPersonMovement : MonoBehaviour
     {
         FreeRoam = false;
         _freeRoamAfter = _freeRoamAfterDuration;
+    }
+    
+    private void SetupMouse()
+    {
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+        if (!PlayerPrefs.HasKey("Sensitivity")) { PlayerPrefs.SetFloat("Sensitivity", 0.5f); }
+        _currentSensitivity = Mathf.Lerp(_sensitivity.x, _sensitivity.y, PlayerPrefs.GetFloat("Sensitivity"));
+        _xAxis.m_MaxSpeed *= _currentSensitivity;
+        _yAxis.m_MaxSpeed *= _currentSensitivity;
     }
 
     private void Look()
