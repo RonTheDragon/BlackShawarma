@@ -149,7 +149,7 @@ public class Gun : MonoBehaviour
             AimAt(cam.position + cam.forward * 200);
         }
 
-        if (Input.GetMouseButton(0) && _cd <= 0 && !UsingUI)
+        if (Input.GetMouseButton(0) && _cd <= 0 && !UsingUI) // When shoot
         {
             if (_hasPita && isAiming)
             {
@@ -431,11 +431,11 @@ public class Gun : MonoBehaviour
             AmmoTypes[i].CurrentAmmo = AmmoTypes[i].MaxAmmo;
         }
     }
-    void PitaShoot()
+    private void PitaShoot()
     {
         GameObject pita = ObjectPooler.Instance.SpawnFromPool("Pita", barrel.position, barrel.rotation);
         _cd = CoolDown;
-       Pita a = pita.GetComponent<Pita>();
+        Pita a = pita.GetComponent<Pita>();
         List<BuildOrder.Fillers> temp = new List<BuildOrder.Fillers>(_currentPita);
         a.Ingridients = temp;
         _currentPita.Clear();
