@@ -34,6 +34,7 @@ public class EnemyAI : MonoBehaviour
     Vector3      _destination;
     int          _enemyMaxPayment, _enemyMinPayment;
     float        _time;
+    float        _f;
     public int   CurrentPayment;
     public SideOrderUI SideOrder;
     public int EnemyDamage = 1;
@@ -107,6 +108,8 @@ public class EnemyAI : MonoBehaviour
         else
         {
             _anim.SetBool("Walk", false);
+            float Angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, _spawner.transform.eulerAngles.y, ref _f, 0.2f);
+            transform.rotation = Quaternion.Euler(0, Angle, 0);
         }
         PreviousPos = transform.position;
     }

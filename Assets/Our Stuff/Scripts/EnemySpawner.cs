@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour
@@ -145,6 +146,37 @@ public class EnemySpawner : MonoBehaviour
                 e.PlaceInLane--;
                 e.SetDestination(LaneDestination(Lane,e.PlaceInLane));
             }
+        }
+
+        CollectFromLongestLane(Lane);
+    }
+
+    private void CollectFromLongestLane(int currentLane)
+    {
+        int n = 0;
+        foreach(int i in CustomersInLane)
+        {
+            if (i > CustomersInLane[currentLane] + 1) //if lane is longer than current lane by at least 2
+            {
+                
+                foreach (EnemyAI e in _enemies)
+                {
+                    
+                    if (e.WhichLane == n && e.PlaceInLane == i-1)
+                    {
+                        
+                        e.WhichLane = currentLane;
+                        e.PlaceInLane = CustomersInLane[currentLane];
+                        e.SetDestination(LaneDestination(currentLane, CustomersInLane[currentLane]));
+                        
+                        CustomersInLane[currentLane] += 1;
+                        CustomersInLane[n] -= 1;
+
+                        return;
+                    }
+                }
+            }
+            n++;
         }
     }
 
