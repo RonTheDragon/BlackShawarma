@@ -107,9 +107,15 @@ public class EnemyAI : MonoBehaviour
         }
         else
         {
+            
             _anim.SetBool("Walk", false);
-            float Angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, _spawner.transform.eulerAngles.y, ref _f, 0.2f);
-            transform.rotation = Quaternion.Euler(0, Angle, 0);
+            float  angleDistance = Quaternion.Angle(transform.rotation, _spawner.transform.rotation);
+            if (angleDistance > 0.1f)
+            {
+                float Angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, _spawner.transform.eulerAngles.y, ref _f, 0.2f);
+                transform.rotation = Quaternion.Euler(0, Angle, 0);
+            }
+            
         }
         PreviousPos = transform.position;
     }
