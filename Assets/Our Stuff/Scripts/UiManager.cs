@@ -32,7 +32,7 @@ public class UiManager : MonoBehaviour
     [SerializeField] private Image            LoseScreenUi;
     [SerializeField] private Image            TazdokHp;
     [SerializeField] private List<GameObject> _endLevelReset;
-    [SerializeField] private GameObject       _exitMenu;
+    [SerializeField] private GameObject       _pauseMenu;
     [SerializeField] private Image            _enemyInfoUi;
 
     [Header("The Ammo Panel")]
@@ -62,7 +62,7 @@ public class UiManager : MonoBehaviour
         _gun.OnSwitchWeapon  += SwitchAmmoType;
         _gun.OnPitaAim       += SwitchToPita;
         _gun.OnHasPitaChanging += HasPitaChange;
-        _gun.OnExit          += OpenExitMenu;
+        _gun.OnExit          += OpenPauseMenu;
         _bo.OnUseIngridients += UpdateIngridients;
         _bo.OnPitaUpdate     += PitaUpdate;
         _lt.OnSetTimer       += SetTimer;
@@ -261,17 +261,17 @@ public class UiManager : MonoBehaviour
         Time.timeScale = 0;
     }
 
-    private void OpenExitMenu()
+    private void OpenPauseMenu()
     {
-        _exitMenu.SetActive(true);
+        _pauseMenu.SetActive(true);
         _gun.StartUsingStation();
         Time.timeScale = 0;
     }
 
-    public void CloseExitMenu()
+    public void ClosePauseMenu()
     {
         Time.timeScale= 1;
-        _exitMenu.SetActive(false);
+        _pauseMenu.SetActive(false);
         _gun.StopUsingStation();
     }
 
