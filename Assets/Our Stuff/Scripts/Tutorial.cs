@@ -1,12 +1,28 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Tutorial : MonoBehaviour
 {
+    // UI
+    [SerializeField] private Transform TutorialPanel;
+    private Transform _skipTutorialPanel => TutorialPanel.Find("SkipTutorialPanel");
+
+
+    // refs
+    [SerializeField] private GameObject _player;
+    private Gun _gun => _player.GetComponent<Gun>();
+    private LevelManager _levelManager => GetComponent<LevelManager>();
+
+
+    // Events
     private Action _currentTutorialStage; // Current State Used
-    private bool _started; // makes every State have a start functionality
+
+    private void Start()
+    {
+        _skipTutorialPanel.gameObject.SetActive(true);
+        _gun.StartUsingStation();
+        Time.timeScale = 0.0f;
+    }
 
     // Update is called once per frame
     void Update()
@@ -16,30 +32,28 @@ public class Tutorial : MonoBehaviour
 
     public void StartTutorial()
     {
-        StartStage(TutorialStage1);
+        Time.timeScale = 1.0f;
+        _skipTutorialPanel.gameObject.SetActive(false);
+        _currentTutorialStage = TutorialStage1;
+        _gun.StopUsingStation();
     }
 
-    // Used To Start a Tutorial Stage
-    private void StartStage(Action Stage)
+    public void SkipTutorial()
     {
-        _started = false;
-        _currentTutorialStage = Stage;
+        Time.timeScale = 1.0f;
+        _skipTutorialPanel.gameObject.SetActive(false);
+        _levelManager.NextLevel();
+        _gun.StopUsingStation();
     }
     
 
     private void TutorialStage1()
     {
-        if (!_started) 
-        { 
-            _started = true;
-            // Start Content Here
-        }
-            // Update Content Here
-
+        // Update Content Here
 
         if (true) // Finish Stage Requirement
         {
-            StartStage(TutorialStage2);
+            _currentTutorialStage = TutorialStage2;
         }
     }
 
