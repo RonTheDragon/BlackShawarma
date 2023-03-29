@@ -7,6 +7,8 @@ using UnityEngine.UI;
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
+    public        GameObject  Player;
+
     public        int         MaxTzadokHp = 3;
     public        int         MaxFillers  = 4;
     public        int         TzadokMaxHP = 4;

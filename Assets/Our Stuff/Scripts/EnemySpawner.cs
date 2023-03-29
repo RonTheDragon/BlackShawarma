@@ -235,6 +235,16 @@ public class EnemySpawner : MonoBehaviour
         }
     }
 
+    public void ChangeMaxEnemiesInGame(int maxEnemies)
+    {
+        _maxEnemyInGame = maxEnemies;
+    }
+
+    public EnemyAI GetFirstEnemy()
+    {
+        return _enemies[0];
+    }
+
 }
 
 

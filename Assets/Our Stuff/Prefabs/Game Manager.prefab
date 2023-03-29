@@ -16,7 +16,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1392687154
 Transform:
   m_ObjectHideFlags: 0
@@ -139,7 +139,7 @@ MonoBehaviour:
   - EggplantGuy
   - FriesGuy
   _currentEnemyAmmout: 0
-  _maxEnemyInGame: 9
+  _maxEnemyInGame: 0
   _sideOrdersContent: {fileID: 0}
   _sideOrderPrefab: {fileID: 7795570131750160977, guid: 534d29b3bd217ef44b55a1e1066dd723, type: 3}
   CustomerCounter: 0
@@ -325,6 +325,7 @@ GameObject:
   - component: {fileID: 4334797393951331528}
   - component: {fileID: 564153362}
   - component: {fileID: 244923802}
+  - component: {fileID: 1746950907}
   m_Layer: 0
   m_Name: Game Manager
   m_TagString: Untagged
@@ -363,6 +364,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dca863e3640782e499bbeac8dc399339, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Player: {fileID: 0}
   MaxTzadokHp: 3
   MaxFillers: 4
   TzadokMaxHP: 4
@@ -414,7 +416,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _levels:
-  - {fileID: 11400000, guid: 4978ddfa5c56034459a7c40e749c780f, type: 2}
+  - {fileID: 11400000, guid: 16ee7911accd0ac499472c3f3fe06d9c, type: 2}
   - {fileID: 11400000, guid: 3f01cbd9cdcb03a4caa4a66a36d08b3c, type: 2}
   - {fileID: 11400000, guid: 0bd0f6f14be47b64093659b41b40254e, type: 2}
   _spawner: {fileID: 1493421660946856226}
+--- !u!114 &1746950907
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6308616315591561378}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b37a5e998fc1a6a488048f64b1b16cb4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TutorialPanel: {fileID: 0}

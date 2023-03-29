@@ -20,6 +20,7 @@ public class EnemyAI : MonoBehaviour
     public           Sprite          SideOrderPanel;
     public           Sprite          RequestedFood;
     public           int             CustomerNumber;
+    public           float           RageMultiplier=1;
 
     [SerializeField] bool           _falefelEater, _eggplantEater, _friesEater;
     [SerializeField] GameObject     _canvas;
@@ -138,7 +139,7 @@ public class EnemyAI : MonoBehaviour
         {
             if (!_done)
             {
-                _currentRage += Time.deltaTime;
+                _currentRage += RageMultiplier * Time.deltaTime;
             }
         }
         else
@@ -370,5 +371,10 @@ public class EnemyAI : MonoBehaviour
             CurrentPayment = (int)Mathf.Lerp(_enemyMinPayment,_enemyMaxPayment, n);
 
         }
+    }
+
+    public void SetCurrentRage(float rage)
+    {
+        _currentRage = rage;
     }
 }

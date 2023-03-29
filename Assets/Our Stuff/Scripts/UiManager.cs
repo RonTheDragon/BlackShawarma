@@ -15,6 +15,7 @@ public class UiManager : MonoBehaviour
 
     GameManager _gm;
     LevelTimer _lt;
+    Tutorial _tutorial;
 
     [SerializeField] private List<Image> Fillers;
     [SerializeField] private List<GameObject> InsidePitaFiller;
@@ -55,6 +56,7 @@ public class UiManager : MonoBehaviour
     {
         _gm = GameManager.Instance;
         _lt = _gm.GetComponent<LevelTimer>();
+        _tutorial = _gm.GetComponent<Tutorial>();
 
         _gm.UpdateMoney      += UpdateMoney;
         _gm.UpdateTazdokHp   += UpdateTazdokHPUI;
@@ -69,6 +71,7 @@ public class UiManager : MonoBehaviour
         _gm.OnVictoryScreen  += () => VictoryScreen.gameObject.SetActive(true);
         _gm.OnLoseScreen     += LoseScreen;
         _gm.OnEndLevel       += EndLevel;
+        _tutorial.FreezeTimer += FreezeTimer;
         UpdateMoney();
     }
 
@@ -193,6 +196,18 @@ public class UiManager : MonoBehaviour
         _fullTime = fullTime;
         _cigar.fillAmount = 1;
         _cigarFlame.localPosition = new Vector3(510.4f, _cigarFlame.localPosition.y, 0);
+    }
+
+    private void FreezeTimer(bool freeze)
+    {
+        if (freeze)
+        {
+            _loop -= UpdateCigar;
+        }
+        else
+        {
+            _loop += UpdateCigar;
+        }
     }
 
     public void ReloadScene()
