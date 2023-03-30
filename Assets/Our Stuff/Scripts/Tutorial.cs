@@ -29,6 +29,7 @@ public class Tutorial : MonoBehaviour
     private List<SOAmmoType> _ammoTypes => _gun.AmmoTypes;
     private LevelManager _levelManager => GetComponent<LevelManager>();
     private EnemySpawner _enemySpawner => _gm.EnemySpawner;
+    private Transform _tutorialPointer => transform.Find("TutorialPointer");
 
     private EnemyAI _enemy;
 
@@ -138,6 +139,8 @@ public class Tutorial : MonoBehaviour
             _tutorialStage3.gameObject.SetActive(false);
             _tutorialStage4.gameObject.SetActive(true);
             _currentTutorialStage = TutorialStage4;
+            _tutorialPointer.gameObject.SetActive(true);
+            _tutorialPointer.position = _enemy.transform.position + Vector3.up*3;
         }
     }
 
@@ -155,6 +158,7 @@ public class Tutorial : MonoBehaviour
             _done = false;
             _counterInteractable.Used += EventDone;
             _currentTutorialStage = TutorialStage5;
+            _tutorialPointer.position = _counterInteractable.transform.position + Vector3.up * 2;
         }
     }
 
@@ -173,6 +177,7 @@ public class Tutorial : MonoBehaviour
             _tutorialStage5.gameObject.SetActive(false);
             _tutorialStage6.gameObject.SetActive(true);
             _currentTutorialStage = TutorialStage6;
+            _tutorialPointer.position = _suppliesInteractable.transform.position + Vector3.up * 3;
         }
     }
 
@@ -190,6 +195,7 @@ public class Tutorial : MonoBehaviour
             _tutorialStage6.gameObject.SetActive(false);
             _tutorialStage7.gameObject.SetActive(true);
             _currentTutorialStage = TutorialStage7;
+            _tutorialPointer.position = _counterInteractable.transform.position + Vector3.up * 2;
         }
     }
 
@@ -205,10 +211,11 @@ public class Tutorial : MonoBehaviour
             _tutorialStage8.gameObject.SetActive(true);
             _enemy.SetCurrentRage(50);
             _currentTutorialStage = TutorialStage8;
+            _tutorialPointer.position = _enemy.transform.position + Vector3.up * 3;
         }
     }
 
-    private void TutorialStage8() // Build The Shawarma
+    private void TutorialStage8() // Calm Him Again
     {
         // Update Content Here
 
@@ -221,7 +228,7 @@ public class Tutorial : MonoBehaviour
             _currentTutorialStage = TutorialStage9;
         }
     }
-    private void TutorialStage9() // Build The Shawarma
+    private void TutorialStage9() // Shoot The Shawarma
     {
         // Update Content Here
 
@@ -232,6 +239,7 @@ public class Tutorial : MonoBehaviour
             _tutorialStage9.gameObject.SetActive(false);
             _tutorialStage10.gameObject.SetActive(true);
             _currentTutorialStage = TutorialStage10;
+            _tutorialPointer.gameObject.SetActive(false);
         }
     }
 
