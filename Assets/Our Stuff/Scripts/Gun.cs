@@ -24,6 +24,7 @@ public class Gun : MonoBehaviour
     [SerializeField] private float _tooClose = 3;
     [Tooltip("Too Close To Aim At")]
     [SerializeField] private float _aimAtSpeed = 3;
+    public bool CantUseStations = false;
 
     [Header("Ammo Switching")]
     [Tooltip("The current amount of ammo")]
@@ -199,6 +200,8 @@ public class Gun : MonoBehaviour
     }
     private void UseStationRaycast()
     {
+        if (CantUseStations) return;
+
         RaycastHit hit;
         if (Physics.Raycast(cam.position, cam.forward, out hit, Mathf.Infinity, _gm.NotPlayerLayer))
         {
@@ -207,7 +210,7 @@ public class Gun : MonoBehaviour
                 Interactable interact = hit.transform.GetComponent<Interactable>();
                 if (interact != null)
                 {
-                    if (!UsingUI)
+                    if (!UsingUI && !interact.NotActive)
                     {
                         //Info.text = interact.Info;
                         infoUpdate?.Invoke(interact.Info);
@@ -450,5 +453,10 @@ public class Gun : MonoBehaviour
         _hasPita     = true;
         OnHasPitaChanging?.Invoke(_hasPita);
         StoppedHoveringStation();
+    }
+
+    public List<BuildOrder.Fillers> GetPita()
+    {
+        return _currentPita;
     }
 }

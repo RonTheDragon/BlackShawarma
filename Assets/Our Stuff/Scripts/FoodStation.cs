@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,12 +9,18 @@ public class FoodStation : MonoBehaviour , Interactable
     private string _info;
     public string Info { get => _info; set => _info = value; }
 
+    private bool _active;
+    public bool NotActive { get => _active; set => _active = value; }
+    private Action _used;
+    public Action Used { get => _used; set => _used = value; }
+
     [SerializeField] GameObject Panel;
 
     private Gun _gun;
 
     public void Use(GameObject player)
     {
+        _used?.Invoke();
         _gun = player.GetComponent<Gun>();
         BuildOrder b = player.GetComponent<BuildOrder>();
         Panel.SetActive(!Panel.activeSelf);

@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.UIElements.UxmlAttributeDescription;
 
 public class Refill : MonoBehaviour, Interactable
 {
@@ -8,7 +10,12 @@ public class Refill : MonoBehaviour, Interactable
     [SerializeField] private string _info;
     public string Info { get => _info; set => _info = value; }
 
+    private bool _active;
+    public bool NotActive { get => _active; set => _active = value; }
     private Camera PlayerCamera => Camera.main;
+
+    private Action _used;
+    public Action Used { get => _used; set => _used=value; }
 
     [SerializeField] private GameObject _ui;
 
@@ -27,6 +34,8 @@ public class Refill : MonoBehaviour, Interactable
 
     public void Use(GameObject player)
     {
+        _used?.Invoke();
+
         Gun g = player.GetComponent<Gun>();
 
         foreach (SOAmmoType i in g.AmmoTypes)

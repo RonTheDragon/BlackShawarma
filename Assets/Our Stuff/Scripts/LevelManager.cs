@@ -45,5 +45,9 @@ public class LevelManager : MonoBehaviour
     public void RepeatLevel()
     {
         SetUpLevel(_levels[_currentLevel]);
+        if (_currentLevel == 0)
+        {
+            GetComponent<Tutorial>().StartTutorial();
+        }
     }
 }

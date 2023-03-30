@@ -89,6 +89,12 @@ public class BuildOrder : MonoBehaviour
         OnUseIngridients?.Invoke(_ingredients);
     }
 
+    public void EmptyAll()
+    {
+        foreach (Ingredient i in _ingredients) i.CurrentAmount = 0;
+        OnUseIngridients?.Invoke(_ingredients);
+    }
+
     private void UpdatePita()
     {
         OnPitaUpdate(Pita);

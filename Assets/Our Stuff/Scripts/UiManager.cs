@@ -72,13 +72,13 @@ public class UiManager : MonoBehaviour
         _gm.OnLoseScreen     += LoseScreen;
         _gm.OnEndLevel       += EndLevel;
         _tutorial.FreezeTimer += FreezeTimer;
+        _loop += OpenEnemyInfo;
         UpdateMoney();
     }
 
     private void Update()
     {
         _loop?.Invoke();
-        OpenEnemyInfo();
     }
 
     void UpdateInfo(string info)
@@ -252,12 +252,7 @@ public class UiManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Tab))
         {
-
-          _enemyInfoUi.gameObject.SetActive(true);
-        }
-        else if (Input.GetKeyUp(KeyCode.Tab))
-        {
-            _enemyInfoUi.gameObject.SetActive(false);
+          _enemyInfoUi.gameObject.SetActive(!_enemyInfoUi.gameObject.activeSelf);
         }
     }
 

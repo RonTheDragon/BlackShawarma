@@ -151,7 +151,7 @@ public class EnemyAI : MonoBehaviour
 
     private void ShowOrder() 
     {
-        if (_calmEnoughToEat >= _currentRage && !_done) //if calm enough to eat
+        if (CalmEnoughToEat() && !_done) //if calm enough to eat
         {
             if (_canvas.activeSelf == false)
             _canvas.gameObject.SetActive(true);
@@ -164,6 +164,11 @@ public class EnemyAI : MonoBehaviour
         }
     }
 
+    public bool CalmEnoughToEat()
+    {
+        return _calmEnoughToEat >= _currentRage;
+    }
+
     public void Eat(Edible.Food f)
     {if (_done) return;
         if (CanIEat(f))
@@ -173,7 +178,7 @@ public class EnemyAI : MonoBehaviour
         }
         else
         {
-            _currentRage += 10;
+            _currentRage += 10*RageMultiplier;
             _angerSmoke.Emit(1);
         }
         OnBeingShot?.Invoke();
@@ -182,9 +187,27 @@ public class EnemyAI : MonoBehaviour
     public void EatPita(List<BuildOrder.Fillers> pita)
     {
         if (_done) return;
+
+        bool CorrectOrder = CheckIfPitaCorrect(pita);
+
+        if (CorrectOrder)
+        {
+            HappyCustomer();
+            _veryHappy.Emit(1);
+        }
+        else
+        {
+            _currentRage += 10 * RageMultiplier;
+            _angerSmoke.Emit(1);
+            OnBeingShot?.Invoke();
+        }
+    }
+
+    public bool CheckIfPitaCorrect(List<BuildOrder.Fillers> pita)
+    {
         bool CorrectOrder = true;
 
-        if (pita.Count == Order.Count && _calmEnoughToEat >= _currentRage  ) // if the pita and the order contains the same amount
+        if (pita.Count == Order.Count && _calmEnoughToEat >= _currentRage) // if the pita and the order contains the same amount
         {
             for (int i = 0; i < Order.Count; i++) //going over the order
             {
@@ -199,17 +222,7 @@ public class EnemyAI : MonoBehaviour
             CorrectOrder = false;
         }
 
-        if (CorrectOrder)
-        {
-            HappyCustomer();
-            _veryHappy.Emit(1);
-        }
-        else
-        {
-            _currentRage += 10;
-            _angerSmoke.Emit(1);
-            OnBeingShot?.Invoke();
-        }
+        return CorrectOrder;
     }
 
     #region CustomerReaction
