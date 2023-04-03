@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class Tutorial : MonoBehaviour
 {
@@ -17,15 +18,18 @@ public class Tutorial : MonoBehaviour
     private Transform _tutorialStage8 => TutorialPanel.Find("CalmHimAgain");
     private Transform _tutorialStage9 => TutorialPanel.Find("ShootShawarma");
     private Transform _tutorialStage10 => TutorialPanel.Find("GoodJob");
-
-
+    
+    //UI image
+    
+    [SerializeField] private GameObject[] FoodImages ;
+    
     // refs
 
     [SerializeField] private Supplies _suppliesInteractable;
     [SerializeField] private FoodStation _counterInteractable;
     private GameManager _gm => GetComponent<GameManager>();
     private Gun _gun => _gm.Player.GetComponent<Gun>();
-    private BuildOrder _bo=> _gm.Player.GetComponent<BuildOrder>();
+    private BuildOrder _bo => _gm.Player.GetComponent<BuildOrder>();
     private List<SOAmmoType> _ammoTypes => _gun.AmmoTypes;
     private LevelManager _levelManager => GetComponent<LevelManager>();
     private EnemySpawner _enemySpawner => _gm.EnemySpawner;
@@ -101,13 +105,17 @@ public class Tutorial : MonoBehaviour
         _waiting += Time.deltaTime;
 
 
-        if (_waiting>5) // Finish Stage Requirement
+        if (_waiting > 5) // Finish Stage Requirement
         {
             _waiting = 0;
             _gun.CantUseStations = false;
             _currentTutorialStage = TutorialStage2;
             _tutorialStage1.gameObject.SetActive(false);
             _tutorialStage2.gameObject.SetActive(true);
+            foreach (GameObject image in FoodImages)
+            {
+                image.gameObject.SetActive(true);
+            }
         }
     }
 
@@ -121,8 +129,8 @@ public class Tutorial : MonoBehaviour
             _tutorialStage3.gameObject.SetActive(true);
             _enemySpawner.ChangeMaxEnemiesInGame(1);
             StartCoroutine("GetEnemy");
-            FreezeTimer?.Invoke(false);
             
+
             _currentTutorialStage = TutorialStage3;
         }
     }
@@ -140,14 +148,15 @@ public class Tutorial : MonoBehaviour
             _tutorialStage4.gameObject.SetActive(true);
             _currentTutorialStage = TutorialStage4;
             _tutorialPointer.gameObject.SetActive(true);
-            _tutorialPointer.position = _enemy.transform.position + Vector3.up*3;
+            _tutorialPointer.position = _enemy.transform.position + Vector3.up * 3;
+           
         }
     }
 
     private void TutorialStage4() // shoot him calm
     {
         // Update Content Here
-        
+
 
 
         if (_enemy.CalmEnoughToEat()) // Finish Stage Requirement
@@ -234,12 +243,13 @@ public class Tutorial : MonoBehaviour
 
 
 
-        if (_enemy.SideOrder==null) // Finish Stage Requirement
+        if (_enemy.SideOrder == null) // Finish Stage Requirement
         {
             _tutorialStage9.gameObject.SetActive(false);
             _tutorialStage10.gameObject.SetActive(true);
             _currentTutorialStage = TutorialStage10;
             _tutorialPointer.gameObject.SetActive(false);
+            _enemySpawner.ChangeMaxEnemiesInGame(0);
         }
     }
 
@@ -253,6 +263,8 @@ public class Tutorial : MonoBehaviour
         {
             _tutorialStage10.gameObject.SetActive(false);
             _currentTutorialStage = null;
+            FreezeTimer?.Invoke(false);
+            _gm.GetComponent<LevelTimer>().SetTimerTo0();
         }
     }
     #endregion
@@ -260,12 +272,21 @@ public class Tutorial : MonoBehaviour
     #region TutorialIfs
     private bool IsAllAmmoRefilled()
     {
-        foreach (SOAmmoType ammoType in _ammoTypes)
+        bool allFoodIsFilled = true;
+        for (int i = 0; i < 3; i++)
         {
-            if (ammoType.CurrentAmmo == 0)
-                return false;
+            if (_ammoTypes[i].CurrentAmmo == 0)
+            {
+                allFoodIsFilled = false;
+            }
+            else
+            {
+                FoodImages[i].gameObject.SetActive(false);
+
+            }
+            
         }
-        return true;
+        return allFoodIsFilled;
     }
 
 
