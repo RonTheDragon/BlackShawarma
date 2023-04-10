@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 9872574}
-  m_IndirectSpecularColor: {r: 0.10308567, g: 0.11202037, b: 0.10738773, a: 1}
+  m_IndirectSpecularColor: {r: 0.10301309, g: 0.11185042, b: 0.10696304, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -145,7 +145,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!108 &9872574
 Light:
   m_ObjectHideFlags: 0
@@ -157,7 +157,7 @@ Light:
   serializedVersion: 10
   m_Type: 1
   m_Shape: 0
-  m_Color: {r: 1, g: 0.95686275, b: 0.8392157, a: 1}
+  m_Color: {r: 0.9878164, g: 1, b: 0.7688679, a: 1}
   m_Intensity: 1.5
   m_Range: 10
   m_SpotAngle: 30
@@ -511,7 +511,7 @@ Light:
   serializedVersion: 10
   m_Type: 0
   m_Shape: 0
-  m_Color: {r: 0.8962264, g: 0.8962264, b: 0.8680432, a: 1}
+  m_Color: {r: 0.9878164, g: 1, b: 0.7688679, a: 1}
   m_Intensity: 12.5
   m_Range: 11.6
   m_SpotAngle: 179
@@ -860,7 +860,7 @@ Light:
   serializedVersion: 10
   m_Type: 0
   m_Shape: 0
-  m_Color: {r: 0.8962264, g: 0.8962264, b: 0.8680432, a: 1}
+  m_Color: {r: 0.9878164, g: 1, b: 0.7688679, a: 1}
   m_Intensity: 12.5
   m_Range: 11.6
   m_SpotAngle: 179
@@ -1027,7 +1027,7 @@ Light:
   serializedVersion: 10
   m_Type: 0
   m_Shape: 0
-  m_Color: {r: 0.8962264, g: 0.8962264, b: 0.8680432, a: 1}
+  m_Color: {r: 0.9878164, g: 1, b: 0.7688679, a: 1}
   m_Intensity: 12.5
   m_Range: 11.6
   m_SpotAngle: 179
@@ -1358,7 +1358,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-406226
+  m_Name: pb_Mesh-6036
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -2000,7 +2000,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-406286
+  m_Name: pb_Mesh-6096
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -2588,7 +2588,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-406246
+  m_Name: pb_Mesh-6056
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -3122,7 +3122,7 @@ Light:
   serializedVersion: 10
   m_Type: 0
   m_Shape: 0
-  m_Color: {r: 0.8962264, g: 0.8962264, b: 0.8680432, a: 1}
+  m_Color: {r: 0.9878164, g: 1, b: 0.7688679, a: 1}
   m_Intensity: 12.5
   m_Range: 11.6
   m_SpotAngle: 179
@@ -3640,7 +3640,7 @@ Light:
   serializedVersion: 10
   m_Type: 0
   m_Shape: 0
-  m_Color: {r: 0.8962264, g: 0.8962264, b: 0.8680432, a: 1}
+  m_Color: {r: 0.9878164, g: 1, b: 0.7688679, a: 1}
   m_Intensity: 12.5
   m_Range: 11.6
   m_SpotAngle: 179
@@ -3872,7 +3872,7 @@ Light:
   serializedVersion: 10
   m_Type: 0
   m_Shape: 0
-  m_Color: {r: 0.8962264, g: 0.8962264, b: 0.8680432, a: 1}
+  m_Color: {r: 0.9878164, g: 1, b: 0.7688679, a: 1}
   m_Intensity: 12.5
   m_Range: 11.6
   m_SpotAngle: 179
@@ -5138,7 +5138,7 @@ Light:
   serializedVersion: 10
   m_Type: 0
   m_Shape: 0
-  m_Color: {r: 0.8962264, g: 0.8962264, b: 0.8680432, a: 1}
+  m_Color: {r: 0.9878164, g: 1, b: 0.7688679, a: 1}
   m_Intensity: 12.5
   m_Range: 11.6
   m_SpotAngle: 179
@@ -5358,14 +5358,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 774786470156443672, guid: 17815853b163b554da771055f6659d6f, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1352626377981950605, guid: 17815853b163b554da771055f6659d6f, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 1605174910791775020, guid: 17815853b163b554da771055f6659d6f, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -5374,26 +5366,10 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1746950907}
-    - target: {fileID: 2242956595018971464, guid: 17815853b163b554da771055f6659d6f, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 2464536041506982223, guid: 17815853b163b554da771055f6659d6f, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1746950907}
-    - target: {fileID: 3506662116133182625, guid: 17815853b163b554da771055f6659d6f, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3543342596276567381, guid: 17815853b163b554da771055f6659d6f, type: 3}
-      propertyPath: m_text
-      value: "\u05E2\u05D2\u05E8 \u05E2\u05DE\u05D5\u05E9\n \u05DD\u05D9\u05E8\u05D5\u05D3\u05DB
-        \u05D4\u05DB\u05D9\u05E8\u05E6 \u05D4\u05D2\u05DC\u05D5\u05D0 \n[E]\u05D1
-        \u05EA\u05D5\u05E0\u05D7\u05EA\u05D1 \u05D0\u05DC\u05DE\u05EA\n:\u05D0\u05DC\u05DE\u05DC
-        \u05DA\u05D9\u05E8\u05E6\n\u05DF\u05D2\u05D5\u05D8\u05DE \u05DC\u05D9\u05E6\u05D7\u05D5
-        \u05E1\u05E4\u05D9'\u05E6 ,\u05DC\u05E4\u05D0\u05DC\u05E4"
-      objectReference: {fileID: 0}
     - target: {fileID: 4012057709082607455, guid: 17815853b163b554da771055f6659d6f, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -5402,27 +5378,6 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1746950906}
-    - target: {fileID: 4125497117686825221, guid: 17815853b163b554da771055f6659d6f, type: 3}
-      propertyPath: m_text
-      value: " \u05D1\u05D5\u05D8 \u05D0\u05D5\u05D4\u05E9\u05DE \u05D5\u05DC \u05DF\u05EA\n
-        ,\u05D1\u05D5\u05E9 \u05E1\u05E2\u05D5\u05DB \u05D0\u05D5\u05D4\n...\u05EA\u05E9\u05D5\u05DE\u05D7\u05EA\u05D4
-        \u05E8\u05DE\u05D2\u05E0 \u05DD\u05D0\n!\u05D1\u05D5\u05E9 \u05D0\u05DC\u05DE\u05EA
-        \n"
-      objectReference: {fileID: 0}
-    - target: {fileID: 4356001062076182647, guid: 17815853b163b554da771055f6659d6f, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4514827161988904370, guid: 17815853b163b554da771055f6659d6f, type: 3}
-      propertyPath: m_text
-      value: "[TAB] \u05E5\u05D7\u05DC\u05EA\n\u05E7\u05D5\u05E0\u05D9\u05E4 \u05D1\u05D4\u05D5\u05D0
-        \u05E8\u05D5\u05D1\u05D9\u05D2 \u05DC\u05DB\n\u05D9\u05DC\u05E9 \u05DD\u05D9\u05D7\u05D0\u05DC
-        \u05D2\u05D0\u05D3\u05EA \u05E8\u05D7\u05D0"
-      objectReference: {fileID: 0}
-    - target: {fileID: 4909372170101368765, guid: 17815853b163b554da771055f6659d6f, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 6598293734435211305, guid: 17815853b163b554da771055f6659d6f, type: 3}
       propertyPath: m_Name
       value: Player
@@ -5471,36 +5426,23 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6864308904672481063, guid: 17815853b163b554da771055f6659d6f, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7547807869235600879, guid: 17815853b163b554da771055f6659d6f, type: 3}
-      propertyPath: m_text
-      value: " \u05DA\u05DC\u05DE \u05D0\u05D1\u05D4 \u05DA\u05D5\u05E8\u05D1\n \u05D4\u05D2\u05DC\u05D5\u05D0
-        \u05EA\u05D0 \u05E8\u05D9\u05DB\u05EA\n\u05DD\u05D9\u05D1\u05E6\u05DE 3 \u05D4\u05D1\u05D5\u05E8\n\u05DD\u05D9\u05E6\u05D5\u05E6\u05D9\u05E4
-        \u05D4\u05DE\u05E8\u05D0\u05D5\u05D5\u05E9 \u05D4\u05E9\u05D5\u05E2\u05D5\n"
-      objectReference: {fileID: 0}
-    - target: {fileID: 7570914985414416770, guid: 17815853b163b554da771055f6659d6f, type: 3}
-      propertyPath: m_text
-      value: " ?\u05E8\u05DE\u05D2\u05E0\n\u05D4\u05D3\u05E2\u05E1\u05DE\u05D1 \u05D1\u05D5\u05D1\u05D9\u05E1
-        \u05D4\u05E9\u05E2\u05EA\n\u05DD\u05D4\u05D9\u05DC\u05E2 \u05DF\u05EA \u05DD\u05D9\u05E7\u05E9
-        \u05D0\u05E6\u05DE\u05EA\nE\u05D4 \u05DC\u05E2 \u05D4\u05E6\u05D9\u05D7\u05DC\u05D1"
-      objectReference: {fileID: 0}
-    - target: {fileID: 7573603981502287680, guid: 17815853b163b554da771055f6659d6f, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7793505288625526445, guid: 17815853b163b554da771055f6659d6f, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9030199677848887012, guid: 17815853b163b554da771055f6659d6f, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 17815853b163b554da771055f6659d6f, type: 3}
+--- !u!1 &1666586209 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5545866811666592492, guid: 17815853b163b554da771055f6659d6f, type: 3}
+  m_PrefabInstance: {fileID: 1666586208}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1666586210 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7159684280417807951, guid: 17815853b163b554da771055f6659d6f, type: 3}
+  m_PrefabInstance: {fileID: 1666586208}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1666586211 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3213755159117865673, guid: 17815853b163b554da771055f6659d6f, type: 3}
+  m_PrefabInstance: {fileID: 1666586208}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1696173739 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4896252593977777981, guid: 7e1390784fd294f4fb3eef3de08c545e, type: 3}
@@ -5597,6 +5539,18 @@ PrefabInstance:
       propertyPath: _suppliesInteractable
       value: 
       objectReference: {fileID: 1609906030}
+    - target: {fileID: 1746950907, guid: 8053cf50d4b0aa8449636ea6dc200d8a, type: 3}
+      propertyPath: FoodImages.Array.data[0]
+      value: 
+      objectReference: {fileID: 1666586209}
+    - target: {fileID: 1746950907, guid: 8053cf50d4b0aa8449636ea6dc200d8a, type: 3}
+      propertyPath: FoodImages.Array.data[1]
+      value: 
+      objectReference: {fileID: 1666586211}
+    - target: {fileID: 1746950907, guid: 8053cf50d4b0aa8449636ea6dc200d8a, type: 3}
+      propertyPath: FoodImages.Array.data[2]
+      value: 
+      objectReference: {fileID: 1666586210}
     - target: {fileID: 6121559173390453, guid: 8053cf50d4b0aa8449636ea6dc200d8a, type: 3}
       propertyPath: m_Mesh
       value: 
@@ -5623,7 +5577,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6308616315591562076, guid: 8053cf50d4b0aa8449636ea6dc200d8a, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -25.61
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6308616315591562076, guid: 8053cf50d4b0aa8449636ea6dc200d8a, type: 3}
       propertyPath: m_LocalPosition.y
@@ -5631,7 +5585,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6308616315591562076, guid: 8053cf50d4b0aa8449636ea6dc200d8a, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 3
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6308616315591562076, guid: 8053cf50d4b0aa8449636ea6dc200d8a, type: 3}
       propertyPath: m_LocalRotation.w
@@ -6307,7 +6261,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-406266
+  m_Name: pb_Mesh-6076
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -6884,7 +6838,7 @@ Light:
   serializedVersion: 10
   m_Type: 0
   m_Shape: 0
-  m_Color: {r: 0.8962264, g: 0.8962264, b: 0.8680432, a: 1}
+  m_Color: {r: 0.9878164, g: 1, b: 0.7688679, a: 1}
   m_Intensity: 12.5
   m_Range: 11.6
   m_SpotAngle: 179
@@ -7122,7 +7076,7 @@ Light:
   serializedVersion: 10
   m_Type: 0
   m_Shape: 0
-  m_Color: {r: 0.8962264, g: 0.8962264, b: 0.8680432, a: 1}
+  m_Color: {r: 0.9878164, g: 1, b: 0.7688679, a: 1}
   m_Intensity: 12.5
   m_Range: 11.6
   m_SpotAngle: 179
