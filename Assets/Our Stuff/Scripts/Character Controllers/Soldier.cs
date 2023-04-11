@@ -26,23 +26,16 @@ public class Soldier : EnemyAI
                     if (enemy.Old)
                     {
                         foundGrandpa = true;
-                        enemy.MakeCalmer(3, 0.5f);
+                        enemy.SetTempRage(3.1f, 0.5f);
                         
                     }
                 }
             }
             if (foundGrandpa) 
             {
-                MakeCalmer(3, 0.5f);
+                SetTempRage(3, 0.5f);
             }
         }
-    }
-
-    public override void Spawn(EnemySpawner spawner, int num)
-    {
-        base.Spawn(spawner, num);
-        PassesInLines = true;
-        PassInLine(spawner);
     }
 
     protected override void HappyCustomer()

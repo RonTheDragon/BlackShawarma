@@ -23,10 +23,9 @@ public class EnemyAI : MonoBehaviour
     public           Sprite          SideOrderPanel;
     public           Sprite          RequestedFood;
     public           int             CustomerNumber;
-    public           float           LevelRageMultiplier=1;
+    [ReadOnly] public float           LevelRageMultiplier=1;
     public float                     CharacterRageMultiplier = 1;
-
-    private float _calmerRageMultiplier = 1;
+    [ReadOnly] public float TempRageMultiplier = 1;
     private float _calmerTime;
 
     [SerializeField] bool           _falefelEater, _eggplantEater, _friesEater;
@@ -53,7 +52,7 @@ public class EnemyAI : MonoBehaviour
 
     private Camera PlayerCamera => Camera.main;
 
-    private GameManager _gm => GameManager.Instance;
+    protected GameManager _gm => GameManager.Instance;
 
     private Action Loop;
 
@@ -63,6 +62,7 @@ public class EnemyAI : MonoBehaviour
     [HideInInspector] public List<BuildOrder.Fillers> Order = new List<BuildOrder.Fillers>();
 
     private bool _done;
+    protected bool _coffee;
 
     private Vector3 PreviousPos;
 
@@ -77,6 +77,9 @@ public class EnemyAI : MonoBehaviour
         CustomerNumber= num;
         SetEnemyPayment();
         GenerateRandomOrder();
+
+        if (PassesInLines) PassInLine(spawner, this is Mobster);
+        
     }
 
 
@@ -145,7 +148,7 @@ public class EnemyAI : MonoBehaviour
         }
         else
         {
-            _calmerRageMultiplier = 1;
+            TempRageMultiplier = 1;
         }
 
         emission.rateOverTime = _currentRage * 0.1f * _angerSmokeAmount;
@@ -157,7 +160,7 @@ public class EnemyAI : MonoBehaviour
         {
             if (!_done)
             {
-                _currentRage += LevelRageMultiplier * CharacterRageMultiplier * _calmerRageMultiplier * Time.deltaTime;
+                _currentRage += LevelRageMultiplier * CharacterRageMultiplier * TempRageMultiplier * Time.deltaTime;
             }
         }
         else
@@ -195,8 +198,7 @@ public class EnemyAI : MonoBehaviour
         }
         else
         {
-            _currentRage += 10*LevelRageMultiplier * CharacterRageMultiplier * _calmerRageMultiplier;
-            _angerSmoke.Emit(1);
+            MakeAngrier(10);
         }
         OnBeingShot?.Invoke();
     }
@@ -214,8 +216,7 @@ public class EnemyAI : MonoBehaviour
         }
         else
         {
-            _currentRage += 10 * LevelRageMultiplier * CharacterRageMultiplier * _calmerRageMultiplier;
-            _angerSmoke.Emit(1);
+            MakeAngrier(10);
             OnBeingShot?.Invoke();
         }
     }
@@ -409,9 +410,15 @@ public class EnemyAI : MonoBehaviour
         _happy.Emit(1);
     }
 
-    public void MakeCalmer(float time, float amount)
+    public void MakeAngrier(float amount)
     {
-        _calmerRageMultiplier = amount;
+        _currentRage += amount * LevelRageMultiplier * CharacterRageMultiplier * TempRageMultiplier;
+        _angerSmoke.Emit(1);
+    }
+
+    public void SetTempRage(float time, float amount)
+    {
+        TempRageMultiplier = amount;
         _calmerTime = time;
     }
 
@@ -425,9 +432,9 @@ public class EnemyAI : MonoBehaviour
         _currentRage = rage;
     }
 
-    protected void PassInLine(EnemySpawner spawner)
+    protected void PassInLine(EnemySpawner spawner, bool annoying)
     {
-        PlaceInLane = spawner.AddInFrontOfLane(WhichLane, PlaceInLane);
+        PlaceInLane = spawner.AddInFrontOfLane(WhichLane, PlaceInLane, annoying);
         SetDestination(spawner.LaneDestination(WhichLane, PlaceInLane));
     }
 }

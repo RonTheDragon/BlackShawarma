@@ -180,7 +180,7 @@ public class EnemySpawner : MonoBehaviour
         }
     }
 
-    public int AddInFrontOfLane(int Lane, int spotInLane) //for soldier (future use)
+    public int AddInFrontOfLane(int Lane, int spotInLane, bool annoying) //for soldier (future use)
     {
         int linePassers = 0;
         foreach (EnemyAI e in _enemies)
@@ -191,6 +191,7 @@ public class EnemySpawner : MonoBehaviour
                 {
                     e.PlaceInLane++;
                     e.SetDestination(LaneDestination(Lane, e.PlaceInLane));
+                    if (annoying) e.MakeAngrier(10);
                 }
                 else
                 {
@@ -270,6 +271,15 @@ public class EnemySpawner : MonoBehaviour
         {
             if (Vector3.Distance(position,enemyAI.transform.position) <= range)
             enemyAI.MakeHappier(amount);
+        }
+    }
+
+    public void UpsetEveryone(float amount, Vector3 position, float range)
+    {
+        foreach (EnemyAI enemyAI in _enemies)
+        {
+            if (Vector3.Distance(position, enemyAI.transform.position) <= range)
+                enemyAI.MakeAngrier(amount);
         }
     }
 }

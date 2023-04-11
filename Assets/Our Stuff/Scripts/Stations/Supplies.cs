@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-using static UnityEngine.UIElements.UxmlAttributeDescription;
 
 public class Supplies : MonoBehaviour, Interactable
 {
@@ -15,7 +14,7 @@ public class Supplies : MonoBehaviour, Interactable
     public Action Used { get => _used; set => _used = value; }
     public void Use(GameObject player)
     {
-        _used.Invoke();
+        _used?.Invoke();
 
         BuildOrder b = player.GetComponent<BuildOrder>();
 
