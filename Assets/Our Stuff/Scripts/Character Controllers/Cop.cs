@@ -41,6 +41,6 @@ public class Cop : EnemyAI
     protected override void MadCustomer()
     {
         if (_coffee) base.MadCustomer();
-        else _gm.TazdokTakeDamage(10);
+        else { _gm.TazdokTakeDamage(10); RemoveCustomer(); }
     }
 }

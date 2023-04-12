@@ -165,7 +165,11 @@ public class EnemyAI : MonoBehaviour
         }
         else
         {
-            _onRage?.Invoke();
+            if (!_done)
+            {
+                _done = true;
+                _onRage?.Invoke();
+            }
         }
         OnRageAmountChange?.Invoke(1 -(_currentRage / _maxRage), _currentRage > _calmEnoughToEat);
     }
@@ -413,7 +417,7 @@ public class EnemyAI : MonoBehaviour
     public void MakeAngrier(float amount)
     {
         _currentRage += amount * LevelRageMultiplier * CharacterRageMultiplier * TempRageMultiplier;
-        _angerSmoke.Emit(1);
+        _veryAngrySmoke.Emit(1);
     }
 
     public void SetTempRage(float time, float amount)

@@ -278,7 +278,8 @@ public class EnemySpawner : MonoBehaviour
     {
         foreach (EnemyAI enemyAI in _enemies)
         {
-            if (Vector3.Distance(position, enemyAI.transform.position) <= range)
+            float dist = Vector3.Distance(position, enemyAI.transform.position);
+            if (dist <= range && dist > 0.01f)
                 enemyAI.MakeAngrier(amount);
         }
     }
