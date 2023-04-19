@@ -9,12 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 96e5bcaebae947c419084cccca755844, type: 3}
-  m_Name: Hard
+  m_Script: {fileID: 11500000, guid: 00c81e1860f9c7c42b978eee2996012b, type: 3}
+  m_Name: Random Hard
   m_EditorClassIdentifier: 
-  Enemies:
-  - {fileID: 11400000, guid: a6725f108bff9894792166afbb4eaa2e, type: 2}
-  RandomSpawnRate: {x: 7, y: 15}
-  WarmUpTime: {x: 3, y: 5}
-  MaxEnemiesAtOnce: 5
-  Seconds: 150
+  Hipster: 1
+  OldMan: 1
+  Ars: 1
+  Soldier: 0.5
+  Cop: 0.5
+  Mobster: 0.5

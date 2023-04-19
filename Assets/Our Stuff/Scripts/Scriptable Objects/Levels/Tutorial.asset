@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Tutorial
   m_EditorClassIdentifier: 
   Enemies:
-  - FriesGuy
+  - {fileID: 11400000, guid: a19b4ff1aea2faf479d92b44f535011b, type: 2}
   RandomSpawnRate: {x: 0, y: 0}
   WarmUpTime: {x: 1, y: 1}
   MaxEnemiesAtOnce: 0

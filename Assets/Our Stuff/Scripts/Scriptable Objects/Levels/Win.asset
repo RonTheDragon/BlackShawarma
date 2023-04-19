@@ -13,9 +13,7 @@ MonoBehaviour:
   m_Name: Win
   m_EditorClassIdentifier: 
   Enemies:
-  - FalafelGuy
-  - FriesGuy
-  - EggplantGuy
+  - {fileID: 11400000, guid: e19293c45fcc26044b513a55288dd1f9, type: 2}
   RandomSpawnRate: {x: 30, y: 60}
   WarmUpTime: {x: 0, y: 3}
   MaxEnemiesAtOnce: 1

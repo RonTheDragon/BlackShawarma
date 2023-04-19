@@ -18,7 +18,7 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] float _distanceInLane       = 5;
 
     [SerializeField]            bool         _drawGizmos          = true;
-    [SerializeField]            List<string> _enemyTypes          = new List<string>();
+    [SerializeField]            List<SOspawnEnemy> _enemyTypes          = new List<SOspawnEnemy>();
     [ReadOnly] [SerializeField] int          _currentEnemyAmmout  = 0;
 
     [SerializeField] int           _maxEnemyInGame;
@@ -60,7 +60,7 @@ public class EnemySpawner : MonoBehaviour
 
     EnemyAI SpawnEnemy()
     {
-        GameObject Enemy   = ObjectPooler.Instance.SpawnFromPool(_enemyTypes[Random.Range(0, _enemyTypes.Count)], DoorSpawnPoint.position, DoorSpawnPoint.rotation);
+        GameObject Enemy   = ObjectPooler.Instance.SpawnFromPool(ChooseEnemy(), DoorSpawnPoint.position, DoorSpawnPoint.rotation);
         EnemyAI    enemyAI = Enemy.GetComponent<EnemyAI>();
         enemyAI.SetDestination(GetPreferableDestination(enemyAI));
         CustomerCounter++;
@@ -72,6 +72,54 @@ public class EnemySpawner : MonoBehaviour
         order.SetUp(enemyAI);
 
         return enemyAI;
+    }
+
+    private string ChooseEnemy()
+    {
+        SOspawnEnemy currentSpawnable = _enemyTypes[0];
+
+        List<EnemyChances> chances = new List<EnemyChances>();
+
+        if (currentSpawnable.Hipster > 0) chances.Add(new EnemyChances("FriesGuy", currentSpawnable.Hipster));
+        if (currentSpawnable.OldMan > 0) chances.Add(new EnemyChances("EggplantGuy", currentSpawnable.OldMan));
+        if (currentSpawnable.Ars > 0) chances.Add(new EnemyChances("FalafelGuy", currentSpawnable.Ars));
+        if (currentSpawnable.Soldier > 0) chances.Add(new EnemyChances("Soldier", currentSpawnable.Soldier));
+        if (currentSpawnable.Cop > 0) chances.Add(new EnemyChances("Cop", currentSpawnable.Cop));
+        if (currentSpawnable.Mobster > 0) chances.Add(new EnemyChances("Mobster", currentSpawnable.Mobster));
+
+        if (_enemyTypes.Count > 1)
+        {
+            _enemyTypes.RemoveAt(0);
+        }
+
+        if (chances.Count > 1)
+        {
+            for (int i = 0; i < 50; i++)
+            {
+                int chosen = Random.Range(0, chances.Count);
+                //Debug.Log($"tries to spawn {chances[chosen].EnemyName}");
+                if (chances[chosen].ChanceToSpawn >= Random.Range(0f, 1f))
+                {
+                    return chances[chosen].EnemyName;
+                }
+            }
+            Debug.LogWarning("Random broken in Spawnable Enemy");
+        }
+
+        if (chances.Count == 0) { Debug.LogWarning("Empty Spawnable Enemy"); return null;  }
+
+        return chances[0].EnemyName;
+    }
+    
+    class EnemyChances
+    {
+        public EnemyChances(string EnemyName, float ChanceToSpawn)
+        {
+            this.EnemyName = EnemyName;
+            this.ChanceToSpawn = ChanceToSpawn;
+        }
+       public string EnemyName;
+       public float ChanceToSpawn;
     }
 
     Vector3 GetPreferableDestination(EnemyAI enemyAI)
@@ -227,9 +275,13 @@ public class EnemySpawner : MonoBehaviour
         
     }
 
-    public void LevelSetUp(List<string> enemies, Vector2 RandomTime, Vector2 WarmUpTime, int maxEnemies)
+    public void LevelSetUp(List<SOspawnEnemy> enemies, Vector2 RandomTime, Vector2 WarmUpTime, int maxEnemies)
     {
-        _enemyTypes      = enemies;
+        _enemyTypes.Clear();
+        for (int i = 0; i < enemies.Count; i++)
+        {
+            _enemyTypes.Add(enemies[i]);
+        }
         _randomTime      = RandomTime;
         _currentTimeLeft = Random.Range(WarmUpTime.x,WarmUpTime.y);
         _maxEnemyInGame  = maxEnemies;

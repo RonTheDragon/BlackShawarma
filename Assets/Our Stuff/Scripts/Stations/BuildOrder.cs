@@ -103,6 +103,6 @@ public class BuildOrder : MonoBehaviour
         {
             msg += $"{f} ";
         }
-        Debug.Log(msg);
+        //Debug.Log(msg);
     }
 }

@@ -13,12 +13,7 @@ MonoBehaviour:
   m_Name: Lose
   m_EditorClassIdentifier: 
   Enemies:
-  - FalafelGuy
-  - FriesGuy
-  - EggplantGuy
-  - Soldier
-  - Cop
-  - Mobster
+  - {fileID: 11400000, guid: 48faa113e7654794d80c0c8f9880fcce, type: 2}
   RandomSpawnRate: {x: 1, y: 1}
   WarmUpTime: {x: 0, y: 3}
   MaxEnemiesAtOnce: 9
