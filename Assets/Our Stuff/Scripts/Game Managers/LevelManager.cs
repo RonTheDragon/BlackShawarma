@@ -29,7 +29,7 @@ public class LevelManager : MonoBehaviour
 
     private void SetUpLevel(SOLevel lvl)
     {
-        _spawner.LevelSetUp(lvl.Enemies, lvl.RandomSpawnRate, lvl.WarmUpTime, lvl.MaxEnemiesAtOnce);
+        _spawner.LevelSetUp(lvl.Enemies, lvl.spawnLimit , lvl.RandomSpawnRate, lvl.WarmUpTime, lvl.MaxEnemiesAtOnce);
         _timer.StartTimer(lvl.Seconds);
         OnSetUpLevel?.Invoke();
     }

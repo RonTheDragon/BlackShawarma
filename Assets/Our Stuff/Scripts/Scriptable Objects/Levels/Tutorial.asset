@@ -14,6 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Enemies:
   - {fileID: 11400000, guid: a19b4ff1aea2faf479d92b44f535011b, type: 2}
+  spawnLimit:
+    Hipster: 0
+    OldMan: 0
+    Ars: 0
+    Soldier: 0
+    Cop: 0
+    Mobster: 0
   RandomSpawnRate: {x: 0, y: 0}
   WarmUpTime: {x: 1, y: 1}
   MaxEnemiesAtOnce: 0

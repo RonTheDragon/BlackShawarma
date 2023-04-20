@@ -1,6 +1,6 @@
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
+using static SOLevel;
 
 public class EnemySpawner : MonoBehaviour
 {
@@ -19,6 +19,7 @@ public class EnemySpawner : MonoBehaviour
 
     [SerializeField]            bool         _drawGizmos          = true;
     [SerializeField]            List<SOspawnEnemy> _enemyTypes          = new List<SOspawnEnemy>();
+    [ReadOnly] [SerializeField] private SOLevel.SpawnLimit _spawnLimit;
     [ReadOnly] [SerializeField] int          _currentEnemyAmmout  = 0;
 
     [SerializeField] int           _maxEnemyInGame;
@@ -80,12 +81,12 @@ public class EnemySpawner : MonoBehaviour
 
         List<EnemyChances> chances = new List<EnemyChances>();
 
-        if (currentSpawnable.Hipster > 0) chances.Add(new EnemyChances("FriesGuy", currentSpawnable.Hipster));
-        if (currentSpawnable.OldMan > 0) chances.Add(new EnemyChances("EggplantGuy", currentSpawnable.OldMan));
-        if (currentSpawnable.Ars > 0) chances.Add(new EnemyChances("FalafelGuy", currentSpawnable.Ars));
-        if (currentSpawnable.Soldier > 0) chances.Add(new EnemyChances("Soldier", currentSpawnable.Soldier));
-        if (currentSpawnable.Cop > 0) chances.Add(new EnemyChances("Cop", currentSpawnable.Cop));
-        if (currentSpawnable.Mobster > 0) chances.Add(new EnemyChances("Mobster", currentSpawnable.Mobster));
+        if (currentSpawnable.Hipster > 0 && _spawnLimit.Hipster>0) chances.Add(new EnemyChances("FriesGuy", currentSpawnable.Hipster, () => _spawnLimit.Hipster--));
+        if (currentSpawnable.OldMan > 0 && _spawnLimit.OldMan>0) chances.Add(new EnemyChances("EggplantGuy", currentSpawnable.OldMan, () => _spawnLimit.OldMan--));
+        if (currentSpawnable.Ars > 0 && _spawnLimit.Ars>0) chances.Add(new EnemyChances("FalafelGuy", currentSpawnable.Ars, () => _spawnLimit.Ars--));
+        if (currentSpawnable.Soldier > 0 && _spawnLimit.Soldier>0) chances.Add(new EnemyChances("Soldier", currentSpawnable.Soldier, () => _spawnLimit.Soldier--));
+        if (currentSpawnable.Cop > 0 && _spawnLimit.Cop > 0) chances.Add(new EnemyChances("Cop", currentSpawnable.Cop,  () => _spawnLimit.Cop--));
+        if (currentSpawnable.Mobster > 0 && _spawnLimit.Mobster > 0) chances.Add(new EnemyChances("Mobster", currentSpawnable.Mobster, () => _spawnLimit.Mobster--));
 
         if (_enemyTypes.Count > 1)
         {
@@ -94,32 +95,60 @@ public class EnemySpawner : MonoBehaviour
 
         if (chances.Count > 1)
         {
-            for (int i = 0; i < 50; i++)
+            float maxRandom = 0;
+            foreach (EnemyChances chance in chances) 
             {
-                int chosen = Random.Range(0, chances.Count);
-                //Debug.Log($"tries to spawn {chances[chosen].EnemyName}");
-                if (chances[chosen].ChanceToSpawn >= Random.Range(0f, 1f))
+                maxRandom += chance.ChanceToSpawn;
+            }
+
+            float randomChoose = Random.Range(0, chances.Count);
+
+            float countUp = 0;
+            foreach (EnemyChances chance in chances)
+            {
+                countUp+= chance.ChanceToSpawn;
+                if (countUp >= randomChoose) 
                 {
-                    return chances[chosen].EnemyName;
+                    return chance.GetEnemy();
                 }
             }
-            Debug.LogWarning("Random broken in Spawnable Enemy");
+
+            //for (int i = 0; i < 50; i++)
+            //{
+            //    int chosen = Random.Range(0, chances.Count);
+            //    //Debug.Log($"tries to spawn {chances[chosen].EnemyName}");
+            //    if (chances[chosen].ChanceToSpawn >= Random.Range(0f, 1f))
+            //    {
+            //        return chances[chosen].EnemyName;
+            //    }
+            //}
+            //Debug.LogWarning("Random broken in Spawnable Enemy");
         }
 
-        if (chances.Count == 0) { Debug.LogWarning("Empty Spawnable Enemy"); return null;  }
+        if (chances.Count == 0) { Debug.LogWarning("Empty Spawnable Enemy"); return "FriesGuy";  }
 
-        return chances[0].EnemyName;
+        return chances[0].GetEnemy();
     }
     
     class EnemyChances
     {
-        public EnemyChances(string EnemyName, float ChanceToSpawn)
+        public string EnemyName;
+        public float ChanceToSpawn;
+        public System.Action OneLess;
+        public EnemyChances(string EnemyName, float ChanceToSpawn, System.Action OneLess)
         {
             this.EnemyName = EnemyName;
             this.ChanceToSpawn = ChanceToSpawn;
+            this.OneLess = OneLess;
         }
-       public string EnemyName;
-       public float ChanceToSpawn;
+        
+        public string GetEnemy()
+        {
+            OneLess?.Invoke();
+            Debug.Log("yes");
+            return EnemyName;
+        }
+
     }
 
     Vector3 GetPreferableDestination(EnemyAI enemyAI)
@@ -275,13 +304,22 @@ public class EnemySpawner : MonoBehaviour
         
     }
 
-    public void LevelSetUp(List<SOspawnEnemy> enemies, Vector2 RandomTime, Vector2 WarmUpTime, int maxEnemies)
+    public void LevelSetUp(List<SOspawnEnemy> enemies, SOLevel.SpawnLimit spawnLimit , Vector2 RandomTime, Vector2 WarmUpTime, int maxEnemies)
     {
         _enemyTypes.Clear();
         for (int i = 0; i < enemies.Count; i++)
         {
             _enemyTypes.Add(enemies[i]);
         }
+        _spawnLimit = new SOLevel.SpawnLimit() // Deep Copy
+        {
+            Hipster = spawnLimit.Hipster == 0 ? 100 : spawnLimit.Hipster,
+            Ars = spawnLimit.Ars == 0 ? 100 : spawnLimit.Ars,
+            OldMan = spawnLimit.OldMan == 0 ? 100 : spawnLimit.OldMan,
+            Cop = spawnLimit.Cop == 0 ? 100 : spawnLimit.Cop,
+            Mobster = spawnLimit.Mobster == 0 ? 100 : spawnLimit.Mobster,
+            Soldier = spawnLimit.Soldier == 0 ? 100 : spawnLimit.Soldier,
+        };
         _randomTime      = RandomTime;
         _currentTimeLeft = Random.Range(WarmUpTime.x,WarmUpTime.y);
         _maxEnemyInGame  = maxEnemies;
