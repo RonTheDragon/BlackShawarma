@@ -107,7 +107,7 @@ public class Gun : MonoBehaviour
         cinemachine.m_Lens.FieldOfView = NotAimingFOV;
         ResetAmmoToMax();
         ammoChanged();
-        StopUsingStation();
+        StartUsingStation();
 
         _loop += Shoot;
         _loop += UseStationRaycast;
@@ -412,7 +412,7 @@ public class Gun : MonoBehaviour
         cinemachine.enabled = false;
         tpm.enabled = false;
         Cursor.lockState = CursorLockMode.None;
-        //Cursor.visible = true;
+        Cursor.visible = false;
         CursorHand.gameObject.SetActive(true);
         infoUpdate?.Invoke(string.Empty);
     }

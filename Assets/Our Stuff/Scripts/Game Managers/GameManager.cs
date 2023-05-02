@@ -7,21 +7,21 @@ using UnityEngine.UI;
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
-    public        GameObject  Player;
+    public GameObject Player;
 
-    public        int         MaxTzadokHp = 3;
-    public        int         MaxFillers  = 4;
-    public        int         TzadokMaxHP = 4;
-    private       int         _money;
-    private       int         _tzadokHp;
+    public int MaxTzadokHp = 3;
+    public int MaxFillers  = 4;
+    public int TzadokMaxHP = 4;
+    private int _money;
+    private int _tzadokHp;
 
     public Action UpdateMoney;
     public Action UpdateTazdokHp;
 
-    public Action       Loop;
-    public Action       OnVictoryScreen;
-    public Action       OnLoseScreen;
-    public Action       OnEndLevel;
+    public Action Loop;
+    public Action OnVictoryScreen;
+    public Action OnLoseScreen;
+    public Action OnEndLevel;
     public EnemySpawner EnemySpawner;
     public LevelTimer LvlTimer => GetComponent<LevelTimer>();
 
@@ -29,7 +29,7 @@ public class GameManager : MonoBehaviour
 
     void Awake()
     {
-         Instance = this;
+        Instance = this;
     }
     #region Money
     public int GetMoney()
@@ -79,7 +79,7 @@ public class GameManager : MonoBehaviour
             OnEndLevel?.Invoke();
             EnemySpawner.ClearingLevel();
         }
-    } 
+    }
 
     #endregion
     public void DidWeWin()
@@ -89,5 +89,5 @@ public class GameManager : MonoBehaviour
             OnVictoryScreen?.Invoke();
             OnEndLevel?.Invoke();
         }
-    } 
+    }
 }
