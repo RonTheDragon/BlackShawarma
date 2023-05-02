@@ -101,7 +101,7 @@ public class EnemySpawner : MonoBehaviour
                 maxRandom += chance.ChanceToSpawn;
             }
 
-            float randomChoose = Random.Range(0, chances.Count);
+            float randomChoose = Random.Range(0, maxRandom);
 
             float countUp = 0;
             foreach (EnemyChances chance in chances)
@@ -145,7 +145,6 @@ public class EnemySpawner : MonoBehaviour
         public string GetEnemy()
         {
             OneLess?.Invoke();
-            Debug.Log("yes");
             return EnemyName;
         }
 
