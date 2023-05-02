@@ -16,6 +16,7 @@ public class UpgradeSystem : MonoBehaviour
     {
         BuildShop();
         ResetAmmoTypes();
+        _gm.TakeDamage += () => RemoveUpgradeLevel(SOUpgrade.Upgrade.Armor);
     }
 
     private void BuildShop()

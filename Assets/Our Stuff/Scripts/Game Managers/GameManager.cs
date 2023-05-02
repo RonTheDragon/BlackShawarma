@@ -17,6 +17,7 @@ public class GameManager : MonoBehaviour
 
     public Action UpdateMoney;
     public Action UpdateTazdokHp;
+    public Action TakeDamage;
 
     public Action Loop;
     public Action OnVictoryScreen;
@@ -71,6 +72,7 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log("pain");
         _tzadokHp -= m;
+        TakeDamage?.Invoke();
         UpdateTazdokHp?.Invoke();
 
         if (_tzadokHp <= 0)
