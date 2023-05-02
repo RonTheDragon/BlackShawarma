@@ -152,6 +152,8 @@ public class EnemySpawner : MonoBehaviour
 
     Vector3 GetPreferableDestination(EnemyAI enemyAI)
     {
+        if (enemyAI == null)
+            return Vector3.zero;
         int SmallestAmountOfPeople = 10000;
         int SmallestLane           = 0;
 
