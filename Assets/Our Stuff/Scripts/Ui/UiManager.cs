@@ -46,6 +46,11 @@ public class UiManager : MonoBehaviour
     [SerializeField] private GameObject _shootAmmoPanel;
     [SerializeField] private GameObject _shootPitaPanel;
 
+    [Header("Combo")]
+    [SerializeField] private GameObject _comboPanel;
+    [SerializeField] private Image _comboTimer;
+    [SerializeField] private TMP_Text _currentCombo;
+
 
     private Action _loop;
     //bool isEnemyInfoOpen = false;
@@ -73,6 +78,9 @@ public class UiManager : MonoBehaviour
         _gm.OnEndLevel       += EndLevel;
         _tutorial.FreezeTimer += FreezeTimer;
         _loop += OpenEnemyInfo;
+        _gm.CM.AddEvent += ComboIncrease;
+        _gm.CM.ResetEvent += ResetCombo;
+        _gm.CM.TimerEvent += ComboTimer;
         UpdateMoney();
     }
 
@@ -210,6 +218,23 @@ public class UiManager : MonoBehaviour
         }
     }
 
+    private void ComboIncrease(int combo)
+    {
+        _currentCombo.text = combo.ToString();
+        _comboTimer.fillAmount = 1;
+        _comboPanel.SetActive(true);
+    }
+
+    private void ResetCombo()
+    {
+        _comboPanel.SetActive(false);
+    }
+
+    private void ComboTimer(float f)
+    {
+        _comboTimer.fillAmount = f;
+    }
+
     public void ReloadScene()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
@@ -258,6 +283,7 @@ public class UiManager : MonoBehaviour
 
     private void EndLevel()
     {
+        _gm.CM.ResetCombo();
         foreach (GameObject item in _endLevelReset)
         {
             item.SetActive(false);

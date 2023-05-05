@@ -250,8 +250,8 @@ public class EnemyAI : MonoBehaviour
     #region CustomerReaction
     virtual protected void HappyCustomer()
     {
+        _gm.CM.AddCombo();
         _gm.AddMoney(CurrentPayment);
-
         RemoveCustomer();
     }
 
@@ -418,6 +418,7 @@ public class EnemyAI : MonoBehaviour
     {
         _currentRage += amount * LevelRageMultiplier * CharacterRageMultiplier * TempRageMultiplier;
         _veryAngrySmoke.Emit(1);
+        _gm.CM.ResetCombo();
     }
 
     public void SetTempRage(float time, float amount)

@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UpgradeSystem : MonoBehaviour
+public class Shop : MonoBehaviour
 {
     [SerializeField] private List<SOUpgrade> _upgrades;
     [SerializeField] private GameObject      _upgradePrefab;

@@ -1,8 +1,5 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -13,6 +10,7 @@ public class GameManager : MonoBehaviour
     public int MaxFillers  = 4;
     public int TzadokMaxHP = 4;
     private int _money;
+    private float _moneyMultiplier=1;
     private int _tzadokHp;
 
     public Action UpdateMoney;
@@ -25,6 +23,7 @@ public class GameManager : MonoBehaviour
     public Action OnEndLevel;
     public EnemySpawner EnemySpawner;
     public LevelTimer LvlTimer => GetComponent<LevelTimer>();
+    public ComboManager CM => GetComponent<ComboManager>();
 
     public LayerMask NotPlayerLayer;
 
@@ -40,7 +39,8 @@ public class GameManager : MonoBehaviour
 
     public void AddMoney(int m)
     {
-        _money += m;
+        _money += (int)(m* _moneyMultiplier);
+        Debug.Log($"Reward: {m} * {_moneyMultiplier} = {(int)(m * _moneyMultiplier)}");
         UpdateMoney?.Invoke();
     }
 
@@ -49,6 +49,12 @@ public class GameManager : MonoBehaviour
         _money = m;
         UpdateMoney?.Invoke();
     }
+
+    public void SetMoneyMultiplier(float m)
+    {
+        _moneyMultiplier = m;
+    }
+
     #endregion
     #region UpdateTazdokUiHp
     public int GetTazdokHp()
@@ -74,6 +80,7 @@ public class GameManager : MonoBehaviour
         _tzadokHp -= m;
         TakeDamage?.Invoke();
         UpdateTazdokHp?.Invoke();
+        CM.ResetCombo();
 
         if (_tzadokHp <= 0)
         {

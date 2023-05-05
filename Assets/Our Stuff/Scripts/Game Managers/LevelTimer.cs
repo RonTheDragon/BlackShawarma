@@ -25,6 +25,7 @@ public class LevelTimer : MonoBehaviour
         TimeLeft= time;
         OnSetTimer?.Invoke(time);
         Time.timeScale = 1;
+        _gm.CM.ResetCombo();
     }
 
     public void SetTimerTo0()
