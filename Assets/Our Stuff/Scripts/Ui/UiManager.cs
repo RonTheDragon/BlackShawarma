@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -134,7 +134,7 @@ public class UiManager : MonoBehaviour
 
     void UpdateMoney()
     {
-        MoneyText.text = "Joobot = " + _gm.GetMoney().ToString() + "�";
+        MoneyText.text = "Joobot = " + _gm.GetMoney().ToString() + "₪";
     }
 
     void UpdateIngridients(List<Ingredient> ingredients)
