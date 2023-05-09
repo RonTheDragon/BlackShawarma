@@ -11,7 +11,6 @@ public class Shop : MonoBehaviour
     [SerializeField] private List<SOAmmoType> _ammoTypes = new List<SOAmmoType>();
 
     private GameManager _gm => GameManager.Instance;
-    [SerializeField] Coffee coffeeRef;
 
     private void Start()
     {
@@ -90,17 +89,7 @@ public class Shop : MonoBehaviour
         Debug.Log($"Upgraded Armor Level {level}");
         _gm.MaxTzadokHp += 1;
     }
-    private void UpgradeCoffee(int level)
-    {
-        Debug.Log($"Upgraded Coffee Level {level}");
-
-        switch (level)
-        {
-            case 0: coffeeRef.gameObject.SetActive(true); break;
-            case 1: coffeeRef.coffeeBuffTime = 10; break;
-            case 2: coffeeRef.coffeeBuffTime = 15; break;
-        }
-    }
+    
 
 
     public void RemoveUpgradeLevel(SOUpgrade.Upgrade upgradeType)
