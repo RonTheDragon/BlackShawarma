@@ -10796,6 +10796,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 244923802, guid: 8053cf50d4b0aa8449636ea6dc200d8a, type: 3}
+      propertyPath: _levels.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 911231801d284bc419bd25d3556b5ab4, type: 2}
     - target: {fileID: 1746950907, guid: 8053cf50d4b0aa8449636ea6dc200d8a, type: 3}
       propertyPath: TutorialPanel
       value: 
@@ -10832,6 +10836,10 @@ PrefabInstance:
       propertyPath: _sideOrdersContent
       value: 
       objectReference: {fileID: 107461485}
+    - target: {fileID: 1493421660946856226, guid: 8053cf50d4b0aa8449636ea6dc200d8a, type: 3}
+      propertyPath: CustomersInLane.Array.size
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 6308616315591561378, guid: 8053cf50d4b0aa8449636ea6dc200d8a, type: 3}
       propertyPath: m_Name
       value: Game Manager

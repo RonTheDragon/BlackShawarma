@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using UnityEngine;
-using static SOLevel;
 
 public class EnemySpawner : MonoBehaviour
 {
@@ -150,6 +149,13 @@ public class EnemySpawner : MonoBehaviour
 
     }
 
+    private int[] GetPassableCustomers()
+    {
+        int[] passList = new int[CustomersInLane.Length];
+
+        return passList;
+    }
+
     Vector3 GetPreferableDestination(EnemyAI enemyAI)
     {
         if (enemyAI == null)
@@ -159,10 +165,17 @@ public class EnemySpawner : MonoBehaviour
 
         for (int i = 0; i < CustomersInLane.Length; i++) //Check the Lowest line length
         {
-            //Debug.Log($"{CustomersInLane[i]} < {SmallestAmountOfPeople} = {CustomersInLane[i] < SmallestAmountOfPeople}");
-            if (CustomersInLane[i] < SmallestAmountOfPeople)
+            int[] a = CustomersInLane;
+            if (enemyAI.PassesInLines)
             {
-                SmallestAmountOfPeople = CustomersInLane[i];
+                a = GetPassableCustomers();
+            }
+
+
+            //Debug.Log($"{CustomersInLane[i]} < {SmallestAmountOfPeople} = {CustomersInLane[i] < SmallestAmountOfPeople}");
+            if (a[i] < SmallestAmountOfPeople)
+            {
+                SmallestAmountOfPeople = a[i];
                 SmallestLane           = i;
             }
         }
@@ -250,6 +263,8 @@ public class EnemySpawner : MonoBehaviour
                         CustomersInLane[currentLane] += 1;
                         CustomersInLane[n] -= 1;
 
+                        if (e.PassesInLines) e.PassInLine(e is Mobster);
+
                         return;
                     }
                 }
@@ -260,25 +275,33 @@ public class EnemySpawner : MonoBehaviour
 
     public int AddInFrontOfLane(int Lane, int spotInLane, bool annoying) //for soldier (future use)
     {
-        int linePassers = 0;
+        EnemyAI[] stack = new EnemyAI[spotInLane];
+
         foreach (EnemyAI e in _enemies)
         {
             if (e.WhichLane == Lane && e.PlaceInLane < spotInLane)
             {
-                if (!e.PassesInLines)
-                {
-                    e.PlaceInLane++;
-                    e.SetDestination(LaneDestination(Lane, e.PlaceInLane));
-                    if (annoying) e.MakeAngrier(10);
-                }
-                else
-                {
-                    linePassers++;
-                }
+                stack[e.PlaceInLane] = e;
             }
         }
 
-        return linePassers;
+        for (int i = stack.Length-1; i > -1; i--)
+        {
+            EnemyAI e = stack[i];
+
+            if (e.CanBePassed)
+            {
+                e.PlaceInLane++;
+                e.SetDestination(LaneDestination(Lane, e.PlaceInLane));
+                if (annoying) e.MakeAngrier(10);
+            }
+            else
+            {
+                return e.PlaceInLane + 1;
+            }
+        }
+
+        return 0;
     }
 
     public void RemoveEnemy(EnemyAI enemyAI)
@@ -372,6 +395,14 @@ public class EnemySpawner : MonoBehaviour
             float dist = Vector3.Distance(position, enemyAI.transform.position);
             if (dist <= range && dist > 0.01f)
                 enemyAI.MakeAngrier(amount);
+        }
+    }
+
+    public void FixShortLines()
+    {
+        for (int i = 0; i < CustomersInLane.Length; i++)
+        {
+            CollectFromLongestLane(i);
         }
     }
 }

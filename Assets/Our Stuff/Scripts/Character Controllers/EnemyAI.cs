@@ -16,6 +16,7 @@ public class EnemyAI : MonoBehaviour
     public           int            PlaceInLane,   WhichLane;
 
     public bool PassesInLines;
+    public bool CanBePassed;
     public bool Old;
 
     public           Sprite          HappyPicture;
@@ -78,7 +79,7 @@ public class EnemyAI : MonoBehaviour
         SetEnemyPayment();
         GenerateRandomOrder();
 
-        if (PassesInLines) PassInLine(spawner, this is Mobster);
+        if (PassesInLines) PassInLine(this is Mobster);
         
     }
 
@@ -437,9 +438,9 @@ public class EnemyAI : MonoBehaviour
         _currentRage = rage;
     }
 
-    protected void PassInLine(EnemySpawner spawner, bool annoying)
+    public void PassInLine(bool annoying)
     {
-        PlaceInLane = spawner.AddInFrontOfLane(WhichLane, PlaceInLane, annoying);
-        SetDestination(spawner.LaneDestination(WhichLane, PlaceInLane));
+        PlaceInLane = _spawner.AddInFrontOfLane(WhichLane, PlaceInLane, annoying);
+        SetDestination(_spawner.LaneDestination(WhichLane, PlaceInLane));
     }
 }
