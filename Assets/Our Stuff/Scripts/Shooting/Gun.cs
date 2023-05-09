@@ -8,6 +8,7 @@ public class Gun : MonoBehaviour
     //Serializefield 
     [Tooltip("shooting cooldown")]
     [SerializeField] float CoolDown = 0.5f;
+    [SerializeField] float CoffeeCD = 0.25f;
 
     [Header("Aiming")]
     [Tooltip("Field of view while aiming")]
@@ -20,6 +21,8 @@ public class Gun : MonoBehaviour
     [ReadOnly][SerializeField] float CurrentFOV;
     [Tooltip("Is the character aiming or not")]
     [ReadOnly][SerializeField] bool  isAiming;
+    [Tooltip("Player Coffee buff")]
+    [SerializeField] public bool _coffee = false;
     [Tooltip("Too Close To Aim At")]
     [SerializeField] private float _tooClose = 3;
     [Tooltip("Too Close To Aim At")]
@@ -124,7 +127,7 @@ public class Gun : MonoBehaviour
 
     void Update()
     {
-        _loop?.Invoke();
+        _loop?.Invoke();    
     }
 
     private void FixedUpdate()
@@ -162,9 +165,24 @@ public class Gun : MonoBehaviour
             }
             else
             {
-                if (CurrentAmmoType.CurrentAmmo > 0)
+                if (CurrentAmmoType.CurrentAmmo > 0 && !_coffee)
                 {
                     _cd = CoolDown;
+
+                    if (!tpm.FreeRoam)
+                    {
+                        GameObject bullet = ObjectPooler.Instance.SpawnFromPool(CurrentAmmoType.AmmoTag, barrel.position, barrel.rotation);
+                        CurrentAmmoType.CurrentAmmo--;
+                        ammoChanged();
+                        float r = isAiming ? _recoil / 3 : _recoil;
+                        tpm.AddLookTorque(Vector2.down, r);
+                        _cis.GenerateImpulse(r);
+                        ShootImpact();
+                    }
+                }
+                if (CurrentAmmoType.CurrentAmmo > 0 && _coffee)
+                {
+                    _cd = CoffeeCD;
 
                     if (!tpm.FreeRoam)
                     {
