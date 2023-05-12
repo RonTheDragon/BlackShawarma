@@ -180,6 +180,18 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8332920823170148717, guid: 397ddbb5c45285c4d80728a808fd65f6, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.81000006
+      objectReference: {fileID: 0}
+    - target: {fileID: 8332920823170148717, guid: 397ddbb5c45285c4d80728a808fd65f6, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.81000006
+      objectReference: {fileID: 0}
+    - target: {fileID: 8332920823170148717, guid: 397ddbb5c45285c4d80728a808fd65f6, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.81000006
+      objectReference: {fileID: 0}
+    - target: {fileID: 8332920823170148717, guid: 397ddbb5c45285c4d80728a808fd65f6, type: 3}
       propertyPath: m_LocalPosition.x
       value: 16.82
       objectReference: {fileID: 0}
@@ -218,6 +230,10 @@ PrefabInstance:
     - target: {fileID: 8332920823170148717, guid: 397ddbb5c45285c4d80728a808fd65f6, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8332920823170148717, guid: 397ddbb5c45285c4d80728a808fd65f6, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8383504005864460530, guid: 397ddbb5c45285c4d80728a808fd65f6, type: 3}
       propertyPath: m_AnchorMax.y
@@ -318,6 +334,7 @@ MonoBehaviour:
   CustomerNumber: 0
   LevelRageMultiplier: 1
   CharacterRageMultiplier: 1
+  TempRageMultiplier: 1
   _falefelEater: 0
   _eggplantEater: 0
   _friesEater: 1
