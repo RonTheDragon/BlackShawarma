@@ -4,8 +4,9 @@ using UnityEngine;
 public class EnemySpawner : MonoBehaviour
 {
     public Transform DoorSpawnPoint;
-
-    [SerializeField] int[] CustomersInLane = new int[5];
+    
+    public QueueSystem EnemyQueues = new QueueSystem();
+    private List<EnemyAI> _leaving = new List<EnemyAI>();
 
     [SerializeField] float   _currentTimeLeft;
     [SerializeField] Vector2 _randomTime;
@@ -19,10 +20,9 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField]            bool         _drawGizmos          = true;
     [SerializeField]            List<SOspawnEnemy> _enemyTypes          = new List<SOspawnEnemy>();
     [ReadOnly] [SerializeField] private SOLevel.SpawnLimit _spawnLimit;
-    [ReadOnly] [SerializeField] int          _currentEnemyAmmout  = 0;
+    [ReadOnly] [SerializeField] int          _currentEnemyAmount  = 0;
 
     [SerializeField] int           _maxEnemyInGame;
-                     List<EnemyAI> _enemies = new List<EnemyAI>();
 
     [SerializeField] Transform  _sideOrdersContent;
     [SerializeField] GameObject _sideOrderPrefab;
@@ -50,7 +50,7 @@ public class EnemySpawner : MonoBehaviour
         }
         else
         {
-            if (_currentEnemyAmmout <_maxEnemyInGame)
+            if (_currentEnemyAmount <_maxEnemyInGame)
             {
                 _currentTimeLeft = Random.Range(_randomTime.x, _randomTime.y);
                 SpawnEnemy();
@@ -65,7 +65,7 @@ public class EnemySpawner : MonoBehaviour
         enemyAI.SetDestination(GetPreferableDestination(enemyAI));
         CustomerCounter++;
         enemyAI.Spawn(this, CustomerCounter);
-        _currentEnemyAmmout++;
+        _currentEnemyAmount++;
 
         SideOrderUI order = Instantiate(_sideOrderPrefab, _sideOrdersContent.position, Quaternion.identity, _sideOrdersContent).GetComponent<SideOrderUI>();
         enemyAI.SideOrder = order;
@@ -111,17 +111,6 @@ public class EnemySpawner : MonoBehaviour
                     return chance.GetEnemy();
                 }
             }
-
-            //for (int i = 0; i < 50; i++)
-            //{
-            //    int chosen = Random.Range(0, chances.Count);
-            //    //Debug.Log($"tries to spawn {chances[chosen].EnemyName}");
-            //    if (chances[chosen].ChanceToSpawn >= Random.Range(0f, 1f))
-            //    {
-            //        return chances[chosen].EnemyName;
-            //    }
-            //}
-            //Debug.LogWarning("Random broken in Spawnable Enemy");
         }
 
         if (chances.Count == 0) { Debug.LogWarning("Empty Spawnable Enemy"); return "FriesGuy";  }
@@ -149,58 +138,16 @@ public class EnemySpawner : MonoBehaviour
 
     }
 
-    private int[] GetPassableCustomers()
-    {
-        int[] passList = new int[CustomersInLane.Length];
-
-        return passList;
-    }
-
     Vector3 GetPreferableDestination(EnemyAI enemyAI)
     {
         if (enemyAI == null)
             return Vector3.zero;
-        int SmallestAmountOfPeople = 10000;
-        int SmallestLane           = 0;
+        int shortestLane = EnemyQueues.PickRandomLane(EnemyQueues.GetShortestLanes());
 
-        for (int i = 0; i < CustomersInLane.Length; i++) //Check the Lowest line length
-        {
-            int[] a = CustomersInLane;
-            if (enemyAI.PassesInLines)
-            {
-                a = GetPassableCustomers();
-            }
-
-
-            //Debug.Log($"{CustomersInLane[i]} < {SmallestAmountOfPeople} = {CustomersInLane[i] < SmallestAmountOfPeople}");
-            if (a[i] < SmallestAmountOfPeople)
-            {
-                SmallestAmountOfPeople = a[i];
-                SmallestLane           = i;
-            }
-        }
-
-        List<int> LaneNumbers = new List<int>();
-
-        for (int i = 0; i < CustomersInLane.Length; i++) // Get All Shortest Lanes 
-        {
-            if (CustomersInLane[SmallestLane] == CustomersInLane[i])
-            {
-                LaneNumbers.Add(i);
-            }
-        }
-
-        int ChosenRandom = Random.Range(0, LaneNumbers.Count); // Pick Random of the shortest lane
-
-        int chosen = LaneNumbers[ChosenRandom];
-
-        Vector3 Destination = LaneDestination(chosen, CustomersInLane[chosen]);
-
-        enemyAI.WhichLane   = chosen;
-        enemyAI.PlaceInLane = CustomersInLane[chosen];
-        _enemies.Add(enemyAI);
-        CustomersInLane[chosen]++; // Tell the enemy manager that place was filled
-        //Debug.Log(Destination);
+        enemyAI.WhichLane   = shortestLane;
+        enemyAI.PlaceInLane = EnemyQueues.Queues[shortestLane].Enemies.Count;
+        Vector3 Destination = LaneDestination(enemyAI.WhichLane, enemyAI.PlaceInLane);
+        EnemyQueues.Queues[shortestLane].Enemies.Add(enemyAI);
 
         return Destination; //Tells the enemy where to go 
     }
@@ -209,105 +156,29 @@ public class EnemySpawner : MonoBehaviour
     {
         if (_drawGizmos)
         {
-            for (int i = 0; i < CustomersInLane.Length; i++)
+            for (int i = 0; i < EnemyQueues.Queues.Count; i++)
             {
                 Gizmos.color = Color.yellow;
-                Gizmos.DrawCube(LaneDestination(i, 2+ CustomersInLane[i]), Vector3.one);
+                Gizmos.DrawCube(LaneDestination(i, 2+ EnemyQueues.Queues[i].Enemies.Count), Vector3.one);
 
                 Gizmos.color = Color.cyan;
-                Gizmos.DrawCube(LaneDestination(i, 1+ CustomersInLane[i]), Vector3.one);
+                Gizmos.DrawCube(LaneDestination(i, 1+ EnemyQueues.Queues[i].Enemies.Count), Vector3.one);
 
                 Gizmos.color = Color.blue;
-                Gizmos.DrawCube(LaneDestination(i,    CustomersInLane[i]), Vector3.one);
+                Gizmos.DrawCube(LaneDestination(i, EnemyQueues.Queues[i].Enemies.Count), Vector3.one);
             }
 
             Gizmos.color = Color.red;
             Gizmos.DrawCube(DoorSpawnPoint.transform.position + Vector3.up, Vector3.one + Vector3.up);
         }
     }
-    
-    public void RemoveOnLane(int Lane, int spotInLane)
-    {
-        CustomersInLane[Lane]--;
-
-        foreach(EnemyAI e in _enemies)
-        {
-            if (e.WhichLane == Lane && e.PlaceInLane > spotInLane)
-            {
-                e.PlaceInLane--;
-                e.SetDestination(LaneDestination(Lane,e.PlaceInLane));
-            }
-        }
-
-        CollectFromLongestLane(Lane);
-    }
-
-    private void CollectFromLongestLane(int currentLane)
-    {
-        int n = 0;
-        foreach(int i in CustomersInLane)
-        {
-            if (i > CustomersInLane[currentLane] + 1) //if lane is longer than current lane by at least 2
-            {
-                
-                foreach (EnemyAI e in _enemies)
-                {
-                    
-                    if (e.WhichLane == n && e.PlaceInLane == i-1)
-                    {
-                        
-                        e.WhichLane = currentLane;
-                        e.PlaceInLane = CustomersInLane[currentLane];
-                        e.SetDestination(LaneDestination(currentLane, CustomersInLane[currentLane]));
-                        
-                        CustomersInLane[currentLane] += 1;
-                        CustomersInLane[n] -= 1;
-
-                        if (e.PassesInLines) e.PassInLine(e is Mobster);
-
-                        return;
-                    }
-                }
-            }
-            n++;
-        }
-    }
-
-    public int AddInFrontOfLane(int Lane, int spotInLane, bool annoying) //for soldier (future use)
-    {
-        EnemyAI[] stack = new EnemyAI[spotInLane];
-
-        foreach (EnemyAI e in _enemies)
-        {
-            if (e.WhichLane == Lane && e.PlaceInLane < spotInLane)
-            {
-                stack[e.PlaceInLane] = e;
-            }
-        }
-
-        for (int i = stack.Length-1; i > -1; i--)
-        {
-            EnemyAI e = stack[i];
-
-            if (e.CanBePassed)
-            {
-                e.PlaceInLane++;
-                e.SetDestination(LaneDestination(Lane, e.PlaceInLane));
-                if (annoying) e.MakeAngrier(10);
-            }
-            else
-            {
-                return e.PlaceInLane + 1;
-            }
-        }
-
-        return 0;
-    }
 
     public void RemoveEnemy(EnemyAI enemyAI)
     {
-        _enemies.Remove(enemyAI);
-        _currentEnemyAmmout--;
+        EnemyQueues.RemoveEnemy(enemyAI);
+        _currentEnemyAmount--;
+        _leaving.Add(enemyAI);
+        SortLanes();
     }
 
     public Vector3 LaneDestination(int i,int place = 0)
@@ -316,6 +187,7 @@ public class EnemySpawner : MonoBehaviour
                + _lanesBase.transform.right   *   i   * _distanceBetweenLanes //Lanes Seperation
                + _lanesBase.transform.forward * place * _distanceInLane;      //In Lane Seperation
     }
+
     void StoreIsClose()
     {
         _maxEnemyInGame = 0;
@@ -324,8 +196,7 @@ public class EnemySpawner : MonoBehaviour
 
    public int HowManyEnemiesInTheStore()
     {
-       return _enemies.Count;
-        
+        return EnemyQueues.GetAmountOfEnemies(); 
     }
 
     public void LevelSetUp(List<SOspawnEnemy> enemies, SOLevel.SpawnLimit spawnLimit , Vector2 RandomTime, Vector2 WarmUpTime, int maxEnemies)
@@ -354,9 +225,13 @@ public class EnemySpawner : MonoBehaviour
     public void ClearingLevel()
     {
         _leveltimer.SetTimerTo0();
-        for (int i = 0; i < _enemies.Count; i++)
+        foreach (EnemyAI enemyAI in EnemyQueues.GetAllEnemies())
         {
-            _enemies[i].InstantlyRemoveCustomer();
+            enemyAI.InstantlyRemoveCustomer();
+        }
+        foreach (EnemyAI enemyAI in _leaving)
+        {
+            enemyAI.InstantlyRemoveCustomer();
         }
     }
 
@@ -367,44 +242,95 @@ public class EnemySpawner : MonoBehaviour
 
     public EnemyAI GetFirstEnemy()
     {
-        return _enemies[0];
+        return EnemyQueues.GetAllEnemies()[0];
     }
 
 
     public void CalmEveryone(float amount)
     {
-        foreach(EnemyAI enemyAI in _enemies)
-        {
-            enemyAI.MakeHappier(amount);
-        }
+       
+            foreach (EnemyAI enemyAI in EnemyQueues.GetAllEnemies())
+            {
+                enemyAI.MakeHappier(amount);
+            }
+       
     }
 
     public void CalmEveryone(float amount,Vector3 position, float range)
-    {
-        foreach (EnemyAI enemyAI in _enemies)
-        {
-            if (Vector3.Distance(position,enemyAI.transform.position) <= range)
-            enemyAI.MakeHappier(amount);
-        }
+    {       
+            foreach (EnemyAI enemyAI in EnemyQueues.GetAllEnemies())
+            {
+                if (Vector3.Distance(position, enemyAI.transform.position) <= range)
+                    enemyAI.MakeHappier(amount);
+            }
     }
 
     public void UpsetEveryone(float amount, Vector3 position, float range)
     {
-        foreach (EnemyAI enemyAI in _enemies)
+       
+            foreach (EnemyAI enemyAI in EnemyQueues.GetAllEnemies())
+            {
+                float dist = Vector3.Distance(position, enemyAI.transform.position);
+                if (dist <= range && dist > 0.01f)
+                    enemyAI.MakeAngrier(amount);
+            }
+        
+    }
+
+    public void SortLanes()
+    {
+        //Debug.Log("heavy");
+
+        foreach (EnemyAI enemy in EnemyQueues.GetAllPassingEnemies()) // all passers pass
         {
-            float dist = Vector3.Distance(position, enemyAI.transform.position);
-            if (dist <= range && dist > 0.01f)
-                enemyAI.MakeAngrier(amount);
+            if (enemy == null) continue;
+            if (enemy.PlaceInLane == 0) { continue; }
+            int Shortestlane = EnemyQueues.PickRandomLane(EnemyQueues.GetShortestLanesForPassers(enemy));
+            int amount = EnemyQueues.UnPassablesInLane(Shortestlane,enemy);
+            if (amount < enemy.PlaceInLane)
+            {
+                RemoveEnemy(enemy);
+                EnemyQueues.Queues[Shortestlane].Enemies.Insert(amount, enemy);
+                enemy.PlaceInLane = amount;
+                enemy.WhichLane = Shortestlane;
+                if (enemy is Mobster)
+                {
+                    foreach(EnemyAI e in EnemyQueues.Queues[Shortestlane].Enemies)
+                    {
+                        if (e.PlaceInLane > amount)
+                        {
+                            e.MakeAngrier(10);
+                        }
+                    }
+                }
+            }
+        }
+
+        foreach (EnemyAI enemy in EnemyQueues.GetAllNonePassingEnemies()) // all normal move to better lanes if possible
+        {
+            if (enemy == null) continue;
+            if (enemy.PlaceInLane == 0) { continue; }
+            int Shortestlane = EnemyQueues.PickRandomLane(EnemyQueues.GetShortestLanes());
+            int amount = EnemyQueues.Queues[Shortestlane].Enemies.Count;
+            if (amount < enemy.PlaceInLane)
+            {
+                RemoveEnemy(enemy);
+                EnemyQueues.Queues[Shortestlane].Enemies.Insert(amount, enemy);
+            }
+        }
+
+        for (int i = 0; i < EnemyQueues.Queues.Count; i++) // make them actually move
+        {
+            for (int j = 0; j < EnemyQueues.Queues[i].Enemies.Count; j++)
+            {
+                EnemyAI enemy = EnemyQueues.Queues[i].Enemies[j];
+                enemy.WhichLane = i;
+                enemy.PlaceInLane = j;
+                enemy.SetDestination(LaneDestination(i, j));
+            }
         }
     }
 
-    public void FixShortLines()
-    {
-        for (int i = 0; i < CustomersInLane.Length; i++)
-        {
-            CollectFromLongestLane(i);
-        }
-    }
 }
 
 

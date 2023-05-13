@@ -719,7 +719,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DoorSpawnPoint: {fileID: 3773970721764142240}
-  CustomersInLane: 000000000000000000000000
+  EnemyQueues:
+    Queues:
+    - Enemies: []
+    - Enemies: []
+    - Enemies: []
   _currentTimeLeft: 0
   _randomTime: {x: 30, y: 40}
   _lanesBase: {fileID: 6694555045971836296}
@@ -737,7 +741,7 @@ MonoBehaviour:
     Soldier: 0
     Cop: 0
     Mobster: 0
-  _currentEnemyAmmout: 0
+  _currentEnemyAmount: 0
   _maxEnemyInGame: 0
   _sideOrdersContent: {fileID: 0}
   _sideOrderPrefab: {fileID: 7795570131750160977, guid: 534d29b3bd217ef44b55a1e1066dd723, type: 3}
@@ -978,6 +982,7 @@ MonoBehaviour:
   MaxTzadokHp: 3
   MaxFillers: 4
   TzadokMaxHP: 4
+  ManInLine: 3
   EnemySpawner: {fileID: 1493421660946856226}
   NotPlayerLayer:
     serializedVersion: 2
