@@ -41,7 +41,7 @@ public class ComboManager : MonoBehaviour
         _combo = 0;
         _gm.SetMoneyMultiplier(1);
         ResetEvent?.Invoke();
-        Debug.Log("Combo Reset");
+        //Debug.Log("Combo Reset");
     }
 
     public void AddCombo()
@@ -55,7 +55,7 @@ public class ComboManager : MonoBehaviour
             if ( benefit > _maxComboBenefit ) benefit = _maxComboBenefit;
             _gm.SetMoneyMultiplier(1 + (_combo * benefit));
         }
-        Debug.Log($"Combo: {_combo}");
+        //Debug.Log($"Combo: {_combo}");
     }
 
 

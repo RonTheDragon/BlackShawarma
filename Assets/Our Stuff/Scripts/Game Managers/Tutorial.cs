@@ -235,6 +235,7 @@ public class Tutorial : MonoBehaviour
             _tutorialStage8.gameObject.SetActive(false);
             _tutorialStage9.gameObject.SetActive(true);
             _currentTutorialStage = TutorialStage9;
+            _enemySpawner.ChangeMaxEnemiesInGame(0);
         }
     }
     private void TutorialStage9() // Shoot The Shawarma
@@ -249,7 +250,6 @@ public class Tutorial : MonoBehaviour
             _tutorialStage10.gameObject.SetActive(true);
             _currentTutorialStage = TutorialStage10;
             _tutorialPointer.gameObject.SetActive(false);
-            _enemySpawner.ChangeMaxEnemiesInGame(0);
         }
     }
 

@@ -16,7 +16,7 @@ public class EnemyAI : MonoBehaviour
     public           int            PlaceInLane,   WhichLane;
 
     public bool PassesInLines;
-    public bool CanBePassed;
+    public bool CantBePassed;
     public bool Old;
 
     public           Sprite          HappyPicture;
@@ -77,10 +77,8 @@ public class EnemyAI : MonoBehaviour
         _agent.enabled = true;
         CustomerNumber= num;
         SetEnemyPayment();
-        GenerateRandomOrder();
-
-        if (PassesInLines) PassInLine(this is Mobster);
-        
+        GenerateRandomOrder();   
+        _spawner.SortLanes();
     }
 
 
@@ -268,7 +266,7 @@ public class EnemyAI : MonoBehaviour
     {
         _done = true;
         _currentRage = 0;
-        _spawner.RemoveOnLane(WhichLane, PlaceInLane);
+        _spawner.RemoveEnemy(this);
 
         OnRageAmountChange = null;
         if (SideOrder!=null)
@@ -278,7 +276,6 @@ public class EnemyAI : MonoBehaviour
 
     private void LeavingTheStore()
     {
-        _spawner.RemoveEnemy(this);
         _gm.DidWeWin();
         gameObject.SetActive(false);
     }
@@ -436,11 +433,5 @@ public class EnemyAI : MonoBehaviour
     public void SetCurrentRage(float rage)
     {
         _currentRage = rage;
-    }
-
-    public void PassInLine(bool annoying)
-    {
-        PlaceInLane = _spawner.AddInFrontOfLane(WhichLane, PlaceInLane, annoying);
-        SetDestination(_spawner.LaneDestination(WhichLane, PlaceInLane));
     }
 }
