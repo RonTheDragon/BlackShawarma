@@ -91,8 +91,7 @@ public class Shop : MonoBehaviour
     }
     
 
-
-    public void RemoveUpgradeLevel(SOUpgrade.Upgrade upgradeType)
+        public void RemoveUpgradeLevel(SOUpgrade.Upgrade upgradeType)
     {
         foreach (Transform t in _upgradesContent)
         {
