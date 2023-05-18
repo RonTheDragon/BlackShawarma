@@ -275,12 +275,15 @@ public class UiManager : MonoBehaviour
     }
     private void OpenEnemyInfo()
     {
-        if (Input.GetKeyDown(KeyCode.Tab))
-        {
+        if (Input.GetKeyDown(KeyCode.Tab) && Time.timeScale != 0)
+        { 
           _enemyInfoUi.gameObject.SetActive(!_enemyInfoUi.gameObject.activeSelf);
         }
+        
+       
     }
-
+    
+        
     private void EndLevel()
     {
         _gm.CM.ResetCombo();
