@@ -23,6 +23,7 @@ public class UiManager : MonoBehaviour
     [SerializeField] private TMP_Text         Info;
     [SerializeField] private TMP_Text         Ammo;
     [SerializeField] private TMP_Text         MoneyText;
+    [SerializeField] private TMP_Text         _loseScreenScore;
 
     [Header("Timer")]
     [SerializeField] private Image            _cigar;
@@ -246,8 +247,21 @@ public class UiManager : MonoBehaviour
     }
     
     public void LoseScreen()
-    {     
-            LoseScreenUi.gameObject.SetActive(true);
+    {
+        if (_gm.HappyCustomers > 1)
+        {
+            _loseScreenScore.text = $"Well... at least you managed to satisfy {_gm.HappyCustomers} customers today.";
+        }
+        else if (_gm.HappyCustomers == 1)
+        {
+            _loseScreenScore.text = $"Well... at least you managed to satisfy a customer today.";
+        }
+        else
+        {
+            _loseScreenScore.text = $"Well... good luck next time";
+        }
+
+        LoseScreenUi.gameObject.SetActive(true);
     }
     public void UpdateTazdokHPUI()
     {

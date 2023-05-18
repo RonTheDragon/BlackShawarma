@@ -282,13 +282,13 @@ public class EnemyAI : MonoBehaviour
 
     public void InstantlyRemoveCustomer()
     {
+        if (gameObject.activeSelf)
         StartCoroutine("DeletingEnemy");
     }
 
     private System.Collections.IEnumerator DeletingEnemy()
     {
         yield return null;
-
         if (!_done)
         {
             RemoveCustomer();

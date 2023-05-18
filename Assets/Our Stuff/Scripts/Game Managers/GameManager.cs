@@ -9,10 +9,10 @@ public class GameManager : MonoBehaviour
     public int MaxTzadokHp = 3;
     public int MaxFillers  = 4;
     public int TzadokMaxHP = 4;
-    public int ManInLine = 3;
     private int _money;
     private float _moneyMultiplier=1;
     private int _tzadokHp;
+    [HideInInspector] public int HappyCustomers = 0;
 
     public Action UpdateMoney;
     public Action UpdateTazdokHp;
