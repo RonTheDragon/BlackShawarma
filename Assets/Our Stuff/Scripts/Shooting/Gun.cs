@@ -96,6 +96,7 @@ public class Gun : MonoBehaviour
     [SerializeField] private float _recoil = 10;
 
     [SerializeField] private Animator _gunAnimator;
+    [SerializeField] private GameObject _pitaModel;
 
 
     //Private 
@@ -161,7 +162,6 @@ public class Gun : MonoBehaviour
                 tpm.AddLookTorque(Vector2.down, _recoil * _currentPita.Count);
                 _cis.GenerateImpulse(_recoil * _currentPita.Count);
                 PitaShoot();
-                ShootImpact();
             }
             else
             {
@@ -454,20 +454,29 @@ public class Gun : MonoBehaviour
     }
     private void PitaShoot()
     {
-        GameObject pita = ObjectPooler.Instance.SpawnFromPool("Pita", barrel.position, barrel.rotation);
+        _hasPita = false;
+        OnHasPitaChanging?.Invoke(_hasPita);
         _cd = CoolDown;
+        _gunAnimator.SetTrigger("Hamsa");
+        StartCoroutine("PitaShootDelay");
+    }
+
+    private System.Collections.IEnumerator PitaShootDelay()
+    {
+        yield return new WaitForSeconds(0.17f);
+        _pitaModel.SetActive(false );
+        GameObject pita = ObjectPooler.Instance.SpawnFromPool("Pita", barrel.position, barrel.rotation);
         Pita a = pita.GetComponent<Pita>();
         List<BuildOrder.Fillers> temp = new List<BuildOrder.Fillers>(_currentPita);
         a.Ingridients = temp;
         _currentPita.Clear();
-        _hasPita = false;
-        OnHasPitaChanging?.Invoke(_hasPita);
         ammoChanged();
     }
 
     public void SetPita(List<BuildOrder.Fillers> f)
     {
         _currentPita = f;
+        _pitaModel.SetActive(true);
         _hasPita     = true;
         OnHasPitaChanging?.Invoke(_hasPita);
         StoppedHoveringStation();

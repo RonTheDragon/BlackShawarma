@@ -408,7 +408,7 @@ public class EnemyAI : MonoBehaviour
 
     public void MakeHappier(float amount)
     {
-        _currentRage -= amount * ChiliUp;
+        _currentRage -= amount; //* ChiliUp;
         _happy.Emit(1);
     }
 
