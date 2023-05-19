@@ -11,6 +11,7 @@ public class UiManager : MonoBehaviour
 {
     [SerializeField] GameObject player;
     private Gun _gun => player.GetComponent<Gun>();
+    private ThirdPersonMovement _movement => player.GetComponent<ThirdPersonMovement>();
     private BuildOrder _bo => player.GetComponent<BuildOrder>();
 
     GameManager _gm;
@@ -37,6 +38,10 @@ public class UiManager : MonoBehaviour
     [SerializeField] private GameObject       _pauseMenu;
     [SerializeField] private Image            _enemyInfoUi;
     [SerializeField] private Transform        _maximizedOrder;
+
+    [Header("Stamina")]
+    [SerializeField] private GameObject TazdokStamina;
+    [SerializeField] private Image TazdokStaminaBar;
 
     [Header("The Ammo Panel")]
     [SerializeField] private Image _eggplant;
@@ -84,6 +89,7 @@ public class UiManager : MonoBehaviour
         _gm.CM.AddEvent += ComboIncrease;
         _gm.CM.ResetEvent += ResetCombo;
         _gm.CM.TimerEvent += ComboTimer;
+        _movement.OnStamina += StaminaUI;
         UpdateMoney();
     }
 
@@ -309,6 +315,19 @@ public class UiManager : MonoBehaviour
         for (int i = 0; i < fillers.Count; i++)
         {
             _maximizedOrder.GetChild(i).gameObject.SetActive(fillers[i].activeSelf);
+        }
+    }
+
+    private void StaminaUI(float fill)
+    {
+        if (fill == 1 || _gun.UsingUI)
+        {
+            TazdokStamina.SetActive(false);
+        }
+        else
+        {
+            TazdokStaminaBar.fillAmount = fill;
+            TazdokStamina.SetActive(true);
         }
     }
         

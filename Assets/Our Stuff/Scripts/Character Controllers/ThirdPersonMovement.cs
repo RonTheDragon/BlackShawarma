@@ -11,6 +11,17 @@ public class ThirdPersonMovement : MonoBehaviour
     [Tooltip("The movement speed of the player")]
     [SerializeField] float Speed = 10;
 
+    [Header("Sprint")]
+    [SerializeField] private float _sprintSpeed;
+    private bool IsSprinting;
+    public float MaxStamina;
+    private float _currentStamina;
+    public float StaminaRegen;
+    public float StaminaDrain;
+    [SerializeField] private float _staminaRegenCooldown;
+    private float _currentStaminaRegenCooldown;
+    [HideInInspector] public Action<float> OnStamina;
+
     [Header("Look")]
     [SerializeField] private Transform _lookAt;
     [SerializeField] private Vector2 _sensitivity;
@@ -100,6 +111,7 @@ public class ThirdPersonMovement : MonoBehaviour
         //slide();
         applyingForce();
         gravitation();
+        SprintSystem();
         movement();
         Look();
         FreeRoamSupport();
@@ -129,14 +141,59 @@ public class ThirdPersonMovement : MonoBehaviour
                 transform.rotation = Quaternion.Euler(0, Angle, 0); //Player rotation
             }
             Vector3 MoveDir = Quaternion.Euler(0, targetAngle, 0) * Vector3.forward;
-            CC.Move(MoveDir * Speed * Time.deltaTime);
+            CC.Move(MoveDir * GetSpeed() * Time.deltaTime);
 
             _anim.SetBool("Walk", true);
+            _anim.SetFloat("MoveSpeed", GetSpeed()/Speed);
         }
         else
         {
             _anim.SetBool("Walk", false);
         }
+    }
+
+    private void SprintSystem()
+    {
+        if (_currentStaminaRegenCooldown > 0)
+        {
+            _currentStaminaRegenCooldown -= Time.deltaTime;
+        }
+        else
+        {
+            if (_currentStamina < MaxStamina)
+            {
+                _currentStamina += StaminaRegen * Time.deltaTime;
+            }
+            else if (_currentStamina > MaxStamina)
+            {
+                _currentStamina = MaxStamina;
+            }
+        }
+        if (Input.GetKey(KeyCode.LeftShift))
+        {
+            _currentStaminaRegenCooldown = _staminaRegenCooldown;
+            if (_currentStamina > 0)
+            {
+                IsSprinting = true;
+                _currentStamina -= StaminaDrain * Time.deltaTime;
+            }
+            else
+            {
+                IsSprinting = false;
+            }
+        }
+        else
+        {
+            IsSprinting = false;
+        }
+        OnStamina(_currentStamina/MaxStamina);
+    }
+
+    private float GetSpeed()
+    {
+        if (IsSprinting) 
+            return _sprintSpeed;
+        return Speed;
     }
 
     private void FreeRoamSupport()
@@ -185,6 +242,11 @@ public class ThirdPersonMovement : MonoBehaviour
     {
         _torqueDirection = dir;
         _torqueStrength = force;       
+    }
+
+    public void FullStamina()
+    {
+        _currentStamina = MaxStamina;
     }
 
     //Gizmos
