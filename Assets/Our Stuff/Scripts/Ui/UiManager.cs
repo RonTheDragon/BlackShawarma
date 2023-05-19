@@ -36,6 +36,7 @@ public class UiManager : MonoBehaviour
     [SerializeField] private List<GameObject> _endLevelReset;
     [SerializeField] private GameObject       _pauseMenu;
     [SerializeField] private Image            _enemyInfoUi;
+    [SerializeField] private Transform        _maximizedOrder;
 
     [Header("The Ammo Panel")]
     [SerializeField] private Image _eggplant;
@@ -77,6 +78,7 @@ public class UiManager : MonoBehaviour
         _gm.OnVictoryScreen  += () => VictoryScreen.gameObject.SetActive(true);
         _gm.OnLoseScreen     += LoseScreen;
         _gm.OnEndLevel       += EndLevel;
+        _gm.OnOrderMaximize  += SetMaximizedOrder;
         _tutorial.FreezeTimer += FreezeTimer;
         _loop += OpenEnemyInfo;
         _gm.CM.AddEvent += ComboIncrease;
@@ -297,6 +299,18 @@ public class UiManager : MonoBehaviour
        
     }
     
+    private void SetMaximizedOrder(List<GameObject> fillers)
+    {
+        for (int i = 0; i < _maximizedOrder.childCount; i++)
+        {
+            _maximizedOrder.GetChild(i).gameObject.SetActive(false);
+        }
+
+        for (int i = 0; i < fillers.Count; i++)
+        {
+            _maximizedOrder.GetChild(i).gameObject.SetActive(fillers[i].activeSelf);
+        }
+    }
         
     private void EndLevel()
     {

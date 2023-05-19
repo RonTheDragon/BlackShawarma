@@ -19,9 +19,11 @@ public class SideOrderUI : MonoBehaviour
     [SerializeField] private Image    _wantedFoodIcon;
     [SerializeField] private Image    _panel;
     [SerializeField] private Image    _angerBar;
+    [SerializeField] private Button   _button;
     private EnemyAI _enemy;
+    private GameManager _gm;
 
-    [SerializeField] private List<GameObject> _fillers;
+    public List<GameObject> Fillers= new List<GameObject>();
 
     
 
@@ -37,6 +39,18 @@ public class SideOrderUI : MonoBehaviour
         _enemy =enemy; 
         enemy.OnRageAmountChange += ChangeRageBar;
         enemy.OnBeingShot += ShowRageBar;
+        _gm = GameManager.Instance;
+        _button.gameObject.SetActive(false);
+    }
+
+    public void ButtonClick()
+    {
+        _gm.MaximizeOrder(this);
+    }
+
+    private void OnDestroy()
+    {
+        _gm.UnMaximizeOrder(this);
     }
 
     private void ShowRageBar()
@@ -62,9 +76,10 @@ public class SideOrderUI : MonoBehaviour
             {
                 _guyImage.sprite = _guyAngryImage;
                 _angerBar.color = Color.red;
+                _button.gameObject.SetActive(false);
                 _pitaIcon.enabled = false;
                 _wantedFoodIcon.enabled = true;
-                foreach (GameObject go in _fillers)
+                foreach (GameObject go in Fillers)
                 {
                     go.SetActive(false);
                 }
@@ -72,12 +87,14 @@ public class SideOrderUI : MonoBehaviour
                 {
                     gameObject.SetActive(false);
                 }
+                _gm.UnMaximizeOrder(this);
             }
             else
             {
                 gameObject.SetActive(true);
                 _guyImage.sprite = _guyHappyImage;
                 _angerBar.color = Color.green;
+                _button.gameObject.SetActive(true);
                 _pitaIcon.enabled = true;
                 _wantedFoodIcon.enabled = false;
                 foreach (BuildOrder.Fillers filler in _enemy.Order)
@@ -85,28 +102,28 @@ public class SideOrderUI : MonoBehaviour
                     switch (filler)
                     {
                         case BuildOrder.Fillers.Humus:
-                            _fillers[0].SetActive(true);
+                            Fillers[0].SetActive(true);
                             break;
                         case BuildOrder.Fillers.Pickles:
-                            _fillers[1].SetActive(true);
+                            Fillers[1].SetActive(true);
                             break;
                         case BuildOrder.Fillers.Cabbage:
-                            _fillers[2].SetActive(true);
+                            Fillers[2].SetActive(true);
                             break;
                         case BuildOrder.Fillers.Onions:
-                            _fillers[3].SetActive(true);
+                            Fillers[3].SetActive(true);
                             break;
                         case BuildOrder.Fillers.Salad:
-                            _fillers[4].SetActive(true);
+                            Fillers[4].SetActive(true);
                             break;
                         case BuildOrder.Fillers.Spicy:
-                            _fillers[5].SetActive(true);
+                            Fillers[5].SetActive(true);
                             break;
                         case BuildOrder.Fillers.Amba:
-                            _fillers[6].SetActive(true);
+                            Fillers[6].SetActive(true);
                             break;
                         case BuildOrder.Fillers.Thina:
-                            _fillers[7].SetActive(true);
+                            Fillers[7].SetActive(true);
                             break;
                     }
                 }
