@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
+using FMODUnity;
 
 public class Tutorial : MonoBehaviour
 {
@@ -66,6 +67,8 @@ public class Tutorial : MonoBehaviour
     void Update()
     {
         _currentTutorialStage?.Invoke();
+
+       
     }
     public void SkipTutorial()
     {
