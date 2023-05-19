@@ -46,6 +46,7 @@ public class ComboManager : MonoBehaviour
 
     public void AddCombo()
     {
+        _gm.HappyCustomers++;
         _combo++;
         _comboTimeLeft = _comboResetTime;
         if (_combo >= _minComboBenefit)

@@ -7,45 +7,45 @@ using Random = System.Random;
 
 public class EnemyAI : MonoBehaviour
 {
-    [SerializeField] float          _currentRage, _maxRage, _calmEnoughToEat , _startingRage;
-    [SerializeField] float          _angerSmokeAmount = 1;
-    [SerializeField] ParticleSystem _angerSmoke;
+    [SerializeField]         float          _currentRage, _maxRage, _calmEnoughToEat , _startingRage;
+    [SerializeField]         float          _angerSmokeAmount = 1;
+    [SerializeField]         ParticleSystem _angerSmoke;
     [SerializeField] private ParticleSystem _veryAngrySmoke;
     [SerializeField] private ParticleSystem _happy;
     [SerializeField] private ParticleSystem _veryHappy;
-    public           int            PlaceInLane,   WhichLane;
+                     public  int            PlaceInLane, WhichLane;
 
     public bool PassesInLines;
     public bool CantBePassed;
     public bool Old;
 
-    public           Sprite          HappyPicture;
-    public           Sprite          AngryPicture;
-    public           Sprite          SideOrderPanel;
-    public           Sprite          RequestedFood;
-    public           int             CustomerNumber;
-    [ReadOnly] public float           LevelRageMultiplier=1;
-    public float                     CharacterRageMultiplier = 1;
-    [ReadOnly] public float TempRageMultiplier = 1;
+    public            Sprite         HappyPicture;
+    public            Sprite         AngryPicture;
+    public            Sprite         SideOrderPanel;
+    public            Sprite         RequestedFood;
+    public            int            CustomerNumber;
+    [ReadOnly] public float          LevelRageMultiplier = 1;
+    public            float          CharacterRageMultiplier = 1;
+    [ReadOnly] public float          TempRageMultiplier = 1;
     private float _calmerTime;
 
-    [SerializeField] bool           _falefelEater, _eggplantEater, _friesEater;
-    [SerializeField] GameObject     _canvas;
-    [SerializeField] private List<GameObject> _orderFillers;
-    [SerializeField] float          _minTime       = 60;
-    [SerializeField] float          _maxTime       = 180;
-    [SerializeField] Vector2        _randompayment = new Vector2(10,25);
+    [SerializeField]                 bool            _falefelEater, _eggplantEater, _friesEater;
+    [SerializeField]                GameObject       _canvas;
+    [SerializeField] private        List<GameObject> _orderFillers;
+    [SerializeField]                float            _minTime       = 60;
+    [SerializeField]                float            _maxTime       = 180;
+    [SerializeField]                Vector2          _randompayment = new Vector2(10,25);
 
-    NavMeshAgent _agent => GetComponent<NavMeshAgent>();
+              NavMeshAgent _agent => GetComponent<NavMeshAgent>();
     protected EnemySpawner _spawner;
-    Action       _onRage;
-    Vector3      _destination;
-    int          _enemyMaxPayment, _enemyMinPayment;
-    float        _time;
-    float        _f;
-    public int   CurrentPayment;
-    public SideOrderUI SideOrder;
-    public int EnemyDamage = 1;
+              Action       _onRage;
+              Vector3      _destination;
+              int          _enemyMaxPayment, _enemyMinPayment;
+              float        _time;
+              float        _f;
+              public int   CurrentPayment;
+    public    SideOrderUI  SideOrder;
+    public    int          EnemyDamage = 1;
 
 
 
@@ -58,11 +58,11 @@ public class EnemyAI : MonoBehaviour
     private Action Loop;
 
     public Action<float,bool> OnRageAmountChange;
-    public Action OnBeingShot;
+    public Action             OnBeingShot;
 
     [HideInInspector] public List<BuildOrder.Fillers> Order = new List<BuildOrder.Fillers>();
 
-    private bool _done;
+    private bool   _done;
     protected bool _coffee;
 
     private Vector3 PreviousPos;
@@ -85,10 +85,10 @@ public class EnemyAI : MonoBehaviour
     private void Start()
     {
         _onRage += MadCustomer;
-        Loop += Movement;
-        Loop += Rage;
-        Loop += ShowOrder;
-        Loop += EnemyTimer;
+        Loop    += Movement;
+        Loop    += Rage;
+        Loop    += ShowOrder;
+        Loop    += EnemyTimer;
     }
 
 
@@ -282,13 +282,13 @@ public class EnemyAI : MonoBehaviour
 
     public void InstantlyRemoveCustomer()
     {
+        if (gameObject.activeSelf)
         StartCoroutine("DeletingEnemy");
     }
 
     private System.Collections.IEnumerator DeletingEnemy()
     {
         yield return null;
-
         if (!_done)
         {
             RemoveCustomer();
@@ -408,7 +408,7 @@ public class EnemyAI : MonoBehaviour
 
     public void MakeHappier(float amount)
     {
-        _currentRage -= amount;
+        _currentRage -= amount; //* ChiliUp;
         _happy.Emit(1);
     }
 
@@ -422,7 +422,7 @@ public class EnemyAI : MonoBehaviour
     public void SetTempRage(float time, float amount)
     {
         TempRageMultiplier = amount;
-        _calmerTime = time;
+        _calmerTime        = time;
     }
 
     public float GetCurrentRage()

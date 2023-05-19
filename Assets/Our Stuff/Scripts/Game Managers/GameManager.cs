@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
+using static BuildOrder;
 
 public class GameManager : MonoBehaviour
 {
@@ -9,10 +11,10 @@ public class GameManager : MonoBehaviour
     public int MaxTzadokHp = 3;
     public int MaxFillers  = 4;
     public int TzadokMaxHP = 4;
-    public int ManInLine = 3;
     private int _money;
     private float _moneyMultiplier=1;
     private int _tzadokHp;
+    [HideInInspector] public int HappyCustomers = 0;
 
     public Action UpdateMoney;
     public Action UpdateTazdokHp;
@@ -22,6 +24,8 @@ public class GameManager : MonoBehaviour
     public Action OnVictoryScreen;
     public Action OnLoseScreen;
     public Action OnEndLevel;
+    [HideInInspector] public SideOrderUI UsedOrder;
+    [HideInInspector] public Action<List<GameObject>> OnOrderMaximize;
     public EnemySpawner EnemySpawner;
     public LevelTimer LvlTimer => GetComponent<LevelTimer>();
     public ComboManager CM => GetComponent<ComboManager>();
@@ -98,6 +102,27 @@ public class GameManager : MonoBehaviour
         {
             OnVictoryScreen?.Invoke();
             OnEndLevel?.Invoke();
+        }
+    }
+
+    public void MaximizeOrder(SideOrderUI ui)
+    {
+        if (UsedOrder == ui)
+        {
+            OnOrderMaximize?.Invoke(new List<GameObject>());
+            UsedOrder = null;
+            return;
+        }
+        UsedOrder = ui;
+        OnOrderMaximize?.Invoke(ui.Fillers);
+    }
+
+    public void UnMaximizeOrder(SideOrderUI ui)
+    {
+        if (UsedOrder == ui)
+        {
+            OnOrderMaximize?.Invoke(new List<GameObject>());
+            UsedOrder = null;
         }
     }
 }

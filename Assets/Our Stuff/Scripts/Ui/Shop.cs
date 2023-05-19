@@ -47,6 +47,7 @@ public class Shop : MonoBehaviour
             case SOUpgrade.Upgrade.MoreFries:    return UpgradeFries;
             case SOUpgrade.Upgrade.MoreEggplant: return UpgradeEggplant;
             case SOUpgrade.Upgrade.Armor:        return Armor;
+            case SOUpgrade.Upgrade.Chili:        return Armor;
         }
         return null;
     }
@@ -89,9 +90,15 @@ public class Shop : MonoBehaviour
         Debug.Log($"Upgraded Armor Level {level}");
         _gm.MaxTzadokHp += 1;
     }
-    
 
-        public void RemoveUpgradeLevel(SOUpgrade.Upgrade upgradeType)
+    private void Chili(int level)
+    {
+        Debug.Log($"Upgraded Chili Level {level}");
+
+    }
+
+
+    public void RemoveUpgradeLevel(SOUpgrade.Upgrade upgradeType)
     {
         foreach (Transform t in _upgradesContent)
         {

@@ -219,6 +219,8 @@ public class EnemySpawner : MonoBehaviour
         _currentTimeLeft = Random.Range(WarmUpTime.x,WarmUpTime.y);
         _maxEnemyInGame  = maxEnemies;
         _gm.SetTazdokHp(_gm.MaxTzadokHp);
+        _gm.HappyCustomers = 0;
+        _gm.Player.GetComponent<ThirdPersonMovement>().FullStamina();
         CustomerCounter = 0;
     }
 

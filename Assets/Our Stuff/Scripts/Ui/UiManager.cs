@@ -11,6 +11,7 @@ public class UiManager : MonoBehaviour
 {
     [SerializeField] GameObject player;
     private Gun _gun => player.GetComponent<Gun>();
+    private ThirdPersonMovement _movement => player.GetComponent<ThirdPersonMovement>();
     private BuildOrder _bo => player.GetComponent<BuildOrder>();
 
     GameManager _gm;
@@ -23,6 +24,7 @@ public class UiManager : MonoBehaviour
     [SerializeField] private TMP_Text         Info;
     [SerializeField] private TMP_Text         Ammo;
     [SerializeField] private TMP_Text         MoneyText;
+    [SerializeField] private TMP_Text         _loseScreenScore;
 
     [Header("Timer")]
     [SerializeField] private Image            _cigar;
@@ -35,6 +37,11 @@ public class UiManager : MonoBehaviour
     [SerializeField] private List<GameObject> _endLevelReset;
     [SerializeField] private GameObject       _pauseMenu;
     [SerializeField] private Image            _enemyInfoUi;
+    [SerializeField] private Transform        _maximizedOrder;
+
+    [Header("Stamina")]
+    [SerializeField] private GameObject TazdokStamina;
+    [SerializeField] private Image TazdokStaminaBar;
 
     [Header("The Ammo Panel")]
     [SerializeField] private Image _eggplant;
@@ -76,11 +83,13 @@ public class UiManager : MonoBehaviour
         _gm.OnVictoryScreen  += () => VictoryScreen.gameObject.SetActive(true);
         _gm.OnLoseScreen     += LoseScreen;
         _gm.OnEndLevel       += EndLevel;
+        _gm.OnOrderMaximize  += SetMaximizedOrder;
         _tutorial.FreezeTimer += FreezeTimer;
         _loop += OpenEnemyInfo;
         _gm.CM.AddEvent += ComboIncrease;
         _gm.CM.ResetEvent += ResetCombo;
         _gm.CM.TimerEvent += ComboTimer;
+        _movement.OnStamina += StaminaUI;
         UpdateMoney();
     }
 
@@ -246,8 +255,21 @@ public class UiManager : MonoBehaviour
     }
     
     public void LoseScreen()
-    {     
-            LoseScreenUi.gameObject.SetActive(true);
+    {
+        if (_gm.HappyCustomers > 1)
+        {
+            _loseScreenScore.text = $"Well... at least you managed to satisfy {_gm.HappyCustomers} customers today.";
+        }
+        else if (_gm.HappyCustomers == 1)
+        {
+            _loseScreenScore.text = $"Well... at least you managed to satisfy a customer today.";
+        }
+        else
+        {
+            _loseScreenScore.text = $"Well... good luck next time";
+        }
+
+        LoseScreenUi.gameObject.SetActive(true);
     }
     public void UpdateTazdokHPUI()
     {
@@ -275,12 +297,40 @@ public class UiManager : MonoBehaviour
     }
     private void OpenEnemyInfo()
     {
-        if (Input.GetKeyDown(KeyCode.Tab))
-        {
+        if (Input.GetKeyDown(KeyCode.Tab) && Time.timeScale != 0)
+        { 
           _enemyInfoUi.gameObject.SetActive(!_enemyInfoUi.gameObject.activeSelf);
+        }
+        
+       
+    }
+    
+    private void SetMaximizedOrder(List<GameObject> fillers)
+    {
+        for (int i = 0; i < _maximizedOrder.childCount; i++)
+        {
+            _maximizedOrder.GetChild(i).gameObject.SetActive(false);
+        }
+
+        for (int i = 0; i < fillers.Count; i++)
+        {
+            _maximizedOrder.GetChild(i).gameObject.SetActive(fillers[i].activeSelf);
         }
     }
 
+    private void StaminaUI(float fill)
+    {
+        if (fill == 1 || _gun.UsingUI)
+        {
+            TazdokStamina.SetActive(false);
+        }
+        else
+        {
+            TazdokStaminaBar.fillAmount = fill;
+            TazdokStamina.SetActive(true);
+        }
+    }
+        
     private void EndLevel()
     {
         _gm.CM.ResetCombo();
