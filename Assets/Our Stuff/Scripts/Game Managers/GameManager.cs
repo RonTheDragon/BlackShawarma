@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour
     public int TzadokMaxHP = 4;
     private int _money;
     private float _moneyMultiplier=1;
+    [SerializeField] public float ztdakaMultiplier = 1;
     private int _tzadokHp;
     [HideInInspector] public int HappyCustomers = 0;
 
@@ -44,7 +45,7 @@ public class GameManager : MonoBehaviour
 
     public void AddMoney(int m)
     {
-        _money += (int)(m* _moneyMultiplier);
+        _money += (int)(m* _moneyMultiplier * ztdakaMultiplier);
         Debug.Log($"Reward: {m} * {_moneyMultiplier} = {(int)(m * _moneyMultiplier)}");
         UpdateMoney?.Invoke();
     }
