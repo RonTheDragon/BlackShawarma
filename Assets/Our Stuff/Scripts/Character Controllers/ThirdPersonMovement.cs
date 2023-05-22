@@ -129,7 +129,7 @@ public class ThirdPersonMovement : MonoBehaviour
         Vector2 Movement = _movement.normalized; //Get input from player for movem
 
         float targetAngle  = Mathf.Atan2(Movement.x, Movement.y) * Mathf.Rad2Deg + cam.eulerAngles.y; //get where player is looking
-        float Angle        = Mathf.SmoothDampAngle(transform.eulerAngles.y, FreeRoam ? targetAngle : cam.eulerAngles.y, ref _f, _rotateSpeed); //Smoothing
+        float Angle        = Mathf.SmoothDampAngle(transform.eulerAngles.y, FreeRoam ? targetAngle : cam.eulerAngles.y, ref _f, FreeRoam ? _rotateSpeed : 0); //Smoothing
 
         if (!FreeRoam)
         transform.rotation = Quaternion.Euler(0, Angle, 0); //Player rotation
@@ -171,9 +171,9 @@ public class ThirdPersonMovement : MonoBehaviour
         }
         if (Input.GetKey(KeyCode.LeftShift))
         {
-            _currentStaminaRegenCooldown = _staminaRegenCooldown;
-            if (_currentStamina > 0)
+            if (_currentStamina > 0 && _movement.magnitude>0)
             {
+            _currentStaminaRegenCooldown = _staminaRegenCooldown;
                 IsSprinting = true;
                 _currentStamina -= StaminaDrain * Time.deltaTime;
             }
@@ -201,7 +201,7 @@ public class ThirdPersonMovement : MonoBehaviour
         if (_freeRoamAfter > 0) _freeRoamAfter -= Time.deltaTime;
         else FreeRoam = true;
 
-        _rig.weight = Mathf.Lerp(_rig.weight, FreeRoam ? 0 : 1, _rigChangeSpeed* Time.deltaTime);
+        _rig.weight = Mathf.Lerp(_rig.weight, FreeRoam ? 0 : 1, (FreeRoam ? _rigChangeSpeed : 100) * Time.deltaTime);
     }
 
     public void StopFreeRoaming()
@@ -218,6 +218,20 @@ public class ThirdPersonMovement : MonoBehaviour
         _currentSensitivity = Mathf.Lerp(_sensitivity.x, _sensitivity.y, PlayerPrefs.GetFloat("Sensitivity"));
         _xAxis.m_MaxSpeed *= _currentSensitivity;
         _yAxis.m_MaxSpeed *= _currentSensitivity;
+    }
+
+    public void MultiplySensitivity(float mult)
+    {
+        float s = _currentSensitivity * mult;
+        _xAxis.m_MaxSpeed *= s;
+        _yAxis.m_MaxSpeed *= s;
+    }
+
+    public void DivideSensitivity(float mult)
+    {
+        float s = _currentSensitivity * mult;
+        _xAxis.m_MaxSpeed /= s;
+        _yAxis.m_MaxSpeed /= s;
     }
 
     private void Look()
