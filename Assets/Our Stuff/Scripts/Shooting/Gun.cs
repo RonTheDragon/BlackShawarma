@@ -188,6 +188,7 @@ public class Gun : MonoBehaviour
 
                   //  if (!tpm.FreeRoam)
                     {
+                        AudioManager.instance.PlayOneShot(FMODEvents.instance.playerFootsteps, Camera.main.transform.position);
                         GameObject bullet = ObjectPooler.Instance.SpawnFromPool(CurrentAmmoType.AmmoTag, barrel.position, barrel.rotation);
                         CurrentAmmoType.CurrentAmmo--;
                         ammoChanged();
