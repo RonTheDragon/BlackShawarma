@@ -169,11 +169,11 @@ public class ThirdPersonMovement : MonoBehaviour
                 _currentStamina = MaxStamina;
             }
         }
-        if (Input.GetKey(KeyCode.LeftShift))
+        if (Input.GetKey(KeyCode.LeftShift) && _movement.magnitude > 0)
         {
-            if (_currentStamina > 0 && _movement.magnitude>0)
-            {
             _currentStaminaRegenCooldown = _staminaRegenCooldown;
+            if (_currentStamina > 0)
+            {
                 IsSprinting = true;
                 _currentStamina -= StaminaDrain * Time.deltaTime;
             }

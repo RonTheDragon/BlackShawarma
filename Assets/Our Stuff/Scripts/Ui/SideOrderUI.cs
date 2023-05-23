@@ -130,4 +130,17 @@ public class SideOrderUI : MonoBehaviour
             }
         }
     }
+
+    public Sprite GetPanel()
+    {
+        return _panel.sprite;
+    }
+    public Sprite GetPfp()
+    {
+        return _guyHappyImage;
+    }
+    public int GetNumber()
+    {
+        return _enemy.CustomerNumber;
+    }
 }
