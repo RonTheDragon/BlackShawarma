@@ -25,7 +25,7 @@ public class GameManager : MonoBehaviour
     public Action OnLoseScreen;
     public Action OnEndLevel;
     [HideInInspector] public SideOrderUI UsedOrder;
-    [HideInInspector] public Action<List<GameObject>> OnOrderMaximize;
+    [HideInInspector] public Action<List<GameObject>,Sprite,Sprite,int> OnOrderMaximize;
     public EnemySpawner EnemySpawner;
     public LevelTimer LvlTimer => GetComponent<LevelTimer>();
     public ComboManager CM => GetComponent<ComboManager>();
@@ -109,19 +109,19 @@ public class GameManager : MonoBehaviour
     {
         if (UsedOrder == ui)
         {
-            OnOrderMaximize?.Invoke(new List<GameObject>());
+            OnOrderMaximize?.Invoke(new List<GameObject>(),null,null,0);
             UsedOrder = null;
             return;
         }
         UsedOrder = ui;
-        OnOrderMaximize?.Invoke(ui.Fillers);
+        OnOrderMaximize?.Invoke(ui.Fillers, ui.GetPanel(), ui.GetPfp(),ui.GetNumber());
     }
 
     public void UnMaximizeOrder(SideOrderUI ui)
     {
         if (UsedOrder == ui)
         {
-            OnOrderMaximize?.Invoke(new List<GameObject>());
+            OnOrderMaximize?.Invoke(new List<GameObject>(), null, null, 0);
             UsedOrder = null;
         }
     }

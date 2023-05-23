@@ -37,7 +37,14 @@ public class UiManager : MonoBehaviour
     [SerializeField] private List<GameObject> _endLevelReset;
     [SerializeField] private GameObject       _pauseMenu;
     [SerializeField] private Image            _enemyInfoUi;
+
+    [Header("Maximized Order")]
+    [SerializeField] private GameObject _baseMaximizedOrder;
+    [SerializeField] private Image _orderPanel;
+    [SerializeField] private Image _orderProfile;
+    [SerializeField] private TMP_Text _orderNumber;
     [SerializeField] private Transform        _maximizedOrder;
+    [SerializeField] private Image _fillBar;
 
     [Header("Stamina")]
     [SerializeField] private GameObject TazdokStamina;
@@ -305,12 +312,20 @@ public class UiManager : MonoBehaviour
        
     }
     
-    private void SetMaximizedOrder(List<GameObject> fillers)
+    private void SetMaximizedOrder(List<GameObject> fillers, Sprite panel, Sprite pfp, int numb)
     {
         for (int i = 0; i < _maximizedOrder.childCount; i++)
         {
             _maximizedOrder.GetChild(i).gameObject.SetActive(false);
         }
+
+        if (fillers.Count == 0) { _baseMaximizedOrder.SetActive(false); return; }
+
+        _baseMaximizedOrder.SetActive(true);
+        _orderPanel.sprite = panel;
+        _orderProfile.sprite = pfp;
+        _orderNumber.text = numb.ToString();
+
 
         for (int i = 0; i < fillers.Count; i++)
         {

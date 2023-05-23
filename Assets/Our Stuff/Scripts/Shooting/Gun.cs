@@ -27,6 +27,8 @@ public class Gun : MonoBehaviour
     [SerializeField] private float _tooClose = 3;
     [Tooltip("Too Close To Aim At")]
     [SerializeField] private float _aimAtSpeed = 3;
+    [Tooltip("Sensitivity When Aiming Multiply")]
+    [SerializeField] private float _aimSensitivityMult = 0.5f;
     public bool CantUseStations = false;
 
     [Header("Ammo Switching")]
@@ -169,7 +171,7 @@ public class Gun : MonoBehaviour
                 {
                     _cd = CoolDown;
 
-                    if (!tpm.FreeRoam)
+                  //  if (!tpm.FreeRoam)
                     {
                         GameObject bullet = ObjectPooler.Instance.SpawnFromPool(CurrentAmmoType.AmmoTag, barrel.position, barrel.rotation);
                         CurrentAmmoType.CurrentAmmo--;
@@ -184,7 +186,7 @@ public class Gun : MonoBehaviour
                 {
                     _cd = CoffeeCD;
 
-                    if (!tpm.FreeRoam)
+                  //  if (!tpm.FreeRoam)
                     {
                         GameObject bullet = ObjectPooler.Instance.SpawnFromPool(CurrentAmmoType.AmmoTag, barrel.position, barrel.rotation);
                         CurrentAmmoType.CurrentAmmo--;
@@ -273,10 +275,12 @@ public class Gun : MonoBehaviour
         if (Input.GetMouseButtonDown(1))
         {
             isAiming = true;
+            tpm.MultiplySensitivity(_aimSensitivityMult);
         }
         else if (Input.GetMouseButtonUp(1))
         {
             isAiming = false;
+            tpm.DivideSensitivity(_aimSensitivityMult);
         }
 
         CurrentFOV = cinemachine.m_Lens.FieldOfView;

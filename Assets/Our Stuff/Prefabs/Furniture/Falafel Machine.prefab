@@ -37,7 +37,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: -0.86136246, y: 3.4768934}
+  m_AnchoredPosition: {x: 0, y: 3.4768934}
   m_SizeDelta: {x: 1, y: 1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &2064090974332136328
@@ -223,8 +223,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 2, y: 2, z: 1}
-  m_Center: {x: -0.7, y: 1.7, z: -0.1}
+  m_Size: {x: 1.4785115, y: 1.2721123, z: 0.65659535}
+  m_Center: {x: 0.01762622, y: 1.3360561, z: -0.21762866}
 --- !u!114 &5297415977202102940
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -265,11 +265,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: b3515433fa044d24a9d61f3b16fa4b2f, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -3.512
+      value: -2.1
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: b3515433fa044d24a9d61f3b16fa4b2f, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.17
+      value: 0.002
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: b3515433fa044d24a9d61f3b16fa4b2f, type: 3}
       propertyPath: m_LocalPosition.z
