@@ -9,7 +9,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: Making Falafel
+    m_ConditionEvent: Active
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -3311470550604622197}
@@ -61,7 +61,7 @@ AnimatorController:
   m_Name: Falafel
   serializedVersion: 5
   m_AnimatorParameters:
-  - m_Name: Making Falafel
+  - m_Name: Active
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
@@ -116,7 +116,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 2
-    m_ConditionEvent: Making Falafel
+    m_ConditionEvent: Active
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 2534381813193678156}

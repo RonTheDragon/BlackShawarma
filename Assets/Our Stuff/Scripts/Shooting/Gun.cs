@@ -167,36 +167,11 @@ public class Gun : MonoBehaviour
             }
             else
             {
-                if (CurrentAmmoType.CurrentAmmo > 0 && !_coffeeBuf)
+                if (CurrentAmmoType.CurrentAmmo > 0)
                 {
-                    _cd = CoolDown;
-
-                  //  if (!tpm.FreeRoam)
-                    {
-                        GameObject bullet = ObjectPooler.Instance.SpawnFromPool(CurrentAmmoType.AmmoTag, barrel.position, barrel.rotation);
-                        CurrentAmmoType.CurrentAmmo--;
-                        ammoChanged();
-                        float r = isAiming ? _recoil / 3 : _recoil;
-                        tpm.AddLookTorque(Vector2.down, r);
-                        _cis.GenerateImpulse(r);
-                        ShootImpact();
-                    }
+                    StartCoroutine("ShootDelay");
                 }
-                if (CurrentAmmoType.CurrentAmmo > 0 && _coffeeBuf)
-                {
-                    _cd = CoffeeCD;
-
-                  //  if (!tpm.FreeRoam)
-                    {
-                        GameObject bullet = ObjectPooler.Instance.SpawnFromPool(CurrentAmmoType.AmmoTag, barrel.position, barrel.rotation);
-                        CurrentAmmoType.CurrentAmmo--;
-                        ammoChanged();
-                        float r = isAiming ? _recoil / 3 : _recoil;
-                        tpm.AddLookTorque(Vector2.down, r);
-                        _cis.GenerateImpulse(r);
-                        ShootImpact();
-                    }
-                }
+             
                 else
                 {
                     //play the empty gun sound, if the sound is not playing already.
@@ -211,6 +186,20 @@ public class Gun : MonoBehaviour
             _cd -= Time.deltaTime;
 
         }
+    }
+
+    private System.Collections.IEnumerator ShootDelay()
+    {
+        yield return null;
+        _cd = _coffeeBuf ? CoffeeCD : CoolDown;
+
+        GameObject bullet = ObjectPooler.Instance.SpawnFromPool(CurrentAmmoType.AmmoTag, barrel.position, barrel.rotation);
+        CurrentAmmoType.CurrentAmmo--;
+        ammoChanged();
+        float r = isAiming ? _recoil / 3 : _recoil;
+        tpm.AddLookTorque(Vector2.down, r);
+        _cis.GenerateImpulse(r);
+        ShootImpact();
     }
 
     private void AimAt(Vector3 pos)

@@ -42,7 +42,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -139,7 +139,154 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: bubbles_0
+      rect:
+        serializedVersion: 2
+        x: 66
+        y: 122
+        width: 106
+        height: 106
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 42504e3032b679040bf7b3342a9f3f99
+      internalID: 561180509
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bubbles_1
+      rect:
+        serializedVersion: 2
+        x: 210
+        y: 125
+        width: 52
+        height: 52
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 98881b402ac32de4d87b80c6ea4ea4ab
+      internalID: 1624863232
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bubbles_2
+      rect:
+        serializedVersion: 2
+        x: 310
+        y: 130
+        width: 67
+        height: 72
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 584d5665c7998d744af6ed05272dfa20
+      internalID: -492066069
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bubbles_3
+      rect:
+        serializedVersion: 2
+        x: 432
+        y: 135
+        width: 14
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c10be46cf5d556d4789e555c5deed315
+      internalID: 710241669
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bubbles_4
+      rect:
+        serializedVersion: 2
+        x: 482
+        y: 121
+        width: 55
+        height: 44
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 86b58f0a4df2ab641ac658ac3dcb08d3
+      internalID: -869747782
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bubbles_5
+      rect:
+        serializedVersion: 2
+        x: 572
+        y: 132
+        width: 47
+        height: 61
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e5dae1c68317af24faa1d43b386cd0e5
+      internalID: -83661386
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bubbles_6
+      rect:
+        serializedVersion: 2
+        x: 674
+        y: 134
+        width: 23
+        height: 36
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 361734a0cca864b4295a6cdc1e755ece
+      internalID: 112312408
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -150,7 +297,14 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      bubbles_5: -83661386
+      bubbles_3: 710241669
+      bubbles_1: 1624863232
+      bubbles_2: -492066069
+      bubbles_6: 112312408
+      bubbles_4: -869747782
+      bubbles_0: 561180509
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
