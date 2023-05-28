@@ -341,7 +341,9 @@ public class UiManager : MonoBehaviour
         }
         else
         {
-            TazdokStaminaBar.fillAmount = fill;
+            float f = 0.15f;
+            f +=(fill * 0.7f);
+            TazdokStaminaBar.fillAmount = f;
             TazdokStamina.SetActive(true);
         }
     }

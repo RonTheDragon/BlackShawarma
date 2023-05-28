@@ -3378,7 +3378,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _type: {fileID: 11400000, guid: ed62d7941221b3340a62189892d7c939, type: 2}
   _info: Refill Fries
+  UseOption1: 1
+  _turnOffDistance: 3
+  _perHarvest: 5
+  _harvestCooldown: 2
+  _cookingDuration: 3
   _ui: {fileID: 6223065116188588600}
+  _anim: {fileID: 6479799418046411607}
 --- !u!1 &4242712235427258757
 GameObject:
   m_ObjectHideFlags: 0

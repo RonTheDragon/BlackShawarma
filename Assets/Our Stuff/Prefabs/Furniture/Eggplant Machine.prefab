@@ -94,8 +94,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5763511354043498024}
-  - component: {fileID: 2460546851978146605}
   - component: {fileID: 999742844273790289}
+  - component: {fileID: 2460546851978146605}
   m_Layer: 0
   m_Name: Eggplant Machine
   m_TagString: Untagged
@@ -120,6 +120,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
+--- !u!65 &999742844273790289
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4951650232866776210}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.9706669, y: 1.49752, z: 1.2419615}
+  m_Center: {x: 1.0146933, y: 0.8653066, z: 0.009088039}
 --- !u!114 &2460546851978146605
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -134,20 +147,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _type: {fileID: 11400000, guid: fd03a01de9b404845b677e119723b0d9, type: 2}
   _info: Refill Eggplant
+  UseOption1: 1
+  _turnOffDistance: 3
+  _perHarvest: 5
+  _harvestCooldown: 2
+  _cookingDuration: 3
   _ui: {fileID: 8159638766316895864}
---- !u!65 &999742844273790289
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4951650232866776210}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1.9706669, y: 1.49752, z: 1.2419615}
-  m_Center: {x: 1.0146933, y: 0.8653066, z: 0.009088039}
+  _anim: {fileID: 738352905126193093}
 --- !u!1 &8159638766316895864
 GameObject:
   m_ObjectHideFlags: 0

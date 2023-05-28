@@ -37,7 +37,7 @@ public class Gun : MonoBehaviour
     [Tooltip("The types of ammo")]
     public List<SOAmmoType>     AmmoTypes;
 
-    [Header("Refefrences")]
+    [Header("References")]
     [Tooltip("Reference to the point where projectiles spawn")]
     [SerializeField] Transform barrel;
     [Tooltip("Camera reference")]
@@ -190,8 +190,8 @@ public class Gun : MonoBehaviour
 
     private System.Collections.IEnumerator ShootDelay()
     {
-        yield return null;
         _cd = _coffeeBuf ? CoffeeCD : CoolDown;
+        yield return null;
 
         GameObject bullet = ObjectPooler.Instance.SpawnFromPool(CurrentAmmoType.AmmoTag, barrel.position, barrel.rotation);
         CurrentAmmoType.CurrentAmmo--;

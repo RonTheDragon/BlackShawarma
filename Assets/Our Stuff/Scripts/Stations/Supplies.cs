@@ -21,6 +21,7 @@ public class Supplies : MonoBehaviour, Interactable
         if (b != null)
         {
             b.HasSupplies = true;
+            b.Sack.SetActive(true);
         }
     }
 }

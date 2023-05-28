@@ -40,6 +40,7 @@ public class FoodStation : MonoBehaviour , Interactable
         {
             b.FillAll();
             b.HasSupplies = false;
+            b.Sack.SetActive(false);
         }
     }
 }

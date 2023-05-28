@@ -324,7 +324,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _type: {fileID: 11400000, guid: 2112f983041912c44a7b93d6058e1142, type: 2}
   _info: Refill Falafel
+  UseOption1: 1
+  _turnOffDistance: 3
+  _perHarvest: 5
+  _harvestCooldown: 2
+  _cookingDuration: 3
   _ui: {fileID: 4011119941458064233}
+  _anim: {fileID: 6030720581819001904}
 --- !u!1001 &383378476401019649
 PrefabInstance:
   m_ObjectHideFlags: 0
