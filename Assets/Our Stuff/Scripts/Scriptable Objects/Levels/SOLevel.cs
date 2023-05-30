@@ -18,6 +18,6 @@ public class SOLevel : ScriptableObject
     [System.Serializable]
     public class SpawnLimit
     {
-        public int Hipster, OldMan, Ars, Soldier, Cop, Mobster;
+        public int Hipster, OldMan, Ars , Arsit , Soldier, Cop, Mobster;
     }
 }

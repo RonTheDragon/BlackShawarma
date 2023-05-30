@@ -13,11 +13,15 @@ MonoBehaviour:
   m_Name: Normal
   m_EditorClassIdentifier: 
   Enemies:
+  - {fileID: 11400000, guid: 061df6b68649665458341a3d986cc512, type: 2}
   - {fileID: 11400000, guid: 0df1c825ca17fc64082588b91bdab94f, type: 2}
+  - {fileID: 11400000, guid: d90dfa10de0630c44adb86554b3d6dfa, type: 2}
+  - {fileID: 11400000, guid: 061df6b68649665458341a3d986cc512, type: 2}
   spawnLimit:
     Hipster: 0
     OldMan: 0
     Ars: 0
+    Arsit: 0
     Soldier: 0
     Cop: 0
     Mobster: 0

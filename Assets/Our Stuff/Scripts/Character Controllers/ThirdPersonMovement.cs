@@ -2,7 +2,6 @@ using System;
 using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
-using static UnityEngine.Rendering.DebugUI.Table;
 
 public class ThirdPersonMovement : MonoBehaviour
 {

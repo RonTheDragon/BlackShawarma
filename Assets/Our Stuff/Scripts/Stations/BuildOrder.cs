@@ -22,6 +22,7 @@ public class BuildOrder : MonoBehaviour
     [SerializeField] int _maxFillers;
 
     public bool HasSupplies;
+    public GameObject Sack;
 
     public Action<List<Ingredient>> OnUseIngridients;
     public Action<List<Fillers>> OnPitaUpdate;

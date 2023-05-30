@@ -83,6 +83,7 @@ public class EnemySpawner : MonoBehaviour
         if (currentSpawnable.Hipster > 0 && _spawnLimit.Hipster>0) chances.Add(new EnemyChances("FriesGuy", currentSpawnable.Hipster, () => _spawnLimit.Hipster--));
         if (currentSpawnable.OldMan > 0 && _spawnLimit.OldMan>0) chances.Add(new EnemyChances("EggplantGuy", currentSpawnable.OldMan, () => _spawnLimit.OldMan--));
         if (currentSpawnable.Ars > 0 && _spawnLimit.Ars>0) chances.Add(new EnemyChances("FalafelGuy", currentSpawnable.Ars, () => _spawnLimit.Ars--));
+        if (currentSpawnable.Arsit > 0 && _spawnLimit.Arsit > 0) chances.Add(new EnemyChances("Arsit", currentSpawnable.Arsit, () => _spawnLimit.Arsit--));
         if (currentSpawnable.Soldier > 0 && _spawnLimit.Soldier>0) chances.Add(new EnemyChances("Soldier", currentSpawnable.Soldier, () => _spawnLimit.Soldier--));
         if (currentSpawnable.Cop > 0 && _spawnLimit.Cop > 0) chances.Add(new EnemyChances("Cop", currentSpawnable.Cop,  () => _spawnLimit.Cop--));
         if (currentSpawnable.Mobster > 0 && _spawnLimit.Mobster > 0) chances.Add(new EnemyChances("Mobster", currentSpawnable.Mobster, () => _spawnLimit.Mobster--));
@@ -211,6 +212,7 @@ public class EnemySpawner : MonoBehaviour
             Hipster = spawnLimit.Hipster == 0 ? 100 : spawnLimit.Hipster,
             Ars = spawnLimit.Ars == 0 ? 100 : spawnLimit.Ars,
             OldMan = spawnLimit.OldMan == 0 ? 100 : spawnLimit.OldMan,
+            Arsit = spawnLimit.Arsit == 0 ? 100 : spawnLimit.Arsit,
             Cop = spawnLimit.Cop == 0 ? 100 : spawnLimit.Cop,
             Mobster = spawnLimit.Mobster == 0 ? 100 : spawnLimit.Mobster,
             Soldier = spawnLimit.Soldier == 0 ? 100 : spawnLimit.Soldier,

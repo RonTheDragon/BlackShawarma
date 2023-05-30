@@ -37,7 +37,7 @@ public class Gun : MonoBehaviour
     [Tooltip("The types of ammo")]
     public List<SOAmmoType>     AmmoTypes;
 
-    [Header("Refefrences")]
+    [Header("References")]
     [Tooltip("Reference to the point where projectiles spawn")]
     [SerializeField] Transform barrel;
     [Tooltip("Camera reference")]
@@ -168,8 +168,9 @@ public class Gun : MonoBehaviour
             }
             else
             {
-                if (CurrentAmmoType.CurrentAmmo > 0 && !_coffeeBuf)
+                if (CurrentAmmoType.CurrentAmmo > 0)
                 {
+<<<<<<< HEAD
                     _cd = CoolDown;
 
                   //  if (!tpm.FreeRoam)
@@ -198,7 +199,11 @@ public class Gun : MonoBehaviour
                         _cis.GenerateImpulse(r);
                         ShootImpact();
                     }
+=======
+                    StartCoroutine("ShootDelay");
+>>>>>>> main
                 }
+             
                 else
                 {
                     //play the empty gun sound, if the sound is not playing already.
@@ -213,6 +218,20 @@ public class Gun : MonoBehaviour
             _cd -= Time.deltaTime;
 
         }
+    }
+
+    private System.Collections.IEnumerator ShootDelay()
+    {
+        _cd = _coffeeBuf ? CoffeeCD : CoolDown;
+        yield return null;
+
+        GameObject bullet = ObjectPooler.Instance.SpawnFromPool(CurrentAmmoType.AmmoTag, barrel.position, barrel.rotation);
+        CurrentAmmoType.CurrentAmmo--;
+        ammoChanged();
+        float r = isAiming ? _recoil / 3 : _recoil;
+        tpm.AddLookTorque(Vector2.down, r);
+        _cis.GenerateImpulse(r);
+        ShootImpact();
     }
 
     private void AimAt(Vector3 pos)
