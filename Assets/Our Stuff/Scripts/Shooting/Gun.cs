@@ -191,7 +191,7 @@ public class Gun : MonoBehaviour
     private System.Collections.IEnumerator ShootDelay()
     {
         _cd = _coffeeBuf ? CoffeeCD : CoolDown;
-        yield return null;
+        yield return new WaitForSeconds(0.01f);
 
         GameObject bullet = ObjectPooler.Instance.SpawnFromPool(CurrentAmmoType.AmmoTag, barrel.position, barrel.rotation);
         CurrentAmmoType.CurrentAmmo--;
