@@ -5319,6 +5319,10 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1746950906}
+    - target: {fileID: 6598293734435211304, guid: 17815853b163b554da771055f6659d6f, type: 3}
+      propertyPath: _sensitivity.y
+      value: 0.3
+      objectReference: {fileID: 0}
     - target: {fileID: 6598293734435211305, guid: 17815853b163b554da771055f6659d6f, type: 3}
       propertyPath: m_Name
       value: Player
@@ -5366,6 +5370,30 @@ PrefabInstance:
     - target: {fileID: 6598293734435211306, guid: 17815853b163b554da771055f6659d6f, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6598293734886125691, guid: 17815853b163b554da771055f6659d6f, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 1.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 6598293734886125691, guid: 17815853b163b554da771055f6659d6f, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.8333331
+      objectReference: {fileID: 0}
+    - target: {fileID: 6598293734886125691, guid: 17815853b163b554da771055f6659d6f, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -8.333333
+      objectReference: {fileID: 0}
+    - target: {fileID: 8840776063545812225, guid: 17815853b163b554da771055f6659d6f, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 1.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 8840776063545812225, guid: 17815853b163b554da771055f6659d6f, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.8333331
+      objectReference: {fileID: 0}
+    - target: {fileID: 8840776063545812225, guid: 17815853b163b554da771055f6659d6f, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -8.333333
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 17815853b163b554da771055f6659d6f, type: 3}
@@ -5505,6 +5533,18 @@ PrefabInstance:
       propertyPath: _sideOrdersContent
       value: 
       objectReference: {fileID: 107461485}
+    - target: {fileID: 2897411339547035155, guid: 8053cf50d4b0aa8449636ea6dc200d8a, type: 3}
+      propertyPath: Groups.Array.data[0].pools.Array.data[0].size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2897411339547035155, guid: 8053cf50d4b0aa8449636ea6dc200d8a, type: 3}
+      propertyPath: Groups.Array.data[0].pools.Array.data[1].size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2897411339547035155, guid: 8053cf50d4b0aa8449636ea6dc200d8a, type: 3}
+      propertyPath: Groups.Array.data[0].pools.Array.data[2].size
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 6308616315591561378, guid: 8053cf50d4b0aa8449636ea6dc200d8a, type: 3}
       propertyPath: m_Name
       value: Game Manager
