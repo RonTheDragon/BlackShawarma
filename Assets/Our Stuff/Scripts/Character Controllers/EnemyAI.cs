@@ -32,6 +32,8 @@ public class EnemyAI : MonoBehaviour
     [SerializeField]                 bool            _falefelEater, _eggplantEater, _friesEater;
     [SerializeField]                GameObject       _canvas;
     [SerializeField] private        List<GameObject> _orderFillers;
+    [SerializeField] private        GameObject      _theOrder;
+    [SerializeField] private        GameObject      _theFood;
     [SerializeField]                float            _minTime       = 60;
     [SerializeField]                float            _maxTime       = 180;
     [SerializeField]                Vector2          _randompayment = new Vector2(10,25);
@@ -47,7 +49,7 @@ public class EnemyAI : MonoBehaviour
     public    SideOrderUI  SideOrder;
     public    int          EnemyDamage = 1;
 
-
+    [HideInInspector] public bool InfrontOfLine;
 
     [SerializeField] private Animator _anim;
 
@@ -159,7 +161,9 @@ public class EnemyAI : MonoBehaviour
         {
             if (!_done)
             {
-                _currentRage += LevelRageMultiplier * CharacterRageMultiplier * TempRageMultiplier * Time.deltaTime;
+                _currentRage += LevelRageMultiplier * CharacterRageMultiplier * TempRageMultiplier
+                    * Time.deltaTime / (InfrontOfLine ? 1: _gm.EnemiesBehindCalmerBy
+                    / (_currentRage>_calmEnoughToEat? 1 : _gm.CalmEnemiesStayCalmBy));
             }
         }
         else
@@ -180,6 +184,22 @@ public class EnemyAI : MonoBehaviour
             if (_canvas.activeSelf == false)
             _canvas.gameObject.SetActive(true);
             _canvas.transform.LookAt(PlayerCamera.transform.position);
+            if (_theOrder.activeSelf == false)
+            {
+                _theOrder.SetActive(true);
+                _theFood.SetActive(false);
+            }
+        }
+        else if (InfrontOfLine && !_done)
+        {
+            if (_canvas.activeSelf == false)
+                _canvas.gameObject.SetActive(true);
+            _canvas.transform.LookAt(PlayerCamera.transform.position);
+            if (_theOrder.activeSelf == true)
+            {
+                _theOrder.SetActive(false);
+                _theFood.SetActive(true);
+            }
         }
         else
         {
@@ -197,7 +217,7 @@ public class EnemyAI : MonoBehaviour
     {if (_done) return;
         if (CanIEat(f))
         {
-            MakeHappier(10);
+            MakeHappier(_gm.FoodCalmingEffect);
         }
         else
         {
@@ -355,36 +375,11 @@ public class EnemyAI : MonoBehaviour
             go.SetActive(false);
         }
 
-        foreach (BuildOrder.Fillers filler in Order)
-        {
-            switch (filler)
-            {
-                case BuildOrder.Fillers.Humus:
-                    _orderFillers[0].SetActive(true);
-                    break;
-                case BuildOrder.Fillers.Pickles:
-                    _orderFillers[1].SetActive(true);
-                    break;
-                case BuildOrder.Fillers.Cabbage:
-                    _orderFillers[2].SetActive(true);
-                    break;
-                case BuildOrder.Fillers.Onions:
-                    _orderFillers[3].SetActive(true);
-                    break;
-                case BuildOrder.Fillers.Salad:
-                    _orderFillers[4].SetActive(true);
-                    break;
-                case BuildOrder.Fillers.Spicy:
-                    _orderFillers[5].SetActive(true);
-                    break;
-                case BuildOrder.Fillers.Amba:
-                    _orderFillers[6].SetActive(true);
-                    break;
-                case BuildOrder.Fillers.Thina:
-                    _orderFillers[7].SetActive(true);
-                    break;
-            }
+        for (int i = 0; i < Order.Count; i++)
+        {          
+            _orderFillers[(int)Order[i]].SetActive(true); 
         }
+
     }
 
     void SetEnemyPayment()

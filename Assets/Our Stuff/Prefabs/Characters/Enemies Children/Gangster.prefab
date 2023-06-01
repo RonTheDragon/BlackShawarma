@@ -444,6 +444,10 @@ PrefabInstance:
       propertyPath: EmissionModule.rateOverTime.scalar
       value: 0.25083372
       objectReference: {fileID: 0}
+    - target: {fileID: 7451352200981767546, guid: 397ddbb5c45285c4d80728a808fd65f6, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 2a3735663058ac749be1148177f58cce, type: 3}
     - target: {fileID: 8049606893445135751, guid: 397ddbb5c45285c4d80728a808fd65f6, type: 3}
       propertyPath: m_LocalRotation.w
       value: 1
@@ -646,12 +650,15 @@ MonoBehaviour:
   - {fileID: 5967482796699901882}
   - {fileID: 5744304430530959431}
   - {fileID: 6171261445752750416}
+  _theOrder: {fileID: 0}
+  _theFood: {fileID: 0}
   _minTime: 60
   _maxTime: 180
   _randompayment: {x: 100, y: 200}
   CurrentPayment: 0
   SideOrder: {fileID: 0}
   EnemyDamage: 1
+  InfrontOfLine: 0
   _anim: {fileID: 464439941047672138}
   Order: 
 --- !u!4 &4293761075693545254 stripped

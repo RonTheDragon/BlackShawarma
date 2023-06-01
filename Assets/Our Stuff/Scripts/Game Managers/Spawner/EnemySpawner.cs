@@ -224,6 +224,7 @@ public class EnemySpawner : MonoBehaviour
         _gm.HappyCustomers = 0;
         _gm.Player.GetComponent<ThirdPersonMovement>().FullStamina();
         CustomerCounter = 0;
+        _gm.OnStartLevel?.Invoke();
     }
 
     public void ClearingLevel()
@@ -331,6 +332,7 @@ public class EnemySpawner : MonoBehaviour
                 enemy.WhichLane = i;
                 enemy.PlaceInLane = j;
                 enemy.SetDestination(LaneDestination(i, j));
+                enemy.InfrontOfLine = j == 0;
             }
         }
     }

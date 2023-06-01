@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Refill : MonoBehaviour, Interactable
 {
@@ -25,7 +26,7 @@ public class Refill : MonoBehaviour, Interactable
     [SerializeField] private int _maxContained;
     [SerializeField] private int _currentContained;
     [SerializeField] private float _transferSpeed;
-    private float _currentTransfer;
+    private float _currentTransferTime;
     [SerializeField] private float _transferDistance;
     private bool _cooking;
 
@@ -41,19 +42,20 @@ public class Refill : MonoBehaviour, Interactable
 
     [Header("refrences")]
     [SerializeField] private GameObject _ui;
+    private Animator _uiAnim => _ui.transform.GetChild(0).GetComponent<Animator>();
+    private Image _fillable => _ui.transform.GetChild(0).GetChild(0).GetChild(0).GetComponent<Image>();
     [SerializeField] private Animator _anim;
 
     private Transform _playerLocation;
     private Gun _gun;
     private GameManager _gm;
 
-    private bool _refillerWorking;
-
     private SOAmmoType _selectedFood;
 
     private void Start()
     {
         _gm = GameManager.Instance;
+        _gm.OnStartLevel += ResetStation;
         _playerLocation = _gm.Player.transform;
         _gun = _gm.Player.GetComponent<Gun>();
         foreach (SOAmmoType i in _gun.AmmoTypes)
@@ -69,6 +71,7 @@ public class Refill : MonoBehaviour, Interactable
     {
         FillPlayer();
         Cooking();
+        stationUI();
         //if (UseOption1)
         //{
         //    Working();
@@ -95,25 +98,29 @@ public class Refill : MonoBehaviour, Interactable
         //}
     }
 
-    private void NeedsRefill()
-    {
-        if (_type.CurrentAmmo == 0)
-        {
-            if (_ui.activeSelf == false) _ui.SetActive(true);
+    private void stationUI()
+    {      
             _ui.transform.LookAt(PlayerCamera.transform.position);
-        }
-        else if (_ui.activeSelf == true)
+        if (_cooking)
         {
-            _ui.SetActive(false);
+            _fillable.fillAmount = 1 -(_currentCooking / _cookingDuration);
+            _uiAnim.SetBool("Empty", false);
+        }
+        else
+        {
+            _fillable.fillAmount = (float)_currentContained / (float)_maxContained;         
+            _uiAnim.SetBool("Empty", _type.CurrentAmmo == 0);
         }
     }
 
     private void Cook()
     {
-        if (!_cooking)
+        if (!_cooking && _currentContained!= _maxContained)
         {
             _currentCooking = _cookingDuration;
             _cooking = true;
+            _anim.SetBool("Active", true);
+            _uiAnim.SetBool("Empty", false);
         }
     }
 
@@ -129,6 +136,7 @@ public class Refill : MonoBehaviour, Interactable
             {
                 _cooking = false;
                 _currentContained = _maxContained;
+                _anim.SetBool("Active", false);
             }
         }
     }
@@ -137,19 +145,33 @@ public class Refill : MonoBehaviour, Interactable
     private void FillPlayer()
     {
         if (_currentContained == 0 || _currentCooking > 0 || _selectedFood.CurrentAmmo == _selectedFood.MaxAmmo||
-            Vector3.Distance(transform.position, _playerLocation.position) > _transferDistance) 
+            Vector3.Distance(transform.position, _playerLocation.position) > _transferDistance)
+        {
+            _uiAnim.SetBool("Collecting", false);
             return;
+        }
+        _uiAnim.SetBool("Collecting", true);
 
-        if (_currentTransfer <= 0)
+        if (_currentTransferTime <= 0)
         {
             _currentContained--;
             _selectedFood.CurrentAmmo++;
-            _currentTransfer = _transferSpeed;
+            _currentTransferTime = _transferSpeed;
         }
         else
         {
-            _currentTransfer -= Time.deltaTime;
+            _currentTransferTime -= Time.deltaTime;
         }
+    }
+
+    private void ResetStation()
+    {
+        _cooking = false;
+        _currentCooking = 0;
+        _currentContained = 0;
+        _anim.SetBool("Active", false);
+        _uiAnim.SetBool("Collecting", false);
+        _uiAnim.SetBool("Empty", false);
     }
 
     //private void NeedsRefill2()

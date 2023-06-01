@@ -106,7 +106,7 @@ NavMeshSettings:
   m_BuildSettings:
     serializedVersion: 2
     agentTypeID: 0
-    agentRadius: 0.5
+    agentRadius: 0.2
     agentHeight: 2
     agentSlope: 45
     agentClimb: 0.4
@@ -114,7 +114,7 @@ NavMeshSettings:
     maxJumpAcrossDistance: 0
     minRegionArea: 2
     manualCellSize: 0
-    cellSize: 0.16666667
+    cellSize: 0.06666667
     manualTileSize: 0
     tileSize: 256
     accuratePlacement: 0
@@ -1188,26 +1188,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3822162291219603675, guid: 1288999b034674d45aff2dc8d547ac82, type: 3}
-      propertyPath: _info
-      value: '[E] to Refill Fries'
-      objectReference: {fileID: 0}
-    - target: {fileID: 3822162291219603675, guid: 1288999b034674d45aff2dc8d547ac82, type: 3}
-      propertyPath: UseOption1
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3822162291219603675, guid: 1288999b034674d45aff2dc8d547ac82, type: 3}
-      propertyPath: _maxContained
-      value: 15
-      objectReference: {fileID: 0}
-    - target: {fileID: 3822162291219603675, guid: 1288999b034674d45aff2dc8d547ac82, type: 3}
-      propertyPath: _transferSpeed
-      value: 20
-      objectReference: {fileID: 0}
-    - target: {fileID: 3822162291219603675, guid: 1288999b034674d45aff2dc8d547ac82, type: 3}
-      propertyPath: _transferDistance
-      value: 20
-      objectReference: {fileID: 0}
     - target: {fileID: 4164252456032603166, guid: 1288999b034674d45aff2dc8d547ac82, type: 3}
       propertyPath: m_Name
       value: Fries Machine
@@ -1762,6 +1742,10 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[1]
       value: 
       objectReference: {fileID: 2100000, guid: 9b65815cce3c8464998f4f04a3ad886d, type: 2}
+    - target: {fileID: 8531084230230199607, guid: 299e30dbb7bf1ad41940f870f7e06f0f, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 8799409614369372110, guid: 299e30dbb7bf1ad41940f870f7e06f0f, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
@@ -1772,6 +1756,103 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: dbb1195a1ec60f54897bf5e02dccd661, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 299e30dbb7bf1ad41940f870f7e06f0f, type: 3}
+--- !u!1 &692541320
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 692541324}
+  - component: {fileID: 692541323}
+  - component: {fileID: 692541322}
+  - component: {fileID: 692541321}
+  m_Layer: 0
+  m_Name: FLOOR
+  m_TagString: Floor
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!65 &692541321
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 692541320}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!23 &692541322
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 692541320}
+  m_Enabled: 0
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!33 &692541323
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 692541320}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!4 &692541324
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 692541320}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -23.17428, y: -3.7548995, z: 3.65}
+  m_LocalScale: {x: 10, y: 0.1, z: 15}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1593801296}
+  m_RootOrder: 23
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &703421613
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3182,26 +3263,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Falafel Machine
       objectReference: {fileID: 0}
-    - target: {fileID: 5297415977202102940, guid: c34561c1bfff47f41bd435910aefae1c, type: 3}
-      propertyPath: _info
-      value: '[E] to Refill Falafel'
-      objectReference: {fileID: 0}
-    - target: {fileID: 5297415977202102940, guid: c34561c1bfff47f41bd435910aefae1c, type: 3}
-      propertyPath: UseOption1
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5297415977202102940, guid: c34561c1bfff47f41bd435910aefae1c, type: 3}
-      propertyPath: _maxContained
-      value: 15
-      objectReference: {fileID: 0}
-    - target: {fileID: 5297415977202102940, guid: c34561c1bfff47f41bd435910aefae1c, type: 3}
-      propertyPath: _transferSpeed
-      value: 20
-      objectReference: {fileID: 0}
-    - target: {fileID: 5297415977202102940, guid: c34561c1bfff47f41bd435910aefae1c, type: 3}
-      propertyPath: _transferDistance
-      value: 20
-      objectReference: {fileID: 0}
     - target: {fileID: 5624585537323382341, guid: c34561c1bfff47f41bd435910aefae1c, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -4257,26 +4318,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 262890766}
     m_Modifications:
-    - target: {fileID: 2460546851978146605, guid: 80291010540a94249b040ad4c6012e08, type: 3}
-      propertyPath: _info
-      value: '[E] to Refill Eggplant'
-      objectReference: {fileID: 0}
-    - target: {fileID: 2460546851978146605, guid: 80291010540a94249b040ad4c6012e08, type: 3}
-      propertyPath: UseOption1
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2460546851978146605, guid: 80291010540a94249b040ad4c6012e08, type: 3}
-      propertyPath: _maxContained
-      value: 15
-      objectReference: {fileID: 0}
-    - target: {fileID: 2460546851978146605, guid: 80291010540a94249b040ad4c6012e08, type: 3}
-      propertyPath: _transferSpeed
-      value: 20
-      objectReference: {fileID: 0}
-    - target: {fileID: 2460546851978146605, guid: 80291010540a94249b040ad4c6012e08, type: 3}
-      propertyPath: _transferDistance
-      value: 20
-      objectReference: {fileID: 0}
     - target: {fileID: 4951650232866776210, guid: 80291010540a94249b040ad4c6012e08, type: 3}
       propertyPath: m_Name
       value: Eggplant Machine
@@ -5232,6 +5273,7 @@ Transform:
   - {fileID: 325180796}
   - {fileID: 1919264371}
   - {fileID: 1386149240}
+  - {fileID: 692541324}
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

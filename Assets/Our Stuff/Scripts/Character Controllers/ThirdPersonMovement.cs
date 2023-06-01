@@ -43,8 +43,8 @@ public class ThirdPersonMovement : MonoBehaviour
     //[Header("Jumping")]
     [Tooltip("The Height of the jumps")]
     float Jump = 20;
-    [Tooltip("The Falling Speed")]
-    float Gravity = 10;
+    //[Tooltip("The Falling Speed")]
+    //float Gravity = 10;
     [Header("Sliding")]
     [Tooltip("on What floor angle we start to slide and cant jump on")]
     float slopeLimit = 45;

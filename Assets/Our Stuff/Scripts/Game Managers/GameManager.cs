@@ -13,6 +13,9 @@ public class GameManager : MonoBehaviour
     public int TzadokMaxHP = 4;
     private int _money;
     private float _moneyMultiplier=1;
+    public float EnemiesBehindCalmerBy = 1.5f;
+    public float CalmEnemiesStayCalmBy = 1.5f;
+    public float FoodCalmingEffect = 20;
     private int _tzadokHp;
     [HideInInspector] public int HappyCustomers = 0;
 
@@ -24,6 +27,7 @@ public class GameManager : MonoBehaviour
     public Action OnVictoryScreen;
     public Action OnLoseScreen;
     public Action OnEndLevel;
+    public Action OnStartLevel;
     [HideInInspector] public SideOrderUI UsedOrder;
     [HideInInspector] public Action<List<GameObject>,Sprite,Sprite,int> OnOrderMaximize;
     public EnemySpawner EnemySpawner;

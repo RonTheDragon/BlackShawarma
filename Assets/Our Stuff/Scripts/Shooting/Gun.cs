@@ -125,6 +125,7 @@ public class Gun : MonoBehaviour
 
         _gm.OnVictoryScreen += StartUsingStation;
         _gm.OnLoseScreen+= StartUsingStation;
+        _gm.OnStartLevel += ClearOnStart;
         _levelManager.OnSetUpLevel += RefillAll;
     }
 
@@ -324,7 +325,7 @@ public class Gun : MonoBehaviour
                 }
                 else if (Input.GetKeyDown(KeyCode.Alpha1))
                 {
-                    _currentAmmo = 0;
+                    _currentAmmo = 1;
                     ammoChanged();
                 }
                 else if (Input.GetKeyDown(KeyCode.Alpha2))
@@ -334,7 +335,7 @@ public class Gun : MonoBehaviour
                 }
                 else if (Input.GetKeyDown(KeyCode.Alpha3))
                 {
-                    _currentAmmo = 1;
+                    _currentAmmo = 0;
                     ammoChanged();
                 }
             }
@@ -348,6 +349,7 @@ public class Gun : MonoBehaviour
             sat.CurrentAmmo = sat.MaxAmmo;
         }
         _buildOrder.FillAll();
+        _buildOrder.Trash();
     }
 
     void ammoChanged()
@@ -452,6 +454,12 @@ public class Gun : MonoBehaviour
         _cd = CoolDown;
         _gunAnimator.SetTrigger("Hamsa");
         StartCoroutine("PitaShootDelay");
+    }
+
+    private void ClearOnStart()
+    {
+        _hasPita = false;
+        OnHasPitaChanging?.Invoke(_hasPita);
     }
 
     private System.Collections.IEnumerator PitaShootDelay()

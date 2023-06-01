@@ -41,6 +41,7 @@ public class SideOrderUI : MonoBehaviour
         enemy.OnBeingShot += ShowRageBar;
         _gm = GameManager.Instance;
         _button.gameObject.SetActive(false);
+        gameObject.SetActive(false);
     }
 
     public void ButtonClick()
@@ -62,6 +63,7 @@ public class SideOrderUI : MonoBehaviour
     private void ChangeRageBar(float f,bool tooAngry)
     {
         _angerBar.fillAmount = f;
+        if (!_tooAngry) { _showSecondsLeft = _showForSeconds; }
 
         if (_showSecondsLeft > 0) { _showSecondsLeft -= Time.deltaTime; }
         else if (_tooAngry) { gameObject.SetActive(false); }
