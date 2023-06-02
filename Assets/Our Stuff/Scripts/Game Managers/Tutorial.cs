@@ -92,6 +92,7 @@ public class Tutorial : MonoBehaviour
         {
             ammoType.CurrentAmmo = 0;
         }
+        _gm.OnAmmoUpdate?.Invoke();
         FreezeTimer?.Invoke(true);
         _tutorialStages[1].gameObject.SetActive(true);
         _counterInteractable.NotActive = true;

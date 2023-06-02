@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using static BuildOrder;
 
 public class GameManager : MonoBehaviour
 {
@@ -28,8 +27,9 @@ public class GameManager : MonoBehaviour
     public Action OnLoseScreen;
     public Action OnEndLevel;
     public Action OnStartLevel;
+    public Action OnAmmoUpdate;
     [HideInInspector] public SideOrderUI UsedOrder;
-    [HideInInspector] public Action<List<GameObject>,Sprite,Sprite,int> OnOrderMaximize;
+    [HideInInspector] public Action<SideOrderUI> OnOrderMaximize;
     public EnemySpawner EnemySpawner;
     public LevelTimer LvlTimer => GetComponent<LevelTimer>();
     public ComboManager CM => GetComponent<ComboManager>();
@@ -113,19 +113,20 @@ public class GameManager : MonoBehaviour
     {
         if (UsedOrder == ui)
         {
-            OnOrderMaximize?.Invoke(new List<GameObject>(),null,null,0);
+            OnOrderMaximize?.Invoke(null);
             UsedOrder = null;
             return;
         }
         UsedOrder = ui;
-        OnOrderMaximize?.Invoke(ui.Fillers, ui.GetPanel(), ui.GetPfp(),ui.GetNumber());
+        OnOrderMaximize?.Invoke(ui);
     }
 
     public void UnMaximizeOrder(SideOrderUI ui)
     {
+        if (ui == null) return;
         if (UsedOrder == ui)
         {
-            OnOrderMaximize?.Invoke(new List<GameObject>(), null, null, 0);
+            OnOrderMaximize?.Invoke(null);
             UsedOrder = null;
         }
     }

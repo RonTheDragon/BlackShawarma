@@ -156,6 +156,7 @@ public class Refill : MonoBehaviour, Interactable
         {
             _currentContained--;
             _selectedFood.CurrentAmmo++;
+            _gm.OnAmmoUpdate?.Invoke();
             _currentTransferTime = _transferSpeed;
         }
         else

@@ -23,6 +23,7 @@ public class EnemyAI : MonoBehaviour
     public            Sprite         AngryPicture;
     public            Sprite         SideOrderPanel;
     public            Sprite         RequestedFood;
+    public            Sprite         RequestedFoodBG;
     public            int            CustomerNumber;
     [ReadOnly] public float          LevelRageMultiplier = 1;
     public            float          CharacterRageMultiplier = 1;
@@ -34,6 +35,8 @@ public class EnemyAI : MonoBehaviour
     [SerializeField] private        List<GameObject> _orderFillers;
     [SerializeField] private        GameObject      _theOrder;
     [SerializeField] private        GameObject      _theFood;
+    [SerializeField] private        GameObject      _thePita;
+    [SerializeField] private        GameObject      _theFoodTopLeft;
     [SerializeField]                float            _minTime       = 60;
     [SerializeField]                float            _maxTime       = 180;
     [SerializeField]                Vector2          _randompayment = new Vector2(10,25);
@@ -78,6 +81,10 @@ public class EnemyAI : MonoBehaviour
         _done          = false;
         _agent.enabled = true;
         CustomerNumber= num;
+        _theOrder.SetActive(false);
+        _theFood.SetActive(true);
+        _thePita.SetActive(false);
+        _theFoodTopLeft.SetActive(true);
         SetEnemyPayment();
         GenerateRandomOrder();   
         _spawner.SortLanes();
@@ -188,6 +195,8 @@ public class EnemyAI : MonoBehaviour
             {
                 _theOrder.SetActive(true);
                 _theFood.SetActive(false);
+                _thePita.SetActive(true);
+                _theFoodTopLeft.SetActive(false);
             }
         }
         else if (InfrontOfLine && !_done)
@@ -199,6 +208,8 @@ public class EnemyAI : MonoBehaviour
             {
                 _theOrder.SetActive(false);
                 _theFood.SetActive(true);
+                _thePita.SetActive(false);
+                _theFoodTopLeft.SetActive(true);
             }
         }
         else

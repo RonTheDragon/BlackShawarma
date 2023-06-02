@@ -112,7 +112,6 @@ public class Gun : MonoBehaviour
     {
         cinemachine.m_Lens.FieldOfView = NotAimingFOV;
         ResetAmmoToMax();
-        ammoChanged();
         StartUsingStation();
 
         _loop += Shoot;
@@ -127,6 +126,9 @@ public class Gun : MonoBehaviour
         _gm.OnLoseScreen+= StartUsingStation;
         _gm.OnStartLevel += ClearOnStart;
         _levelManager.OnSetUpLevel += RefillAll;
+
+        _currentAmmo = 0;
+        ammoChanged();
     }
 
     void Update()
@@ -201,6 +203,7 @@ public class Gun : MonoBehaviour
         tpm.AddLookTorque(Vector2.down, r);
         _cis.GenerateImpulse(r);
         ShootImpact();
+        _gm.OnAmmoUpdate?.Invoke();
     }
 
     private void AimAt(Vector3 pos)
@@ -325,17 +328,17 @@ public class Gun : MonoBehaviour
                 }
                 else if (Input.GetKeyDown(KeyCode.Alpha1))
                 {
-                    _currentAmmo = 1;
+                    _currentAmmo = 0;
                     ammoChanged();
                 }
                 else if (Input.GetKeyDown(KeyCode.Alpha2))
                 {
-                    _currentAmmo = 2;
+                    _currentAmmo = 1;
                     ammoChanged();
                 }
                 else if (Input.GetKeyDown(KeyCode.Alpha3))
                 {
-                    _currentAmmo = 0;
+                    _currentAmmo = 2;
                     ammoChanged();
                 }
             }
@@ -350,12 +353,13 @@ public class Gun : MonoBehaviour
         }
         _buildOrder.FillAll();
         _buildOrder.Trash();
+        _gm.OnAmmoUpdate?.Invoke();
     }
 
     void ammoChanged()
     {
         CurrentAmmoType = AmmoTypes[_currentAmmo];
-        lineRenderer.material = CurrentAmmoType.TrajectoryMaterial;
+        //lineRenderer.material = CurrentAmmoType.TrajectoryMaterial;
         OnSwitchWeapon?.Invoke(CurrentAmmoType);
     }
     void DrawProjection()
@@ -446,6 +450,7 @@ public class Gun : MonoBehaviour
         {
             AmmoTypes[i].CurrentAmmo = AmmoTypes[i].MaxAmmo;
         }
+        _gm.OnAmmoUpdate?.Invoke();
     }
     private void PitaShoot()
     {

@@ -29,6 +29,8 @@ public class BuildOrder : MonoBehaviour
 
     public int Supplies = 8;
     [SerializeField] List<Ingredient> _ingredients = new List<Ingredient>();
+    [SerializeField] private Transform _pitaContains;
+    private List<Transform> _tinyIcons = new List<Transform>();
     public enum Fillers : int
     {
         Humus,
@@ -52,6 +54,11 @@ public class BuildOrder : MonoBehaviour
             Fillers f = (Fillers)i;
             _ingredients.Add(new Ingredient(f,3));
         }
+
+        foreach(Transform t in _pitaContains)
+        {
+            _tinyIcons.Add(t);
+        }
     }
 
     public void AddFiller(int fillerNumber)
@@ -65,11 +72,13 @@ public class BuildOrder : MonoBehaviour
         OnUseIngridients?.Invoke(_ingredients);
         Pita.Add(filler);
         UpdatePita();
+        AddPitaTinyIcon(fillerNumber,Pita.Count-1);
     }
 
     public void Trash()
     {
         Pita.Clear();
+        ClearTinyIcons();
         UpdatePita();
     }
 
@@ -80,6 +89,7 @@ public class BuildOrder : MonoBehaviour
             List<Fillers> temporary =  new List<Fillers>(Pita);
             GetComponent<Gun>().SetPita(temporary);       
             Pita.Clear();
+            ClearTinyIcons();
             UpdatePita();
         }
     }
@@ -93,6 +103,7 @@ public class BuildOrder : MonoBehaviour
     public void EmptyAll()
     {
         foreach (Ingredient i in _ingredients) i.CurrentAmount = 0;
+        ClearTinyIcons();
         OnUseIngridients?.Invoke(_ingredients);
     }
 
@@ -105,5 +116,20 @@ public class BuildOrder : MonoBehaviour
             msg += $"{f} ";
         }
         //Debug.Log(msg);
+    }
+
+    private void AddPitaTinyIcon(int foodIndex, int number)
+    {
+        Transform t = _tinyIcons[foodIndex];
+        t.gameObject.SetActive(true);
+        t.transform.SetSiblingIndex(number);
+    }
+
+    private void ClearTinyIcons()
+    {
+        foreach(Transform t in _tinyIcons)
+        {
+            t.gameObject.SetActive(false);
+        }
     }
 }
