@@ -195,10 +195,11 @@ public class EnemySpawner : MonoBehaviour
        
     }
 
-   public int HowManyEnemiesInTheStore()
+    public int HowManyEnemiesInTheStore()
     {
-        return EnemyQueues.GetAmountOfEnemies(); 
+        return EnemyQueues.GetAmountOfEnemies() + _leaving.Count; 
     }
+
 
     public void LevelSetUp(List<SOspawnEnemy> enemies, SOLevel.SpawnLimit spawnLimit , Vector2 RandomTime, Vector2 WarmUpTime, int maxEnemies)
     {
@@ -238,6 +239,7 @@ public class EnemySpawner : MonoBehaviour
         {
             enemyAI.InstantlyRemoveCustomer();
         }
+        _leaving.Clear();
     }
 
     public void ChangeMaxEnemiesInGame(int maxEnemies)
@@ -259,6 +261,11 @@ public class EnemySpawner : MonoBehaviour
                 enemyAI.MakeHappier(amount);
             }
        
+    }
+
+    public void RemoveLeaving(EnemyAI e)
+    {
+        _leaving.Remove(e);
     }
 
     public void CalmEveryone(float amount,Vector3 position, float range)

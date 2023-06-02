@@ -307,6 +307,7 @@ public class EnemyAI : MonoBehaviour
 
     private void LeavingTheStore()
     {
+        _spawner.RemoveLeaving(this);
         _gm.DidWeWin();
         gameObject.SetActive(false);
     }
