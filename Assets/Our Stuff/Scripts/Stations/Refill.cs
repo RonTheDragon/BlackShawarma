@@ -32,9 +32,9 @@ public class Refill : MonoBehaviour, Interactable
 
     public string Info { get => _info; set => _info = value; }
 
-    private bool _active;
+    private bool _notActive;
 
-    public bool NotActive { get => _active; set => _active = value; }
+    public bool NotActive { get => _notActive; set => _notActive = value; }
     private Camera PlayerCamera => Camera.main;
 
     private Action _used;
@@ -55,6 +55,8 @@ public class Refill : MonoBehaviour, Interactable
     private void Start()
     {
         _gm = GameManager.Instance;
+        _gm.OnPickUpSack += () => _notActive = true;
+        _gm.OnPlaceDownSack += () => _notActive = false;
         _gm.OnStartLevel += ResetStation;
         _playerLocation = _gm.Player.transform;
         _gun = _gm.Player.GetComponent<Gun>();

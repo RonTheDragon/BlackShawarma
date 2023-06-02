@@ -74,6 +74,9 @@ public class Gun : MonoBehaviour
     [SerializeField] LineRenderer _rope;
     [SerializeField] LayerMask    layer;
 
+    [Header("HoldToUse")]
+    [ReadOnly][SerializeField] private float _heldDuration=0;
+
     //[SerializeField] TMP_Text Info;
     //Event
     Action _loop;
@@ -85,6 +88,8 @@ public class Gun : MonoBehaviour
     public Action OnExit;
 
     public Action<bool> OnHasPitaChanging;
+
+    public Action<float> OnHold;
 
     public Action<SOAmmoType> OnSwitchWeapon;
 
@@ -225,10 +230,36 @@ public class Gun : MonoBehaviour
                 {
                     if (!UsingUI && !interact.NotActive)
                     {
-                        //Info.text = interact.Info;
                         infoUpdate?.Invoke(interact.Info);
-                        OnUse = interact.Use;
+                        if (!(interact is HoldInteractable))
+                        {
+                            OnUse = interact.Use;
+                        }
+                        else
+                        {
+                            HoldInteractable hold = interact as HoldInteractable;
+                            if (!hold.HoldToUse)
+                            {
+                                OnUse = interact.Use;
+                            }
+                            else if (Input.GetKey(KeyCode.E))
+                            {
+                                _heldDuration += Time.deltaTime;
+                                if (hold.UseDuration< _heldDuration)
+                                {
+                                    hold.Use(gameObject);
+                                    StoppedHoveringStation();
+                                }
+                                OnHold?.Invoke(_heldDuration/ hold.UseDuration);
+                            }
+                            else
+                            {
+                                StoppedHoveringStation();
+                                infoUpdate?.Invoke(interact.Info);
+                            }
+                        }
                     }
+                    
                 }
                 else
                 {
@@ -404,6 +435,8 @@ public class Gun : MonoBehaviour
 
     void StoppedHoveringStation()
     {
+        _heldDuration = 0;
+        OnHold?.Invoke(0);
         infoUpdate?.Invoke(string.Empty);
         if (UsingUI) { OnUse?.Invoke(gameObject); }
         else OnUse = null;

@@ -216,7 +216,6 @@ public class Tutorial : MonoBehaviour
         if (_done) // Finish Stage Requirement
         {
             _done = false;
-            _suppliesInteractable.NotActive = false;
             _suppliesInteractable.Used -= EventDone;
             _tutorialStages[8].gameObject.SetActive(false);
             _tutorialStages[9].gameObject.SetActive(true);

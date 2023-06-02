@@ -31,6 +31,7 @@ public class BuildOrder : MonoBehaviour
     [SerializeField] List<Ingredient> _ingredients = new List<Ingredient>();
     [SerializeField] private Transform _pitaContains;
     private List<Transform> _tinyIcons = new List<Transform>();
+    private GameManager _gm;
     public enum Fillers : int
     {
         Humus,
@@ -47,6 +48,7 @@ public class BuildOrder : MonoBehaviour
 
     void Start()
     {
+        _gm = GameManager.Instance;
         int count  = Enum.GetValues(typeof(BuildOrder.Fillers)).Length;
         _maxFillers = GameManager.Instance.MaxFillers;
         for (int i = 0; i < count; i++)
@@ -59,6 +61,8 @@ public class BuildOrder : MonoBehaviour
         {
             _tinyIcons.Add(t);
         }
+
+        _gm.OnStartLevel += () => { _gm.OnPlaceDownSack?.Invoke(); HasSupplies = false; Sack.SetActive(false); };
     }
 
     public void AddFiller(int fillerNumber)

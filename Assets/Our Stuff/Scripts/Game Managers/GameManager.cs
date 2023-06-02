@@ -28,6 +28,10 @@ public class GameManager : MonoBehaviour
     public Action OnEndLevel;
     public Action OnStartLevel;
     public Action OnAmmoUpdate;
+
+    public Action OnPickUpSack;
+    public Action OnPlaceDownSack;
+
     [HideInInspector] public SideOrderUI UsedOrder;
     [HideInInspector] public Action<SideOrderUI> OnOrderMaximize;
     public EnemySpawner EnemySpawner;

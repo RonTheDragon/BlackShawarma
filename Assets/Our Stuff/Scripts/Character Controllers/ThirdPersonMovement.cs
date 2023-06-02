@@ -2,6 +2,7 @@ using System;
 using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
+using UnityEngine.EventSystems;
 
 public class ThirdPersonMovement : MonoBehaviour
 {
@@ -24,6 +25,7 @@ public class ThirdPersonMovement : MonoBehaviour
     [Header("Look")]
     [SerializeField] private Transform _lookAt;
     [SerializeField] private Vector2 _sensitivity;
+    //[SerializeField] private Vector2 _menuSensitivity = new Vector2(1, 10);
     private float _currentSensitivity;
     [SerializeField] private Cinemachine.AxisState _xAxis;
     [SerializeField] private Cinemachine.AxisState _yAxis;
@@ -95,11 +97,15 @@ public class ThirdPersonMovement : MonoBehaviour
     Vector3 _boxPosition => CC.transform.position + (Vector3.up * CC.bounds.extents.y) * Y;
     Vector3 _boxSize     => new Vector3(CC.bounds.extents.x + Wide, Height * 2, CC.bounds.extents.z + Wide);
 
+    private GameManager _gm;
+
 
     // Start is called before the first frame update
     void Start()
     {
         SetupMouse();
+        _gm = GameManager.Instance;
+        _gm.OnStartLevel += () => _currentStamina = MaxStamina;
     }
 
     // Update is called once per frame
@@ -217,6 +223,9 @@ public class ThirdPersonMovement : MonoBehaviour
         _currentSensitivity = Mathf.Lerp(_sensitivity.x, _sensitivity.y, PlayerPrefs.GetFloat("Sensitivity"));
         _xAxis.m_MaxSpeed *= _currentSensitivity;
         _yAxis.m_MaxSpeed *= _currentSensitivity;
+
+        //if (!PlayerPrefs.HasKey("Sensitivity2")) { PlayerPrefs.SetFloat("Sensitivity2", 0.5f); }
+        //EventSystem.current.pixelDragThreshold = (int)Mathf.Lerp(_menuSensitivity.x, _menuSensitivity.y, PlayerPrefs.GetFloat("Sensitivity2"));
     }
 
     public void MultiplySensitivity(float mult)

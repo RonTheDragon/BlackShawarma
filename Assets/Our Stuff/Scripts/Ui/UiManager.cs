@@ -26,6 +26,8 @@ public class UiManager : MonoBehaviour
     [SerializeField] private TMP_Text         MoneyText;
     [SerializeField] private TMP_Text         _loseScreenScore;
 
+    [SerializeField] private Image            _holdInducator;
+
     [Header("Timer")]
     [SerializeField] private Image            _cigar;
     [SerializeField] private RectTransform    _cigarFlame;
@@ -87,6 +89,7 @@ public class UiManager : MonoBehaviour
         _gun.OnPitaAim       += SwitchToPita;
         _gun.OnHasPitaChanging += HasPitaChange;
         _gun.OnExit          += OpenPauseMenu;
+        _gun.OnHold          += HoldUI;
         _bo.OnUseIngridients += UpdateIngridients;
         _bo.OnPitaUpdate     += PitaUpdate;
         _lt.OnSetTimer       += SetTimer;
@@ -378,6 +381,11 @@ public class UiManager : MonoBehaviour
             TazdokStaminaBar.fillAmount = f;
             TazdokStamina.SetActive(true);
         }
+    }
+
+    private void HoldUI(float fill)
+    {
+        _holdInducator.fillAmount = fill;
     }
         
     private void EndLevel()
