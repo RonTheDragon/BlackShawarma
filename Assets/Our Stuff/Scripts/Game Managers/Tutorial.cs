@@ -150,25 +150,25 @@ public class Tutorial : MonoBehaviour
         {
             _tutorialStages[4].gameObject.SetActive(false);
             _tutorialStages[5].gameObject.SetActive(true);
+            _enemySpawner.ChangeMaxEnemiesInGame(1);
+            StartCoroutine("GetEnemy");
 
             _currentTutorialStage = TutorialStage5;
         }
     }
 
-    private void TutorialStage5() //tab and rage
-    {
-        // Update Content Here
-        if (Input.GetKeyDown(KeyCode.Space)) // Finish Stage Requirement
-        {
-            _currentTutorialStage = TutorialStage6;
-            _tutorialStages[5].gameObject.SetActive(false);
-            _tutorialStages[6].gameObject.SetActive(true);
-            _enemySpawner.ChangeMaxEnemiesInGame(1);
-            StartCoroutine("GetEnemy");
-        }
-    }
+    //private void TutorialStage5() //tab and rage
+    //{
+    //    // Update Content Here
+    //    if (Input.GetKeyDown(KeyCode.Space)) // Finish Stage Requirement
+    //    {
+    //        _currentTutorialStage = TutorialStage6;
+    //        _tutorialStages[5].gameObject.SetActive(false);
+    //        _tutorialStages[6].gameObject.SetActive(true);
+    //    }
+    //}
 
-    private void TutorialStage6() // shoot him calm
+    private void TutorialStage5() // shoot him calm
     {
         if (_enemy == null) return;
         
@@ -178,9 +178,9 @@ public class Tutorial : MonoBehaviour
 
         if (_enemy.CalmEnoughToEat()) // Finish Stage Requirement
         {
-            _tutorialStages[6].gameObject.SetActive(false);
-            _tutorialStages[7].gameObject.SetActive(true);
-            _currentTutorialStage = TutorialStage7;
+            _tutorialStages[5].gameObject.SetActive(false);
+            _tutorialStages[6].gameObject.SetActive(true);
+            _currentTutorialStage = TutorialStage6;
             _counterInteractable.NotActive = false;
             _done = false;
             _counterInteractable.Used += EventDone;
@@ -188,96 +188,88 @@ public class Tutorial : MonoBehaviour
         }
     }
 
-    private void TutorialStage7() // Open Empty Counter
+    private void TutorialStage6() // Open Empty Counter
     {
-        // Update Content Here
-
-
 
         if (_done) // Finish Stage Requirement
         {
+            // Update Content Here
+
             _done = false;
             _suppliesInteractable.NotActive = false;
             _suppliesInteractable.Used += EventDone;
             _counterInteractable.Used -= EventDone;
-            _tutorialStages[7].gameObject.SetActive(false);
-            _tutorialStages[8].gameObject.SetActive(true);
-            _currentTutorialStage = TutorialStage8;
+            _tutorialStages[6].gameObject.SetActive(false);
+            _tutorialStages[7].gameObject.SetActive(true);
+            _currentTutorialStage = TutorialStage7;
             _tutorialPointer.position = _suppliesInteractable.transform.position + Vector3.up * 3;
         }
     }
 
-    private void TutorialStage8() // Get Supplies
+    private void TutorialStage7() // Get Supplies
     {
         // Update Content Here
 
-
+        // TO DO: The tutorial goes to the next part the moment the player picks up a new sack,
+        // instead of after the player refills the counter.
 
         if (_done) // Finish Stage Requirement
         {
             _done = false;
             _suppliesInteractable.Used -= EventDone;
-            _tutorialStages[8].gameObject.SetActive(false);
-            _tutorialStages[9].gameObject.SetActive(true);
-            _currentTutorialStage = TutorialStage9;
+            _tutorialStages[7].gameObject.SetActive(false);
+            _tutorialStages[8].gameObject.SetActive(true);
+            _currentTutorialStage = TutorialStage8;
             _tutorialPointer.position = _counterInteractable.transform.position + Vector3.up * 2;
         }
     }
 
-    private void TutorialStage9() // Build The Shawarma
+    private void TutorialStage8() // Build The Shawarma
     {
         // Update Content Here
 
-
-
         if (_enemy.CheckIfPitaCorrect(_gun.GetPita())) // Finish Stage Requirement
         {
-            _tutorialStages[9].gameObject.SetActive(false);
-            _tutorialStages[10].gameObject.SetActive(true);
+            _tutorialStages[8].gameObject.SetActive(false);
+            _tutorialStages[9].gameObject.SetActive(true);
             _enemy.SetCurrentRage(50);
-            _currentTutorialStage = TutorialStage10;
+            _currentTutorialStage = TutorialStage9;
             _tutorialPointer.position = _enemy.transform.position + Vector3.up * 3;
         }
     }
 
-    private void TutorialStage10() // Calm Him Again
+    private void TutorialStage9() // Calm Him Again
     {
         // Update Content Here
 
-
-
         if (_enemy.CalmEnoughToEat()) // Finish Stage Requirement
+        {
+            _tutorialStages[9].gameObject.SetActive(false);
+            _tutorialStages[10].gameObject.SetActive(true);
+            _currentTutorialStage = TutorialStage10;
+            _enemySpawner.ChangeMaxEnemiesInGame(0);
+        }
+    }
+    private void TutorialStage10() // Shoot The Shawarma
+    {
+        // Update Content Here
+
+        if (_enemy.SideOrder == null) // Finish Stage Requirement
         {
             _tutorialStages[10].gameObject.SetActive(false);
             _tutorialStages[11].gameObject.SetActive(true);
             _currentTutorialStage = TutorialStage11;
-            _enemySpawner.ChangeMaxEnemiesInGame(0);
-        }
-    }
-    private void TutorialStage11() // Shoot The Shawarma
-    {
-        // Update Content Here
-
-
-
-        if (_enemy.SideOrder == null) // Finish Stage Requirement
-        {
-            _tutorialStages[11].gameObject.SetActive(false);
-            _tutorialStages[12].gameObject.SetActive(true);
-            _currentTutorialStage = TutorialStage12;
             _tutorialPointer.gameObject.SetActive(false);
         }
     }
 
-    private void TutorialStage12() // Build The Shawarma
+    private void TutorialStage11() // Build The Shawarma
     {
         // Update Content Here
 
-
-
         if (!_enemy.gameObject.activeSelf) // Finish Stage Requirement
         {
-            _tutorialStages[12].gameObject.SetActive(false);
+            _tutorialStages[11].gameObject.SetActive(false);
             _currentTutorialStage = null;
             FreezeTimer?.Invoke(false);
             _gm.GetComponent<LevelTimer>().SetTimerTo0();
