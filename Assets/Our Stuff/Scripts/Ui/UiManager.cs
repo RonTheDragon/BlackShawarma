@@ -26,6 +26,8 @@ public class UiManager : MonoBehaviour
     [SerializeField] private TMP_Text         MoneyText;
     [SerializeField] private TMP_Text         _loseScreenScore;
 
+    [SerializeField] private Image            _holdInducator;
+
     [Header("Timer")]
     [SerializeField] private Image            _cigar;
     [SerializeField] private RectTransform    _cigarFlame;
@@ -45,6 +47,8 @@ public class UiManager : MonoBehaviour
     [SerializeField] private TMP_Text _orderNumber;
     [SerializeField] private Transform        _maximizedOrder;
     [SerializeField] private Image _fillBar;
+    [SerializeField] private Image _foodBG;
+    private SideOrderUI _sideOrderMaximized;
 
     [Header("Stamina")]
     [SerializeField] private GameObject TazdokStamina;
@@ -56,6 +60,7 @@ public class UiManager : MonoBehaviour
     [SerializeField] private Image _falafel;
     [SerializeField] private Image _gunWithPita;
     [SerializeField] private List<GameObject> _loadedPitaFillers;
+    [SerializeField] private Transform[] _ammoCounters = new Transform[3];
 
     [SerializeField] private GameObject _shootAmmoPanel;
     [SerializeField] private GameObject _shootPitaPanel;
@@ -84,6 +89,7 @@ public class UiManager : MonoBehaviour
         _gun.OnPitaAim       += SwitchToPita;
         _gun.OnHasPitaChanging += HasPitaChange;
         _gun.OnExit          += OpenPauseMenu;
+        _gun.OnHold          += HoldUI;
         _bo.OnUseIngridients += UpdateIngridients;
         _bo.OnPitaUpdate     += PitaUpdate;
         _lt.OnSetTimer       += SetTimer;
@@ -93,6 +99,8 @@ public class UiManager : MonoBehaviour
         _gm.OnOrderMaximize  += SetMaximizedOrder;
         _tutorial.FreezeTimer += FreezeTimer;
         _loop += OpenEnemyInfo;
+        _loop += SetMaximizedOrderBar;
+        _gm.OnAmmoUpdate += UpdateAmmoCounter;
         _gm.CM.AddEvent += ComboIncrease;
         _gm.CM.ResetEvent += ResetCombo;
         _gm.CM.TimerEvent += ComboTimer;
@@ -311,25 +319,52 @@ public class UiManager : MonoBehaviour
         
        
     }
-    
-    private void SetMaximizedOrder(List<GameObject> fillers, Sprite panel, Sprite pfp, int numb)
+    //ui.Fillers, ui.GetPanel(), ui.GetPfp(),ui.GetFoodBG(),ui.OnUpdateBar,ui.GetNumber()
+    private void SetMaximizedOrder(SideOrderUI ui)
     {
         for (int i = 0; i < _maximizedOrder.childCount; i++)
         {
             _maximizedOrder.GetChild(i).gameObject.SetActive(false);
         }
-
-        if (fillers.Count == 0) { _baseMaximizedOrder.SetActive(false); return; }
+        if (ui == null) { _baseMaximizedOrder.SetActive(false); _sideOrderMaximized = null; return; }
 
         _baseMaximizedOrder.SetActive(true);
-        _orderPanel.sprite = panel;
-        _orderProfile.sprite = pfp;
-        _orderNumber.text = numb.ToString();
+        _orderPanel.sprite = ui.GetPanel();
+        _orderProfile.sprite = ui.GetPfp();
+        _orderNumber.text = ui.GetNumber().ToString();
+        _foodBG.sprite = ui.GetFoodBG();
+        _sideOrderMaximized = ui;
 
-
-        for (int i = 0; i < fillers.Count; i++)
+        for (int i = 0; i < ui.Fillers.Count; i++)
         {
-            _maximizedOrder.GetChild(i).gameObject.SetActive(fillers[i].activeSelf);
+            _maximizedOrder.GetChild(i).gameObject.SetActive(ui.Fillers[i].activeSelf);
+        }
+    }
+
+    private void UpdateAmmoCounter()
+    {
+        for (int i = 0; i < _gun.AmmoTypes.Count; i++)
+        {
+            int ammo = _gun.AmmoTypes[i].CurrentAmmo;
+            int maxAmmo = _gun.AmmoTypes[i].MaxAmmo;
+            
+            for (int j = 0; j < _ammoCounters[i].childCount; j++)
+            {
+                if (j < maxAmmo)
+                {
+                    _ammoCounters[i].GetChild(j).gameObject.SetActive(true);
+                    _ammoCounters[i].GetChild(j).GetChild(0).gameObject.SetActive(j < ammo);                 
+                }
+                else { break; }
+            }
+        }
+    }
+
+    private void SetMaximizedOrderBar()
+    {
+        if (_sideOrderMaximized != null)
+        {
+            _fillBar.fillAmount = _sideOrderMaximized.GetBar();
         }
     }
 
@@ -346,6 +381,11 @@ public class UiManager : MonoBehaviour
             TazdokStaminaBar.fillAmount = f;
             TazdokStamina.SetActive(true);
         }
+    }
+
+    private void HoldUI(float fill)
+    {
+        _holdInducator.fillAmount = fill;
     }
         
     private void EndLevel()

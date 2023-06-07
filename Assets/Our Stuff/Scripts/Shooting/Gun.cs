@@ -74,6 +74,9 @@ public class Gun : MonoBehaviour
     [SerializeField] LineRenderer _rope;
     [SerializeField] LayerMask    layer;
 
+    [Header("HoldToUse")]
+    [ReadOnly][SerializeField] private float _heldDuration=0;
+
     //[SerializeField] TMP_Text Info;
     //Event
     Action _loop;
@@ -85,6 +88,8 @@ public class Gun : MonoBehaviour
     public Action OnExit;
 
     public Action<bool> OnHasPitaChanging;
+
+    public Action<float> OnHold;
 
     public Action<SOAmmoType> OnSwitchWeapon;
 
@@ -112,7 +117,6 @@ public class Gun : MonoBehaviour
     {
         cinemachine.m_Lens.FieldOfView = NotAimingFOV;
         ResetAmmoToMax();
-        ammoChanged();
         StartUsingStation();
 
         _loop += Shoot;
@@ -125,7 +129,11 @@ public class Gun : MonoBehaviour
 
         _gm.OnVictoryScreen += StartUsingStation;
         _gm.OnLoseScreen+= StartUsingStation;
+        _gm.OnStartLevel += ClearOnStart;
         _levelManager.OnSetUpLevel += RefillAll;
+
+        _currentAmmo = 0;
+        ammoChanged();
     }
 
     void Update()
@@ -223,7 +231,7 @@ public class Gun : MonoBehaviour
     private System.Collections.IEnumerator ShootDelay()
     {
         _cd = _coffeeBuf ? CoffeeCD : CoolDown;
-        yield return null;
+        yield return new WaitForSeconds(0.01f);
 
         GameObject bullet = ObjectPooler.Instance.SpawnFromPool(CurrentAmmoType.AmmoTag, barrel.position, barrel.rotation);
         CurrentAmmoType.CurrentAmmo--;
@@ -232,6 +240,7 @@ public class Gun : MonoBehaviour
         tpm.AddLookTorque(Vector2.down, r);
         _cis.GenerateImpulse(r);
         ShootImpact();
+        _gm.OnAmmoUpdate?.Invoke();
     }
 
     private void AimAt(Vector3 pos)
@@ -253,10 +262,36 @@ public class Gun : MonoBehaviour
                 {
                     if (!UsingUI && !interact.NotActive)
                     {
-                        //Info.text = interact.Info;
                         infoUpdate?.Invoke(interact.Info);
-                        OnUse = interact.Use;
+                        if (!(interact is HoldInteractable))
+                        {
+                            OnUse = interact.Use;
+                        }
+                        else
+                        {
+                            HoldInteractable hold = interact as HoldInteractable;
+                            if (!hold.HoldToUse)
+                            {
+                                OnUse = interact.Use;
+                            }
+                            else if (Input.GetKey(KeyCode.E))
+                            {
+                                _heldDuration += Time.deltaTime;
+                                if (hold.UseDuration< _heldDuration)
+                                {
+                                    hold.Use(gameObject);
+                                    StoppedHoveringStation();
+                                }
+                                OnHold?.Invoke(_heldDuration/ hold.UseDuration);
+                            }
+                            else
+                            {
+                                StoppedHoveringStation();
+                                infoUpdate?.Invoke(interact.Info);
+                            }
+                        }
                     }
+                    
                 }
                 else
                 {
@@ -361,12 +396,12 @@ public class Gun : MonoBehaviour
                 }
                 else if (Input.GetKeyDown(KeyCode.Alpha2))
                 {
-                    _currentAmmo = 2;
+                    _currentAmmo = 1;
                     ammoChanged();
                 }
                 else if (Input.GetKeyDown(KeyCode.Alpha3))
                 {
-                    _currentAmmo = 1;
+                    _currentAmmo = 2;
                     ammoChanged();
                 }
             }
@@ -380,12 +415,14 @@ public class Gun : MonoBehaviour
             sat.CurrentAmmo = sat.MaxAmmo;
         }
         _buildOrder.FillAll();
+        _buildOrder.Trash();
+        _gm.OnAmmoUpdate?.Invoke();
     }
 
     void ammoChanged()
     {
         CurrentAmmoType = AmmoTypes[_currentAmmo];
-        lineRenderer.material = CurrentAmmoType.TrajectoryMaterial;
+        //lineRenderer.material = CurrentAmmoType.TrajectoryMaterial;
         OnSwitchWeapon?.Invoke(CurrentAmmoType);
     }
     void DrawProjection()
@@ -430,6 +467,8 @@ public class Gun : MonoBehaviour
 
     void StoppedHoveringStation()
     {
+        _heldDuration = 0;
+        OnHold?.Invoke(0);
         infoUpdate?.Invoke(string.Empty);
         if (UsingUI) { OnUse?.Invoke(gameObject); }
         else OnUse = null;
@@ -476,6 +515,7 @@ public class Gun : MonoBehaviour
         {
             AmmoTypes[i].CurrentAmmo = AmmoTypes[i].MaxAmmo;
         }
+        _gm.OnAmmoUpdate?.Invoke();
     }
     private void PitaShoot()
     {
@@ -484,6 +524,12 @@ public class Gun : MonoBehaviour
         _cd = CoolDown;
         _gunAnimator.SetTrigger("Hamsa");
         StartCoroutine("PitaShootDelay");
+    }
+
+    private void ClearOnStart()
+    {
+        _hasPita = false;
+        OnHasPitaChanging?.Invoke(_hasPita);
     }
 
     private System.Collections.IEnumerator PitaShootDelay()

@@ -16,7 +16,7 @@ public class Shop : MonoBehaviour
     {
         BuildShop();
         ResetAmmoTypes();
-        _gm.TakeDamage += () => RemoveUpgradeLevel(SOUpgrade.Upgrade.Armor);
+        _gm.TakeDamage += () => { if (_gm.MaxTzadokHp == 4) { RemoveUpgradeLevel(SOUpgrade.Upgrade.Armor); _gm.MaxTzadokHp = 3; } };
     }
 
     private void BuildShop()

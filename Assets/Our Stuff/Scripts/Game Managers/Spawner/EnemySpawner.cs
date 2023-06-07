@@ -195,10 +195,11 @@ public class EnemySpawner : MonoBehaviour
        
     }
 
-   public int HowManyEnemiesInTheStore()
+    public int HowManyEnemiesInTheStore()
     {
-        return EnemyQueues.GetAmountOfEnemies(); 
+        return EnemyQueues.GetAmountOfEnemies() + _leaving.Count; 
     }
+
 
     public void LevelSetUp(List<SOspawnEnemy> enemies, SOLevel.SpawnLimit spawnLimit , Vector2 RandomTime, Vector2 WarmUpTime, int maxEnemies)
     {
@@ -224,6 +225,7 @@ public class EnemySpawner : MonoBehaviour
         _gm.HappyCustomers = 0;
         _gm.Player.GetComponent<ThirdPersonMovement>().FullStamina();
         CustomerCounter = 0;
+        _gm.OnStartLevel?.Invoke();
     }
 
     public void ClearingLevel()
@@ -237,6 +239,7 @@ public class EnemySpawner : MonoBehaviour
         {
             enemyAI.InstantlyRemoveCustomer();
         }
+        _leaving.Clear();
     }
 
     public void ChangeMaxEnemiesInGame(int maxEnemies)
@@ -258,6 +261,11 @@ public class EnemySpawner : MonoBehaviour
                 enemyAI.MakeHappier(amount);
             }
        
+    }
+
+    public void RemoveLeaving(EnemyAI e)
+    {
+        _leaving.Remove(e);
     }
 
     public void CalmEveryone(float amount,Vector3 position, float range)
@@ -331,6 +339,7 @@ public class EnemySpawner : MonoBehaviour
                 enemy.WhichLane = i;
                 enemy.PlaceInLane = j;
                 enemy.SetDestination(LaneDestination(i, j));
+                enemy.InfrontOfLine = j == 0;
             }
         }
     }

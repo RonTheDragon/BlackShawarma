@@ -534,6 +534,10 @@ PrefabInstance:
       propertyPath: m_PropertySheet.m_Gradient.m_Array.Array.data[0].m_Value.m_NumColorKeys
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 1007765500971763310, guid: c0404be8a1b7d0d4fa5b43604716b3e2, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1766102734564248701, guid: c0404be8a1b7d0d4fa5b43604716b3e2, type: 3}
       propertyPath: m_Enabled
       value: 0
@@ -613,3 +617,21 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7625034946095033118, guid: c0404be8a1b7d0d4fa5b43604716b3e2, type: 3}
   m_PrefabInstance: {fileID: 6972784959478803412}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &3267306186752871923 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5589955943547594279, guid: c0404be8a1b7d0d4fa5b43604716b3e2, type: 3}
+  m_PrefabInstance: {fileID: 6972784959478803412}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &9087342686353649238
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3267306186752871923}
+  m_Material: {fileID: 13400000, guid: 603dff4c2b162844fa4ebd503a1f05a2, type: 2}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.9077072, y: 1.4670839, z: 0.2617073}
+  m_Center: {x: 0.093746185, y: 0.19286737, z: -0.023431778}

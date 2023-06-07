@@ -8,20 +8,22 @@ public class Tutorial : MonoBehaviour
 {
     // UI
     [SerializeField] private Transform TutorialPanel;
-    private Transform _skipTutorialPanel => TutorialPanel.Find("SkipTutorialPanel");
-    private Transform _tutorialStage1 => TutorialPanel.Find("MeetOlga");
-    private Transform _tutorialStage2 => TutorialPanel.Find("RefillAmmo");
-    private Transform _tutorialStage3 => TutorialPanel.Find("Tab and Rage");
-    private Transform _tutorialStage4 => TutorialPanel.Find("ShootEnemy");
-    private Transform _tutorialStage5 => TutorialPanel.Find("OpenEmptyCounter");
-    private Transform _tutorialStage6 => TutorialPanel.Find("RefillSupplies");
-    private Transform _tutorialStage7 => TutorialPanel.Find("BuildOrder");
-    private Transform _tutorialStage8 => TutorialPanel.Find("CalmHimAgain");
-    private Transform _tutorialStage9 => TutorialPanel.Find("ShootShawarma");
-    private Transform _tutorialStage10 => TutorialPanel.Find("GoodJob");
-    
+    //private Transform _skipTutorialPanel => TutorialPanel.Find("SkipTutorialPanel");
+    //private Transform _tutorialStage1 => TutorialPanel.Find("MeetOlga");
+    //private Transform _tutorialStage2 => TutorialPanel.Find("RefillAmmo");
+    //private Transform _tutorialStage3 => TutorialPanel.Find("Tab and Rage");
+    //private Transform _tutorialStage4 => TutorialPanel.Find("ShootEnemy");
+    //private Transform _tutorialStage5 => TutorialPanel.Find("OpenEmptyCounter");
+    //private Transform _tutorialStage6 => TutorialPanel.Find("RefillSupplies");
+    //private Transform _tutorialStage7 => TutorialPanel.Find("BuildOrder");
+    //private Transform _tutorialStage8 => TutorialPanel.Find("CalmHimAgain");
+    //private Transform _tutorialStage9 => TutorialPanel.Find("ShootShawarma");
+    //private Transform _tutorialStage10 => TutorialPanel.Find("GoodJob");
+
+    private List<Transform> _tutorialStages = new List<Transform>();
+
     //UI image
-    
+
     [SerializeField] private GameObject[] FoodImages ;
     
     // refs
@@ -43,12 +45,15 @@ public class Tutorial : MonoBehaviour
     private Action _currentTutorialStage; // Current State Used
     public Action<bool> FreezeTimer;
 
-    private float _waiting = 0;
     private bool _done;
 
     private void Start()
     {
-        _skipTutorialPanel.gameObject.SetActive(true);
+        foreach (Transform tutorial in TutorialPanel)
+        {
+            _tutorialStages.Add(tutorial);
+        }
+        _tutorialStages[0].gameObject.SetActive(true);
         _gun.StartUsingStation();
         Time.timeScale = 0.0f;
         StartCoroutine("lateStart");
@@ -73,7 +78,7 @@ public class Tutorial : MonoBehaviour
     public void SkipTutorial()
     {
         Time.timeScale = 1.0f;
-        _skipTutorialPanel.gameObject.SetActive(false);
+        _tutorialStages[0].gameObject.SetActive(false);
         _levelManager.NextLevel();
         _gun.StopUsingStation();
     }
@@ -81,7 +86,7 @@ public class Tutorial : MonoBehaviour
     public void StartTutorial()
     {
         Time.timeScale = 1.0f;
-        _skipTutorialPanel.gameObject.SetActive(false);
+        _tutorialStages[0].gameObject.SetActive(false);
         _currentTutorialStage = TutorialStage1;
         _gun.StopUsingStation();
 
@@ -90,9 +95,9 @@ public class Tutorial : MonoBehaviour
         {
             ammoType.CurrentAmmo = 0;
         }
+        _gm.OnAmmoUpdate?.Invoke();
         FreezeTimer?.Invoke(true);
-        _waiting = 0;
-        _tutorialStage1.gameObject.SetActive(true);
+        _tutorialStages[1].gameObject.SetActive(true);
         _counterInteractable.NotActive = true;
         _bo.EmptyAll();
         _suppliesInteractable.NotActive = true;
@@ -102,19 +107,37 @@ public class Tutorial : MonoBehaviour
 
     #region TutorialStages
 
-    private void TutorialStage1() //meet olga
+    private void TutorialStage1() //movement
     {
         // Update Content Here
-        _waiting += Time.deltaTime;
-
-
-        if (_waiting > 5) // Finish Stage Requirement
+        if (Input.GetKeyDown(KeyCode.Space)) // Finish Stage Requirement
         {
-            _waiting = 0;
-            _gun.CantUseStations = false;
             _currentTutorialStage = TutorialStage2;
-            _tutorialStage1.gameObject.SetActive(false);
-            _tutorialStage2.gameObject.SetActive(true);
+            _tutorialStages[1].gameObject.SetActive(false);
+            _tutorialStages[2].gameObject.SetActive(true);
+        }
+    }
+
+    private void TutorialStage2() //Mouse
+    {
+        // Update Content Here
+        if (Input.GetKeyDown(KeyCode.Space)) // Finish Stage Requirement
+        {
+            _currentTutorialStage = TutorialStage3;
+            _tutorialStages[2].gameObject.SetActive(false);
+            _tutorialStages[3].gameObject.SetActive(true);
+        }
+    }
+
+    private void TutorialStage3() //Meet Olga
+    {
+        // Update Content Here
+        if (Input.GetKeyDown(KeyCode.Space)) // Finish Stage Requirement
+        {
+            _currentTutorialStage = TutorialStage4;
+            _tutorialStages[3].gameObject.SetActive(false);
+            _tutorialStages[4].gameObject.SetActive(true);
+            _gun.CantUseStations = false;
             foreach (GameObject image in FoodImages)
             {
                 image.gameObject.SetActive(true);
@@ -122,59 +145,53 @@ public class Tutorial : MonoBehaviour
         }
     }
 
-    private void TutorialStage2() // refill
+    private void TutorialStage4() // refill
     {
         // Update Content Here
 
         if (IsAllAmmoRefilled()) // Finish Stage Requirement
         {
-            _tutorialStage2.gameObject.SetActive(false);
-            _tutorialStage3.gameObject.SetActive(true);
+            _tutorialStages[4].gameObject.SetActive(false);
+            _tutorialStages[5].gameObject.SetActive(true);
+
+            _currentTutorialStage = TutorialStage5;
+        }
+    }
+
+    private void TutorialStage5() //tab and rage
+    {
+        // Update Content Here
+        if (Input.GetKeyDown(KeyCode.Space)) // Finish Stage Requirement
+        {
+            _currentTutorialStage = TutorialStage6;
+            _tutorialStages[5].gameObject.SetActive(false);
+            _tutorialStages[6].gameObject.SetActive(true);
             _enemySpawner.ChangeMaxEnemiesInGame(1);
             StartCoroutine("GetEnemy");
-            
-
-            _currentTutorialStage = TutorialStage3;
         }
     }
 
-    private void TutorialStage3() // meet rage system and tab
+    private void TutorialStage6() // shoot him calm
     {
-        // Update Content Here
-        _waiting += Time.deltaTime;
-
-
-        if (_waiting > 5) // Finish Stage Requirement
-        {
-            _waiting = 0;
-            _tutorialStage3.gameObject.SetActive(false);
-            _tutorialStage4.gameObject.SetActive(true);
-            _currentTutorialStage = TutorialStage4;
-            _tutorialPointer.gameObject.SetActive(true);
-            _tutorialPointer.position = _enemy.transform.position + Vector3.up * 3;
-           
-        }
-    }
-
-    private void TutorialStage4() // shoot him calm
-    {
-        // Update Content Here
-
-
+        if (_enemy == null) return;
+        
+        _tutorialPointer.gameObject.SetActive(true);
+        _tutorialPointer.position = _enemy.transform.position + Vector3.up * 3;
+        
 
         if (_enemy.CalmEnoughToEat()) // Finish Stage Requirement
         {
+            _tutorialStages[6].gameObject.SetActive(false);
+            _tutorialStages[7].gameObject.SetActive(true);
+            _currentTutorialStage = TutorialStage7;
             _counterInteractable.NotActive = false;
-            _tutorialStage4.gameObject.SetActive(false);
-            _tutorialStage5.gameObject.SetActive(true);
             _done = false;
             _counterInteractable.Used += EventDone;
-            _currentTutorialStage = TutorialStage5;
             _tutorialPointer.position = _counterInteractable.transform.position + Vector3.up * 2;
         }
     }
 
-    private void TutorialStage5() // Open Empty Counter
+    private void TutorialStage7() // Open Empty Counter
     {
         // Update Content Here
 
@@ -186,14 +203,14 @@ public class Tutorial : MonoBehaviour
             _suppliesInteractable.NotActive = false;
             _suppliesInteractable.Used += EventDone;
             _counterInteractable.Used -= EventDone;
-            _tutorialStage5.gameObject.SetActive(false);
-            _tutorialStage6.gameObject.SetActive(true);
-            _currentTutorialStage = TutorialStage6;
+            _tutorialStages[7].gameObject.SetActive(false);
+            _tutorialStages[8].gameObject.SetActive(true);
+            _currentTutorialStage = TutorialStage8;
             _tutorialPointer.position = _suppliesInteractable.transform.position + Vector3.up * 3;
         }
     }
 
-    private void TutorialStage6() // Get Supplies
+    private void TutorialStage8() // Get Supplies
     {
         // Update Content Here
 
@@ -202,16 +219,15 @@ public class Tutorial : MonoBehaviour
         if (_done) // Finish Stage Requirement
         {
             _done = false;
-            _suppliesInteractable.NotActive = false;
             _suppliesInteractable.Used -= EventDone;
-            _tutorialStage6.gameObject.SetActive(false);
-            _tutorialStage7.gameObject.SetActive(true);
-            _currentTutorialStage = TutorialStage7;
+            _tutorialStages[8].gameObject.SetActive(false);
+            _tutorialStages[9].gameObject.SetActive(true);
+            _currentTutorialStage = TutorialStage9;
             _tutorialPointer.position = _counterInteractable.transform.position + Vector3.up * 2;
         }
     }
 
-    private void TutorialStage7() // Build The Shawarma
+    private void TutorialStage9() // Build The Shawarma
     {
         // Update Content Here
 
@@ -219,15 +235,15 @@ public class Tutorial : MonoBehaviour
 
         if (_enemy.CheckIfPitaCorrect(_gun.GetPita())) // Finish Stage Requirement
         {
-            _tutorialStage7.gameObject.SetActive(false);
-            _tutorialStage8.gameObject.SetActive(true);
+            _tutorialStages[9].gameObject.SetActive(false);
+            _tutorialStages[10].gameObject.SetActive(true);
             _enemy.SetCurrentRage(50);
-            _currentTutorialStage = TutorialStage8;
+            _currentTutorialStage = TutorialStage10;
             _tutorialPointer.position = _enemy.transform.position + Vector3.up * 3;
         }
     }
 
-    private void TutorialStage8() // Calm Him Again
+    private void TutorialStage10() // Calm Him Again
     {
         // Update Content Here
 
@@ -235,13 +251,13 @@ public class Tutorial : MonoBehaviour
 
         if (_enemy.CalmEnoughToEat()) // Finish Stage Requirement
         {
-            _tutorialStage8.gameObject.SetActive(false);
-            _tutorialStage9.gameObject.SetActive(true);
-            _currentTutorialStage = TutorialStage9;
+            _tutorialStages[10].gameObject.SetActive(false);
+            _tutorialStages[11].gameObject.SetActive(true);
+            _currentTutorialStage = TutorialStage11;
             _enemySpawner.ChangeMaxEnemiesInGame(0);
         }
     }
-    private void TutorialStage9() // Shoot The Shawarma
+    private void TutorialStage11() // Shoot The Shawarma
     {
         // Update Content Here
 
@@ -249,14 +265,14 @@ public class Tutorial : MonoBehaviour
 
         if (_enemy.SideOrder == null) // Finish Stage Requirement
         {
-            _tutorialStage9.gameObject.SetActive(false);
-            _tutorialStage10.gameObject.SetActive(true);
-            _currentTutorialStage = TutorialStage10;
+            _tutorialStages[11].gameObject.SetActive(false);
+            _tutorialStages[12].gameObject.SetActive(true);
+            _currentTutorialStage = TutorialStage12;
             _tutorialPointer.gameObject.SetActive(false);
         }
     }
 
-    private void TutorialStage10() // Build The Shawarma
+    private void TutorialStage12() // Build The Shawarma
     {
         // Update Content Here
 
@@ -264,7 +280,7 @@ public class Tutorial : MonoBehaviour
 
         if (!_enemy.gameObject.activeSelf) // Finish Stage Requirement
         {
-            _tutorialStage10.gameObject.SetActive(false);
+            _tutorialStages[12].gameObject.SetActive(false);
             _currentTutorialStage = null;
             FreezeTimer?.Invoke(false);
             _gm.GetComponent<LevelTimer>().SetTimerTo0();

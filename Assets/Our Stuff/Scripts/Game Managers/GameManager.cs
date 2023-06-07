@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using static BuildOrder;
 
 public class GameManager : MonoBehaviour
 {
@@ -13,6 +12,9 @@ public class GameManager : MonoBehaviour
     public int TzadokMaxHP = 4;
     private int _money;
     private float _moneyMultiplier=1;
+    public float EnemiesBehindCalmerBy = 1.5f;
+    public float CalmEnemiesStayCalmBy = 1.5f;
+    public float FoodCalmingEffect = 20;
     private int _tzadokHp;
     [HideInInspector] public int HappyCustomers = 0;
 
@@ -24,8 +26,14 @@ public class GameManager : MonoBehaviour
     public Action OnVictoryScreen;
     public Action OnLoseScreen;
     public Action OnEndLevel;
+    public Action OnStartLevel;
+    public Action OnAmmoUpdate;
+
+    public Action OnPickUpSack;
+    public Action OnPlaceDownSack;
+
     [HideInInspector] public SideOrderUI UsedOrder;
-    [HideInInspector] public Action<List<GameObject>,Sprite,Sprite,int> OnOrderMaximize;
+    [HideInInspector] public Action<SideOrderUI> OnOrderMaximize;
     public EnemySpawner EnemySpawner;
     public LevelTimer LvlTimer => GetComponent<LevelTimer>();
     public ComboManager CM => GetComponent<ComboManager>();
@@ -109,19 +117,20 @@ public class GameManager : MonoBehaviour
     {
         if (UsedOrder == ui)
         {
-            OnOrderMaximize?.Invoke(new List<GameObject>(),null,null,0);
+            OnOrderMaximize?.Invoke(null);
             UsedOrder = null;
             return;
         }
         UsedOrder = ui;
-        OnOrderMaximize?.Invoke(ui.Fillers, ui.GetPanel(), ui.GetPfp(),ui.GetNumber());
+        OnOrderMaximize?.Invoke(ui);
     }
 
     public void UnMaximizeOrder(SideOrderUI ui)
     {
+        if (ui == null) return;
         if (UsedOrder == ui)
         {
-            OnOrderMaximize?.Invoke(new List<GameObject>(), null, null, 0);
+            OnOrderMaximize?.Invoke(null);
             UsedOrder = null;
         }
     }
