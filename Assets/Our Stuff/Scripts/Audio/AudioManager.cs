@@ -21,10 +21,10 @@ public class AudioManager : MonoBehaviour
     //private Bus ambienceBus;
     //private Bus sfxBus;
 
-    //private List<EventInstance> eventInstances;
+    private List<EventInstance> eventInstances;
     //private List<StudioEventEmitter> eventEmitters;
 
-    //private EventInstance ambienceEventInstance;
+    private EventInstance ambienceEventInstance;
     //private EventInstance musicEventInstance;
 
     public static AudioManager instance { get; private set; }
@@ -37,7 +37,7 @@ public class AudioManager : MonoBehaviour
         }
         instance = this;
 
-        //eventInstances = new List<EventInstance>();
+        eventInstances = new List<EventInstance>();
         //eventEmitters = new List<StudioEventEmitter>();
 
         //masterBus = RuntimeManager.GetBus("bus:/");
@@ -48,7 +48,7 @@ public class AudioManager : MonoBehaviour
 
     private void Start()
     {
-        //InitializeAmbience(FMODEvents.instance.ambience);
+        InitializeAmbience(FMODEvents.instance.ambience);
         //InitializeMusic(FMODEvents.instance.music);
     }
 
@@ -62,8 +62,8 @@ public class AudioManager : MonoBehaviour
 
     private void InitializeAmbience(EventReference ambienceEventReference)
     {
-        //ambienceEventInstance = CreateInstance(ambienceEventReference);
-        //ambienceEventInstance.start();
+        ambienceEventInstance = CreateInstance(ambienceEventReference);
+        ambienceEventInstance.start();
     }
 
     private void InitializeMusic(EventReference musicEventReference)
@@ -87,12 +87,12 @@ public class AudioManager : MonoBehaviour
         RuntimeManager.PlayOneShot(sound, worldPos);
     }
 
-    //public EventInstance CreateInstance(EventReference eventReference)
-    //{
-    //    EventInstance eventInstance = RuntimeManager.CreateInstance(eventReference);
-    //    eventInstances.Add(eventInstance);
-    //    return eventInstance;
-    //}
+    public EventInstance CreateInstance(EventReference eventReference)
+    {
+        EventInstance eventInstance = RuntimeManager.CreateInstance(eventReference);
+        eventInstances.Add(eventInstance);
+        return eventInstance;
+    }
 
     //public StudioEventEmitter InitializeEventEmitter(EventReference eventReference, GameObject emitterGameObject)
     //{

@@ -166,7 +166,7 @@ public class Gun : MonoBehaviour
 
         if (Input.GetMouseButton(0) && _cd <= 0 && !UsingUI) // When shoot
         {
-            AudioManager.instance.PlayOneShot(FMODEvents.instance.playerFootsteps, Camera.main.transform.position);
+            
             if (_hasPita && isAiming)
             {
                 tpm.AddForce(-transform.forward, _pitaKnockback*_currentPita.Count);
@@ -178,7 +178,7 @@ public class Gun : MonoBehaviour
             {
                 if (CurrentAmmoType.CurrentAmmo > 0)
                 {
-<<<<<<< HEAD
+
                     _cd = CoolDown;
 
                   //  if (!tpm.FreeRoam)
@@ -207,10 +207,8 @@ public class Gun : MonoBehaviour
                         _cis.GenerateImpulse(r);
                         ShootImpact();
                     }
-=======
-                    StartCoroutine("ShootDelay");
->>>>>>> main
-                }
+           StartCoroutine("ShootDelay");
+ }
              
                 else
                 {
