@@ -40,6 +40,8 @@ public class GameManager : MonoBehaviour
 
     public LayerMask NotPlayerLayer;
 
+    [HideInInspector] public Shop TheShop;
+
     void Awake()
     {
         Instance = this;

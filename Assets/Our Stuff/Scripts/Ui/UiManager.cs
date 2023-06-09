@@ -14,6 +14,8 @@ public class UiManager : MonoBehaviour
     private ThirdPersonMovement _movement => player.GetComponent<ThirdPersonMovement>();
     private BuildOrder _bo => player.GetComponent<BuildOrder>();
 
+    private Shop _shop => GetComponent<Shop>();
+
     GameManager _gm;
     LevelTimer _lt;
     Tutorial _tutorial;
@@ -70,11 +72,18 @@ public class UiManager : MonoBehaviour
     [SerializeField] private Image _comboTimer;
     [SerializeField] private TMP_Text _currentCombo;
 
+    [Header("Shop")]
+    [SerializeField] private GameObject[] _openOnShop;
+    [SerializeField] private GameObject[] _closeOnShop;
+
 
     private Action _loop;
     //bool isEnemyInfoOpen = false;
 
-
+    private void Awake()
+    {
+        OpenShop(false);
+    }
     // Start is called before the first frame update
     void Start()
     {
@@ -158,7 +167,7 @@ public class UiManager : MonoBehaviour
 
     void UpdateMoney()
     {
-        MoneyText.text = "Joobot = " + _gm.GetMoney().ToString() + "₪";
+        MoneyText.text =_gm.GetMoney().ToString();
     }
 
     void UpdateIngridients(List<Ingredient> ingredients)
@@ -416,6 +425,21 @@ public class UiManager : MonoBehaviour
         Time.timeScale= 1;
         _pauseMenu.SetActive(false);
         _gun.StopUsingStation();
+    }
+
+    public void OpenShop(bool Open)
+    {
+        _shop.HideAllUpgradesUI();
+        foreach (GameObject item in _openOnShop)
+        {
+            item.SetActive(Open);
+        }
+        foreach (GameObject item in _closeOnShop)
+        {
+            item.SetActive(!Open);
+        }
+
+        Time.timeScale = Open ? 1: 0;
     }
 
     public void QuitGame()

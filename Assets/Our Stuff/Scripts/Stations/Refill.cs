@@ -101,7 +101,8 @@ public class Refill : MonoBehaviour, Interactable
     }
 
     private void stationUI()
-    {      
+    {
+        if (PlayerCamera == null) return;
             _ui.transform.LookAt(PlayerCamera.transform.position);
         if (_cooking)
         {
