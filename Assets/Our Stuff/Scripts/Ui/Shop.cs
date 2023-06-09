@@ -13,6 +13,8 @@ public class Shop : MonoBehaviour
     [SerializeField] private Transform       _pointingAt;
     [SerializeField] private Rig             _homelessRig;
     [SerializeField] private float           _homelessWeightChangeSpeed = 10f;
+    [SerializeField] private Animator        _homelessAnimator;
+    [SerializeField] private float           _noPointingForAnimDuration=2;
 
     [SerializeField] private List<SOAmmoType> _ammoTypes = new List<SOAmmoType>();
 
@@ -22,12 +24,17 @@ public class Shop : MonoBehaviour
     private ShopProduct _productHit;
     private ShopProduct _productSelected;
     private float       _targetWeight = 0;
+    private Vector3     _targetPointing;
+    private bool        _secondAnimation;
+    private float       _currentNoPointing;
 
     private void Start()
     {
         _gm.TheShop = this;
         BuildShop();
         ResetAmmoTypes();
+
+        _gm.OnTryToBuy += HomelessAnimations;
         _gm.TakeDamage += () => { if (_gm.MaxTzadokHp == 4) { RemoveUpgradeLevel(SOUpgrade.Upgrade.Armor); _gm.MaxTzadokHp = 3; } };
     }
 
@@ -77,6 +84,15 @@ public class Shop : MonoBehaviour
 
     private void HomelessWeightRig()
     {
+        float dist = Vector3.Distance(_targetPointing, _pointingAt.position);
+
+        if (dist > 0.01f) 
+        {
+            _pointingAt.position = Vector3.MoveTowards(_pointingAt.position, _targetPointing, _homelessWeightChangeSpeed * Time.deltaTime);
+        }
+
+        if (_currentNoPointing>0) _currentNoPointing -= Time.deltaTime;
+
         _homelessRig.weight = Mathf.Lerp(_homelessRig.weight,_targetWeight,Time.deltaTime * _homelessWeightChangeSpeed);
     }
 
@@ -200,7 +216,8 @@ public class Shop : MonoBehaviour
 
     public void SetHomelessPointing(Vector3 pos)
     {
-        _pointingAt.position = pos;
+        if (_currentNoPointing > 0) return;
+        _targetPointing = pos;
         _targetWeight = 1;
     }
 
@@ -215,5 +232,26 @@ public class Shop : MonoBehaviour
         {
             i.gameObject.SetActive(false);
         }
+    }
+
+    public void TeleportProductBack()
+    {
+        if (_productSelected!=null)
+        _productSelected.TeleportBack();
+    }
+
+    private void HomelessAnimations(bool happy)
+    {
+        if (happy)
+        {
+            _homelessAnimator.SetTrigger(_secondAnimation ? "Yes1" : "Yes2");
+        }
+        else
+        {
+            _homelessAnimator.SetTrigger(_secondAnimation ? "No1" : "No2");
+        }
+        _currentNoPointing = _noPointingForAnimDuration;
+        _targetWeight = 0;
+        _secondAnimation = !_secondAnimation;
     }
 }

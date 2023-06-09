@@ -430,6 +430,8 @@ public class UiManager : MonoBehaviour
     public void OpenShop(bool Open)
     {
         _shop.HideAllUpgradesUI();
+        _shop.TeleportProductBack();
+
         foreach (GameObject item in _openOnShop)
         {
             item.SetActive(Open);

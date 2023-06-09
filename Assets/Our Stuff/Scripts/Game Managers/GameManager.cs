@@ -32,6 +32,8 @@ public class GameManager : MonoBehaviour
     public Action OnPickUpSack;
     public Action OnPlaceDownSack;
 
+    public Action<bool> OnTryToBuy;
+
     [HideInInspector] public SideOrderUI UsedOrder;
     [HideInInspector] public Action<SideOrderUI> OnOrderMaximize;
     public EnemySpawner EnemySpawner;

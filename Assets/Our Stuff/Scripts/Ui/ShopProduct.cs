@@ -12,17 +12,29 @@ public class ShopProduct : MonoBehaviour
     private Vector3 _destination;
     private Quaternion _initialRotation;
     private bool _onShelf;
+    private bool _growing;
+    private Vector3 initialSize;
 
+    [Header("Speed")]
     [SerializeField] private float _speed = 5;
     [SerializeField] private float _speedByDistance = 5;
+
+    [Header("Rotation")]
     [SerializeField] private Vector3 _rotating = new Vector3();
     [SerializeField] private float _rotateResetSpeed = 360;
+
+    [Header("Size")]
+    [SerializeField] private Vector3 _growToSize = new Vector3(1.5f, 1.5f, 1.5f);
+    [SerializeField] private Vector3 _shrinkToSize = new Vector3(0.5f, 0.5f, 0.5f);
+    [SerializeField] private float _growingSpeed = 1;
+    [SerializeField] private float _shrinkingSpeed = 1;
 
     private void Start()
     {
         _startPos = transform.position;
         _destination = transform.position;
         _initialRotation = _objectHolder.rotation;
+        initialSize = _objectHolder.localScale;
         StartCoroutine(LateStart());
     }
 
@@ -39,6 +51,7 @@ public class ShopProduct : MonoBehaviour
     private void Update()
     {
         MoveToDestination();
+        SetSize();
     }
 
     private void MoveToDestination()
@@ -64,6 +77,49 @@ public class ShopProduct : MonoBehaviour
         }
     }
 
+    private void SetSize()
+    {
+        if (IsHovered)
+        {
+            if (_growing)
+            {
+                if (_objectHolder.localScale.magnitude < _growToSize.magnitude)
+                {
+                    _objectHolder.localScale += _growToSize * _growingSpeed * Time.deltaTime;
+                }
+                else
+                {
+                    _growing = false;
+                }
+            }
+            else
+            {
+                if (_objectHolder.localScale.magnitude > _shrinkToSize.magnitude)
+                {
+                    _objectHolder.localScale -= _shrinkToSize * _shrinkingSpeed * Time.deltaTime;
+                }
+                else
+                {
+                    _growing = true;
+                }
+            }
+        }
+        else
+        {
+            if (!_growing && transform.localScale.magnitude < initialSize.magnitude)
+            {
+                _objectHolder.localScale += initialSize * _shrinkingSpeed * Time.deltaTime;
+            }
+            else if (_growing && transform.localScale.magnitude > _growToSize.magnitude)
+            {
+                _objectHolder.localScale -= _growToSize * _growingSpeed * Time.deltaTime;
+            }
+        }
+    }
+
+
+
+
 
     public void OnClick() 
     {
@@ -87,6 +143,7 @@ public class ShopProduct : MonoBehaviour
     {
         _theShop.SetHomelessStopPointing();
         IsHovered = false;
+        _objectHolder.transform.localScale = initialSize;
     }
 
     public bool GetIsHovered()
@@ -102,5 +159,12 @@ public class ShopProduct : MonoBehaviour
     public void SetDestinationBack()
     {
         _destination = _startPos;
+    }
+
+    public void TeleportBack()
+    {
+        SetDestinationBack();
+        transform.position = _startPos;
+        _objectHolder.rotation = _initialRotation;
     }
 }

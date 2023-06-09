@@ -35,6 +35,7 @@ public class ShopUpgradeUI : MonoBehaviour
         if (_gm.GetMoney() >= _costs[_currentLevel])
         {
             Debug.Log("Baught Upgrade");
+            _gm.OnTryToBuy(true);
             _gm.AddMoney(-_costs[_currentLevel]); // remove money
             _onBuy?.Invoke(_currentLevel);        // Upgrade
 
@@ -55,6 +56,7 @@ public class ShopUpgradeUI : MonoBehaviour
         }
         else
         {
+            _gm.OnTryToBuy(false);
             Debug.Log("Not Enough _money");
         }
     }

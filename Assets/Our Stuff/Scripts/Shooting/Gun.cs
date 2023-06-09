@@ -275,11 +275,11 @@ public class Gun : MonoBehaviour
             infoUpdate?.Invoke(string.Empty);
         }
 
-        if (Input.GetKeyDown(KeyCode.E) && Time.timeScale>0)
+        if (Input.GetKeyDown(KeyCode.E) && Time.timeScale>0 && cam.gameObject.activeSelf)
         {
             OnUse?.Invoke(gameObject);
         }
-        if (Input.GetKeyDown(KeyCode.Escape) && Time.timeScale > 0)
+        if (Input.GetKeyDown(KeyCode.Escape) && Time.timeScale > 0 && cam.gameObject.activeSelf)
         {
             if (UsingUI)
             {             
