@@ -32,6 +32,7 @@ public class BuildOrder : MonoBehaviour
     [SerializeField] private Transform _pitaContains;
     private List<Transform> _tinyIcons = new List<Transform>();
     private GameManager _gm;
+    private AudioManager _am;
     public enum Fillers : int
     {
         Humus,
@@ -49,6 +50,7 @@ public class BuildOrder : MonoBehaviour
     void Start()
     {
         _gm = GameManager.Instance;
+        _am = AudioManager.instance;
         int count  = Enum.GetValues(typeof(BuildOrder.Fillers)).Length;
         _maxFillers = GameManager.Instance.MaxFillers;
         for (int i = 0; i < count; i++)
@@ -75,6 +77,7 @@ public class BuildOrder : MonoBehaviour
         i.CurrentAmount--;
         OnUseIngridients?.Invoke(_ingredients);
         Pita.Add(filler);
+        _am.PlayOneShot(FMODEvents.instance.Filler, Camera.main.transform.position);
         UpdatePita();
         AddPitaTinyIcon(fillerNumber,Pita.Count-1);
     }

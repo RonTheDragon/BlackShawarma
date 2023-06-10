@@ -25,6 +25,7 @@ public class AudioManager : MonoBehaviour
     //private List<StudioEventEmitter> eventEmitters;
 
     private EventInstance ambienceEventInstance;
+    private EventInstance FillerEventInstance;
     //private EventInstance musicEventInstance;
 
     public static AudioManager instance { get; private set; }
@@ -60,10 +61,15 @@ public class AudioManager : MonoBehaviour
     //    sfxBus.setVolume(SFXVolume);
     }
 
-    private void InitializeAmbience(EventReference ambienceEventReference)
+    public void InitializeAmbience(EventReference ambienceEventReference)
     {
         ambienceEventInstance = CreateInstance(ambienceEventReference);
         ambienceEventInstance.start();
+    }
+    public void InitializeFiller (EventReference FillerEventReference)
+    {
+        FillerEventInstance = CreateInstance(FillerEventReference);
+        FillerEventInstance.start();
     }
 
     private void InitializeMusic(EventReference musicEventReference)

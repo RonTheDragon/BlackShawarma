@@ -54,6 +54,7 @@ public class Gun : MonoBehaviour
 
     private ThirdPersonMovement     tpm    => GetComponent<ThirdPersonMovement>();
     private GameManager             _gm    => GameManager.Instance;
+    private AudioManager _am => AudioManager.instance;
 
     private CinemachineImpulseSource _cis => GetComponent<CinemachineImpulseSource>();
 
@@ -131,7 +132,7 @@ public class Gun : MonoBehaviour
         _gm.OnLoseScreen+= StartUsingStation;
         _gm.OnStartLevel += ClearOnStart;
         _levelManager.OnSetUpLevel += RefillAll;
-
+        
         _currentAmmo = 0;
         ammoChanged();
     }
@@ -213,6 +214,7 @@ public class Gun : MonoBehaviour
                 else
                 {
                     //play the empty gun sound, if the sound is not playing already.
+                    
                 }
             }
 
