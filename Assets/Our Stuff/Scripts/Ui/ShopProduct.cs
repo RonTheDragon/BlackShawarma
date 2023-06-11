@@ -104,16 +104,9 @@ public class ShopProduct : MonoBehaviour
                 }
             }
         }
-        else
+        else if(_objectHolder.localScale != initialSize )
         {
-            if (!_growing && transform.localScale.magnitude < initialSize.magnitude)
-            {
-                _objectHolder.localScale += initialSize * _shrinkingSpeed * Time.deltaTime;
-            }
-            else if (_growing && transform.localScale.magnitude > _growToSize.magnitude)
-            {
-                _objectHolder.localScale -= _growToSize * _growingSpeed * Time.deltaTime;
-            }
+            _objectHolder.localScale = initialSize;      
         }
     }
 

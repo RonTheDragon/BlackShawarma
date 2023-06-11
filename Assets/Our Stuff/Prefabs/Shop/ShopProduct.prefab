@@ -145,9 +145,9 @@ MonoBehaviour:
   TheUpgradeSO: {fileID: 11400000, guid: 405a4331c8fb34e4f8f722bd3777db82, type: 2}
   _speed: 2
   _speedByDistance: 2
-  _rotating: {x: 0, y: 360, z: 0}
+  _rotating: {x: 0, y: 180, z: 0}
   _rotateResetSpeed: 20
-  _growToSize: {x: 1.5, y: 1.5, z: 1.5}
-  _shrinkToSize: {x: 0.5, y: 0.5, z: 0.5}
-  _growingSpeed: 1
-  _shrinkingSpeed: 1
+  _growToSize: {x: 1.2, y: 1.2, z: 1.2}
+  _shrinkToSize: {x: 0.8, y: 0.8, z: 0.8}
+  _growingSpeed: 2
+  _shrinkingSpeed: 3
