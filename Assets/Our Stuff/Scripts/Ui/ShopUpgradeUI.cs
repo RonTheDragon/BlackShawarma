@@ -86,4 +86,9 @@ public class ShopUpgradeUI : MonoBehaviour
     {
         return _theUpgradeSO;
     }
+
+    public int GetLevel()
+    {
+        return _currentLevel;
+    }
 }

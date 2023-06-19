@@ -28,6 +28,10 @@ public class Shop : MonoBehaviour
     private bool        _secondAnimation;
     private float       _currentNoPointing;
 
+
+    [SerializeField] private ShopAmmoCount _shopAmmoCount;
+    [SerializeField] private CoffeeFinjan  _coffeeFinjan;
+
     private void Start()
     {
         _gm.TheShop = this;
@@ -127,6 +131,9 @@ public class Shop : MonoBehaviour
             case SOUpgrade.Upgrade.MoreEggplant: return UpgradeEggplant;
             case SOUpgrade.Upgrade.Armor:        return Armor;
             case SOUpgrade.Upgrade.Chili:        return Chili;
+            case SOUpgrade.Upgrade.Coffee:       return UpgradeCoffee;
+
+
         }
         return null;
     }
@@ -148,7 +155,7 @@ public class Shop : MonoBehaviour
 
         switch (level)
         {
-            case 0: _ammoTypes[1].MaxAmmo = 12; break;
+            case 0: _ammoTypes[1].MaxAmmo = _shopAmmoCount.AmmoAmounts[0]; break;
             case 1: _ammoTypes[1].MaxAmmo = 15; break;
             case 2: _ammoTypes[1].MaxAmmo = 20; break;
         }
@@ -156,6 +163,17 @@ public class Shop : MonoBehaviour
     private void UpgradeEggplant(int level)
     {
         Debug.Log($"Upgraded Eggplant Level {level}");
+
+        switch (level)
+        {
+            case 0: _ammoTypes[2].MaxAmmo = 12; break;
+            case 1: _ammoTypes[2].MaxAmmo = 15; break;
+            case 2: _ammoTypes[2].MaxAmmo = 20; break;
+        }
+    }
+    private void UpgradeCoffee(int level)
+    {
+        Debug.Log($"Upgraded Coffee Level {level}");
 
         switch (level)
         {
@@ -177,7 +195,7 @@ public class Shop : MonoBehaviour
     }
 
 
-    public void RemoveUpgradeLevel(SOUpgrade.Upgrade upgradeType)
+    public int RemoveUpgradeLevel(SOUpgrade.Upgrade upgradeType)
     {
         foreach (Transform t in _upgradesContent)
         {
@@ -185,9 +203,11 @@ public class Shop : MonoBehaviour
             
             if (ui.GetAction() == enumToAction(upgradeType))
             {
-                ui.RemoveLevel(); return;
+                ui.RemoveLevel(); return ui.GetLevel();
             }
         }
+        Debug.LogWarning("Ata 0");
+        return 0;
     }
 
     public void ShowUpgrade(ShopProduct sp)
@@ -253,5 +273,25 @@ public class Shop : MonoBehaviour
         _currentNoPointing = _noPointingForAnimDuration;
         _targetWeight = 0;
         _secondAnimation = !_secondAnimation;
+    }
+
+    [System.Serializable]
+    class ShopAmmoCount
+    {
+        public int[] AmmoAmounts = new int[3];
+    }
+
+    [System.Serializable]
+    class CoffeeFinjan
+    {
+        public level[] levels = new level[3];
+        [System.Serializable]
+        public class level
+        {
+            public float ShootingSpeed;
+            public float MoveSpeed;
+            public float FinjanCooldown;
+            public float CoffeeDuration;
+        }
     }
 }
