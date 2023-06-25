@@ -9,7 +9,7 @@ public class Coffee : MonoBehaviour, Interactable
                      private Gun    _gun;
                      public  int    coffeeBuffTime   = 10;
     [SerializeField] private int    _defaultCooldown = 10;
-    [SerializeField] private float  _cooldown        = 10;
+    [SerializeField] private float  _cooldown        = 0;
 
     public string Info { get => _info; set => _info = value; }
 

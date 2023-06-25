@@ -26,6 +26,7 @@ public class Ztdaka : MonoBehaviour, Interactable
         _used?.Invoke();
         _gm = GameObject.Find("GameManager").GetComponent<GameManager>();
         _gm.tzdakaActivated = true;
+        _gm.tzdakaLvl++;
     }
 
    

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
+using static Cinemachine.DocumentationSortingAttribute;
 
 public class Shop : MonoBehaviour
 {
@@ -17,6 +18,7 @@ public class Shop : MonoBehaviour
     [SerializeField] private float           _noPointingForAnimDuration=2;
 
     [SerializeField] private List<SOAmmoType> _ammoTypes = new List<SOAmmoType>();
+    Chili chilil;
 
     private List<ShopUpgradeUI> _upgradesUI = new List<ShopUpgradeUI>();
 
@@ -189,9 +191,9 @@ public class Shop : MonoBehaviour
 
         switch (level)
         {
-            case 0: _gm.tzdakLvl = 1; break;
-            case 1: _gm.tzdakLvl = 2; break;
-            case 2: _gm.tzdakLvl = 3; break;
+            case 0: _gm.tzdakaLvl = 1; break;
+            case 1: _gm.tzdakaLvl = 2; break;
+            case 2: _gm.tzdakaLvl = 3; break;
         }
     }
     private void Armor(int level)
@@ -203,6 +205,13 @@ public class Shop : MonoBehaviour
     private void Chili(int level)
     {
         Debug.Log($"Upgraded Chili Level {level}");
+       
+        switch (level)
+        {
+            case 0: chilil.Chilis[0].gameObject.SetActive(true); chilil.chiliammount++; break;
+            case 1: chilil.Chilis[1].gameObject.SetActive(true); chilil.chiliammount++; break;
+            case 2: chilil.Chilis[2].gameObject.SetActive(true); chilil.chiliammount++; break;         
+        }
 
     }
 
@@ -304,15 +313,6 @@ public class Shop : MonoBehaviour
             public float MoveSpeed;
             public float FinjanCooldown;
             public float CoffeeDuration;
-        }
-    }
-    class Tzdaka
-    {
-        public level[] levels = new level[3];
-        [System.Serializable]
-        public class level
-        {
-            public int tzdakaRandom;
         }
     }
 
