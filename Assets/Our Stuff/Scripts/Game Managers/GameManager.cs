@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class GameManager : MonoBehaviour
 {
@@ -12,6 +13,10 @@ public class GameManager : MonoBehaviour
     public int TzadokMaxHP = 4;
     private int _money;
     private float _moneyMultiplier=1;
+    private int tzdakaMultiplier;
+    [SerializeField] public int tzdakLvl = 1;
+
+    public bool tzdakaActivated = false;
     public float EnemiesBehindCalmerBy = 1.5f;
     public float CalmEnemiesStayCalmBy = 1.5f;
     public float FoodCalmingEffect = 20;
@@ -56,7 +61,11 @@ public class GameManager : MonoBehaviour
 
     public void AddMoney(int m)
     {
-        _money += (int)(m* _moneyMultiplier);
+        if(tzdakaActivated)
+        {
+            TzdakaUpdate();
+        }
+        _money += (int)(m* _moneyMultiplier * tzdakaMultiplier);
         Debug.Log($"Reward: {m} * {_moneyMultiplier} = {(int)(m * _moneyMultiplier)}");
         UpdateMoney?.Invoke();
     }
@@ -136,6 +145,22 @@ public class GameManager : MonoBehaviour
         {
             OnOrderMaximize?.Invoke(null);
             UsedOrder = null;
+        }
+    }
+
+    public void TzdakaUpdate()
+    {
+        if (tzdakLvl == 1)
+        {
+            tzdakaMultiplier = Random.Range(1, 3);
+        }
+        if (tzdakLvl == 2)
+        {
+            tzdakaMultiplier = Random.Range(7, 13);
+        }
+        if (tzdakLvl == 3)
+        {
+            tzdakaMultiplier = Random.Range(15, 20);
         }
     }
 }

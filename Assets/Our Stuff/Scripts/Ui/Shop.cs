@@ -132,6 +132,7 @@ public class Shop : MonoBehaviour
             case SOUpgrade.Upgrade.Armor:        return Armor;
             case SOUpgrade.Upgrade.Chili:        return Chili;
             case SOUpgrade.Upgrade.Coffee:       return UpgradeCoffee;
+            case SOUpgrade.Upgrade.Tzdaka:       return UpgradeTzdaka;
 
 
         }
@@ -180,6 +181,17 @@ public class Shop : MonoBehaviour
             case 0: _ammoTypes[2].MaxAmmo = 12; break;
             case 1: _ammoTypes[2].MaxAmmo = 15; break;
             case 2: _ammoTypes[2].MaxAmmo = 20; break;
+        }
+    }
+    private void UpgradeTzdaka(int level)
+    {
+        Debug.Log($"Upgraded Tzdaka Level {level}");
+
+        switch (level)
+        {
+            case 0: _gm.tzdakLvl = 1; break;
+            case 1: _gm.tzdakLvl = 2; break;
+            case 2: _gm.tzdakLvl = 3; break;
         }
     }
     private void Armor(int level)
@@ -294,4 +306,14 @@ public class Shop : MonoBehaviour
             public float CoffeeDuration;
         }
     }
+    class Tzdaka
+    {
+        public level[] levels = new level[3];
+        [System.Serializable]
+        public class level
+        {
+            public int tzdakaRandom;
+        }
+    }
+
 }

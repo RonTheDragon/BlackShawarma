@@ -17,6 +17,7 @@ public class SOUpgrade : ScriptableObject
         MoreEggplant,
         Armor,
         Coffee,
-        Chili
+        Chili,
+        Tzdaka
     }
 }
