@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System.Collections.Generic;
+using System;
 
 public class SideOrderUI : MonoBehaviour
 {
@@ -17,6 +18,8 @@ public class SideOrderUI : MonoBehaviour
     private Sprite    _guyAngryImage;
     [SerializeField] private Image    _pitaIcon;
     [SerializeField] private Image    _wantedFoodIcon;
+    [SerializeField] private Image    _wantedFoodIconTopLeftBG;
+    [SerializeField] private Image    _wantedFoodIconTopLeft;
     [SerializeField] private Image    _panel;
     [SerializeField] private Image    _angerBar;
     [SerializeField] private Button   _button;
@@ -35,12 +38,15 @@ public class SideOrderUI : MonoBehaviour
         _guyImage.sprite = _guyAngryImage;
         _number.text = $"{enemy.CustomerNumber}";
         _wantedFoodIcon.sprite = enemy.RequestedFood;
+        _wantedFoodIconTopLeft.sprite = enemy.RequestedFood;
+        _wantedFoodIconTopLeftBG.sprite = enemy.RequestedFoodBG;
 
         _enemy =enemy; 
         enemy.OnRageAmountChange += ChangeRageBar;
         enemy.OnBeingShot += ShowRageBar;
         _gm = GameManager.Instance;
         _button.gameObject.SetActive(false);
+        gameObject.SetActive(false);
     }
 
     public void ButtonClick()
@@ -50,6 +56,7 @@ public class SideOrderUI : MonoBehaviour
 
     private void OnDestroy()
     {
+        if (_gm != null)
         _gm.UnMaximizeOrder(this);
     }
 
@@ -62,6 +69,7 @@ public class SideOrderUI : MonoBehaviour
     private void ChangeRageBar(float f,bool tooAngry)
     {
         _angerBar.fillAmount = f;
+        if (!_tooAngry) { _showSecondsLeft = _showForSeconds; }
 
         if (_showSecondsLeft > 0) { _showSecondsLeft -= Time.deltaTime; }
         else if (_tooAngry) { gameObject.SetActive(false); }
@@ -78,6 +86,7 @@ public class SideOrderUI : MonoBehaviour
                 _angerBar.color = Color.red;
                 _button.gameObject.SetActive(false);
                 _pitaIcon.enabled = false;
+                _wantedFoodIconTopLeft.enabled = true;
                 _wantedFoodIcon.enabled = true;
                 foreach (GameObject go in Fillers)
                 {
@@ -96,6 +105,7 @@ public class SideOrderUI : MonoBehaviour
                 _angerBar.color = Color.green;
                 _button.gameObject.SetActive(true);
                 _pitaIcon.enabled = true;
+                _wantedFoodIconTopLeft.enabled = false;
                 _wantedFoodIcon.enabled = false;
                 foreach (BuildOrder.Fillers filler in _enemy.Order)
                 {
@@ -129,5 +139,28 @@ public class SideOrderUI : MonoBehaviour
                 }
             }
         }
+    }
+
+    public Sprite GetPanel()
+    {
+        return _panel.sprite;
+    }
+    public Sprite GetPfp()
+    {
+        return _guyHappyImage;
+    }
+    public Sprite GetFoodBG()
+    {
+        return _wantedFoodIconTopLeftBG.sprite;
+    }
+
+    public float GetBar()
+    {
+        return _angerBar.fillAmount;
+    }
+
+    public int GetNumber()
+    {
+        return _enemy.CustomerNumber;
     }
 }

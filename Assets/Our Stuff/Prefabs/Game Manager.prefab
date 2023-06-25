@@ -665,7 +665,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3807506361775286721}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.667, y: 8.19, z: -3.368}
+  m_LocalPosition: {x: 1.667, y: 0, z: -4.887}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -697,7 +697,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3958112182002989514}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -27.92, y: -1.67, z: 3.96}
+  m_LocalPosition: {x: -25.52, y: 6.15, z: 3.96}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -727,8 +727,8 @@ MonoBehaviour:
   _currentTimeLeft: 0
   _randomTime: {x: 30, y: 40}
   _lanesBase: {fileID: 6694555045971836296}
-  _distanceBetweenLanes: 1.7
-  _distanceInLane: 3
+  _distanceBetweenLanes: 2
+  _distanceInLane: 4.69
   _drawGizmos: 1
   _enemyTypes:
   - {fileID: 0}
@@ -738,6 +738,7 @@ MonoBehaviour:
     Hipster: 0
     OldMan: 0
     Ars: 0
+    Arsit: 0
     Soldier: 0
     Cop: 0
     Mobster: 0
@@ -795,13 +796,13 @@ MonoBehaviour:
     pools:
     - tag: Falafel
       prefab: {fileID: 5537070310990639910, guid: a1e945702a9dc0d44b476d66330ddc0f, type: 3}
-      size: 10
+      size: 3
     - tag: Fries
       prefab: {fileID: 169667496105714945, guid: 58f0513c18d926f499177eacc2097e1a, type: 3}
-      size: 10
+      size: 3
     - tag: Eggplant
       prefab: {fileID: 3554867772766992423, guid: 89d867e4e686d3d4f9fe72a26a058ae7, type: 3}
-      size: 10
+      size: 3
     - tag: Pita
       prefab: {fileID: 2352565801086459199, guid: 7511657bcb151ad45afc99c09aa7b039, type: 3}
       size: 2
@@ -824,6 +825,9 @@ MonoBehaviour:
       size: 20
     - tag: Mobster
       prefab: {fileID: 4293761075693545250, guid: c56ab6a4482a8934fbe4b6cc82c97e08, type: 3}
+      size: 20
+    - tag: Arsit
+      prefab: {fileID: 7296059904902807253, guid: e31802b5cab448e40b3d6298c84eb738, type: 3}
       size: 20
 --- !u!1 &4970565003502546486
 GameObject:
@@ -849,7 +853,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4970565003502546486}
   m_LocalRotation: {x: -0, y: 1, z: -0, w: 0.0000029504295}
-  m_LocalPosition: {x: 3.4, y: 7.61, z: 4.54}
+  m_LocalPosition: {x: 3.525, y: 0, z: 6.86}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -982,12 +986,16 @@ MonoBehaviour:
   MaxTzadokHp: 3
   MaxFillers: 4
   TzadokMaxHP: 4
+  EnemiesBehindCalmerBy: 1.5
+  CalmEnemiesStayCalmBy: 1.5
+  FoodCalmingEffect: 10
   HappyCustomers: 0
   UsedOrder: {fileID: 0}
   EnemySpawner: {fileID: 1493421660946856226}
   NotPlayerLayer:
     serializedVersion: 2
     m_Bits: 1
+  TheShop: {fileID: 0}
 --- !u!114 &4334797393951331528
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1033,8 +1041,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _levels:
   - {fileID: 11400000, guid: 16ee7911accd0ac499472c3f3fe06d9c, type: 2}
-  - {fileID: 11400000, guid: 3f01cbd9cdcb03a4caa4a66a36d08b3c, type: 2}
-  - {fileID: 11400000, guid: 0bd0f6f14be47b64093659b41b40254e, type: 2}
+  - {fileID: 11400000, guid: 4978ddfa5c56034459a7c40e749c780f, type: 2}
+  - {fileID: 11400000, guid: 36da6f037766be641824313c992f2aae, type: 2}
+  - {fileID: 11400000, guid: 5f5ad968e26608042a67461608e659ab, type: 2}
   _spawner: {fileID: 1493421660946856226}
 --- !u!114 &1746950907
 MonoBehaviour:

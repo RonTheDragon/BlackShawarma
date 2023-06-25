@@ -2,7 +2,7 @@ using System;
 using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
-using static UnityEngine.Rendering.DebugUI.Table;
+using UnityEngine.EventSystems;
 
 public class ThirdPersonMovement : MonoBehaviour
 {
@@ -25,6 +25,7 @@ public class ThirdPersonMovement : MonoBehaviour
     [Header("Look")]
     [SerializeField] private Transform _lookAt;
     [SerializeField] private Vector2 _sensitivity;
+    //[SerializeField] private Vector2 _menuSensitivity = new Vector2(1, 10);
     private float _currentSensitivity;
     [SerializeField] private Cinemachine.AxisState _xAxis;
     [SerializeField] private Cinemachine.AxisState _yAxis;
@@ -44,8 +45,8 @@ public class ThirdPersonMovement : MonoBehaviour
     //[Header("Jumping")]
     [Tooltip("The Height of the jumps")]
     float Jump = 20;
-    [Tooltip("The Falling Speed")]
-    float Gravity = 10;
+    //[Tooltip("The Falling Speed")]
+    //float Gravity = 10;
     [Header("Sliding")]
     [Tooltip("on What floor angle we start to slide and cant jump on")]
     float slopeLimit = 45;
@@ -96,11 +97,15 @@ public class ThirdPersonMovement : MonoBehaviour
     Vector3 _boxPosition => CC.transform.position + (Vector3.up * CC.bounds.extents.y) * Y;
     Vector3 _boxSize     => new Vector3(CC.bounds.extents.x + Wide, Height * 2, CC.bounds.extents.z + Wide);
 
+    private GameManager _gm;
+
 
     // Start is called before the first frame update
     void Start()
     {
         SetupMouse();
+        _gm = GameManager.Instance;
+        _gm.OnStartLevel += () => _currentStamina = MaxStamina;
     }
 
     // Update is called once per frame
@@ -129,7 +134,7 @@ public class ThirdPersonMovement : MonoBehaviour
         Vector2 Movement = _movement.normalized; //Get input from player for movem
 
         float targetAngle  = Mathf.Atan2(Movement.x, Movement.y) * Mathf.Rad2Deg + cam.eulerAngles.y; //get where player is looking
-        float Angle        = Mathf.SmoothDampAngle(transform.eulerAngles.y, FreeRoam ? targetAngle : cam.eulerAngles.y, ref _f, _rotateSpeed); //Smoothing
+        float Angle        = Mathf.SmoothDampAngle(transform.eulerAngles.y, FreeRoam ? targetAngle : cam.eulerAngles.y, ref _f, FreeRoam ? _rotateSpeed : 0); //Smoothing
 
         if (!FreeRoam)
         transform.rotation = Quaternion.Euler(0, Angle, 0); //Player rotation
@@ -169,7 +174,7 @@ public class ThirdPersonMovement : MonoBehaviour
                 _currentStamina = MaxStamina;
             }
         }
-        if (Input.GetKey(KeyCode.LeftShift))
+        if (Input.GetKey(KeyCode.LeftShift) && _movement.magnitude > 0)
         {
             _currentStaminaRegenCooldown = _staminaRegenCooldown;
             if (_currentStamina > 0)
@@ -201,7 +206,7 @@ public class ThirdPersonMovement : MonoBehaviour
         if (_freeRoamAfter > 0) _freeRoamAfter -= Time.deltaTime;
         else FreeRoam = true;
 
-        _rig.weight = Mathf.Lerp(_rig.weight, FreeRoam ? 0 : 1, _rigChangeSpeed* Time.deltaTime);
+        _rig.weight = Mathf.Lerp(_rig.weight, FreeRoam ? 0 : 1, (FreeRoam ? _rigChangeSpeed : 100) * Time.deltaTime);
     }
 
     public void StopFreeRoaming()
@@ -218,6 +223,23 @@ public class ThirdPersonMovement : MonoBehaviour
         _currentSensitivity = Mathf.Lerp(_sensitivity.x, _sensitivity.y, PlayerPrefs.GetFloat("Sensitivity"));
         _xAxis.m_MaxSpeed *= _currentSensitivity;
         _yAxis.m_MaxSpeed *= _currentSensitivity;
+
+        //if (!PlayerPrefs.HasKey("Sensitivity2")) { PlayerPrefs.SetFloat("Sensitivity2", 0.5f); }
+        //EventSystem.current.pixelDragThreshold = (int)Mathf.Lerp(_menuSensitivity.x, _menuSensitivity.y, PlayerPrefs.GetFloat("Sensitivity2"));
+    }
+
+    public void MultiplySensitivity(float mult)
+    {
+        float s = _currentSensitivity * mult;
+        _xAxis.m_MaxSpeed *= s;
+        _yAxis.m_MaxSpeed *= s;
+    }
+
+    public void DivideSensitivity(float mult)
+    {
+        float s = _currentSensitivity * mult;
+        _xAxis.m_MaxSpeed /= s;
+        _yAxis.m_MaxSpeed /= s;
     }
 
     private void Look()

@@ -14,6 +14,8 @@ public class UiManager : MonoBehaviour
     private ThirdPersonMovement _movement => player.GetComponent<ThirdPersonMovement>();
     private BuildOrder _bo => player.GetComponent<BuildOrder>();
 
+    private Shop _shop => GetComponent<Shop>();
+
     GameManager _gm;
     LevelTimer _lt;
     Tutorial _tutorial;
@@ -26,6 +28,8 @@ public class UiManager : MonoBehaviour
     [SerializeField] private TMP_Text         MoneyText;
     [SerializeField] private TMP_Text         _loseScreenScore;
 
+    [SerializeField] private Image            _holdInducator;
+
     [Header("Timer")]
     [SerializeField] private Image            _cigar;
     [SerializeField] private RectTransform    _cigarFlame;
@@ -37,7 +41,16 @@ public class UiManager : MonoBehaviour
     [SerializeField] private List<GameObject> _endLevelReset;
     [SerializeField] private GameObject       _pauseMenu;
     [SerializeField] private Image            _enemyInfoUi;
+
+    [Header("Maximized Order")]
+    [SerializeField] private GameObject _baseMaximizedOrder;
+    [SerializeField] private Image _orderPanel;
+    [SerializeField] private Image _orderProfile;
+    [SerializeField] private TMP_Text _orderNumber;
     [SerializeField] private Transform        _maximizedOrder;
+    [SerializeField] private Image _fillBar;
+    [SerializeField] private Image _foodBG;
+    private SideOrderUI _sideOrderMaximized;
 
     [Header("Stamina")]
     [SerializeField] private GameObject TazdokStamina;
@@ -49,6 +62,7 @@ public class UiManager : MonoBehaviour
     [SerializeField] private Image _falafel;
     [SerializeField] private Image _gunWithPita;
     [SerializeField] private List<GameObject> _loadedPitaFillers;
+    [SerializeField] private Transform[] _ammoCounters = new Transform[3];
 
     [SerializeField] private GameObject _shootAmmoPanel;
     [SerializeField] private GameObject _shootPitaPanel;
@@ -58,11 +72,18 @@ public class UiManager : MonoBehaviour
     [SerializeField] private Image _comboTimer;
     [SerializeField] private TMP_Text _currentCombo;
 
+    [Header("Shop")]
+    [SerializeField] private GameObject[] _openOnShop;
+    [SerializeField] private GameObject[] _closeOnShop;
+
 
     private Action _loop;
     //bool isEnemyInfoOpen = false;
 
-
+    private void Awake()
+    {
+        OpenShop(false);
+    }
     // Start is called before the first frame update
     void Start()
     {
@@ -77,6 +98,7 @@ public class UiManager : MonoBehaviour
         _gun.OnPitaAim       += SwitchToPita;
         _gun.OnHasPitaChanging += HasPitaChange;
         _gun.OnExit          += OpenPauseMenu;
+        _gun.OnHold          += HoldUI;
         _bo.OnUseIngridients += UpdateIngridients;
         _bo.OnPitaUpdate     += PitaUpdate;
         _lt.OnSetTimer       += SetTimer;
@@ -86,6 +108,8 @@ public class UiManager : MonoBehaviour
         _gm.OnOrderMaximize  += SetMaximizedOrder;
         _tutorial.FreezeTimer += FreezeTimer;
         _loop += OpenEnemyInfo;
+        _loop += SetMaximizedOrderBar;
+        _gm.OnAmmoUpdate += UpdateAmmoCounter;
         _gm.CM.AddEvent += ComboIncrease;
         _gm.CM.ResetEvent += ResetCombo;
         _gm.CM.TimerEvent += ComboTimer;
@@ -143,7 +167,7 @@ public class UiManager : MonoBehaviour
 
     void UpdateMoney()
     {
-        MoneyText.text = "Joobot = " + _gm.GetMoney().ToString() + "₪";
+        MoneyText.text =_gm.GetMoney().ToString();
     }
 
     void UpdateIngridients(List<Ingredient> ingredients)
@@ -304,17 +328,52 @@ public class UiManager : MonoBehaviour
         
        
     }
-    
-    private void SetMaximizedOrder(List<GameObject> fillers)
+    //ui.Fillers, ui.GetPanel(), ui.GetPfp(),ui.GetFoodBG(),ui.OnUpdateBar,ui.GetNumber()
+    private void SetMaximizedOrder(SideOrderUI ui)
     {
         for (int i = 0; i < _maximizedOrder.childCount; i++)
         {
             _maximizedOrder.GetChild(i).gameObject.SetActive(false);
         }
+        if (ui == null) { _baseMaximizedOrder.SetActive(false); _sideOrderMaximized = null; return; }
 
-        for (int i = 0; i < fillers.Count; i++)
+        _baseMaximizedOrder.SetActive(true);
+        _orderPanel.sprite = ui.GetPanel();
+        _orderProfile.sprite = ui.GetPfp();
+        _orderNumber.text = ui.GetNumber().ToString();
+        _foodBG.sprite = ui.GetFoodBG();
+        _sideOrderMaximized = ui;
+
+        for (int i = 0; i < ui.Fillers.Count; i++)
         {
-            _maximizedOrder.GetChild(i).gameObject.SetActive(fillers[i].activeSelf);
+            _maximizedOrder.GetChild(i).gameObject.SetActive(ui.Fillers[i].activeSelf);
+        }
+    }
+
+    private void UpdateAmmoCounter()
+    {
+        for (int i = 0; i < _gun.AmmoTypes.Count; i++)
+        {
+            int ammo = _gun.AmmoTypes[i].CurrentAmmo;
+            int maxAmmo = _gun.AmmoTypes[i].MaxAmmo;
+            
+            for (int j = 0; j < _ammoCounters[i].childCount; j++)
+            {
+                if (j < maxAmmo)
+                {
+                    _ammoCounters[i].GetChild(j).gameObject.SetActive(true);
+                    _ammoCounters[i].GetChild(j).GetChild(0).gameObject.SetActive(j < ammo);                 
+                }
+                else { break; }
+            }
+        }
+    }
+
+    private void SetMaximizedOrderBar()
+    {
+        if (_sideOrderMaximized != null)
+        {
+            _fillBar.fillAmount = _sideOrderMaximized.GetBar();
         }
     }
 
@@ -326,9 +385,16 @@ public class UiManager : MonoBehaviour
         }
         else
         {
-            TazdokStaminaBar.fillAmount = fill;
+            float f = 0.15f;
+            f +=(fill * 0.7f);
+            TazdokStaminaBar.fillAmount = f;
             TazdokStamina.SetActive(true);
         }
+    }
+
+    private void HoldUI(float fill)
+    {
+        _holdInducator.fillAmount = fill;
     }
         
     private void EndLevel()
@@ -359,6 +425,23 @@ public class UiManager : MonoBehaviour
         Time.timeScale= 1;
         _pauseMenu.SetActive(false);
         _gun.StopUsingStation();
+    }
+
+    public void OpenShop(bool Open)
+    {
+        _shop.HideAllUpgradesUI();
+        _shop.TeleportProductBack();
+
+        foreach (GameObject item in _openOnShop)
+        {
+            item.SetActive(Open);
+        }
+        foreach (GameObject item in _closeOnShop)
+        {
+            item.SetActive(!Open);
+        }
+
+        Time.timeScale = Open ? 1: 0;
     }
 
     public void QuitGame()

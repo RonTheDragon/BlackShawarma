@@ -6,21 +6,24 @@ using System;
 
 public class ShopUpgradeUI : MonoBehaviour
 {
+
     [SerializeField] private TMP_Text  _productName,    _productDescription, _price, _level;
     [SerializeField] private Image     _productPicture, _levelBar;
                      private int       _currentLevel,   _maxLevel;
                      private List<int> _costs;
-    private Button        _button        => _productPicture.GetComponent<Button>();
+    [SerializeField] private Button    _button;     
     private GameManager   _gm            => GameManager.Instance;
     private Action<int>   _onBuy;
-    public void SetupUpgrade(string name, string explain, List<int> costs, Sprite Icon, Action<int> onClickMethod)
+    private SOUpgrade _theUpgradeSO;
+    public void SetupUpgrade(SOUpgrade theUpgradeSO, Action<int> onClickMethod)
     {
-        _productName.text              = name;
-        _productDescription.text       = explain;
-        _costs                         = costs;
-        _maxLevel                      = costs.Count;
+        _theUpgradeSO                   = theUpgradeSO;
+        _productName.text              = _theUpgradeSO.UpgradeName;
+        _productDescription.text       = _theUpgradeSO.UpgradeDescription;
+        _costs                         = _theUpgradeSO.Costs;
+        _maxLevel                      = _theUpgradeSO.Costs.Count;
         _price.text                    = $"{_costs[0]}¤";
-        _productPicture.sprite         = Icon;
+        _productPicture.sprite         = _theUpgradeSO.UpgradeIcon;
         _level.text                    = "Buy";
         _levelBar.fillAmount           = 0;
         _onBuy                         = onClickMethod;
@@ -32,6 +35,7 @@ public class ShopUpgradeUI : MonoBehaviour
         if (_gm.GetMoney() >= _costs[_currentLevel])
         {
             Debug.Log("Baught Upgrade");
+            _gm.OnTryToBuy(true);
             _gm.AddMoney(-_costs[_currentLevel]); // remove money
             _onBuy?.Invoke(_currentLevel);        // Upgrade
 
@@ -52,6 +56,7 @@ public class ShopUpgradeUI : MonoBehaviour
         }
         else
         {
+            _gm.OnTryToBuy(false);
             Debug.Log("Not Enough _money");
         }
     }
@@ -75,5 +80,15 @@ public class ShopUpgradeUI : MonoBehaviour
     public Action<int> GetAction()
     {
         return _onBuy;
+    }
+
+    public SOUpgrade GetSOUpgrade()
+    {
+        return _theUpgradeSO;
+    }
+
+    public int GetLevel()
+    {
+        return _currentLevel;
     }
 }
