@@ -18,7 +18,7 @@ public class Shop : MonoBehaviour
     [SerializeField] private float           _noPointingForAnimDuration=2;
 
     [SerializeField] private List<SOAmmoType> _ammoTypes = new List<SOAmmoType>();
-    Chili chilil;
+    [SerializeField] private Chili _chilil;
 
     private List<ShopUpgradeUI> _upgradesUI = new List<ShopUpgradeUI>();
 
@@ -208,9 +208,9 @@ public class Shop : MonoBehaviour
        
         switch (level)
         {
-            case 0: chilil.Chilis[0].gameObject.SetActive(true); chilil.chiliammount++; break;
-            case 1: chilil.Chilis[1].gameObject.SetActive(true); chilil.chiliammount++; break;
-            case 2: chilil.Chilis[2].gameObject.SetActive(true); chilil.chiliammount++; break;         
+            case 0: _chilil.Chilis[0].gameObject.SetActive(true); _chilil.chiliammount++; _chilil.Activate(); break;
+            case 1: _chilil.Chilis[1].gameObject.SetActive(true); _chilil.chiliammount++; break;
+            case 2: _chilil.Chilis[2].gameObject.SetActive(true); _chilil.chiliammount++; break;         
         }
 
     }

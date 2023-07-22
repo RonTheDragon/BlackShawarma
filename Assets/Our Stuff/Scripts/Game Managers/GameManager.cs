@@ -15,7 +15,7 @@ public class GameManager : MonoBehaviour
     private float _moneyMultiplier=1;
     private int tzdakaMultiplier = 1;
     [HideInInspector] public int tzdakaLvl = 0;
-    [HideInInspector] public bool usedChili = true;
+    [HideInInspector] public bool UsedChili = false;
     
 
     public bool tzdakaActivated = false;

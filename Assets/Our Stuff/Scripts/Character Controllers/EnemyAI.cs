@@ -14,7 +14,7 @@ public class EnemyAI : MonoBehaviour
     [SerializeField] private ParticleSystem _happy;
     [SerializeField] private ParticleSystem _veryHappy;
                      public  int            PlaceInLane, WhichLane;
-    [SerializeField] public  int            ChiliMultiplier = 2;
+    [SerializeField] public  float            ChiliMultiplier = 2;
 
     public bool PassesInLines;
     public bool CantBePassed;
@@ -416,7 +416,7 @@ public class EnemyAI : MonoBehaviour
 
     public void MakeHappier(float amount)
     {
-        if (_gm.usedChili)
+        if (_gm.UsedChili)
         {
            _currentRage -= amount * ChiliMultiplier;
 
