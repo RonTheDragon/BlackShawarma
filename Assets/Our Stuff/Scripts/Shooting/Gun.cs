@@ -200,6 +200,7 @@ public class Gun : MonoBehaviour
     {
         _cd = _coffeeBuf ? CoffeeCD : CoolDown;
         yield return new WaitForSeconds(0.01f);
+        yield return null;
 
         GameObject bullet = ObjectPooler.Instance.SpawnFromPool(CurrentAmmoType.AmmoTag, barrel.position, barrel.rotation);
         CurrentAmmoType.CurrentAmmo--;
@@ -259,6 +260,7 @@ public class Gun : MonoBehaviour
                             }
                         }
                     }
+                    if (interact.NotActive) { StoppedHoveringStation(); }
                     
                 }
                 else
