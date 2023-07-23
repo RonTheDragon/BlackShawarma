@@ -36,7 +36,7 @@ public class ShopUpgradeUI : MonoBehaviour
         {
             Debug.Log("Baught Upgrade");
             _gm.OnTryToBuy(true);
-            _gm.AddMoney(-_costs[_currentLevel]); // remove money
+            _gm.RemoveMoney(_costs[_currentLevel]); // remove money
             _onBuy?.Invoke(_currentLevel);        // Upgrade
 
             _currentLevel++;

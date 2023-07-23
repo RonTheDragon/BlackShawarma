@@ -13,12 +13,9 @@ public class GameManager : MonoBehaviour
     public int TzadokMaxHP = 4;
     private int _money;
     private float _moneyMultiplier=1;
-    private int tzdakaMultiplier = 1;
+    private int tzdakaBonus = 0;
     [HideInInspector] public int tzdakaLvl = 0;
     [HideInInspector] public bool UsedChili = false;
-    
-
-    public bool tzdakaActivated = false;
 
     public float EnemiesBehindCalmerBy = 1.5f;
     public float CalmEnemiesStayCalmBy = 1.5f;
@@ -64,12 +61,15 @@ public class GameManager : MonoBehaviour
 
     public void AddMoney(int m)
     {
-        if(!tzdakaActivated)
-        {
-            TzdakaUpdate();
-        }
-        _money += (int)(m* _moneyMultiplier * tzdakaMultiplier);
-        Debug.Log($"Reward: {m} * {_moneyMultiplier} = {(int)(m * _moneyMultiplier)}");
+        TzdakaUpdate();
+        _money += (int)(m * _moneyMultiplier + tzdakaBonus);
+        Debug.Log($"Reward: {m} * {_moneyMultiplier} + {tzdakaBonus} = {(int)(m * _moneyMultiplier+ tzdakaBonus)}");
+        UpdateMoney?.Invoke();
+    }
+
+    public void RemoveMoney(int m)
+    {
+        _money -= m;
         UpdateMoney?.Invoke();
     }
 
@@ -153,17 +153,21 @@ public class GameManager : MonoBehaviour
 
     public void TzdakaUpdate()
     {
-        if (tzdakaLvl == 1)
+        if (tzdakaLvl == 0)
         {
-            tzdakaMultiplier = Random.Range(1, 3);
+            tzdakaBonus = 0;
         }
-        if (tzdakaLvl == 2)
+        else if (tzdakaLvl == 1)
         {
-            tzdakaMultiplier = Random.Range(7, 13);
+            tzdakaBonus = Random.Range(1, 3);
         }
-        if (tzdakaLvl == 3)
+        else if (tzdakaLvl == 2)
         {
-            tzdakaMultiplier = Random.Range(15, 20);
+            tzdakaBonus = Random.Range(7, 13);
+        }
+        else if (tzdakaLvl == 3)
+        {
+            tzdakaBonus = Random.Range(15, 20);
         }
     }
     public void ChiliUpgrade()

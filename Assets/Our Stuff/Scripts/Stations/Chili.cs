@@ -22,6 +22,7 @@ public class Chili : MonoBehaviour , Interactable
     private bool _notActive;
     private Action _used;
     private Gun _gun;
+    private Collider _collider => GetComponent<Collider>();
 
     private void Start()
     {
@@ -33,6 +34,7 @@ public class Chili : MonoBehaviour , Interactable
         _gun = _gm.Player.GetComponent<Gun>();
         _gm.OnStartLevel += () => _cooldown = -1;
         _notActive = true;
+        _collider.enabled = false;
     }
 
     private void Update()
@@ -61,7 +63,7 @@ public class Chili : MonoBehaviour , Interactable
         _gm.UsedChili = true;
         switch (chiliammount)
         {
-            case 1: Chilis[0].gameObject.SetActive(false);  break;
+            case 1: Chilis[0].gameObject.SetActive(false); _collider.enabled = false; break;
             case 2: Chilis[1].gameObject.SetActive(false);  break;
             case 3: Chilis[2].gameObject.SetActive(false);  break;
 
@@ -83,5 +85,6 @@ public class Chili : MonoBehaviour , Interactable
     public void Activate()
     {
         _notActive = false;
+        _collider.enabled = true;
     }
 }
