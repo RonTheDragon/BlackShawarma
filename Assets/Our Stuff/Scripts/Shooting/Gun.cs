@@ -22,7 +22,7 @@ public class Gun : MonoBehaviour
     [Tooltip("Is the character aiming or not")]
     [ReadOnly][SerializeField] bool isAiming;
     [Tooltip("Player Coffee buff")]
-    [SerializeField] public bool _coffeeBuf = false;
+    private bool _coffeeBuff = false;
     [Tooltip("Too Close To Aim At")]
     [SerializeField] private float _tooClose = 3;
     [Tooltip("Too Close To Aim At")]
@@ -106,6 +106,8 @@ public class Gun : MonoBehaviour
     [SerializeField] private Animator _gunAnimator;
     [SerializeField] private GameObject _pitaModel;
 
+    [SerializeField] private ParticleSystem _coffeeParticles;
+
 
     //Private 
     float _cd;
@@ -136,6 +138,7 @@ public class Gun : MonoBehaviour
         _currentAmmo = 0;
         ammoChanged();
         ChiliParticles(false);
+        SetCoffee(false);
     }
 
     void Update()
@@ -200,7 +203,7 @@ public class Gun : MonoBehaviour
 
     private System.Collections.IEnumerator ShootDelay()
     {
-        _cd = _coffeeBuf ? CoffeeCD : CoolDown;
+        _cd = _coffeeBuff ? CoffeeCD : CoolDown;
         yield return new WaitForSeconds(0.01f);
         yield return null;
 
@@ -540,5 +543,23 @@ public class Gun : MonoBehaviour
         {
             _chiliParticle.Stop();
         }
+    }
+
+    public void SetCoffee(bool coffee)
+    {
+        _coffeeBuff = coffee;
+        if (coffee)
+        {
+            _coffeeParticles.Play();
+        }
+        else
+        {
+            _coffeeParticles.Stop();
+        }
+    }
+
+    public void SetCoffeeCooldown(float cooldown)
+    {
+        CoffeeCD = cooldown;
     }
 }

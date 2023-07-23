@@ -19,6 +19,7 @@ public class Shop : MonoBehaviour
 
     [SerializeField] private List<SOAmmoType> _ammoTypes = new List<SOAmmoType>();
     [SerializeField] private Chili _chilil;
+    [SerializeField] private Coffee _coffee;
 
     private List<ShopUpgradeUI> _upgradesUI = new List<ShopUpgradeUI>();
 
@@ -29,6 +30,8 @@ public class Shop : MonoBehaviour
     private Vector3     _targetPointing;
     private bool        _secondAnimation;
     private float       _currentNoPointing;
+    private Gun _gun;
+    private ThirdPersonMovement _thirdPersonMovement;
 
 
     [SerializeField] private ShopAmmoCount _shopAmmoCount;
@@ -42,6 +45,8 @@ public class Shop : MonoBehaviour
 
         _gm.OnTryToBuy += HomelessAnimations;
         _gm.TakeDamage += () => { if (_gm.MaxTzadokHp == 4) { RemoveUpgradeLevel(SOUpgrade.Upgrade.Armor); _gm.MaxTzadokHp = 3; } };
+        _gun = _gm.Player.GetComponent<Gun>();
+        _thirdPersonMovement = _gm.Player.GetComponent<ThirdPersonMovement>();
     }
 
     private void Update()
@@ -180,11 +185,19 @@ public class Shop : MonoBehaviour
 
         switch (level)
         {
-            case 0: _ammoTypes[2].MaxAmmo = 12; break;
-            case 1: _ammoTypes[2].MaxAmmo = 15; break;
-            case 2: _ammoTypes[2].MaxAmmo = 20; break;
+            case 0: _coffee.gameObject.SetActive(true); UpgradingCoffee(0); break;
+            case 1: UpgradingCoffee(1); break;
+            case 2: UpgradingCoffee(2); break;
         }
     }
+
+    private void UpgradingCoffee(int lvl)
+    {
+        _gun.SetCoffeeCooldown(_coffeeFinjan.levels[lvl].ShootingSpeed);
+        _thirdPersonMovement.SetCoffeeSpeed(_coffeeFinjan.levels[lvl].MoveSpeed);
+        _coffee.UpgradeCoffee(_coffeeFinjan.levels[lvl].CoffeeDuration, _coffeeFinjan.levels[lvl].FinjanCooldown);
+    }
+
     private void UpgradeTzdaka(int level)
     {
         Debug.Log($"Upgraded Tzdaka Level {level}");
@@ -311,8 +324,8 @@ public class Shop : MonoBehaviour
         {
             public float ShootingSpeed;
             public float MoveSpeed;
-            public float FinjanCooldown;
-            public float CoffeeDuration;
+            public int FinjanCooldown;
+            public int CoffeeDuration;
         }
     }
 
