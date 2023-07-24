@@ -256,6 +256,13 @@ public class EnemyAI : MonoBehaviour
         }
     }
 
+    public void EatLafa()
+    {
+        if (_done) return;
+        HappyCustomer();
+        _veryHappy.Emit(1);
+    }
+
     public bool CheckIfPitaCorrect(List<BuildOrder.Fillers> pita)
     {
         bool CorrectOrder = true;

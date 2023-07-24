@@ -1,8 +1,6 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-using Unity.VisualScripting;
 
 public class Chili : MonoBehaviour , Interactable
 {
@@ -10,7 +8,7 @@ public class Chili : MonoBehaviour , Interactable
     [SerializeField] private float _cooldown = 0;
     [SerializeField] private int _defaultCooldown = 10;
     public string Info { get => _info; set => _info = value; }
-    public int chiliammount = 0;
+    public int chiliAmount = 0;
     public bool NotActive { get => _notActive; set => _notActive = value; }
     public int ChiliBuffTime = 10;
     public Action Used { get => _used; set => _used = value; }
@@ -46,7 +44,7 @@ public class Chili : MonoBehaviour , Interactable
         else if (_cooldown< 0)
         {
             _cooldown = 0;
-            if (chiliammount > 0)
+            if (chiliAmount > 0)
             {
                 _notActive = false;
             }
@@ -61,7 +59,7 @@ public class Chili : MonoBehaviour , Interactable
         }
         _used?.Invoke();
         _gm.UsedChili = true;
-        switch (chiliammount)
+        switch (chiliAmount)
         {
             case 1: Chilis[0].gameObject.SetActive(false); _collider.enabled = false; break;
             case 2: Chilis[1].gameObject.SetActive(false);  break;
@@ -70,7 +68,7 @@ public class Chili : MonoBehaviour , Interactable
             default:
                 break;
         }
-         chiliammount--;
+         chiliAmount--;
         Invoke("ChiliBuffHandler", ChiliBuffTime);
         _cooldown = _defaultCooldown;
         _notActive = true;

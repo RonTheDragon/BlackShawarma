@@ -18,6 +18,7 @@ public class SOUpgrade : ScriptableObject
         Armor,
         Coffee,
         Chili,
-        Tzdaka
+        Tzdaka,
+        Lafa
     }
 }

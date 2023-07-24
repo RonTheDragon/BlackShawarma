@@ -61,11 +61,13 @@ public class UiManager : MonoBehaviour
     [SerializeField] private Image _fries;
     [SerializeField] private Image _falafel;
     [SerializeField] private Image _gunWithPita;
+    [SerializeField] private Image _gunWithLafa;
     [SerializeField] private List<GameObject> _loadedPitaFillers;
     [SerializeField] private Transform[] _ammoCounters = new Transform[3];
 
     [SerializeField] private GameObject _shootAmmoPanel;
     [SerializeField] private GameObject _shootPitaPanel;
+    [SerializeField] private GameObject _shootLafaPanel;
 
     [Header("Combo")]
     [SerializeField] private GameObject _comboPanel;
@@ -96,6 +98,7 @@ public class UiManager : MonoBehaviour
         _gun.infoUpdate      += UpdateInfo;
         _gun.OnSwitchWeapon  += SwitchAmmoType;
         _gun.OnPitaAim       += SwitchToPita;
+        _gun.OnLafaAim       += SwitchToLafa;
         _gun.OnHasPitaChanging += HasPitaChange;
         _gun.OnExit          += OpenPauseMenu;
         _gun.OnHold          += HoldUI;
@@ -134,6 +137,7 @@ public class UiManager : MonoBehaviour
         Ammo.text  = $"{a.CurrentAmmo}/{a.MaxAmmo}";
         _shootAmmoPanel.SetActive(true);
         _shootPitaPanel.SetActive(false);
+        _shootLafaPanel.SetActive(false);
 
         _eggplant.enabled = false;
         _fries.enabled = false;
@@ -153,24 +157,37 @@ public class UiManager : MonoBehaviour
         }
     }
 
-    private void HasPitaChange(bool hasPita)
+    private void HasPitaChange(int whatHas) // 0 = Nothing , 1 = Pita , 2 = Lafa
     {
-        _gunWithPita.enabled = hasPita;
+        switch (whatHas)
+        {
+            case (0): _gunWithPita.enabled = false; _gunWithLafa.enabled = false; break;
+            case (1): _gunWithPita.enabled = true; _gunWithLafa.enabled = false; break;
+            case (2): _gunWithPita.enabled = false; _gunWithLafa.enabled = true; break;
+        }
     }
 
-    void SwitchToPita(List<BuildOrder.Fillers> pita)
+    private void SwitchToPita(List<BuildOrder.Fillers> pita)
     {
         PitaEdit(ref _loadedPitaFillers, pita);
         _shootAmmoPanel.SetActive(false);
         _shootPitaPanel.SetActive(true);
+        _shootLafaPanel.SetActive(false);
     }
 
-    void UpdateMoney()
+    private void SwitchToLafa()
+    {
+        _shootAmmoPanel.SetActive(false);
+        _shootPitaPanel.SetActive(false);
+        _shootLafaPanel.SetActive(true);
+    }
+
+    private void UpdateMoney()
     {
         MoneyText.text =_gm.GetMoney().ToString();
     }
 
-    void UpdateIngridients(List<Ingredient> ingredients)
+    private void UpdateIngridients(List<Ingredient> ingredients)
     {
         for (int i = 0; i < Fillers.Count; i++)
         {

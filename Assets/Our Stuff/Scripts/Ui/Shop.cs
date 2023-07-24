@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
-using static Cinemachine.DocumentationSortingAttribute;
 
 public class Shop : MonoBehaviour
 {
@@ -19,6 +18,7 @@ public class Shop : MonoBehaviour
 
     [SerializeField] private List<SOAmmoType> _ammoTypes = new List<SOAmmoType>();
     [SerializeField] private Chili _chilil;
+    [SerializeField] private LafaPile _lafas;
     [SerializeField] private Coffee _coffee;
 
     private List<ShopUpgradeUI> _upgradesUI = new List<ShopUpgradeUI>();
@@ -45,6 +45,8 @@ public class Shop : MonoBehaviour
 
         _gm.OnTryToBuy += HomelessAnimations;
         _gm.TakeDamage += () => { if (_gm.MaxTzadokHp == 4) { RemoveUpgradeLevel(SOUpgrade.Upgrade.Armor); _gm.MaxTzadokHp = 3; } };
+        _chilil.Used += () => RemoveUpgradeLevel(SOUpgrade.Upgrade.Chili);
+        _lafas.Used += () => RemoveUpgradeLevel(SOUpgrade.Upgrade.Lafa);
         _gun = _gm.Player.GetComponent<Gun>();
         _thirdPersonMovement = _gm.Player.GetComponent<ThirdPersonMovement>();
     }
@@ -140,7 +142,7 @@ public class Shop : MonoBehaviour
             case SOUpgrade.Upgrade.Chili:        return Chili;
             case SOUpgrade.Upgrade.Coffee:       return UpgradeCoffee;
             case SOUpgrade.Upgrade.Tzdaka:       return UpgradeTzdaka;
-
+            case SOUpgrade.Upgrade.Lafa:         return Lafa;
 
         }
         return null;
@@ -152,9 +154,9 @@ public class Shop : MonoBehaviour
 
         switch (level)
         {
-            case 0: _ammoTypes[0].MaxAmmo = 12; break;
-            case 1: _ammoTypes[0].MaxAmmo = 15; break;
-            case 2: _ammoTypes[0].MaxAmmo = 20; break;
+            case 0: _ammoTypes[0].MaxAmmo = _shopAmmoCount.AmmoAmounts[0]; break;
+            case 1: _ammoTypes[0].MaxAmmo = _shopAmmoCount.AmmoAmounts[1]; break;
+            case 2: _ammoTypes[0].MaxAmmo = _shopAmmoCount.AmmoAmounts[2]; break;
         }
     }
     private void UpgradeFries(int level)
@@ -164,8 +166,8 @@ public class Shop : MonoBehaviour
         switch (level)
         {
             case 0: _ammoTypes[1].MaxAmmo = _shopAmmoCount.AmmoAmounts[0]; break;
-            case 1: _ammoTypes[1].MaxAmmo = 15; break;
-            case 2: _ammoTypes[1].MaxAmmo = 20; break;
+            case 1: _ammoTypes[1].MaxAmmo = _shopAmmoCount.AmmoAmounts[1]; ; break;
+            case 2: _ammoTypes[1].MaxAmmo = _shopAmmoCount.AmmoAmounts[2]; break;
         }
     }
     private void UpgradeEggplant(int level)
@@ -174,9 +176,9 @@ public class Shop : MonoBehaviour
 
         switch (level)
         {
-            case 0: _ammoTypes[2].MaxAmmo = 12; break;
-            case 1: _ammoTypes[2].MaxAmmo = 15; break;
-            case 2: _ammoTypes[2].MaxAmmo = 20; break;
+            case 0: _ammoTypes[2].MaxAmmo = _shopAmmoCount.AmmoAmounts[0]; break;
+            case 1: _ammoTypes[2].MaxAmmo = _shopAmmoCount.AmmoAmounts[1]; break;
+            case 2: _ammoTypes[2].MaxAmmo = _shopAmmoCount.AmmoAmounts[2]; break;
         }
     }
     private void UpgradeCoffee(int level)
@@ -221,9 +223,25 @@ public class Shop : MonoBehaviour
        
         switch (level)
         {
-            case 0: _chilil.Chilis[0].gameObject.SetActive(true); _chilil.chiliammount++; _chilil.Activate(); break;
-            case 1: _chilil.Chilis[1].gameObject.SetActive(true); _chilil.chiliammount++; break;
-            case 2: _chilil.Chilis[2].gameObject.SetActive(true); _chilil.chiliammount++; break;         
+            case 0: _chilil.Chilis[0].gameObject.SetActive(true); _chilil.chiliAmount++; _chilil.Activate(); break;
+            case 1: _chilil.Chilis[1].gameObject.SetActive(true); _chilil.chiliAmount++; break;
+            case 2: _chilil.Chilis[2].gameObject.SetActive(true); _chilil.chiliAmount++; break;         
+        }
+
+    }
+
+    private void Lafa(int level)
+    {
+        Debug.Log($"Upgraded Lafa Level {level}");
+
+        switch (level)
+        {
+            case 0: _lafas.Lafas[0].gameObject.SetActive(true); _lafas.LafaAmount++; _lafas.Activate(); break;
+            case 1: _lafas.Lafas[1].gameObject.SetActive(true); _lafas.LafaAmount++; break;
+            case 2: _lafas.Lafas[2].gameObject.SetActive(true); _lafas.LafaAmount++; break;
+            case 3: _lafas.Lafas[3].gameObject.SetActive(true); _lafas.LafaAmount++; break;
+            case 4: _lafas.Lafas[4].gameObject.SetActive(true); _lafas.LafaAmount++; break;
+            case 5: _lafas.Lafas[5].gameObject.SetActive(true); _lafas.LafaAmount++; break;
         }
 
     }

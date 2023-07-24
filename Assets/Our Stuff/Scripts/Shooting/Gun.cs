@@ -59,7 +59,7 @@ public class Gun : MonoBehaviour
     private CinemachineImpulseSource _cis => GetComponent<CinemachineImpulseSource>();
 
     private BuildOrder _buildOrder => GetComponent<BuildOrder>();
-    private LevelTimer _levelTimer => _gm.GetComponent<LevelTimer>();
+   // private LevelTimer _levelTimer => _gm.GetComponent<LevelTimer>();
 
     private LevelManager _levelManager => _gm.GetComponent<LevelManager>();
 
@@ -88,13 +88,17 @@ public class Gun : MonoBehaviour
 
     public Action OnExit;
 
-    public Action<bool> OnHasPitaChanging;
+    public Action<int> OnHasPitaChanging;
 
     public Action<float> OnHold;
 
     public Action<SOAmmoType> OnSwitchWeapon;
 
     public Action<List<BuildOrder.Fillers>> OnPitaAim;
+
+    public Action OnLafaAim;
+
+    public Action OnLafaShoot;
 
     List<BuildOrder.Fillers> _currentPita = new List<BuildOrder.Fillers>();
 
@@ -115,6 +119,7 @@ public class Gun : MonoBehaviour
 
     public bool UsingUI;
     bool _hasPita = false;
+    bool _hasLafa = false;
 
     void Start()
     {
@@ -171,11 +176,12 @@ public class Gun : MonoBehaviour
 
         if (Input.GetMouseButton(0) && _cd <= 0 && !UsingUI) // When shoot
         {
-            if (_hasPita && isAiming)
+            if (_hasLafa && isAiming)
             {
-                tpm.AddForce(-transform.forward, _pitaKnockback * _currentPita.Count);
-                tpm.AddLookTorque(Vector2.down, _recoil * _currentPita.Count);
-                _cis.GenerateImpulse(_recoil * _currentPita.Count);
+                LafaShoot();
+            }
+            else if (_hasPita && isAiming)
+            {
                 PitaShoot();
             }
             else
@@ -339,9 +345,13 @@ public class Gun : MonoBehaviour
     {
         if (AmmoTypes.Count > 1 && !UsingUI)
         {
-            if (_hasPita && isAiming)
+            if (_hasLafa && isAiming)
             {
-                lineRenderer.material = PitaTrajectoryMaterial;
+                OnLafaAim?.Invoke();
+            }
+            else if (_hasPita && isAiming)
+            {
+                //lineRenderer.material = PitaTrajectoryMaterial;
                 OnPitaAim?.Invoke(_currentPita);
             }
             else
@@ -495,16 +505,28 @@ public class Gun : MonoBehaviour
     private void PitaShoot()
     {
         _hasPita = false;
-        OnHasPitaChanging?.Invoke(_hasPita);
+        OnHasPitaChanging?.Invoke(0);
         _cd = CoolDown;
         _gunAnimator.SetTrigger("Hamsa");
         StartCoroutine("PitaShootDelay");
     }
 
+    private void LafaShoot()
+    {
+        _hasLafa = false;
+        OnLafaShoot?.Invoke();
+        OnHasPitaChanging?.Invoke(_hasPita? 1:0);
+        _cd = CoolDown;
+        _gunAnimator.SetTrigger("Hamsa");
+        StartCoroutine("LafaShootDelay");
+    }
+
     private void ClearOnStart()
     {
         _hasPita = false;
-        OnHasPitaChanging?.Invoke(_hasPita);
+        _hasLafa = false;
+        OnLafaShoot?.Invoke();
+        OnHasPitaChanging?.Invoke(0);
     }
 
     private System.Collections.IEnumerator PitaShootDelay()
@@ -512,19 +534,31 @@ public class Gun : MonoBehaviour
         yield return new WaitForSeconds(0.17f);
         _pitaModel.SetActive(false);
         GameObject pita = ObjectPooler.Instance.SpawnFromPool("Pita", barrel.position, barrel.rotation);
+        tpm.AddForce(-transform.forward, _pitaKnockback * _currentPita.Count);
+        tpm.AddLookTorque(Vector2.down, _recoil * _currentPita.Count);
+        _cis.GenerateImpulse(_recoil * _currentPita.Count);
         Pita a = pita.GetComponent<Pita>();
         List<BuildOrder.Fillers> temp = new List<BuildOrder.Fillers>(_currentPita);
         a.Ingridients = temp;
         _currentPita.Clear();
         ammoChanged();
     }
+    private System.Collections.IEnumerator LafaShootDelay()
+    {
+        yield return new WaitForSeconds(0.17f);
+        ObjectPooler.Instance.SpawnFromPool("Lafa", barrel.position, barrel.rotation);
+        tpm.AddForce(-transform.forward, _pitaKnockback * 4);
+        tpm.AddLookTorque(Vector2.down, _recoil * 4);
+        _cis.GenerateImpulse(_recoil * 4);
+    }
+
 
     public void SetPita(List<BuildOrder.Fillers> f)
     {
         _currentPita = f;
         _pitaModel.SetActive(true);
         _hasPita = true;
-        OnHasPitaChanging?.Invoke(_hasPita);
+        OnHasPitaChanging?.Invoke(_hasLafa ? 2 : 1);
         StoppedHoveringStation();
     }
 
@@ -561,5 +595,11 @@ public class Gun : MonoBehaviour
     public void SetCoffeeCooldown(float cooldown)
     {
         CoffeeCD = cooldown;
+    }
+
+    public void SetLafa(bool lafa)
+    {
+        _hasLafa = lafa;
+        OnHasPitaChanging?.Invoke(2);
     }
 }

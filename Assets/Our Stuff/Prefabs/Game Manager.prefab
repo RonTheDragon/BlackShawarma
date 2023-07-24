@@ -806,6 +806,9 @@ MonoBehaviour:
     - tag: Pita
       prefab: {fileID: 2352565801086459199, guid: 7511657bcb151ad45afc99c09aa7b039, type: 3}
       size: 2
+    - tag: Lafa
+      prefab: {fileID: 5380007570641628341, guid: ca382ce030a5e9a439af7336b1db0d2b, type: 3}
+      size: 2
   - GroupName: Enemies
     pools:
     - tag: FalafelGuy
@@ -986,6 +989,8 @@ MonoBehaviour:
   MaxTzadokHp: 3
   MaxFillers: 4
   TzadokMaxHP: 4
+  tzdakaLvl: 0
+  UsedChili: 0
   EnemiesBehindCalmerBy: 1.5
   CalmEnemiesStayCalmBy: 1.5
   FoodCalmingEffect: 10
