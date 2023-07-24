@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -122,7 +121,7 @@ public class GameManager : MonoBehaviour
     #endregion
     public void DidWeWin()
     {
-        if (EnemySpawner.HowManyEnemiesInTheStore() == 0 && LvlTimer.IsDone == true && _tzadokHp > 0)
+        if (EnemySpawner.HowManyEnemiesInTheStore() == 0 && LvlTimer.GetIsTimeDone() == true && _tzadokHp > 0)
         {
             OnVictoryScreen?.Invoke();
             OnEndLevel?.Invoke();
@@ -169,9 +168,5 @@ public class GameManager : MonoBehaviour
         {
             tzdakaBonus = Random.Range(15, 20);
         }
-    }
-    public void ChiliUpgrade()
-    {
-
     }
 }

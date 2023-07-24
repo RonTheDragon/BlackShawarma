@@ -8,7 +8,7 @@ public class LevelTimer : MonoBehaviour
     public Action<float> OnSetTimer;
 
     public Action OnTimerDone;
-    public bool IsDone = false;
+    private bool _bIsDone = false;
 
     private GameManager _gm => GameManager.Instance;
     
@@ -16,12 +16,12 @@ public class LevelTimer : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        OnTimerDone += () => { Debug.Log("Timer Done"); IsDone = true; _gm.DidWeWin(); };
+        OnTimerDone += () => { Debug.Log("Timer Done"); _bIsDone = true; _gm.DidWeWin(); };
     }
 
     public void StartTimer(float time)
     {
-        IsDone    = false;
+        _bIsDone    = false;
         TimeLeft= time;
         OnSetTimer?.Invoke(time);
         Time.timeScale = 1;
@@ -31,5 +31,10 @@ public class LevelTimer : MonoBehaviour
     public void SetTimerTo0()
     {
         TimeLeft = 0;
+    }
+
+    public bool GetIsTimeDone()
+    {
+        return _bIsDone;
     }
 }

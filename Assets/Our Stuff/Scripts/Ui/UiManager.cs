@@ -245,7 +245,7 @@ public class UiManager : MonoBehaviour
         float fa = 1 -(_lt.TimeLeft / _fullTime);
         _cigar.fillAmount = Mathf.Lerp(1, 0.28f, fa);
         _cigarFlame.localPosition = new Vector3(Mathf.Lerp(510.4f, 205.8f, fa), _cigarFlame.localPosition.y, 0);
-        if (_lt.TimeLeft < 0) { _lt.OnTimerDone?.Invoke(); _loop -= UpdateCigar; }
+        if (_lt.TimeLeft < 0) { _lt.OnTimerDone?.Invoke(); if (_lt.GetIsTimeDone()) { _loop -= UpdateCigar; } }
     }
 
     private void SetTimer(float fullTime)

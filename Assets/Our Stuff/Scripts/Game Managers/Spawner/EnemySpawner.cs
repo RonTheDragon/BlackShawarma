@@ -44,6 +44,8 @@ public class EnemySpawner : MonoBehaviour
 
     void SpawnerTimer()
     {
+        if (_maxEnemyInGame == 0) return;
+
         if (_currentTimeLeft > 0)
         {
             _currentTimeLeft -= Time.deltaTime;

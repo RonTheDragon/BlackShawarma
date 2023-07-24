@@ -19,6 +19,7 @@ public class SOUpgrade : ScriptableObject
         Coffee,
         Chili,
         Tzdaka,
-        Lafa
+        Lafa,
+        Cola
     }
 }

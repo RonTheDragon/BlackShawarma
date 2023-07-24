@@ -20,6 +20,7 @@ public class Shop : MonoBehaviour
     [SerializeField] private Chili _chilil;
     [SerializeField] private LafaPile _lafas;
     [SerializeField] private Coffee _coffee;
+    [SerializeField] private Cola _cola;
 
     private List<ShopUpgradeUI> _upgradesUI = new List<ShopUpgradeUI>();
 
@@ -47,6 +48,7 @@ public class Shop : MonoBehaviour
         _gm.TakeDamage += () => { if (_gm.MaxTzadokHp == 4) { RemoveUpgradeLevel(SOUpgrade.Upgrade.Armor); _gm.MaxTzadokHp = 3; } };
         _chilil.Used += () => RemoveUpgradeLevel(SOUpgrade.Upgrade.Chili);
         _lafas.Used += () => RemoveUpgradeLevel(SOUpgrade.Upgrade.Lafa);
+        _cola.Used += () => RemoveUpgradeLevel(SOUpgrade.Upgrade.Cola);
         _gun = _gm.Player.GetComponent<Gun>();
         _thirdPersonMovement = _gm.Player.GetComponent<ThirdPersonMovement>();
     }
@@ -143,6 +145,7 @@ public class Shop : MonoBehaviour
             case SOUpgrade.Upgrade.Coffee:       return UpgradeCoffee;
             case SOUpgrade.Upgrade.Tzdaka:       return UpgradeTzdaka;
             case SOUpgrade.Upgrade.Lafa:         return Lafa;
+            case SOUpgrade.Upgrade.Cola:         return Cola;
 
         }
         return null;
@@ -244,6 +247,12 @@ public class Shop : MonoBehaviour
             case 5: _lafas.Lafas[5].gameObject.SetActive(true); _lafas.LafaAmount++; break;
         }
 
+    }
+
+    private void Cola(int level)
+    {
+        Debug.Log($"Upgraded Cola Level {level}");
+        _cola.Activate();
     }
 
 
