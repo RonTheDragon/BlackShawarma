@@ -109,6 +109,7 @@ public class Gun : MonoBehaviour
 
     [SerializeField] private Animator _gunAnimator;
     [SerializeField] private GameObject _pitaModel;
+    [SerializeField] private GameObject _lafaModel;
 
     [SerializeField] private ParticleSystem _coffeeParticles;
 
@@ -525,6 +526,8 @@ public class Gun : MonoBehaviour
     {
         _hasPita = false;
         _hasLafa = false;
+        _pitaModel.SetActive(false);
+        _lafaModel.SetActive(false);
         OnLafaShoot?.Invoke();
         OnHasPitaChanging?.Invoke(0);
     }
@@ -546,26 +549,38 @@ public class Gun : MonoBehaviour
     private System.Collections.IEnumerator LafaShootDelay()
     {
         yield return new WaitForSeconds(0.17f);
+        _lafaModel.SetActive(false);
         ObjectPooler.Instance.SpawnFromPool("Lafa", barrel.position, barrel.rotation);
         tpm.AddForce(-transform.forward, _pitaKnockback * 4);
         tpm.AddLookTorque(Vector2.down, _recoil * 4);
         _cis.GenerateImpulse(_recoil * 4);
-    }
-
-
-    public void SetPita(List<BuildOrder.Fillers> f)
-    {
-        _currentPita = f;
-        _pitaModel.SetActive(true);
-        _hasPita = true;
-        OnHasPitaChanging?.Invoke(_hasLafa ? 2 : 1);
-        StoppedHoveringStation();
+        if (_hasPita)
+        {
+            _pitaModel.SetActive(true);
+        }
     }
 
     public List<BuildOrder.Fillers> GetPita()
     {
         return _currentPita;
     }
+
+    public void SetPita(List<BuildOrder.Fillers> f)
+    {
+        _currentPita = f;
+        _pitaModel.SetActive(!_hasLafa);
+        _hasPita = true;
+        OnHasPitaChanging?.Invoke(_hasLafa ? 2 : 1);
+        StoppedHoveringStation();
+    }
+    public void SetLafa(bool lafa)
+    {
+        _hasLafa = lafa;
+        _pitaModel.SetActive(false);
+        _lafaModel.SetActive(true);
+        OnHasPitaChanging?.Invoke(2);
+    }
+
 
     public void ChiliParticles(bool on)
     {
@@ -597,9 +612,4 @@ public class Gun : MonoBehaviour
         CoffeeCD = cooldown;
     }
 
-    public void SetLafa(bool lafa)
-    {
-        _hasLafa = lafa;
-        OnHasPitaChanging?.Invoke(2);
-    }
 }
