@@ -29,6 +29,9 @@ public class FoodStation : MonoBehaviour , HoldInteractable
 
     private GameManager _gm;
 
+    public string NotActiveInfo { get => _notActiveInfo; set => _notActiveInfo = value; }
+    private string _notActiveInfo;
+
     private void Start()
     {
         _gm = GameManager.Instance;
@@ -79,5 +82,9 @@ public class FoodStation : MonoBehaviour , HoldInteractable
             _info = _useInfo;
             _holdToUse = false;
         }
+    }
+    public void UpdateInfo()
+    {
+
     }
 }

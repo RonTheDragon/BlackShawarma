@@ -48,8 +48,14 @@ public class Refill : MonoBehaviour, Interactable
     [SerializeField] private Animator _anim;
     [SerializeField] private ParticleSystem _particle;
 
+    public string NotActiveInfo { get => _notActiveInfo; set => _notActiveInfo = value; }
+    private string _notActiveInfo;
+    [SerializeField] private string _cantUseBecauseFull;
+    [SerializeField] private string _cantUseBecauseTimer;
+    private float _infoUpdateCooldown;
+
     //private Transform _playerLocation;
-    private Gun _gun;
+    //private Gun _gun;
     private GameManager _gm;
 
    // private SOAmmoType _selectedFood;
@@ -61,7 +67,7 @@ public class Refill : MonoBehaviour, Interactable
         _gm.OnPlaceDownSack += () => _notActive = false;
         _gm.OnStartLevel += ResetStation;
        // _playerLocation = _gm.Player.transform;
-        _gun = _gm.Player.GetComponent<Gun>();
+        //_gun = _gm.Player.GetComponent<Gun>();
         //foreach (SOAmmoType i in _gun.AmmoTypes)
         //{
         //    if (i.FoodType == _type.FoodType)
@@ -76,6 +82,10 @@ public class Refill : MonoBehaviour, Interactable
         //FillPlayer();
         Cooking();
         stationUI();
+        if (_infoUpdateCooldown > 0)
+        {
+            _infoUpdateCooldown -= Time.deltaTime;
+        }
         //if (UseOption1)
         //{
         //    Working();
@@ -274,4 +284,20 @@ public class Refill : MonoBehaviour, Interactable
     //        }
     //    }
     //}
+
+    public void UpdateInfo()
+    {
+        if (_infoUpdateCooldown <= 0)
+        {
+            _infoUpdateCooldown = 1;
+            if (_type.CurrentAmmo == _type.MaxAmmo)
+            {
+                _notActiveInfo = _cantUseBecauseFull;
+            }
+            else if (_currentCooking > 0)
+            {
+                _notActiveInfo = $"{(int)_currentCooking} {_cantUseBecauseTimer}";
+            }
+        }
+    }
 }

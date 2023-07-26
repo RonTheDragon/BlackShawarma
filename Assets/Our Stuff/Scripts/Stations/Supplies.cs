@@ -19,10 +19,15 @@ public class Supplies : MonoBehaviour, HoldInteractable
 
     private GameManager _gm;
 
+    public string NotActiveInfo { get => _notActiveInfo; set => _notActiveInfo = value; }
+    private string _notActiveInfo;
+    [SerializeField] private string _whyCantUse;
+
     private void Start()
     {
         _gm = GameManager.Instance;
         _gm.OnPlaceDownSack += () => _notActive = false;
+        _notActiveInfo = _whyCantUse;
     }
 
     public void Use(GameObject player)
@@ -38,5 +43,10 @@ public class Supplies : MonoBehaviour, HoldInteractable
             _notActive = true;
             _gm.OnPickUpSack?.Invoke();
         }
+    }
+
+    public void UpdateInfo()
+    {
+
     }
 }

@@ -1,9 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using System;
 using UnityEngine.UI;
-using System.Runtime.InteropServices;
 
 public class Coffee : MonoBehaviour, Interactable
 {
@@ -22,6 +19,10 @@ public class Coffee : MonoBehaviour, Interactable
     public bool NotActive { get => _notActive; set => _notActive = value; }
     private Action _used;
     public Action Used { get => _used; set => _used = value; }
+    public string NotActiveInfo { get => _notActiveInfo; set => _notActiveInfo = value; }
+    private string _notActiveInfo;
+    [SerializeField] private string _whyCantUse;
+    private float _infoUpdateCooldown;
 
     private void Start()
     {
@@ -42,7 +43,14 @@ public class Coffee : MonoBehaviour, Interactable
             _notActive = false;
             _fillable.fillAmount = 1;
         }
+        if (_infoUpdateCooldown > 0)
+        {
+            _infoUpdateCooldown -= Time.deltaTime;
+        }
     }
+
+
+    
 
     public void Use(GameObject player)
     {
@@ -82,6 +90,18 @@ public class Coffee : MonoBehaviour, Interactable
         if (_cooldown>0)
         {
             _fillable.fillAmount = 1 - (_cooldown / (_defaultCooldown + coffeeBuffTime));
+        }
+    }
+
+    public void UpdateInfo()
+    {
+        if (_infoUpdateCooldown <= 0)
+        {
+            _infoUpdateCooldown = 1;
+            if (_cooldown > 0)
+            {
+                _notActiveInfo = $"{(int)_cooldown} {_whyCantUse}";
+            }
         }
     }
 }

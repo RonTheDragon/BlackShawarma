@@ -24,6 +24,7 @@ public class UiManager : MonoBehaviour
     [SerializeField] private List<GameObject> InsidePitaFiller;
 
     [SerializeField] private TMP_Text         Info;
+    [SerializeField] private TMP_Text         InfoNA;
     [SerializeField] private TMP_Text         Ammo;
     [SerializeField] private TMP_Text         MoneyText;
     [SerializeField] private TMP_Text         _loseScreenScore;
@@ -69,6 +70,8 @@ public class UiManager : MonoBehaviour
     [SerializeField] private GameObject _shootPitaPanel;
     [SerializeField] private GameObject _shootLafaPanel;
 
+    [SerializeField] private GameObject _outOfAmmo;
+
     [Header("Combo")]
     [SerializeField] private GameObject _comboPanel;
     [SerializeField] private Image _comboTimer;
@@ -96,6 +99,8 @@ public class UiManager : MonoBehaviour
         _gm.UpdateMoney      += UpdateMoney;
         _gm.UpdateTazdokHp   += UpdateTazdokHPUI;
         _gun.infoUpdate      += UpdateInfo;
+        _gun.infoUpdateNA    += UpdateInfoNA;
+        _gun.OutOfAmmo       += UpdateOutOfAmmo;
         _gun.OnSwitchWeapon  += SwitchAmmoType;
         _gun.OnPitaAim       += SwitchToPita;
         _gun.OnLafaAim       += SwitchToLafa;
@@ -128,6 +133,18 @@ public class UiManager : MonoBehaviour
     void UpdateInfo(string info)
     {
         Info.text = info;
+        InfoNA.text = string.Empty;
+    }
+
+    void UpdateInfoNA(string info)
+    {
+        InfoNA.text = info;
+        Info.text = string.Empty;
+    }
+
+    void UpdateOutOfAmmo(bool b)
+    {
+        _outOfAmmo.SetActive(b);
     }
 
     void SwitchAmmoType(SOAmmoType a)

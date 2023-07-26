@@ -13,7 +13,10 @@ public class Chili : MonoBehaviour , Interactable
     public int ChiliBuffTime = 10;
     public Action Used { get => _used; set => _used = value; }
     public List<GameObject> Chilis = new List<GameObject>(3);
+    public string NotActiveInfo { get => _notActiveInfo; set => _notActiveInfo = value; }
+    private string _notActiveInfo;
 
+    [SerializeField] private string _whyCantUse;
 
 
     private GameManager _gm;
@@ -33,6 +36,7 @@ public class Chili : MonoBehaviour , Interactable
         _gm.OnStartLevel += () => _cooldown = -1;
         _notActive = true;
         _collider.enabled = false;
+        _notActiveInfo = _whyCantUse;
     }
 
     private void Update()
@@ -84,5 +88,10 @@ public class Chili : MonoBehaviour , Interactable
     {
         _notActive = false;
         _collider.enabled = true;
+    }
+
+    public void UpdateInfo()
+    {
+
     }
 }

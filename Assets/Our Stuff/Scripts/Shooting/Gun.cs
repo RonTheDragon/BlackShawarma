@@ -78,11 +78,16 @@ public class Gun : MonoBehaviour
     [Header("HoldToUse")]
     [ReadOnly][SerializeField] private float _heldDuration = 0;
 
+    private float _outOfAmmoShowTime;
+
     //[SerializeField] TMP_Text Info;
     //Event
     Action _loop;
 
     public Action<string> infoUpdate;
+    public Action<string> infoUpdateNA;
+
+    public Action<bool> OutOfAmmo;
 
     public Action<GameObject> OnUse;
 
@@ -134,6 +139,7 @@ public class Gun : MonoBehaviour
         _loop += AmmoSwitching;
         _loop += DrawRope;
         _loop += DrawCursor;
+        _loop += OutOfAmmoTimer;
         //_loop += DrawProjection;
 
         _gm.OnVictoryScreen += StartUsingStation;
@@ -145,6 +151,7 @@ public class Gun : MonoBehaviour
         ammoChanged();
         ChiliParticles(false);
         SetCoffee(false);
+        OutOfAmmo?.Invoke(false);
     }
 
     void Update()
@@ -195,6 +202,8 @@ public class Gun : MonoBehaviour
                 else
                 {
                     //play the empty gun sound, if the sound is not playing already.
+                    OutOfAmmo?.Invoke(true);
+                    _outOfAmmoShowTime = 1;
                 }
             }
 
@@ -241,6 +250,8 @@ public class Gun : MonoBehaviour
                 Interactable interact = hit.transform.GetComponent<Interactable>();
                 if (interact != null)
                 {
+                    interact.UpdateInfo();
+
                     if (!UsingUI && !interact.NotActive)
                     {
                         infoUpdate?.Invoke(interact.Info);
@@ -272,7 +283,7 @@ public class Gun : MonoBehaviour
                             }
                         }
                     }
-                    if (interact.NotActive) { StoppedHoveringStation(); }
+                    if (interact.NotActive) { ShowNotActiveInfo(interact.NotActiveInfo); }
 
                 }
                 else
@@ -460,6 +471,15 @@ public class Gun : MonoBehaviour
         else OnUse = null;
     }
 
+    private void ShowNotActiveInfo(string info)
+    {
+        _heldDuration = 0;
+        OnHold?.Invoke(0);
+        infoUpdateNA?.Invoke(info);
+        if (UsingUI) { OnUse?.Invoke(gameObject); }
+        else OnUse = null;
+    }
+
     /*
     public void ToggleUsingStation()
     {
@@ -610,6 +630,19 @@ public class Gun : MonoBehaviour
     public void SetCoffeeCooldown(float cooldown)
     {
         CoffeeCD = cooldown;
+    }
+
+    private void OutOfAmmoTimer()
+    {
+        if (_outOfAmmoShowTime > 0)
+        {
+            _outOfAmmoShowTime -= Time.deltaTime;
+        }
+        else if (_outOfAmmoShowTime <0)
+        {
+            _outOfAmmoShowTime = 0;
+            OutOfAmmo?.Invoke(false);
+        }
     }
 
 }

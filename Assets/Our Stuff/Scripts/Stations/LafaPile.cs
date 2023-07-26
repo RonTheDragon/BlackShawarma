@@ -19,6 +19,10 @@ public class LafaPile : MonoBehaviour, Interactable
     private Gun _gun;
     private Collider _collider => GetComponent<Collider>();
 
+    public string NotActiveInfo { get => _notActiveInfo; set => _notActiveInfo = value; }
+    private string _notActiveInfo;
+    [SerializeField] private string _whyCantUse;
+
     private void Start()
     {
         foreach (GameObject go in Lafas)
@@ -30,6 +34,7 @@ public class LafaPile : MonoBehaviour, Interactable
         _notActive = true;
         _collider.enabled = false;
         _gun.OnLafaShoot += () => _notActive = false;
+        _notActiveInfo = _whyCantUse;
     }
 
     public void Use(GameObject player)
@@ -57,5 +62,10 @@ public class LafaPile : MonoBehaviour, Interactable
     {
         _notActive = false;
         _collider.enabled = true;
+    }
+
+    public void UpdateInfo()
+    {
+
     }
 }

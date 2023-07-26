@@ -22,6 +22,9 @@ public class Cola : MonoBehaviour, Interactable
     private Animator _anim =>GetComponent<Animator>();
     private Collider _collider => GetComponent<Collider>();
 
+    public string NotActiveInfo { get => _notActiveInfo; set => _notActiveInfo = value; }
+    private string _notActiveInfo;
+
     private void Start()
     {   
         ColaBottle.SetActive(false);   
@@ -61,5 +64,9 @@ public class Cola : MonoBehaviour, Interactable
         }
         ColaBottle.SetActive(false);
         _spawner.CalmEveryone(_calmPower);
+    }
+    public void UpdateInfo()
+    {
+
     }
 }
