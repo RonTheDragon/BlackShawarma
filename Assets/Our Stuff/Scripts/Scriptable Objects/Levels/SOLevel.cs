@@ -11,6 +11,7 @@ public class SOLevel : ScriptableObject
     public Vector2 RandomSpawnRate = new Vector2(30, 60);
     public Vector2 WarmUpTime = new Vector2(0, 3);
     public int MaxEnemiesAtOnce = 10;
+    public int LevelTutorialNumber = -1;
 
     [Header("Timer")]
     public int Seconds = 10;

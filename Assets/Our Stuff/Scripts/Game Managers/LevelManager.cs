@@ -12,12 +12,21 @@ public class LevelManager : MonoBehaviour
     private int _currentLevel;
 
     public Action OnSetUpLevel;
+    public Action<int> OnLevelTutorialUpdate;
 
     // Start is called before the first frame update
     private void Start()
     {
         StartCoroutine("lateStart");
         //SetUpLevel(_levels[_currentLevel]);
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space)) 
+        {
+            OnLevelTutorialUpdate?.Invoke(-1);
+        }
     }
 
     System.Collections.IEnumerator lateStart()
@@ -32,6 +41,7 @@ public class LevelManager : MonoBehaviour
         _spawner.LevelSetUp(lvl.Enemies, lvl.spawnLimit , lvl.RandomSpawnRate, lvl.WarmUpTime, lvl.MaxEnemiesAtOnce);
         _timer.StartTimer(lvl.Seconds);
         OnSetUpLevel?.Invoke();
+        OnLevelTutorialUpdate?.Invoke(lvl.LevelTutorialNumber);
     }
 
     public void NextLevel()

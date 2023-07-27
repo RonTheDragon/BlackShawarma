@@ -151,7 +151,6 @@ public class Gun : MonoBehaviour
         ammoChanged();
         ChiliParticles(false);
         SetCoffee(false);
-        OutOfAmmo?.Invoke(false);
     }
 
     void Update()

@@ -19,6 +19,7 @@ public class UiManager : MonoBehaviour
     GameManager _gm;
     LevelTimer _lt;
     Tutorial _tutorial;
+    private LevelManager _levelManager;
 
     [SerializeField] private List<Image> Fillers;
     [SerializeField] private List<GameObject> InsidePitaFiller;
@@ -30,6 +31,8 @@ public class UiManager : MonoBehaviour
     [SerializeField] private TMP_Text         _loseScreenScore;
 
     [SerializeField] private Image            _holdInducator;
+
+    [SerializeField] private Transform _levelTutorial;
 
     [Header("Timer")]
     [SerializeField] private Image            _cigar;
@@ -95,6 +98,7 @@ public class UiManager : MonoBehaviour
         _gm = GameManager.Instance;
         _lt = _gm.GetComponent<LevelTimer>();
         _tutorial = _gm.GetComponent<Tutorial>();
+        _levelManager = _gm.GetComponent<LevelManager>(); 
 
         _gm.UpdateMoney      += UpdateMoney;
         _gm.UpdateTazdokHp   += UpdateTazdokHPUI;
@@ -122,7 +126,9 @@ public class UiManager : MonoBehaviour
         _gm.CM.ResetEvent += ResetCombo;
         _gm.CM.TimerEvent += ComboTimer;
         _movement.OnStamina += StaminaUI;
+        _levelManager.OnLevelTutorialUpdate += LevelTutorials;
         UpdateMoney();
+        _outOfAmmo.SetActive(false);
     }
 
     private void Update()
@@ -439,6 +445,11 @@ public class UiManager : MonoBehaviour
             item.SetActive(false);
         }
         StartCoroutine("StopTime");
+
+        foreach (Transform item in _levelTutorial)
+        {
+            item.gameObject.SetActive(false);
+        }
     }
 
     private IEnumerator StopTime()
@@ -476,6 +487,18 @@ public class UiManager : MonoBehaviour
         }
 
         Time.timeScale = Open ? 1: 0;
+    }
+
+    private void LevelTutorials(int tutorial)
+    {
+        foreach (Transform item in _levelTutorial)
+        {
+            item.gameObject.SetActive(false);
+        }
+        if (_levelTutorial.childCount > tutorial && tutorial>=0)
+        {
+            _levelTutorial.GetChild(tutorial).gameObject.SetActive(true);
+        }
     }
 
     public void QuitGame()
