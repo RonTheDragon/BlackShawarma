@@ -57,8 +57,10 @@ public class Refill : MonoBehaviour, Interactable
     //private Transform _playerLocation;
     //private Gun _gun;
     private GameManager _gm;
+    private AudioManager _am;
 
-   // private SOAmmoType _selectedFood;
+
+    // private SOAmmoType _selectedFood;
 
     private void Start()
     {
@@ -66,6 +68,8 @@ public class Refill : MonoBehaviour, Interactable
         _gm.OnPickUpSack += () => _notActive = true;
         _gm.OnPlaceDownSack += () => _notActive = false;
         _gm.OnStartLevel += ResetStation;
+        _am = AudioManager.instance;
+        _am.PlayOneShot(FMODEvents.instance.Chipser, gameObject.transform.localPosition);
        // _playerLocation = _gm.Player.transform;
         //_gun = _gm.Player.GetComponent<Gun>();
         //foreach (SOAmmoType i in _gun.AmmoTypes)
@@ -142,6 +146,7 @@ public class Refill : MonoBehaviour, Interactable
             _type.CurrentAmmo = _type.MaxAmmo;
             _gm.OnAmmoUpdate?.Invoke();
             _particle.Play();
+            _am.PlayOneShot(FMODEvents.instance.ChipserUse, gameObject.transform.localPosition);
         }
     }
 
@@ -149,9 +154,11 @@ public class Refill : MonoBehaviour, Interactable
     {
         if (_cooking)
         {
+            
             if (_currentCooking > 0)
             {
                 _currentCooking -= Time.deltaTime;
+                
             }
             else
             {
