@@ -12,17 +12,17 @@ public class Gun : MonoBehaviour
 
     [Header("Aiming")]
     [Tooltip("Field of view while aiming")]
-    [SerializeField]           float AimingFOV        = 20;
+    [SerializeField] float AimingFOV = 20;
     [Tooltip("Field of view")]
-    [SerializeField]           float NotAimingFOV     = 40;
+    [SerializeField] float NotAimingFOV = 40;
     [Tooltip("The speed of transition from normal to aiming field of view")]
-    [SerializeField]           float FovChangingSpeed = 12;
+    [SerializeField] float FovChangingSpeed = 12;
     [Tooltip("The current field of view")]
     [ReadOnly][SerializeField] float CurrentFOV;
     [Tooltip("Is the character aiming or not")]
-    [ReadOnly][SerializeField] bool  isAiming;
+    [ReadOnly][SerializeField] bool isAiming;
     [Tooltip("Player Coffee buff")]
-    [SerializeField] public bool _coffeeBuf = false;
+    private bool _coffeeBuff = false;
     [Tooltip("Too Close To Aim At")]
     [SerializeField] private float _tooClose = 3;
     [Tooltip("Too Close To Aim At")]
@@ -33,9 +33,9 @@ public class Gun : MonoBehaviour
 
     [Header("Ammo Switching")]
     [Tooltip("The current amount of ammo")]
-    [ReadOnly]public SOAmmoType CurrentAmmoType;
+    [ReadOnly] public SOAmmoType CurrentAmmoType;
     [Tooltip("The types of ammo")]
-    public List<SOAmmoType>     AmmoTypes;
+    public List<SOAmmoType> AmmoTypes;
 
     [Header("References")]
     [Tooltip("Reference to the point where projectiles spawn")]
@@ -45,6 +45,7 @@ public class Gun : MonoBehaviour
     [SerializeField] private List<Transform> _ropePositions;
 
     [SerializeField] private Transform _aimAt;
+    [SerializeField] private ParticleSystem _chiliParticle;
     //[SerializeField] private float _aimAtSpeed;
 
     [Tooltip("Reference to the cinemachine")]
@@ -52,14 +53,13 @@ public class Gun : MonoBehaviour
 
     public Transform CursorHand;
 
-    private ThirdPersonMovement     tpm    => GetComponent<ThirdPersonMovement>();
-    private GameManager             _gm    => GameManager.Instance;
-    private AudioManager _am => AudioManager.instance;
+    private ThirdPersonMovement tpm => GetComponent<ThirdPersonMovement>();
+    private GameManager _gm => GameManager.Instance;
 
     private CinemachineImpulseSource _cis => GetComponent<CinemachineImpulseSource>();
 
     private BuildOrder _buildOrder => GetComponent<BuildOrder>();
-    private LevelTimer _levelTimer => _gm.GetComponent<LevelTimer>();
+   // private LevelTimer _levelTimer => _gm.GetComponent<LevelTimer>();
 
     private LevelManager _levelManager => _gm.GetComponent<LevelManager>();
 
@@ -70,31 +70,40 @@ public class Gun : MonoBehaviour
 
     [SerializeField]
     [Range(0.01f, 0.25f)]
-    private          float        timeBetweenPoints = 0.1f;
+    private float timeBetweenPoints = 0.1f;
     [SerializeField] LineRenderer lineRenderer;
     [SerializeField] LineRenderer _rope;
-    [SerializeField] LayerMask    layer;
+    [SerializeField] LayerMask layer;
 
     [Header("HoldToUse")]
-    [ReadOnly][SerializeField] private float _heldDuration=0;
+    [ReadOnly][SerializeField] private float _heldDuration = 0;
+
+    private float _outOfAmmoShowTime;
 
     //[SerializeField] TMP_Text Info;
     //Event
     Action _loop;
 
     public Action<string> infoUpdate;
+    public Action<string> infoUpdateNA;
+
+    public Action<bool> OutOfAmmo;
 
     public Action<GameObject> OnUse;
 
     public Action OnExit;
 
-    public Action<bool> OnHasPitaChanging;
+    public Action<int> OnHasPitaChanging;
 
     public Action<float> OnHold;
 
     public Action<SOAmmoType> OnSwitchWeapon;
 
     public Action<List<BuildOrder.Fillers>> OnPitaAim;
+
+    public Action OnLafaAim;
+
+    public Action OnLafaShoot;
 
     List<BuildOrder.Fillers> _currentPita = new List<BuildOrder.Fillers>();
 
@@ -105,14 +114,18 @@ public class Gun : MonoBehaviour
 
     [SerializeField] private Animator _gunAnimator;
     [SerializeField] private GameObject _pitaModel;
+    [SerializeField] private GameObject _lafaModel;
+
+    [SerializeField] private ParticleSystem _coffeeParticles;
 
 
     //Private 
     float _cd;
-    int   _currentAmmo;
+    int _currentAmmo;
 
     public bool UsingUI;
     bool _hasPita = false;
+    bool _hasLafa = false;
 
     void Start()
     {
@@ -126,15 +139,18 @@ public class Gun : MonoBehaviour
         _loop += AmmoSwitching;
         _loop += DrawRope;
         _loop += DrawCursor;
+        _loop += OutOfAmmoTimer;
         //_loop += DrawProjection;
 
         _gm.OnVictoryScreen += StartUsingStation;
-        _gm.OnLoseScreen+= StartUsingStation;
+        _gm.OnLoseScreen += StartUsingStation;
         _gm.OnStartLevel += ClearOnStart;
         _levelManager.OnSetUpLevel += RefillAll;
-        
+
         _currentAmmo = 0;
         ammoChanged();
+        ChiliParticles(false);
+        SetCoffee(false);
     }
 
     void Update()
@@ -150,7 +166,7 @@ public class Gun : MonoBehaviour
     void Shoot()
     {
         RaycastHit hit;
-        if (Physics.Raycast(cam.position+ cam.forward* _tooClose, cam.forward, out hit, Mathf.Infinity,_gm.NotPlayerLayer))
+        if (Physics.Raycast(cam.position + cam.forward * _tooClose, cam.forward, out hit, Mathf.Infinity, _gm.NotPlayerLayer))
         {
             //barrel.LookAt(hit.point);
             //AimAt(hit.point);
@@ -167,54 +183,26 @@ public class Gun : MonoBehaviour
 
         if (Input.GetMouseButton(0) && _cd <= 0 && !UsingUI) // When shoot
         {
-            
-            if (_hasPita && isAiming)
+            if (_hasLafa && isAiming)
             {
-                tpm.AddForce(-transform.forward, _pitaKnockback*_currentPita.Count);
-                tpm.AddLookTorque(Vector2.down, _recoil * _currentPita.Count);
-                _cis.GenerateImpulse(_recoil * _currentPita.Count);
+                LafaShoot();
+            }
+            else if (_hasPita && isAiming)
+            {
                 PitaShoot();
             }
             else
             {
                 if (CurrentAmmoType.CurrentAmmo > 0)
                 {
-
-                    _cd = CoolDown;
-
-                  //  if (!tpm.FreeRoam)
-                    {
-                        GameObject bullet = ObjectPooler.Instance.SpawnFromPool(CurrentAmmoType.AmmoTag, barrel.position, barrel.rotation);
-                        CurrentAmmoType.CurrentAmmo--;
-                        ammoChanged();
-                        float r = isAiming ? _recoil / 3 : _recoil;
-                        tpm.AddLookTorque(Vector2.down, r);
-                        _cis.GenerateImpulse(r);
-                        ShootImpact();
-                    }
+                    StartCoroutine("ShootDelay");
                 }
-                if (CurrentAmmoType.CurrentAmmo > 0 && _coffeeBuf)
-                {
-                    _cd = CoffeeCD;
 
-                  //  if (!tpm.FreeRoam)
-                    {
-                        
-                        GameObject bullet = ObjectPooler.Instance.SpawnFromPool(CurrentAmmoType.AmmoTag, barrel.position, barrel.rotation);
-                        CurrentAmmoType.CurrentAmmo--;
-                        ammoChanged();
-                        float r = isAiming ? _recoil / 3 : _recoil;
-                        tpm.AddLookTorque(Vector2.down, r);
-                        _cis.GenerateImpulse(r);
-                        ShootImpact();
-                    }
-           StartCoroutine("ShootDelay");
- }
-             
                 else
                 {
                     //play the empty gun sound, if the sound is not playing already.
-                    
+                    OutOfAmmo?.Invoke(true);
+                    _outOfAmmoShowTime = 1;
                 }
             }
 
@@ -230,8 +218,9 @@ public class Gun : MonoBehaviour
 
     private System.Collections.IEnumerator ShootDelay()
     {
-        _cd = _coffeeBuf ? CoffeeCD : CoolDown;
+        _cd = _coffeeBuff ? CoffeeCD : CoolDown;
         yield return new WaitForSeconds(0.01f);
+        yield return null;
 
         GameObject bullet = ObjectPooler.Instance.SpawnFromPool(CurrentAmmoType.AmmoTag, barrel.position, barrel.rotation);
         CurrentAmmoType.CurrentAmmo--;
@@ -246,7 +235,7 @@ public class Gun : MonoBehaviour
     private void AimAt(Vector3 pos)
     {
         barrel.LookAt(pos);
-        _aimAt.position = Vector3.MoveTowards(_aimAt.position, pos, Vector3.Distance(_aimAt.position,pos) * _aimAtSpeed * Time.deltaTime);
+        _aimAt.position = Vector3.MoveTowards(_aimAt.position, pos, Vector3.Distance(_aimAt.position, pos) * _aimAtSpeed * Time.deltaTime);
     }
     private void UseStationRaycast()
     {
@@ -260,6 +249,8 @@ public class Gun : MonoBehaviour
                 Interactable interact = hit.transform.GetComponent<Interactable>();
                 if (interact != null)
                 {
+                    interact.UpdateInfo();
+
                     if (!UsingUI && !interact.NotActive)
                     {
                         infoUpdate?.Invoke(interact.Info);
@@ -277,12 +268,12 @@ public class Gun : MonoBehaviour
                             else if (Input.GetKey(KeyCode.E))
                             {
                                 _heldDuration += Time.deltaTime;
-                                if (hold.UseDuration< _heldDuration)
+                                if (hold.UseDuration < _heldDuration)
                                 {
                                     hold.Use(gameObject);
                                     StoppedHoveringStation();
                                 }
-                                OnHold?.Invoke(_heldDuration/ hold.UseDuration);
+                                OnHold?.Invoke(_heldDuration / hold.UseDuration);
                             }
                             else
                             {
@@ -291,7 +282,8 @@ public class Gun : MonoBehaviour
                             }
                         }
                     }
-                    
+                    if (interact.NotActive) { ShowNotActiveInfo(interact.NotActiveInfo); }
+
                 }
                 else
                 {
@@ -307,15 +299,15 @@ public class Gun : MonoBehaviour
             infoUpdate?.Invoke(string.Empty);
         }
 
-        if (Input.GetKeyDown(KeyCode.E) && Time.timeScale>0)
+        if (Input.GetKeyDown(KeyCode.E) && Time.timeScale > 0 && cam.gameObject.activeSelf)
         {
             OnUse?.Invoke(gameObject);
         }
-        if (Input.GetKeyDown(KeyCode.Escape) && Time.timeScale > 0)
+        if (Input.GetKeyDown(KeyCode.Escape) && Time.timeScale > 0 && cam.gameObject.activeSelf)
         {
             if (UsingUI)
-            {             
-              OnUse?.Invoke(gameObject);
+            {
+                OnUse?.Invoke(gameObject);
             }
             else OnExit?.Invoke();
         }
@@ -347,7 +339,7 @@ public class Gun : MonoBehaviour
             {
                 cinemachine.m_Lens.FieldOfView = CurrentFOV - FovChangingSpeed * Time.deltaTime;
             }
-            else { cinemachine.m_Lens.FieldOfView= AimingFOV; }
+            else { cinemachine.m_Lens.FieldOfView = AimingFOV; }
 
         }
         else
@@ -364,9 +356,13 @@ public class Gun : MonoBehaviour
     {
         if (AmmoTypes.Count > 1 && !UsingUI)
         {
-            if (_hasPita && isAiming)
+            if (_hasLafa && isAiming)
             {
-                lineRenderer.material = PitaTrajectoryMaterial;
+                OnLafaAim?.Invoke();
+            }
+            else if (_hasPita && isAiming)
+            {
+                //lineRenderer.material = PitaTrajectoryMaterial;
                 OnPitaAim?.Invoke(_currentPita);
             }
             else
@@ -410,7 +406,7 @@ public class Gun : MonoBehaviour
 
     public void RefillAll()
     {
-        foreach(SOAmmoType sat in AmmoTypes)
+        foreach (SOAmmoType sat in AmmoTypes)
         {
             sat.CurrentAmmo = sat.MaxAmmo;
         }
@@ -454,7 +450,7 @@ public class Gun : MonoBehaviour
     {
         _rope.enabled = true;
         _rope.positionCount = _ropePositions.Count;
-        for (int i =0; i<_ropePositions.Count; i++)
+        for (int i = 0; i < _ropePositions.Count; i++)
         {
             _rope.SetPosition(i, _ropePositions[i].position);
         }
@@ -470,6 +466,15 @@ public class Gun : MonoBehaviour
         _heldDuration = 0;
         OnHold?.Invoke(0);
         infoUpdate?.Invoke(string.Empty);
+        if (UsingUI) { OnUse?.Invoke(gameObject); }
+        else OnUse = null;
+    }
+
+    private void ShowNotActiveInfo(string info)
+    {
+        _heldDuration = 0;
+        OnHold?.Invoke(0);
+        infoUpdateNA?.Invoke(info);
         if (UsingUI) { OnUse?.Invoke(gameObject); }
         else OnUse = null;
     }
@@ -520,41 +525,123 @@ public class Gun : MonoBehaviour
     private void PitaShoot()
     {
         _hasPita = false;
-        OnHasPitaChanging?.Invoke(_hasPita);
+        OnHasPitaChanging?.Invoke(0);
         _cd = CoolDown;
         _gunAnimator.SetTrigger("Hamsa");
         StartCoroutine("PitaShootDelay");
     }
 
+    private void LafaShoot()
+    {
+        _hasLafa = false;
+        OnLafaShoot?.Invoke();
+        OnHasPitaChanging?.Invoke(_hasPita? 1:0);
+        _cd = CoolDown;
+        _gunAnimator.SetTrigger("Hamsa");
+        StartCoroutine("LafaShootDelay");
+    }
+
     private void ClearOnStart()
     {
         _hasPita = false;
-        OnHasPitaChanging?.Invoke(_hasPita);
+        _hasLafa = false;
+        _pitaModel.SetActive(false);
+        _lafaModel.SetActive(false);
+        OnLafaShoot?.Invoke();
+        OnHasPitaChanging?.Invoke(0);
     }
 
     private System.Collections.IEnumerator PitaShootDelay()
     {
         yield return new WaitForSeconds(0.17f);
-        _pitaModel.SetActive(false );
+        _pitaModel.SetActive(false);
         GameObject pita = ObjectPooler.Instance.SpawnFromPool("Pita", barrel.position, barrel.rotation);
+        tpm.AddForce(-transform.forward, _pitaKnockback * _currentPita.Count);
+        tpm.AddLookTorque(Vector2.down, _recoil * _currentPita.Count);
+        _cis.GenerateImpulse(_recoil * _currentPita.Count);
         Pita a = pita.GetComponent<Pita>();
         List<BuildOrder.Fillers> temp = new List<BuildOrder.Fillers>(_currentPita);
         a.Ingridients = temp;
         _currentPita.Clear();
         ammoChanged();
     }
-
-    public void SetPita(List<BuildOrder.Fillers> f)
+    private System.Collections.IEnumerator LafaShootDelay()
     {
-        _currentPita = f;
-        _pitaModel.SetActive(true);
-        _hasPita     = true;
-        OnHasPitaChanging?.Invoke(_hasPita);
-        StoppedHoveringStation();
+        yield return new WaitForSeconds(0.17f);
+        _lafaModel.SetActive(false);
+        ObjectPooler.Instance.SpawnFromPool("Lafa", barrel.position, barrel.rotation);
+        tpm.AddForce(-transform.forward, _pitaKnockback * 4);
+        tpm.AddLookTorque(Vector2.down, _recoil * 4);
+        _cis.GenerateImpulse(_recoil * 4);
+        if (_hasPita)
+        {
+            _pitaModel.SetActive(true);
+        }
     }
 
     public List<BuildOrder.Fillers> GetPita()
     {
         return _currentPita;
     }
+
+    public void SetPita(List<BuildOrder.Fillers> f)
+    {
+        _currentPita = f;
+        _pitaModel.SetActive(!_hasLafa);
+        _hasPita = true;
+        OnHasPitaChanging?.Invoke(_hasLafa ? 2 : 1);
+        StoppedHoveringStation();
+    }
+    public void SetLafa(bool lafa)
+    {
+        _hasLafa = lafa;
+        _pitaModel.SetActive(false);
+        _lafaModel.SetActive(true);
+        OnHasPitaChanging?.Invoke(2);
+    }
+
+
+    public void ChiliParticles(bool on)
+    {
+        if (on)
+        {
+            _chiliParticle.Play();
+        }
+        else
+        {
+            _chiliParticle.Stop();
+        }
+    }
+
+    public void SetCoffee(bool coffee)
+    {
+        _coffeeBuff = coffee;
+        if (coffee)
+        {
+            _coffeeParticles.Play();
+        }
+        else
+        {
+            _coffeeParticles.Stop();
+        }
+    }
+
+    public void SetCoffeeCooldown(float cooldown)
+    {
+        CoffeeCD = cooldown;
+    }
+
+    private void OutOfAmmoTimer()
+    {
+        if (_outOfAmmoShowTime > 0)
+        {
+            _outOfAmmoShowTime -= Time.deltaTime;
+        }
+        else if (_outOfAmmoShowTime <0)
+        {
+            _outOfAmmoShowTime = 0;
+            OutOfAmmo?.Invoke(false);
+        }
+    }
+
 }

@@ -806,6 +806,9 @@ MonoBehaviour:
     - tag: Pita
       prefab: {fileID: 2352565801086459199, guid: 7511657bcb151ad45afc99c09aa7b039, type: 3}
       size: 2
+    - tag: Lafa
+      prefab: {fileID: 5380007570641628341, guid: ca382ce030a5e9a439af7336b1db0d2b, type: 3}
+      size: 2
   - GroupName: Enemies
     pools:
     - tag: FalafelGuy
@@ -986,15 +989,18 @@ MonoBehaviour:
   MaxTzadokHp: 3
   MaxFillers: 4
   TzadokMaxHP: 4
+  tzdakaLvl: 0
+  UsedChili: 0
   EnemiesBehindCalmerBy: 1.5
   CalmEnemiesStayCalmBy: 1.5
-  FoodCalmingEffect: 20
+  FoodCalmingEffect: 10
   HappyCustomers: 0
   UsedOrder: {fileID: 0}
   EnemySpawner: {fileID: 1493421660946856226}
   NotPlayerLayer:
     serializedVersion: 2
     m_Bits: 1
+  TheShop: {fileID: 0}
 --- !u!114 &4334797393951331528
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1025,7 +1031,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TimeLeft: 0
-  IsDone: 0
 --- !u!114 &244923802
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1040,9 +1045,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _levels:
   - {fileID: 11400000, guid: 16ee7911accd0ac499472c3f3fe06d9c, type: 2}
-  - {fileID: 11400000, guid: 3f01cbd9cdcb03a4caa4a66a36d08b3c, type: 2}
-  - {fileID: 11400000, guid: 3f01cbd9cdcb03a4caa4a66a36d08b3c, type: 2}
-  - {fileID: 11400000, guid: 0bd0f6f14be47b64093659b41b40254e, type: 2}
+  - {fileID: 11400000, guid: 4978ddfa5c56034459a7c40e749c780f, type: 2}
+  - {fileID: 11400000, guid: 36da6f037766be641824313c992f2aae, type: 2}
+  - {fileID: 11400000, guid: 5f5ad968e26608042a67461608e659ab, type: 2}
   _spawner: {fileID: 1493421660946856226}
 --- !u!114 &1746950907
 MonoBehaviour:

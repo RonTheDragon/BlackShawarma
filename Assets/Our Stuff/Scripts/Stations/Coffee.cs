@@ -1,30 +1,56 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using System;
+using UnityEngine.UI;
 
 public class Coffee : MonoBehaviour, Interactable
 {
     [SerializeField] private string _info;
                      private Gun    _gun;
+    private ThirdPersonMovement _tpm;
                      public  int    coffeeBuffTime   = 10;
-    [SerializeField] private int    _defaultCooldown = 10;
-    [SerializeField] private float  _cooldown        = 10;
-
+    [SerializeField] private int _defaultCooldown = 10;
+    [SerializeField] private float  _cooldown        = 0;
+    [SerializeField] private GameObject _ui;
+    private Camera PlayerCamera => Camera.main;
+    private Image _fillable => _ui.transform.GetChild(0).GetChild(0).GetChild(0).GetComponent<Image>();
     public string Info { get => _info; set => _info = value; }
 
-    private bool _active;
-    public bool NotActive { get => _active; set => _active = value; }
+    private bool _notActive;
+    public bool NotActive { get => _notActive; set => _notActive = value; }
     private Action _used;
     public Action Used { get => _used; set => _used = value; }
+    public string NotActiveInfo { get => _notActiveInfo; set => _notActiveInfo = value; }
+    private string _notActiveInfo;
+    [SerializeField] private string _whyCantUse;
+    private float _infoUpdateCooldown;
+
+    private void Start()
+    {
+        gameObject.SetActive(false);
+        _cooldown = 0;
+    }
 
     private void Update()
     {
+        stationUI();
         if (_cooldown > 0)
         {
             _cooldown -= Time.deltaTime;
         }
+        else if (_cooldown < 0)
+        {
+            _cooldown = 0;
+            _notActive = false;
+            _fillable.fillAmount = 1;
+        }
+        if (_infoUpdateCooldown > 0)
+        {
+            _infoUpdateCooldown -= Time.deltaTime;
+        }
     }
+
+
+    
 
     public void Use(GameObject player)
     {
@@ -33,14 +59,49 @@ public class Coffee : MonoBehaviour, Interactable
             return;
         }
         _used?.Invoke();
-        _gun = player.GetComponent<Gun>();
-        _gun._coffeeBuf = true;
+        if (_gun == null)
+        {
+            _gun = player.GetComponent<Gun>();
+            _tpm = player.GetComponent<ThirdPersonMovement>();
+        }
+        _gun.SetCoffee(true);
+        _tpm.SetCoffee(true);
         Invoke("CoffeeBuffHandler", coffeeBuffTime);
-        _cooldown = _defaultCooldown;
+        _cooldown = _defaultCooldown+ coffeeBuffTime;
+        _notActive = true;
     }
 
     private void CoffeeBuffHandler()
     {
-        _gun._coffeeBuf = false;
+        _gun.SetCoffee(false);
+        _tpm.SetCoffee(false);
+    }
+
+    public void UpgradeCoffee(int buffDuration, int cooldown)
+    {
+        coffeeBuffTime = buffDuration;
+        _defaultCooldown = cooldown;
+    }
+
+    private void stationUI()
+    {
+        if (PlayerCamera == null) return;
+        _ui.transform.LookAt(PlayerCamera.transform.position);
+        if (_cooldown>0)
+        {
+            _fillable.fillAmount = 1 - (_cooldown / (_defaultCooldown + coffeeBuffTime));
+        }
+    }
+
+    public void UpdateInfo()
+    {
+        if (_infoUpdateCooldown <= 0)
+        {
+            _infoUpdateCooldown = 1;
+            if (_cooldown > 0)
+            {
+                _notActiveInfo = $"{(int)_cooldown} {_whyCantUse}";
+            }
+        }
     }
 }

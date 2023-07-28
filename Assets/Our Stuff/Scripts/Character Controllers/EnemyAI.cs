@@ -14,6 +14,7 @@ public class EnemyAI : MonoBehaviour
     [SerializeField] private ParticleSystem _happy;
     [SerializeField] private ParticleSystem _veryHappy;
                      public  int            PlaceInLane, WhichLane;
+    [SerializeField] public  float            ChiliMultiplier = 2;
 
     public bool PassesInLines;
     public bool CantBePassed;
@@ -255,6 +256,13 @@ public class EnemyAI : MonoBehaviour
         }
     }
 
+    public void EatLafa()
+    {
+        if (_done) return;
+        HappyCustomer();
+        _veryHappy.Emit(1);
+    }
+
     public bool CheckIfPitaCorrect(List<BuildOrder.Fillers> pita)
     {
         bool CorrectOrder = true;
@@ -415,7 +423,15 @@ public class EnemyAI : MonoBehaviour
 
     public void MakeHappier(float amount)
     {
-        _currentRage -= amount; //* ChiliUp;
+        if (_gm.UsedChili)
+        {
+           _currentRage -= amount * ChiliMultiplier;
+
+        }
+        else
+        {
+           _currentRage -= amount ;
+        }
         _happy.Emit(1);
     }
 

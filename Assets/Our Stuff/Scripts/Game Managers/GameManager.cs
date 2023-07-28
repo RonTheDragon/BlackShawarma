@@ -1,6 +1,6 @@
 using System;
-using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class GameManager : MonoBehaviour
 {
@@ -12,6 +12,10 @@ public class GameManager : MonoBehaviour
     public int TzadokMaxHP = 4;
     private int _money;
     private float _moneyMultiplier=1;
+    private int tzdakaBonus = 0;
+    [HideInInspector] public int tzdakaLvl = 0;
+    [HideInInspector] public bool UsedChili = false;
+
     public float EnemiesBehindCalmerBy = 1.5f;
     public float CalmEnemiesStayCalmBy = 1.5f;
     public float FoodCalmingEffect = 20;
@@ -32,6 +36,8 @@ public class GameManager : MonoBehaviour
     public Action OnPickUpSack;
     public Action OnPlaceDownSack;
 
+    public Action<bool> OnTryToBuy;
+
     [HideInInspector] public SideOrderUI UsedOrder;
     [HideInInspector] public Action<SideOrderUI> OnOrderMaximize;
     public EnemySpawner EnemySpawner;
@@ -39,6 +45,8 @@ public class GameManager : MonoBehaviour
     public ComboManager CM => GetComponent<ComboManager>();
 
     public LayerMask NotPlayerLayer;
+
+    [HideInInspector] public Shop TheShop;
 
     void Awake()
     {
@@ -52,8 +60,15 @@ public class GameManager : MonoBehaviour
 
     public void AddMoney(int m)
     {
-        _money += (int)(m* _moneyMultiplier);
-        Debug.Log($"Reward: {m} * {_moneyMultiplier} = {(int)(m * _moneyMultiplier)}");
+        TzdakaUpdate();
+        _money += (int)(m * _moneyMultiplier + tzdakaBonus);
+        Debug.Log($"Reward: {m} * {_moneyMultiplier} + {tzdakaBonus} = {(int)(m * _moneyMultiplier+ tzdakaBonus)}");
+        UpdateMoney?.Invoke();
+    }
+
+    public void RemoveMoney(int m)
+    {
+        _money -= m;
         UpdateMoney?.Invoke();
     }
 
@@ -106,7 +121,7 @@ public class GameManager : MonoBehaviour
     #endregion
     public void DidWeWin()
     {
-        if (EnemySpawner.HowManyEnemiesInTheStore() == 0 && LvlTimer.IsDone == true && _tzadokHp > 0)
+        if (EnemySpawner.HowManyEnemiesInTheStore() == 0 && LvlTimer.GetIsTimeDone() == true && _tzadokHp > 0)
         {
             OnVictoryScreen?.Invoke();
             OnEndLevel?.Invoke();
@@ -132,6 +147,26 @@ public class GameManager : MonoBehaviour
         {
             OnOrderMaximize?.Invoke(null);
             UsedOrder = null;
+        }
+    }
+
+    public void TzdakaUpdate()
+    {
+        if (tzdakaLvl == 0)
+        {
+            tzdakaBonus = 0;
+        }
+        else if (tzdakaLvl == 1)
+        {
+            tzdakaBonus = Random.Range(1, 3);
+        }
+        else if (tzdakaLvl == 2)
+        {
+            tzdakaBonus = Random.Range(7, 13);
+        }
+        else if (tzdakaLvl == 3)
+        {
+            tzdakaBonus = Random.Range(15, 20);
         }
     }
 }

@@ -2,7 +2,6 @@ using System;
 using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
-using UnityEngine.EventSystems;
 
 public class ThirdPersonMovement : MonoBehaviour
 {
@@ -70,7 +69,7 @@ public class ThirdPersonMovement : MonoBehaviour
     bool isGrounded;
 
     Vector3 _forceDirection;
-    float   _gravityPull;
+    //float   _gravityPull;
     float   _forceStrength;
     #endregion
 
@@ -81,7 +80,9 @@ public class ThirdPersonMovement : MonoBehaviour
     [Tooltip("Place The Player's Camera Here")]
     [SerializeField] Transform cam;
     [SerializeField] private Animator _anim;
-
+    private bool _coffeeBuff = false;
+    private float _coffeeSpeedMultiplier = 1.2f;
+    [SerializeField] private TrailRenderer _coffeeTrail;
 
     // Auto Referencing
     CharacterController CC => GetComponent<CharacterController>();
@@ -106,6 +107,7 @@ public class ThirdPersonMovement : MonoBehaviour
         SetupMouse();
         _gm = GameManager.Instance;
         _gm.OnStartLevel += () => _currentStamina = MaxStamina;
+        SetCoffee(false);
     }
 
     // Update is called once per frame
@@ -197,8 +199,8 @@ public class ThirdPersonMovement : MonoBehaviour
     private float GetSpeed()
     {
         if (IsSprinting) 
-            return _sprintSpeed;
-        return Speed;
+            return _sprintSpeed * (_coffeeBuff ? _coffeeSpeedMultiplier : 1);
+        return Speed * (_coffeeBuff ? _coffeeSpeedMultiplier : 1);
     }
 
     private void FreeRoamSupport()
@@ -277,6 +279,26 @@ public class ThirdPersonMovement : MonoBehaviour
     //    // Draw a Box in the Editor to show whether we are touching the ground, Blue is Touching, Red is Not Touching.
     //   // Gizmos.color = isGrounded ? Color.blue : Color.red; Gizmos.DrawCube(_boxPosition, _boxSize * 2);
     //}
+
+    public void SetCoffee(bool coffee)
+    {
+        _coffeeBuff = coffee;
+        _coffeeTrail.Clear();
+        if (coffee) 
+        {
+            _coffeeTrail.gameObject.SetActive(true); 
+        }
+        else
+        {
+
+            _coffeeTrail.gameObject.SetActive(false);
+        }
+    }
+
+    public void SetCoffeeSpeed(float speed)
+    {
+        _coffeeSpeedMultiplier = speed;
+    }
 
     #region Unused
 

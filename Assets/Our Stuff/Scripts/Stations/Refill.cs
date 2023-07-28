@@ -23,12 +23,13 @@ public class Refill : MonoBehaviour, Interactable
 
     [SerializeField] private float _cookingDuration = 3;
     private float _currentCooking;
-    [SerializeField] private int _maxContained;
-    [SerializeField] private int _currentContained;
-    [SerializeField] private float _transferSpeed;
-    private float _currentTransferTime;
-    [SerializeField] private float _transferDistance;
     private bool _cooking;
+
+ // [SerializeField] private int _maxContained;
+   //[SerializeField] private int _currentContained;
+   //[SerializeField] private float _transferSpeed;
+   // private float _currentTransferTime;
+   // [SerializeField] private float _transferDistance;
 
     public string Info { get => _info; set => _info = value; }
 
@@ -45,37 +46,46 @@ public class Refill : MonoBehaviour, Interactable
     private Animator _uiAnim => _ui.transform.GetChild(0).GetComponent<Animator>();
     private Image _fillable => _ui.transform.GetChild(0).GetChild(0).GetChild(0).GetComponent<Image>();
     [SerializeField] private Animator _anim;
+    [SerializeField] private ParticleSystem _particle;
 
-    private Transform _playerLocation;
-    private Gun _gun;
+    public string NotActiveInfo { get => _notActiveInfo; set => _notActiveInfo = value; }
+    private string _notActiveInfo;
+    [SerializeField] private string _cantUseBecauseFull;
+    [SerializeField] private string _cantUseBecauseTimer;
+    private float _infoUpdateCooldown;
+
+    //private Transform _playerLocation;
+    //private Gun _gun;
     private GameManager _gm;
-    private AudioManager _am;
 
-    private SOAmmoType _selectedFood;
+   // private SOAmmoType _selectedFood;
 
     private void Start()
     {
         _gm = GameManager.Instance;
-        _am = AudioManager.instance;
         _gm.OnPickUpSack += () => _notActive = true;
         _gm.OnPlaceDownSack += () => _notActive = false;
         _gm.OnStartLevel += ResetStation;
-        _playerLocation = _gm.Player.transform;
-        _gun = _gm.Player.GetComponent<Gun>();
-        foreach (SOAmmoType i in _gun.AmmoTypes)
-        {
-            if (i.FoodType == _type.FoodType)
-            {
-                _selectedFood = i; break;
-            }
-        }
+       // _playerLocation = _gm.Player.transform;
+        //_gun = _gm.Player.GetComponent<Gun>();
+        //foreach (SOAmmoType i in _gun.AmmoTypes)
+        //{
+        //    if (i.FoodType == _type.FoodType)
+        //    {
+        //        _selectedFood = i; break;
+        //    }
+        //}
     }
 
     private void Update()
     {
-        FillPlayer();
+        //FillPlayer();
         Cooking();
         stationUI();
+        if (_infoUpdateCooldown > 0)
+        {
+            _infoUpdateCooldown -= Time.deltaTime;
+        }
         //if (UseOption1)
         //{
         //    Working();
@@ -103,34 +113,36 @@ public class Refill : MonoBehaviour, Interactable
     }
 
     private void stationUI()
-    {      
+    {
+        if (PlayerCamera == null) return;
             _ui.transform.LookAt(PlayerCamera.transform.position);
         if (_cooking)
         {
             _fillable.fillAmount = 1 -(_currentCooking / _cookingDuration);
             _uiAnim.SetBool("Empty", false);
+            NotActive = true;
         }
         else
         {
-            _fillable.fillAmount = (float)_currentContained / (float)_maxContained;         
+            //_fillable.fillAmount = (float)_currentContained / (float)_maxContained;
+            _fillable.fillAmount =1;
             _uiAnim.SetBool("Empty", _type.CurrentAmmo == 0);
+            NotActive = _type.CurrentAmmo == _type.MaxAmmo;
         }
     }
 
     private void Cook()
     {
-        if (!_cooking && _currentContained!= _maxContained)
+        if (!_cooking && _type.CurrentAmmo < _type.MaxAmmo)
         {
             _currentCooking = _cookingDuration;
             _cooking = true;
-            _am.PlayOneShot(FMODEvents.instance.Chipser, this.transform.position);
             _anim.SetBool("Active", true);
             _uiAnim.SetBool("Empty", false);
-
-            
-
+            _type.CurrentAmmo = _type.MaxAmmo;
+            _gm.OnAmmoUpdate?.Invoke();
+            _particle.Play();
         }
-       
     }
 
     private void Cooking()
@@ -144,44 +156,39 @@ public class Refill : MonoBehaviour, Interactable
             else
             {
                 _cooking = false;
-                _currentContained = _maxContained;
                 _anim.SetBool("Active", false);
-                
             }
-           
-        }
-        
-    }
-
-
-    private void FillPlayer()
-    {
-        if (_currentContained == 0 || _currentCooking > 0 || _selectedFood.CurrentAmmo == _selectedFood.MaxAmmo||
-            Vector3.Distance(transform.position, _playerLocation.position) > _transferDistance)
-        {
-            _uiAnim.SetBool("Collecting", false);
-            return;
-        }
-        _uiAnim.SetBool("Collecting", true);
-
-        if (_currentTransferTime <= 0)
-        {
-            _currentContained--;
-            _selectedFood.CurrentAmmo++;
-            _gm.OnAmmoUpdate?.Invoke();
-            _currentTransferTime = _transferSpeed;
-        }
-        else
-        {
-            _currentTransferTime -= Time.deltaTime;
         }
     }
+
+
+    //private void FillPlayer()
+    //{
+    //    if (_currentContained == 0 || _currentCooking > 0 || _selectedFood.CurrentAmmo == _selectedFood.MaxAmmo||
+    //        Vector3.Distance(transform.position, _playerLocation.position) > _transferDistance)
+    //    {
+    //        _uiAnim.SetBool("Collecting", false);
+    //        return;
+    //    }
+    //    _uiAnim.SetBool("Collecting", true);
+
+    //    if (_currentTransferTime <= 0)
+    //    {
+    //        _currentContained--;
+    //        _selectedFood.CurrentAmmo++;
+    //        _gm.OnAmmoUpdate?.Invoke();
+    //        _currentTransferTime = _transferSpeed;
+    //    }
+    //    else
+    //    {
+    //        _currentTransferTime -= Time.deltaTime;
+    //    }
+    //}
 
     private void ResetStation()
     {
         _cooking = false;
         _currentCooking = 0;
-        _currentContained = 0;
         _anim.SetBool("Active", false);
         _uiAnim.SetBool("Collecting", false);
         _uiAnim.SetBool("Empty", false);
@@ -277,4 +284,20 @@ public class Refill : MonoBehaviour, Interactable
     //        }
     //    }
     //}
+
+    public void UpdateInfo()
+    {
+        if (_infoUpdateCooldown <= 0)
+        {
+            _infoUpdateCooldown = 1;
+            if (_type.CurrentAmmo == _type.MaxAmmo)
+            {
+                _notActiveInfo = _cantUseBecauseFull;
+            }
+            else if (_currentCooking > 0)
+            {
+                _notActiveInfo = $"{(int)_currentCooking} {_cantUseBecauseTimer}";
+            }
+        }
+    }
 }

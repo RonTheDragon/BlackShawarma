@@ -14,19 +14,25 @@ public class UiManager : MonoBehaviour
     private ThirdPersonMovement _movement => player.GetComponent<ThirdPersonMovement>();
     private BuildOrder _bo => player.GetComponent<BuildOrder>();
 
+    private Shop _shop => GetComponent<Shop>();
+
     GameManager _gm;
     LevelTimer _lt;
     Tutorial _tutorial;
+    private LevelManager _levelManager;
 
     [SerializeField] private List<Image> Fillers;
     [SerializeField] private List<GameObject> InsidePitaFiller;
 
     [SerializeField] private TMP_Text         Info;
+    [SerializeField] private TMP_Text         InfoNA;
     [SerializeField] private TMP_Text         Ammo;
     [SerializeField] private TMP_Text         MoneyText;
     [SerializeField] private TMP_Text         _loseScreenScore;
 
     [SerializeField] private Image            _holdInducator;
+
+    [SerializeField] private Transform _levelTutorial;
 
     [Header("Timer")]
     [SerializeField] private Image            _cigar;
@@ -59,34 +65,49 @@ public class UiManager : MonoBehaviour
     [SerializeField] private Image _fries;
     [SerializeField] private Image _falafel;
     [SerializeField] private Image _gunWithPita;
+    [SerializeField] private Image _gunWithLafa;
     [SerializeField] private List<GameObject> _loadedPitaFillers;
     [SerializeField] private Transform[] _ammoCounters = new Transform[3];
 
     [SerializeField] private GameObject _shootAmmoPanel;
     [SerializeField] private GameObject _shootPitaPanel;
+    [SerializeField] private GameObject _shootLafaPanel;
+
+    [SerializeField] private GameObject _outOfAmmo;
 
     [Header("Combo")]
     [SerializeField] private GameObject _comboPanel;
     [SerializeField] private Image _comboTimer;
     [SerializeField] private TMP_Text _currentCombo;
 
+    [Header("Shop")]
+    [SerializeField] private GameObject[] _openOnShop;
+    [SerializeField] private GameObject[] _closeOnShop;
+
 
     private Action _loop;
     //bool isEnemyInfoOpen = false;
 
-
+    private void Awake()
+    {
+        OpenShop(false);
+    }
     // Start is called before the first frame update
     void Start()
     {
         _gm = GameManager.Instance;
         _lt = _gm.GetComponent<LevelTimer>();
         _tutorial = _gm.GetComponent<Tutorial>();
+        _levelManager = _gm.GetComponent<LevelManager>(); 
 
         _gm.UpdateMoney      += UpdateMoney;
         _gm.UpdateTazdokHp   += UpdateTazdokHPUI;
         _gun.infoUpdate      += UpdateInfo;
+        _gun.infoUpdateNA    += UpdateInfoNA;
+        _gun.OutOfAmmo       += UpdateOutOfAmmo;
         _gun.OnSwitchWeapon  += SwitchAmmoType;
         _gun.OnPitaAim       += SwitchToPita;
+        _gun.OnLafaAim       += SwitchToLafa;
         _gun.OnHasPitaChanging += HasPitaChange;
         _gun.OnExit          += OpenPauseMenu;
         _gun.OnHold          += HoldUI;
@@ -105,7 +126,9 @@ public class UiManager : MonoBehaviour
         _gm.CM.ResetEvent += ResetCombo;
         _gm.CM.TimerEvent += ComboTimer;
         _movement.OnStamina += StaminaUI;
+        _levelManager.OnLevelTutorialUpdate += LevelTutorials;
         UpdateMoney();
+        _outOfAmmo.SetActive(false);
     }
 
     private void Update()
@@ -116,6 +139,18 @@ public class UiManager : MonoBehaviour
     void UpdateInfo(string info)
     {
         Info.text = info;
+        InfoNA.text = string.Empty;
+    }
+
+    void UpdateInfoNA(string info)
+    {
+        InfoNA.text = info;
+        Info.text = string.Empty;
+    }
+
+    void UpdateOutOfAmmo(bool b)
+    {
+        _outOfAmmo.SetActive(b);
     }
 
     void SwitchAmmoType(SOAmmoType a)
@@ -125,6 +160,7 @@ public class UiManager : MonoBehaviour
         Ammo.text  = $"{a.CurrentAmmo}/{a.MaxAmmo}";
         _shootAmmoPanel.SetActive(true);
         _shootPitaPanel.SetActive(false);
+        _shootLafaPanel.SetActive(false);
 
         _eggplant.enabled = false;
         _fries.enabled = false;
@@ -144,24 +180,37 @@ public class UiManager : MonoBehaviour
         }
     }
 
-    private void HasPitaChange(bool hasPita)
+    private void HasPitaChange(int whatHas) // 0 = Nothing , 1 = Pita , 2 = Lafa
     {
-        _gunWithPita.enabled = hasPita;
+        switch (whatHas)
+        {
+            case (0): _gunWithPita.enabled = false; _gunWithLafa.enabled = false; break;
+            case (1): _gunWithPita.enabled = true; _gunWithLafa.enabled = false; break;
+            case (2): _gunWithPita.enabled = false; _gunWithLafa.enabled = true; break;
+        }
     }
 
-    void SwitchToPita(List<BuildOrder.Fillers> pita)
+    private void SwitchToPita(List<BuildOrder.Fillers> pita)
     {
         PitaEdit(ref _loadedPitaFillers, pita);
         _shootAmmoPanel.SetActive(false);
         _shootPitaPanel.SetActive(true);
+        _shootLafaPanel.SetActive(false);
     }
 
-    void UpdateMoney()
+    private void SwitchToLafa()
     {
-        MoneyText.text = "Joobot = " + _gm.GetMoney().ToString() + "₪";
+        _shootAmmoPanel.SetActive(false);
+        _shootPitaPanel.SetActive(false);
+        _shootLafaPanel.SetActive(true);
     }
 
-    void UpdateIngridients(List<Ingredient> ingredients)
+    private void UpdateMoney()
+    {
+        MoneyText.text =_gm.GetMoney().ToString();
+    }
+
+    private void UpdateIngridients(List<Ingredient> ingredients)
     {
         for (int i = 0; i < Fillers.Count; i++)
         {
@@ -219,7 +268,7 @@ public class UiManager : MonoBehaviour
         float fa = 1 -(_lt.TimeLeft / _fullTime);
         _cigar.fillAmount = Mathf.Lerp(1, 0.28f, fa);
         _cigarFlame.localPosition = new Vector3(Mathf.Lerp(510.4f, 205.8f, fa), _cigarFlame.localPosition.y, 0);
-        if (_lt.TimeLeft < 0) { _lt.OnTimerDone?.Invoke(); _loop -= UpdateCigar; }
+        if (_lt.TimeLeft < 0) { _lt.OnTimerDone?.Invoke(); if (_lt.GetIsTimeDone()) { _loop -= UpdateCigar; } }
     }
 
     private void SetTimer(float fullTime)
@@ -396,6 +445,11 @@ public class UiManager : MonoBehaviour
             item.SetActive(false);
         }
         StartCoroutine("StopTime");
+
+        foreach (Transform item in _levelTutorial)
+        {
+            item.gameObject.SetActive(false);
+        }
     }
 
     private IEnumerator StopTime()
@@ -416,6 +470,35 @@ public class UiManager : MonoBehaviour
         Time.timeScale= 1;
         _pauseMenu.SetActive(false);
         _gun.StopUsingStation();
+    }
+
+    public void OpenShop(bool Open)
+    {
+        _shop.HideAllUpgradesUI();
+        _shop.TeleportProductBack();
+
+        foreach (GameObject item in _openOnShop)
+        {
+            item.SetActive(Open);
+        }
+        foreach (GameObject item in _closeOnShop)
+        {
+            item.SetActive(!Open);
+        }
+
+        Time.timeScale = Open ? 1: 0;
+    }
+
+    private void LevelTutorials(int tutorial)
+    {
+        foreach (Transform item in _levelTutorial)
+        {
+            item.gameObject.SetActive(false);
+        }
+        if (_levelTutorial.childCount > tutorial && tutorial>=0)
+        {
+            _levelTutorial.GetChild(tutorial).gameObject.SetActive(true);
+        }
     }
 
     public void QuitGame()

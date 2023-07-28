@@ -1,22 +1,114 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Animations.Rigging;
 
 public class Shop : MonoBehaviour
 {
     [SerializeField] private List<SOUpgrade> _upgrades;
     [SerializeField] private GameObject      _upgradePrefab;
     [SerializeField] private Transform       _upgradesContent;
+    [SerializeField] private Camera          _shopCamera;
+    [SerializeField] private Transform       _selectedProductSpot;
+    [SerializeField] private Transform       _pointingAt;
+    [SerializeField] private Rig             _homelessRig;
+    [SerializeField] private float           _homelessWeightChangeSpeed = 10f;
+    [SerializeField] private Animator        _homelessAnimator;
+    [SerializeField] private float           _noPointingForAnimDuration=2;
 
     [SerializeField] private List<SOAmmoType> _ammoTypes = new List<SOAmmoType>();
+    [SerializeField] private Chili _chilil;
+    [SerializeField] private LafaPile _lafas;
+    [SerializeField] private Coffee _coffee;
+    [SerializeField] private Cola _cola;
+
+    private List<ShopUpgradeUI> _upgradesUI = new List<ShopUpgradeUI>();
 
     private GameManager _gm => GameManager.Instance;
+    private ShopProduct _productHit;
+    private ShopProduct _productSelected;
+    private float       _targetWeight = 0;
+    private Vector3     _targetPointing;
+    private bool        _secondAnimation;
+    private float       _currentNoPointing;
+    private Gun _gun;
+    private ThirdPersonMovement _thirdPersonMovement;
+
+
+    [SerializeField] private ShopAmmoCount _shopAmmoCount;
+    [SerializeField] private CoffeeFinjan  _coffeeFinjan;
 
     private void Start()
     {
+        _gm.TheShop = this;
         BuildShop();
         ResetAmmoTypes();
+
+        _gm.OnTryToBuy += HomelessAnimations;
         _gm.TakeDamage += () => { if (_gm.MaxTzadokHp == 4) { RemoveUpgradeLevel(SOUpgrade.Upgrade.Armor); _gm.MaxTzadokHp = 3; } };
+        _chilil.Used += () => RemoveUpgradeLevel(SOUpgrade.Upgrade.Chili);
+        _lafas.Used += () => RemoveUpgradeLevel(SOUpgrade.Upgrade.Lafa);
+        _cola.Used += () => RemoveUpgradeLevel(SOUpgrade.Upgrade.Cola);
+        _gun = _gm.Player.GetComponent<Gun>();
+        _thirdPersonMovement = _gm.Player.GetComponent<ThirdPersonMovement>();
+    }
+
+    private void Update()
+    {
+        ShopRaycast();
+    }
+
+    private void ShopRaycast()
+    {
+        if (!_shopCamera.isActiveAndEnabled) return;
+
+        RaycastHit hit;
+        Ray ray = _shopCamera.ScreenPointToRay(Input.mousePosition);
+
+        if (Physics.Raycast(ray, out hit, 1000f))
+        {
+            // Object hit by the raycast
+            hit.collider.gameObject.TryGetComponent<ShopProduct>(out ShopProduct _newProductHit);
+            if (_newProductHit == null) { _productHit?.OnHoverExit(); return; }
+
+            if (_newProductHit != _productHit) { _productHit?.OnHoverExit(); _productHit = _newProductHit; }
+
+            // Check for click input
+            if (_productHit == null) { return; }
+
+            if (Input.GetMouseButtonDown(0))
+            {
+                // Left mouse button clicked
+                _productHit.OnClick();
+            }
+
+            // Check for hover enter
+            if (!_productHit.GetIsHovered())
+            {
+                _productHit.OnHoverEnter();
+            }
+        }
+        else
+        {
+            // No object hit within the maximum distance
+            // Perform hover exit on the previously hovered object, if any
+            _productHit?.OnHoverExit();
+        }
+        HomelessWeightRig();
+    }
+
+    private void HomelessWeightRig()
+    {
+        float dist = Vector3.Distance(_targetPointing, _pointingAt.position);
+
+        if (dist > 0.01f) 
+        {
+            _pointingAt.position = Vector3.MoveTowards(_pointingAt.position, _targetPointing, _homelessWeightChangeSpeed * Time.deltaTime);
+        }
+
+        if (_currentNoPointing>0) _currentNoPointing -= Time.deltaTime;
+
+        _homelessRig.weight = Mathf.Lerp(_homelessRig.weight,_targetWeight,Time.deltaTime * _homelessWeightChangeSpeed);
     }
 
     private void BuildShop()
@@ -26,9 +118,11 @@ public class Shop : MonoBehaviour
             ShopUpgradeUI upgradeUI = Instantiate(_upgradePrefab, _upgradesContent.position, Quaternion.identity,
                 _upgradesContent).GetComponent<ShopUpgradeUI>();
 
-            upgradeUI.SetupUpgrade(upgrade.UpgradeName, upgrade.UpgradeDescription,
-                upgrade.Costs, upgrade.UpgradeIcon, enumToAction(upgrade.UpgradeType));
+            upgradeUI.SetupUpgrade(upgrade, enumToAction(upgrade.UpgradeType));
+            _upgradesUI.Add(upgradeUI);
+            
         }
+        HideAllUpgradesUI();
     }
 
     private void ResetAmmoTypes()
@@ -47,7 +141,12 @@ public class Shop : MonoBehaviour
             case SOUpgrade.Upgrade.MoreFries:    return UpgradeFries;
             case SOUpgrade.Upgrade.MoreEggplant: return UpgradeEggplant;
             case SOUpgrade.Upgrade.Armor:        return Armor;
-            case SOUpgrade.Upgrade.Chili:        return Armor;
+            case SOUpgrade.Upgrade.Chili:        return Chili;
+            case SOUpgrade.Upgrade.Coffee:       return UpgradeCoffee;
+            case SOUpgrade.Upgrade.Tzdaka:       return UpgradeTzdaka;
+            case SOUpgrade.Upgrade.Lafa:         return Lafa;
+            case SOUpgrade.Upgrade.Cola:         return Cola;
+
         }
         return null;
     }
@@ -58,9 +157,9 @@ public class Shop : MonoBehaviour
 
         switch (level)
         {
-            case 0: _ammoTypes[0].MaxAmmo = 12; break;
-            case 1: _ammoTypes[0].MaxAmmo = 15; break;
-            case 2: _ammoTypes[0].MaxAmmo = 20; break;
+            case 0: _ammoTypes[0].MaxAmmo = _shopAmmoCount.AmmoAmounts[0]; break;
+            case 1: _ammoTypes[0].MaxAmmo = _shopAmmoCount.AmmoAmounts[1]; break;
+            case 2: _ammoTypes[0].MaxAmmo = _shopAmmoCount.AmmoAmounts[2]; break;
         }
     }
     private void UpgradeFries(int level)
@@ -69,9 +168,9 @@ public class Shop : MonoBehaviour
 
         switch (level)
         {
-            case 0: _ammoTypes[1].MaxAmmo = 12; break;
-            case 1: _ammoTypes[1].MaxAmmo = 15; break;
-            case 2: _ammoTypes[1].MaxAmmo = 20; break;
+            case 0: _ammoTypes[1].MaxAmmo = _shopAmmoCount.AmmoAmounts[0]; break;
+            case 1: _ammoTypes[1].MaxAmmo = _shopAmmoCount.AmmoAmounts[1]; ; break;
+            case 2: _ammoTypes[1].MaxAmmo = _shopAmmoCount.AmmoAmounts[2]; break;
         }
     }
     private void UpgradeEggplant(int level)
@@ -80,9 +179,39 @@ public class Shop : MonoBehaviour
 
         switch (level)
         {
-            case 0: _ammoTypes[2].MaxAmmo = 12; break;
-            case 1: _ammoTypes[2].MaxAmmo = 15; break;
-            case 2: _ammoTypes[2].MaxAmmo = 20; break;
+            case 0: _ammoTypes[2].MaxAmmo = _shopAmmoCount.AmmoAmounts[0]; break;
+            case 1: _ammoTypes[2].MaxAmmo = _shopAmmoCount.AmmoAmounts[1]; break;
+            case 2: _ammoTypes[2].MaxAmmo = _shopAmmoCount.AmmoAmounts[2]; break;
+        }
+    }
+    private void UpgradeCoffee(int level)
+    {
+        Debug.Log($"Upgraded Coffee Level {level}");
+
+        switch (level)
+        {
+            case 0: _coffee.gameObject.SetActive(true); UpgradingCoffee(0); break;
+            case 1: UpgradingCoffee(1); break;
+            case 2: UpgradingCoffee(2); break;
+        }
+    }
+
+    private void UpgradingCoffee(int lvl)
+    {
+        _gun.SetCoffeeCooldown(_coffeeFinjan.levels[lvl].ShootingSpeed);
+        _thirdPersonMovement.SetCoffeeSpeed(_coffeeFinjan.levels[lvl].MoveSpeed);
+        _coffee.UpgradeCoffee(_coffeeFinjan.levels[lvl].CoffeeDuration, _coffeeFinjan.levels[lvl].FinjanCooldown);
+    }
+
+    private void UpgradeTzdaka(int level)
+    {
+        Debug.Log($"Upgraded Tzdaka Level {level}");
+
+        switch (level)
+        {
+            case 0: _gm.tzdakaLvl = 1; break;
+            case 1: _gm.tzdakaLvl = 2; break;
+            case 2: _gm.tzdakaLvl = 3; break;
         }
     }
     private void Armor(int level)
@@ -94,11 +223,40 @@ public class Shop : MonoBehaviour
     private void Chili(int level)
     {
         Debug.Log($"Upgraded Chili Level {level}");
+       
+        switch (level)
+        {
+            case 0: _chilil.Chilis[0].gameObject.SetActive(true); _chilil.chiliAmount++; _chilil.Activate(); break;
+            case 1: _chilil.Chilis[1].gameObject.SetActive(true); _chilil.chiliAmount++; break;
+            case 2: _chilil.Chilis[2].gameObject.SetActive(true); _chilil.chiliAmount++; break;         
+        }
 
     }
 
+    private void Lafa(int level)
+    {
+        Debug.Log($"Upgraded Lafa Level {level}");
 
-    public void RemoveUpgradeLevel(SOUpgrade.Upgrade upgradeType)
+        switch (level)
+        {
+            case 0: _lafas.Lafas[0].gameObject.SetActive(true); _lafas.LafaAmount++; _lafas.Activate(); break;
+            case 1: _lafas.Lafas[1].gameObject.SetActive(true); _lafas.LafaAmount++; break;
+            case 2: _lafas.Lafas[2].gameObject.SetActive(true); _lafas.LafaAmount++; break;
+            case 3: _lafas.Lafas[3].gameObject.SetActive(true); _lafas.LafaAmount++; break;
+            case 4: _lafas.Lafas[4].gameObject.SetActive(true); _lafas.LafaAmount++; break;
+            case 5: _lafas.Lafas[5].gameObject.SetActive(true); _lafas.LafaAmount++; break;
+        }
+
+    }
+
+    private void Cola(int level)
+    {
+        Debug.Log($"Upgraded Cola Level {level}");
+        _cola.Activate();
+    }
+
+
+    public int RemoveUpgradeLevel(SOUpgrade.Upgrade upgradeType)
     {
         foreach (Transform t in _upgradesContent)
         {
@@ -106,8 +264,96 @@ public class Shop : MonoBehaviour
             
             if (ui.GetAction() == enumToAction(upgradeType))
             {
-                ui.RemoveLevel(); return;
+                ui.RemoveLevel(); return ui.GetLevel();
             }
         }
+        Debug.LogWarning("Ata 0");
+        return 0;
     }
+
+    public void ShowUpgrade(ShopProduct sp)
+    {
+        ShopUpgradeUI su = _upgradesUI.Find(x => x.GetSOUpgrade() == sp.TheUpgradeSO);
+        if (su == null) return;
+
+        if (su.gameObject.activeSelf) 
+        {
+            HideAllUpgradesUI();
+            sp.SetDestinationBack();
+            return; 
+        }
+
+        HideAllUpgradesUI();
+
+        su.gameObject.SetActive(true);
+
+        if (_productSelected != null)
+        {
+            _productSelected.SetDestinationBack();
+        }
+        _productSelected = sp;
+        sp.SetDestination(_selectedProductSpot.position);
+    }
+
+    public void SetHomelessPointing(Vector3 pos)
+    {
+        if (_currentNoPointing > 0) return;
+        _targetPointing = pos;
+        _targetWeight = 1;
+    }
+
+    public void SetHomelessStopPointing()
+    {
+        _targetWeight = 0;
+    }
+
+    public void HideAllUpgradesUI()
+    {
+        foreach(ShopUpgradeUI i in _upgradesUI)
+        {
+            i.gameObject.SetActive(false);
+        }
+    }
+
+    public void TeleportProductBack()
+    {
+        if (_productSelected!=null)
+        _productSelected.TeleportBack();
+    }
+
+    private void HomelessAnimations(bool happy)
+    {
+        if (happy)
+        {
+            _homelessAnimator.SetTrigger(_secondAnimation ? "Yes1" : "Yes2");
+        }
+        else
+        {
+            _homelessAnimator.SetTrigger(_secondAnimation ? "No1" : "No2");
+        }
+        _currentNoPointing = _noPointingForAnimDuration;
+        _targetWeight = 0;
+        _secondAnimation = !_secondAnimation;
+    }
+
+    [System.Serializable]
+    class ShopAmmoCount
+    {
+        public int[] AmmoAmounts = new int[3];
+    }
+
+    [System.Serializable]
+    class CoffeeFinjan
+    {
+        public level[] levels = new level[3];
+        [System.Serializable]
+        public class level
+        {
+            public float ShootingSpeed;
+            public float MoveSpeed;
+            public int FinjanCooldown;
+            public int CoffeeDuration;
+        }
+    }
+
 }
