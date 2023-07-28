@@ -11,7 +11,9 @@ public class FMODEvents : MonoBehaviour
     [field: SerializeField] public EventReference Filler { get; private set; }
     [field: Header("Chipser")]
     [field: SerializeField] public EventReference Chipser { get; private set; }
-  
+    [field: Header("ChipserUse")]
+    [field: SerializeField] public EventReference ChipserUse { get; private set; }
+
     [field: Header("OutOfAmmo")]
     [field: SerializeField] public EventReference OutOfAmmo { get; private set; }
     //[field: Header("Music")]

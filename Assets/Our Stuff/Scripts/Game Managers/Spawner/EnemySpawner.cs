@@ -27,6 +27,7 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] Transform  _sideOrdersContent;
     [SerializeField] GameObject _sideOrderPrefab;
     private GameManager _gm => GameManager.Instance;
+    //private AudioManager _am => AudioManager.instance;
     LevelTimer _leveltimer;
 
     public int CustomerCounter;
@@ -35,6 +36,7 @@ public class EnemySpawner : MonoBehaviour
     {
        _leveltimer              = _gm.GetComponent<LevelTimer>();
        _leveltimer.OnTimerDone += StoreIsClose;
+       //_am.InitializeAmbience(FMODEvents.instance.ambience);
     }
 
     void Update()

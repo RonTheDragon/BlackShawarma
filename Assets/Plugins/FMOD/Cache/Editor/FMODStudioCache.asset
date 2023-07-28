@@ -1,5 +1,517 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-9145830629627055020
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/TalkCop/TalkCop 2
+  m_EditorClassIdentifier: 
+  Path: event:/TalkCop/TalkCop 2
+  Guid:
+    Data1: 1278837002
+    Data2: 1160286030
+    Data3: 270493629
+    Data4: -2009482121
+  Banks:
+  - {fileID: -2270935540716331777}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 2000
+--- !u!114 &-8114434006580344831
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/TalkHipster/TalkHipster
+  m_EditorClassIdentifier: 
+  Path: event:/TalkHipster/TalkHipster
+  Guid:
+    Data1: 16925730
+    Data2: 1237393040
+    Data3: 1671643271
+    Data4: -1018825077
+  Banks:
+  - {fileID: -2270935540716331777}
+  IsStream: 1
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 2000
+--- !u!114 &-7704290160350962850
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/TalkArs/TalkArs 3
+  m_EditorClassIdentifier: 
+  Path: event:/TalkArs/TalkArs 3
+  Guid:
+    Data1: 1817471129
+    Data2: 1096336942
+    Data3: -758618458
+    Data4: -205611557
+  Banks:
+  - {fileID: -2270935540716331777}
+  IsStream: 1
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 3000
+--- !u!114 &-6677294464821653319
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/TalkOldman/TalkOldMan
+  m_EditorClassIdentifier: 
+  Path: event:/TalkOldman/TalkOldMan
+  Guid:
+    Data1: 982893995
+    Data2: 1289746321
+    Data3: -1312722501
+    Data4: 1920368559
+  Banks:
+  - {fileID: -2270935540716331777}
+  IsStream: 1
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 3200
+--- !u!114 &-6134251754566877897
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/TalkSoldier/TalkSoldier
+  m_EditorClassIdentifier: 
+  Path: event:/TalkSoldier/TalkSoldier
+  Guid:
+    Data1: -673943575
+    Data2: 1321485343
+    Data3: 1101965187
+    Data4: 1048552095
+  Banks:
+  - {fileID: -2270935540716331777}
+  IsStream: 1
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 2200
+--- !u!114 &-4833356068048070517
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Master.strings.bank
+  m_EditorClassIdentifier: 
+  Path: TzadokFmod/FmodTzadok/Build/Desktop/Master.strings.bank
+  Name: Master.strings
+  StudioPath: bank:/Master.strings
+  lastModified: 638261561523661148
+  FileSizes:
+  - Name: Desktop
+    Value: 2182
+  Exists: 1
+--- !u!114 &-4386861116144633234
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/TalkHipster/TalkHipster 3
+  m_EditorClassIdentifier: 
+  Path: event:/TalkHipster/TalkHipster 3
+  Guid:
+    Data1: 1031122501
+    Data2: 1253809635
+    Data3: -1318663766
+    Data4: -1413278278
+  Banks:
+  - {fileID: -2270935540716331777}
+  IsStream: 1
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 2961
+--- !u!114 &-3802534943463271742
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Chipser
+  m_EditorClassIdentifier: 
+  Path: event:/Chipser
+  Guid:
+    Data1: 980690155
+    Data2: 1075275218
+    Data3: -150373494
+    Data4: -401390529
+  Banks:
+  - {fileID: -2270935540716331777}
+  IsStream: 1
+  Is3D: 1
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 10125
+--- !u!114 &-3767461096319077956
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Ding
+  m_EditorClassIdentifier: 
+  Path: event:/Ding
+  Guid:
+    Data1: 691152355
+    Data2: 1113525033
+    Data3: -203054443
+    Data4: -936030062
+  Banks:
+  - {fileID: -2270935540716331777}
+  IsStream: 1
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 2050
+--- !u!114 &-3548891573795014346
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Master.bank
+  m_EditorClassIdentifier: 
+  Path: TzadokFmod/FmodTzadok/Build/Desktop/Master.bank
+  Name: Master
+  StudioPath: bank:/Master
+  lastModified: 638261561523635362
+  FileSizes:
+  - Name: Desktop
+    Value: 1036
+  Exists: 1
+--- !u!114 &-3330308033514577458
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/TalkCop/TalkCop
+  m_EditorClassIdentifier: 
+  Path: event:/TalkCop/TalkCop
+  Guid:
+    Data1: 900294122
+    Data2: 1278517443
+    Data3: -1219420528
+    Data4: 34682484
+  Banks:
+  - {fileID: -2270935540716331777}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 1600
+--- !u!114 &-3235560442003140318
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/FootSteps/WalkHipster
+  m_EditorClassIdentifier: 
+  Path: event:/FootSteps/WalkHipster
+  Guid:
+    Data1: 1248723457
+    Data2: 1290106800
+    Data3: 407358391
+    Data4: 247799995
+  Banks:
+  - {fileID: -2270935540716331777}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 35
+  Length: 0
+--- !u!114 &-3120544268882370365
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Ambience.bank
+  m_EditorClassIdentifier: 
+  Path: TzadokFmod/FmodTzadok/Build/Desktop/Ambience.bank
+  Name: Ambience
+  StudioPath: bank:/Ambience
+  lastModified: 638261545446102353
+  FileSizes:
+  - Name: Desktop
+    Value: 398272
+  Exists: 1
+--- !u!114 &-3064980082314336567
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/TalkSoldier/TalkSoldier 3
+  m_EditorClassIdentifier: 
+  Path: event:/TalkSoldier/TalkSoldier 3
+  Guid:
+    Data1: 1692261890
+    Data2: 1248782458
+    Data3: -1348535400
+    Data4: 131772725
+  Banks:
+  - {fileID: -2270935540716331777}
+  IsStream: 1
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 3810
+--- !u!114 &-2984038473995778198
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Filler
+  m_EditorClassIdentifier: 
+  Path: event:/Filler
+  Guid:
+    Data1: 146885560
+    Data2: 1165909555
+    Data3: 1359162522
+    Data4: -1686596501
+  Banks:
+  - {fileID: -2270935540716331777}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 225
+--- !u!114 &-2270935540716331777
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Sfx.bank
+  m_EditorClassIdentifier: 
+  Path: TzadokFmod/FmodTzadok/Build/Desktop/Sfx.bank
+  Name: Sfx
+  StudioPath: bank:/Sfx
+  lastModified: 638261561524090522
+  FileSizes:
+  - Name: Desktop
+    Value: 1422144
+  Exists: 1
+--- !u!114 &-2021586954072060248
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/TalkHipster/TalkHipster 2
+  m_EditorClassIdentifier: 
+  Path: event:/TalkHipster/TalkHipster 2
+  Guid:
+    Data1: 39297318
+    Data2: 1274687528
+    Data3: -228062795
+    Data4: -503513472
+  Banks:
+  - {fileID: -2270935540716331777}
+  IsStream: 1
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 1900
+--- !u!114 &-1879047947446778066
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/FootSteps/WalkSoldier
+  m_EditorClassIdentifier: 
+  Path: event:/FootSteps/WalkSoldier
+  Guid:
+    Data1: -1042540659
+    Data2: 1310926091
+    Data3: -146521667
+    Data4: -1285781549
+  Banks:
+  - {fileID: -2270935540716331777}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
+--- !u!114 &-732374316360118756
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/FootSteps/WalkGangster
+  m_EditorClassIdentifier: 
+  Path: event:/FootSteps/WalkGangster
+  Guid:
+    Data1: 1411668899
+    Data2: 1168325935
+    Data3: -1223150696
+    Data4: -930317469
+  Banks:
+  - {fileID: -2270935540716331777}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
+--- !u!114 &-207243573681393410
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/TalkOldman/TalkOldMan 2
+  m_EditorClassIdentifier: 
+  Path: event:/TalkOldman/TalkOldMan 2
+  Guid:
+    Data1: 1751164611
+    Data2: 1097392604
+    Data3: -1228847455
+    Data4: 1376031218
+  Banks:
+  - {fileID: -2270935540716331777}
+  IsStream: 1
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 3000
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12,10 +524,452 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d32cf7c32a3ed8347bac48ef5ed56d82, type: 3}
   m_Name: FMODStudioCache
   m_EditorClassIdentifier: 
-  EditorBanks: []
-  EditorEvents: []
+  EditorBanks:
+  - {fileID: -4833356068048070517}
+  - {fileID: -3120544268882370365}
+  - {fileID: -3548891573795014346}
+  - {fileID: -2270935540716331777}
+  EditorEvents:
+  - {fileID: 7873035665433478397}
+  - {fileID: 2308184692244162112}
+  - {fileID: -3235560442003140318}
+  - {fileID: -3064980082314336567}
+  - {fileID: -9145830629627055020}
+  - {fileID: 8929284594969668988}
+  - {fileID: 8438777132163147221}
+  - {fileID: 7930411448164618357}
+  - {fileID: -8114434006580344831}
+  - {fileID: -2021586954072060248}
+  - {fileID: 497117174454930390}
+  - {fileID: 5142850688283196533}
+  - {fileID: 1551111805676303984}
+  - {fileID: -4386861116144633234}
+  - {fileID: 8176834159399928959}
+  - {fileID: 584254182743436382}
+  - {fileID: 6389337970147413013}
+  - {fileID: 6115495183291914285}
+  - {fileID: 7302317247063283934}
+  - {fileID: -1879047947446778066}
+  - {fileID: -7704290160350962850}
+  - {fileID: -732374316360118756}
+  - {fileID: -6677294464821653319}
+  - {fileID: -2984038473995778198}
+  - {fileID: -207243573681393410}
+  - {fileID: 2257434964979192628}
+  - {fileID: -3767461096319077956}
+  - {fileID: -3802534943463271742}
+  - {fileID: -6134251754566877897}
+  - {fileID: -3330308033514577458}
+  - {fileID: 3605701367765054550}
   EditorParameters: []
-  MasterBanks: []
-  StringsBanks: []
-  cacheTime: 0
+  MasterBanks:
+  - {fileID: -3548891573795014346}
+  StringsBanks:
+  - {fileID: -4833356068048070517}
+  cacheTime: 638261561524090522
   cacheVersion: 131605
+--- !u!114 &497117174454930390
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/FootSteps/WalkCop
+  m_EditorClassIdentifier: 
+  Path: event:/FootSteps/WalkCop
+  Guid:
+    Data1: 1209755696
+    Data2: 1134021778
+    Data3: -1396695880
+    Data4: 444671973
+  Banks:
+  - {fileID: -2270935540716331777}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
+--- !u!114 &584254182743436382
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/TalkSoldier/TalkSoldier 2
+  m_EditorClassIdentifier: 
+  Path: event:/TalkSoldier/TalkSoldier 2
+  Guid:
+    Data1: -568467873
+    Data2: 1237719448
+    Data3: 2056536450
+    Data4: 709512044
+  Banks:
+  - {fileID: -2270935540716331777}
+  IsStream: 1
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 2800
+--- !u!114 &1551111805676303984
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/TalkOldman/TalkOldMan 3
+  m_EditorClassIdentifier: 
+  Path: event:/TalkOldman/TalkOldMan 3
+  Guid:
+    Data1: -1528391617
+    Data2: 1182486534
+    Data3: 45518258
+    Data4: 1418499762
+  Banks:
+  - {fileID: -2270935540716331777}
+  IsStream: 1
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 4286
+--- !u!114 &2257434964979192628
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/FootSteps/WalkArs
+  m_EditorClassIdentifier: 
+  Path: event:/FootSteps/WalkArs
+  Guid:
+    Data1: -778300718
+    Data2: 1119358728
+    Data3: -368592480
+    Data4: 245206530
+  Banks:
+  - {fileID: -2270935540716331777}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
+--- !u!114 &2308184692244162112
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Test
+  m_EditorClassIdentifier: 
+  Path: event:/Test
+  Guid:
+    Data1: 180967664
+    Data2: 1248157647
+    Data3: 1782391979
+    Data4: -758145176
+  Banks:
+  - {fileID: -3120544268882370365}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 34257
+--- !u!114 &3605701367765054550
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/ChipserCock
+  m_EditorClassIdentifier: 
+  Path: event:/ChipserCock
+  Guid:
+    Data1: -139351834
+    Data2: 1327986603
+    Data3: -354996345
+    Data4: 542416960
+  Banks:
+  - {fileID: -2270935540716331777}
+  IsStream: 1
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 20225
+--- !u!114 &5142850688283196533
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/TalkGangster/TalkGangster 2
+  m_EditorClassIdentifier: 
+  Path: event:/TalkGangster/TalkGangster 2
+  Guid:
+    Data1: -174490827
+    Data2: 1185058375
+    Data3: 1086410133
+    Data4: -1863959959
+  Banks:
+  - {fileID: -2270935540716331777}
+  IsStream: 1
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 3000
+--- !u!114 &6115495183291914285
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/TalkArs/TalkArs 2
+  m_EditorClassIdentifier: 
+  Path: event:/TalkArs/TalkArs 2
+  Guid:
+    Data1: 572451721
+    Data2: 1320437226
+    Data3: 1430859961
+    Data4: -413977803
+  Banks:
+  - {fileID: -2270935540716331777}
+  IsStream: 1
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 2600
+--- !u!114 &6389337970147413013
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/OutOfAmmo
+  m_EditorClassIdentifier: 
+  Path: event:/OutOfAmmo
+  Guid:
+    Data1: 537649268
+    Data2: 1112730289
+    Data3: 54155662
+    Data4: -305463420
+  Banks:
+  - {fileID: -2270935540716331777}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 75
+--- !u!114 &7302317247063283934
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/TalkGangster/TalkGangster 3
+  m_EditorClassIdentifier: 
+  Path: event:/TalkGangster/TalkGangster 3
+  Guid:
+    Data1: -1918480757
+    Data2: 1287245273
+    Data3: -821573715
+    Data4: -1913075291
+  Banks:
+  - {fileID: -2270935540716331777}
+  IsStream: 1
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 4200
+--- !u!114 &7873035665433478397
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Ambience
+  m_EditorClassIdentifier: 
+  Path: event:/Ambience
+  Guid:
+    Data1: -652135658
+    Data2: 1135487865
+    Data3: 304023424
+    Data4: -2118562192
+  Banks:
+  - {fileID: -3120544268882370365}
+  IsStream: 1
+  Is3D: 1
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 34257
+--- !u!114 &7930411448164618357
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/TalkCop/TalkCop 3
+  m_EditorClassIdentifier: 
+  Path: event:/TalkCop/TalkCop 3
+  Guid:
+    Data1: 2115170583
+    Data2: 1180154295
+    Data3: -761387366
+    Data4: 1808438082
+  Banks:
+  - {fileID: -2270935540716331777}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 1900
+--- !u!114 &8176834159399928959
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/TalkGangster/TalkGangster
+  m_EditorClassIdentifier: 
+  Path: event:/TalkGangster/TalkGangster
+  Guid:
+    Data1: -1197309877
+    Data2: 1126748892
+    Data3: -647489866
+    Data4: 47140144
+  Banks:
+  - {fileID: -2270935540716331777}
+  IsStream: 1
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 2800
+--- !u!114 &8438777132163147221
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/TalkArs/TalkArs
+  m_EditorClassIdentifier: 
+  Path: event:/TalkArs/TalkArs
+  Guid:
+    Data1: 1682261523
+    Data2: 1237016615
+    Data3: -809926265
+    Data4: -1776941119
+  Banks:
+  - {fileID: -2270935540716331777}
+  IsStream: 1
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 2200
+--- !u!114 &8929284594969668988
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/FootSteps/WalkOldman
+  m_EditorClassIdentifier: 
+  Path: event:/FootSteps/WalkOldman
+  Guid:
+    Data1: -329037039
+    Data2: 1168573780
+    Data3: -2068233830
+    Data4: 160949398
+  Banks:
+  - {fileID: -2270935540716331777}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0

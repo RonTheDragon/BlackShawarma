@@ -1,5 +1,84 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1242405965
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1242405966}
+  - component: {fileID: 1242405967}
+  m_Layer: 0
+  m_Name: FmodEvents
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1242405966
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1242405965}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6308616315591562076}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1242405967
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1242405965}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 698c1f052279393429943b7b10c7cb8f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <ambience>k__BackingField:
+    Guid:
+      Data1: -652135658
+      Data2: 1135487865
+      Data3: 304023424
+      Data4: -2118562192
+    Path: event:/Ambience
+  <Filler>k__BackingField:
+    Guid:
+      Data1: 146885560
+      Data2: 1165909555
+      Data3: 1359162522
+      Data4: -1686596501
+    Path: event:/Filler
+  <Chipser>k__BackingField:
+    Guid:
+      Data1: 980690155
+      Data2: 1075275218
+      Data3: -150373494
+      Data4: -401390529
+    Path: event:/Chipser
+  <ChipserUse>k__BackingField:
+    Guid:
+      Data1: -139351834
+      Data2: 1327986603
+      Data3: -354996345
+      Data4: 542416960
+    Path: event:/ChipserCock
+  <OutOfAmmo>k__BackingField:
+    Guid:
+      Data1: 537649268
+      Data2: 1112730289
+      Data3: 54155662
+      Data4: -305463420
+    Path: event:/OutOfAmmo
 --- !u!1 &1392687152
 GameObject:
   m_ObjectHideFlags: 0
@@ -49,6 +128,54 @@ MonoBehaviour:
   blendDistance: 0
   weight: 1
   priority: 1
+--- !u!1 &1549087258
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1549087259}
+  - component: {fileID: 1549087260}
+  m_Layer: 0
+  m_Name: AudioManger
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1549087259
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1549087258}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6308616315591562076}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1549087260
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1549087258}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d64d759f3bc189f45911e57fef48ac91, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  masterVolume: 1
+  musicVolume: 1
+  ambienceVolume: 1
+  SFXVolume: 1
 --- !u!1 &1455869756880736480
 GameObject:
   m_ObjectHideFlags: 0
@@ -730,10 +857,7 @@ MonoBehaviour:
   _distanceBetweenLanes: 2
   _distanceInLane: 4.69
   _drawGizmos: 1
-  _enemyTypes:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  _enemyTypes: []
   _spawnLimit:
     Hipster: 0
     OldMan: 0
@@ -970,6 +1094,8 @@ Transform:
   - {fileID: 6010518701569248397}
   - {fileID: 1392687154}
   - {fileID: 7837821696536903679}
+  - {fileID: 1549087259}
+  - {fileID: 1242405966}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

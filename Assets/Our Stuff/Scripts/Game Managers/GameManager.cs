@@ -43,6 +43,7 @@ public class GameManager : MonoBehaviour
     public EnemySpawner EnemySpawner;
     public LevelTimer LvlTimer => GetComponent<LevelTimer>();
     public ComboManager CM => GetComponent<ComboManager>();
+    
 
     public LayerMask NotPlayerLayer;
 

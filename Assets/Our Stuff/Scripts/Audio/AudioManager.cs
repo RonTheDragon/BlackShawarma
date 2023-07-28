@@ -27,6 +27,7 @@ public class AudioManager : MonoBehaviour
     private EventInstance ambienceEventInstance;
     private EventInstance FillerEventInstance;
     //private EventInstance musicEventInstance;
+    private EventInstance ChipserEventInstance;
 
     public static AudioManager instance { get; private set; }
 
@@ -49,7 +50,7 @@ public class AudioManager : MonoBehaviour
 
     private void Start()
     {
-        InitializeAmbience(FMODEvents.instance.ambience);
+        
         //InitializeMusic(FMODEvents.instance.music);
     }
 
@@ -71,7 +72,11 @@ public class AudioManager : MonoBehaviour
         FillerEventInstance = CreateInstance(FillerEventReference);
         FillerEventInstance.start();
     }
-
+    public void InitializeChipser(EventReference ChipserEventReference,Vector3 Pos)
+    {
+        FillerEventInstance = CreateInstance(ChipserEventReference);
+        FillerEventInstance.start();
+    }
     private void InitializeMusic(EventReference musicEventReference)
     {
         //musicEventInstance = CreateInstance(musicEventReference);
