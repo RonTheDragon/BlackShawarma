@@ -72,11 +72,6 @@ public class AudioManager : MonoBehaviour
         FillerEventInstance = CreateInstance(FillerEventReference);
         FillerEventInstance.start();
     }
-    public void InitializeChipser(EventReference ChipserEventReference,Vector3 Pos)
-    {
-        FillerEventInstance = CreateInstance(ChipserEventReference);
-        FillerEventInstance.start();
-    }
 
     private void InitializeMusic(EventReference musicEventReference)
     {

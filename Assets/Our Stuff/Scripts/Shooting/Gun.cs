@@ -130,6 +130,7 @@ public class Gun : MonoBehaviour
 
     void Start()
     {
+        
         cinemachine.m_Lens.FieldOfView = NotAimingFOV;
         ResetAmmoToMax();
         StartUsingStation();
@@ -263,6 +264,8 @@ public class Gun : MonoBehaviour
                         if (!(interact is HoldInteractable))
                         {
                             OnUse = interact.Use;
+                            
+
                         }
                         else
                         {
@@ -508,6 +511,8 @@ public class Gun : MonoBehaviour
         Cursor.visible = false;
         CursorHand.gameObject.SetActive(true);
         infoUpdate?.Invoke(string.Empty);
+        //AudioManager.instance.PlayOneShot(FMODEvents.instance.Counter, transform.position);
+
     }
 
     public void StopUsingStation()

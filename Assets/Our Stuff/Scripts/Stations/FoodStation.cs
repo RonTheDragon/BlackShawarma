@@ -28,12 +28,14 @@ public class FoodStation : MonoBehaviour , HoldInteractable
     public float UseDuration { get => _useDuration; set => _useDuration = value; }
 
     private GameManager _gm;
+    private AudioManager _am;
 
     public string NotActiveInfo { get => _notActiveInfo; set => _notActiveInfo = value; }
     private string _notActiveInfo;
 
     private void Start()
     {
+        _am = AudioManager.instance;
         _gm = GameManager.Instance;
         _useInfo = _info;
         _gm.OnPickUpSack += () => ToggleRefill(true);
@@ -46,14 +48,20 @@ public class FoodStation : MonoBehaviour , HoldInteractable
         _gun = player.GetComponent<Gun>();
         BuildOrder b = player.GetComponent<BuildOrder>();
 
+        
+
         if (!b.HasSupplies)
         {
             Panel.SetActive(!Panel.activeSelf);
-
+            
             if (_gun != null)
             {
+                
                 if (!_gun.UsingUI)
+                {
                     _gun.StartUsingStation();
+                   _am.PlayOneShot(FMODEvents.instance.Counter, transform.position);
+                }
                 else
                 {
                     _gun.StopUsingStation();

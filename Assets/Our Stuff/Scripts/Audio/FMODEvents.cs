@@ -16,6 +16,8 @@ public class FMODEvents : MonoBehaviour
 
     [field: Header("OutOfAmmo")]
     [field: SerializeField] public EventReference OutOfAmmo { get; private set; }
+    [field: Header("Counter")]
+    [field: SerializeField] public EventReference Counter { get; private set; }
     //[field: Header("Music")]
     //[field: SerializeField] public EventReference music { get; private set; }
 
