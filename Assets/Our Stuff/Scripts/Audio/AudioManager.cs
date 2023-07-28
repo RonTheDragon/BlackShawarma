@@ -22,8 +22,8 @@ public class AudioManager : MonoBehaviour
     //private Bus sfxBus;
 
     private List<EventInstance> eventInstances;
-    //private List<StudioEventEmitter> eventEmitters;
-
+    private List<StudioEventEmitter> eventEmitters;
+    private Dictionary<string, EventInstance> soundInstances = new Dictionary<string, EventInstance>();
     private EventInstance ambienceEventInstance;
     private EventInstance FillerEventInstance;
     //private EventInstance musicEventInstance;
@@ -40,7 +40,7 @@ public class AudioManager : MonoBehaviour
         instance = this;
 
         eventInstances = new List<EventInstance>();
-        //eventEmitters = new List<StudioEventEmitter>();
+        eventEmitters = new List<StudioEventEmitter>();
 
         //masterBus = RuntimeManager.GetBus("bus:/");
         //musicBus = RuntimeManager.GetBus("bus:/Music");
@@ -77,6 +77,7 @@ public class AudioManager : MonoBehaviour
         FillerEventInstance = CreateInstance(ChipserEventReference);
         FillerEventInstance.start();
     }
+
     private void InitializeMusic(EventReference musicEventReference)
     {
         //musicEventInstance = CreateInstance(musicEventReference);
@@ -96,6 +97,31 @@ public class AudioManager : MonoBehaviour
     public void PlayOneShot(EventReference sound, Vector3 worldPos)
     {
         RuntimeManager.PlayOneShot(sound, worldPos);
+        
+    }
+    public void PlayOneShotUnique(EventReference sound, Vector3 worldPos)
+    {
+        string soundPath = sound.Path;
+        if (soundInstances.ContainsKey(soundPath))
+        {
+            EventInstance existingInstance = soundInstances[soundPath];
+            PLAYBACK_STATE state;
+            existingInstance.getPlaybackState(out state);
+
+            if (state != PLAYBACK_STATE.PLAYING)
+            {
+                soundInstances.Remove(soundPath);
+            }
+            else
+            {
+                // Sound is already playing, do not play it again.
+                return;
+            }
+        }
+
+        EventInstance eventInstance = CreateInstance(sound);
+        soundInstances[soundPath] = eventInstance;
+        eventInstance.start();
     }
 
     public EventInstance CreateInstance(EventReference eventReference)
@@ -105,31 +131,31 @@ public class AudioManager : MonoBehaviour
         return eventInstance;
     }
 
-    //public StudioEventEmitter InitializeEventEmitter(EventReference eventReference, GameObject emitterGameObject)
-    //{
-    //    StudioEventEmitter emitter = emitterGameObject.GetComponent<StudioEventEmitter>();
-    //    emitter.EventReference = eventReference;
-    //    eventEmitters.Add(emitter);
-    //    return emitter;
-    //}
+    public StudioEventEmitter InitializeEventEmitter(EventReference eventReference, GameObject emitterGameObject)
+    {
+        StudioEventEmitter emitter = emitterGameObject.GetComponent<StudioEventEmitter>();
+        emitter.EventReference = eventReference;
+        eventEmitters.Add(emitter);
+        return emitter;
+    }
 
-    //private void CleanUp()
-    //{
-    //    // stop and release any created instances
-    //    foreach (EventInstance eventInstance in eventInstances)
-    //    {
-    //        eventInstance.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
-    //        eventInstance.release();
-    //    }
-    //    // stop all of the event emitters, because if we don't they may hang around in other scenes
-    //    foreach (StudioEventEmitter emitter in eventEmitters)
-    //    {
-    //        emitter.Stop();
-    //    }
-    //}
+    private void CleanUp()
+    {
+        // stop and release any created instances
+        foreach (EventInstance eventInstance in eventInstances)
+        {
+            eventInstance.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+            eventInstance.release();
+        }
+        // stop all of the event emitters, because if we don't they may hang around in other scenes
+        foreach (StudioEventEmitter emitter in eventEmitters)
+        {
+            emitter.Stop();
+        }
+    }
 
-    //private void OnDestroy()
-    //{
-    //    CleanUp();
-    //}
+    private void OnDestroy()
+    {
+        CleanUp();
+    }
 }

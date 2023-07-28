@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 using UnityEngine.UI;
-
+using FMODUnity;
 public class Refill : MonoBehaviour, Interactable
 {
     [SerializeField] SOAmmoType _type;
@@ -24,7 +24,7 @@ public class Refill : MonoBehaviour, Interactable
     [SerializeField] private float _cookingDuration = 3;
     private float _currentCooking;
     private bool _cooking;
-
+    private StudioEventEmitter emitter;
  // [SerializeField] private int _maxContained;
    //[SerializeField] private int _currentContained;
    //[SerializeField] private float _transferSpeed;
@@ -69,7 +69,8 @@ public class Refill : MonoBehaviour, Interactable
         _gm.OnPlaceDownSack += () => _notActive = false;
         _gm.OnStartLevel += ResetStation;
         _am = AudioManager.instance;
-        _am.PlayOneShot(FMODEvents.instance.Chipser, gameObject.transform.localPosition);
+        emitter = _am.InitializeEventEmitter(FMODEvents.instance.Chipser,this.gameObject);
+        emitter.Play();
        // _playerLocation = _gm.Player.transform;
         //_gun = _gm.Player.GetComponent<Gun>();
         //foreach (SOAmmoType i in _gun.AmmoTypes)
@@ -146,7 +147,8 @@ public class Refill : MonoBehaviour, Interactable
             _type.CurrentAmmo = _type.MaxAmmo;
             _gm.OnAmmoUpdate?.Invoke();
             _particle.Play();
-            _am.PlayOneShot(FMODEvents.instance.ChipserUse, gameObject.transform.localPosition);
+            emitter.Stop();
+            _am.PlayOneShot(FMODEvents.instance.ChipserUse, gameObject.transform.position);
         }
     }
 

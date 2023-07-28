@@ -55,6 +55,7 @@ public class Gun : MonoBehaviour
 
     private ThirdPersonMovement tpm => GetComponent<ThirdPersonMovement>();
     private GameManager _gm => GameManager.Instance;
+    private AudioManager _am => AudioManager.instance;
 
     private CinemachineImpulseSource _cis => GetComponent<CinemachineImpulseSource>();
 
@@ -195,14 +196,19 @@ public class Gun : MonoBehaviour
             {
                 if (CurrentAmmoType.CurrentAmmo > 0)
                 {
+                    
                     StartCoroutine("ShootDelay");
                 }
-
+                
                 else
                 {
                     //play the empty gun sound, if the sound is not playing already.
+                    
                     OutOfAmmo?.Invoke(true);
                     _outOfAmmoShowTime = 1;
+                    _am.PlayOneShot(FMODEvents.instance.OutOfAmmo, transform.position);
+                    _cd = _coffeeBuff ? CoffeeCD : CoolDown;
+                    Debug.Log("Playing one-shot sound.");
                 }
             }
 
