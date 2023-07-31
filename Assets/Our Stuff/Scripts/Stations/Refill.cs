@@ -148,7 +148,7 @@ public class Refill : MonoBehaviour, Interactable
             _gm.OnAmmoUpdate?.Invoke();
             _particle.Play();
             emitter.Stop();
-            /*_am.PlayOneShot(FMODEvents.instance.ChipserUse, gameObject.transform.position);*/
+           _am.PlayOneShot(FMODEvents.instance.ChipserUse, gameObject.transform.position);
         }
     }
 

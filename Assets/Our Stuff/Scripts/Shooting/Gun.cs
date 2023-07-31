@@ -209,7 +209,7 @@ public class Gun : MonoBehaviour
                     _outOfAmmoShowTime = 1;
                     _am.PlayOneShot(FMODEvents.instance.OutOfAmmo, transform.position);
                     _cd = _coffeeBuff ? CoffeeCD : CoolDown;
-                    Debug.Log("Playing one-shot sound.");
+                   
                 }
             }
 

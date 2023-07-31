@@ -40,6 +40,9 @@ public class Tutorial : MonoBehaviour
 
     private EnemyAI _enemy;
 
+    
+   
+
 
     // Events
     private Action _currentTutorialStage; // Current State Used
@@ -57,6 +60,7 @@ public class Tutorial : MonoBehaviour
         _gun.StartUsingStation();
         Time.timeScale = 0.0f;
         StartCoroutine("lateStart");
+        
     }
 
 
@@ -95,6 +99,7 @@ public class Tutorial : MonoBehaviour
         {
             ammoType.CurrentAmmo = 0;
         }
+        
         _gm.OnAmmoUpdate?.Invoke();
         FreezeTimer?.Invoke(true);
         _tutorialStages[1].gameObject.SetActive(true);
@@ -109,9 +114,11 @@ public class Tutorial : MonoBehaviour
 
     private void TutorialStage1() //movement
     {
+        
         // Update Content Here
         if (Input.GetKeyDown(KeyCode.Space)) // Finish Stage Requirement
         {
+       
             _currentTutorialStage = TutorialStage2;
             _tutorialStages[1].gameObject.SetActive(false);
             _tutorialStages[2].gameObject.SetActive(true);

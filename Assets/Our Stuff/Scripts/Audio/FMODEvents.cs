@@ -18,6 +18,23 @@ public class FMODEvents : MonoBehaviour
     [field: SerializeField] public EventReference OutOfAmmo { get; private set; }
     [field: Header("Counter")]
     [field: SerializeField] public EventReference Counter { get; private set; }
+    [field: Header("Ars")]
+    [field: SerializeField] public EventReference [] ArsTalk { get; private set; }
+    [field: Header("Arsit")]
+    [field: SerializeField] public EventReference[] ArsitTalk { get; private set; }
+    [field: Header("Hipster")]
+    [field: SerializeField] public EventReference[] HipsterTalk { get; private set; }
+    [field: Header("OldGuy")]
+    [field: SerializeField] public EventReference[] OldGuyTalk { get; private set; }
+    [field: Header("Cop")]
+    [field: SerializeField] public EventReference[] CopTalk { get; private set; }
+    [field: Header("Soldier")]
+    [field: SerializeField] public EventReference[] SoldierTalk { get; private set; }
+    [field: Header("Mobster")]
+    [field: SerializeField] public EventReference[] MobsterTalk { get; private set; }
+    [field: Header("Tutorial")]
+    [field: SerializeField] public EventReference[] Tutorial { get; private set; }
+    //[field: Header("Music")]
     //[field: Header("Music")]
     //[field: SerializeField] public EventReference music { get; private set; }
 
