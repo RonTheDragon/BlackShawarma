@@ -150,7 +150,7 @@ MonoBehaviour:
   Path: TzadokFmod/FmodTzadok/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 638262683315105719
+  lastModified: 638264421403703204
   FileSizes:
   - Name: Desktop
     Value: 2230
@@ -251,7 +251,7 @@ MonoBehaviour:
   Path: TzadokFmod/FmodTzadok/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 638262683315105719
+  lastModified: 638264258971934358
   FileSizes:
   - Name: Desktop
     Value: 1036
@@ -325,7 +325,7 @@ MonoBehaviour:
   Path: TzadokFmod/FmodTzadok/Build/Desktop/Ambience.bank
   Name: Ambience
   StudioPath: bank:/Ambience
-  lastModified: 638262683315095729
+  lastModified: 638264421403653194
   FileSizes:
   - Name: Desktop
     Value: 398272
@@ -399,7 +399,7 @@ MonoBehaviour:
   Path: TzadokFmod/FmodTzadok/Build/Desktop/Sfx.bank
   Name: Sfx
   StudioPath: bank:/Sfx
-  lastModified: 638262683315145735
+  lastModified: 638264421403868359
   FileSizes:
   - Name: Desktop
     Value: 1829376
@@ -458,6 +458,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 0
+--- !u!114 &-1164957492176411073
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Test
+  m_EditorClassIdentifier: 
+  Path: event:/Test
+  Guid:
+    Data1: 180967664
+    Data2: 1248157647
+    Data3: 1782391979
+    Data4: -758145176
+  Banks:
+  - {fileID: -3120544268882370365}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 34257
 --- !u!114 &-732374316360118756
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -531,7 +558,6 @@ MonoBehaviour:
   - {fileID: -2270935540716331777}
   EditorEvents:
   - {fileID: 7873035665433478397}
-  - {fileID: 2308184692244162112}
   - {fileID: -3235560442003140318}
   - {fileID: -3064980082314336567}
   - {fileID: -9145830629627055020}
@@ -546,29 +572,57 @@ MonoBehaviour:
   - {fileID: -4386861116144633234}
   - {fileID: 8176834159399928959}
   - {fileID: 584254182743436382}
-  - {fileID: 6389337970147413013}
   - {fileID: 6115495183291914285}
   - {fileID: 7302317247063283934}
   - {fileID: -1879047947446778066}
   - {fileID: -7704290160350962850}
   - {fileID: -732374316360118756}
   - {fileID: -6677294464821653319}
-  - {fileID: -2984038473995778198}
   - {fileID: -207243573681393410}
   - {fileID: 2257434964979192628}
-  - {fileID: -3767461096319077956}
-  - {fileID: -3802534943463271742}
   - {fileID: -6134251754566877897}
   - {fileID: -3330308033514577458}
-  - {fileID: 3605701367765054550}
-  - {fileID: 5064979736456223085}
+  - {fileID: -1164957492176411073}
+  - {fileID: 6950294677696651602}
+  - {fileID: 1066281795720484582}
+  - {fileID: 6039001309490139745}
+  - {fileID: 4593859144243369695}
+  - {fileID: 133734696921419645}
+  - {fileID: 8817029387024918730}
   EditorParameters: []
   MasterBanks:
   - {fileID: -3548891573795014346}
   StringsBanks:
   - {fileID: -4833356068048070517}
-  cacheTime: 638262683315145735
+  cacheTime: 638264421403868359
   cacheVersion: 131605
+--- !u!114 &133734696921419645
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/ChipserCock
+  m_EditorClassIdentifier: 
+  Path: event:/ChipserCock
+  Guid:
+    Data1: -139351834
+    Data2: 1327986603
+    Data3: -354996345
+    Data4: 542416960
+  Banks:
+  - {fileID: -2270935540716331777}
+  IsStream: 1
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 20225
 --- !u!114 &497117174454930390
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -623,6 +677,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 2800
+--- !u!114 &1066281795720484582
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/OutOfAmmo
+  m_EditorClassIdentifier: 
+  Path: event:/OutOfAmmo
+  Guid:
+    Data1: 537649268
+    Data2: 1112730289
+    Data3: 54155662
+    Data4: -305463420
+  Banks:
+  - {fileID: -2270935540716331777}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 75
 --- !u!114 &1551111805676303984
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -731,6 +812,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 20225
+--- !u!114 &4593859144243369695
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Ding
+  m_EditorClassIdentifier: 
+  Path: event:/Ding
+  Guid:
+    Data1: 691152355
+    Data2: 1113525033
+    Data3: -203054443
+    Data4: -936030062
+  Banks:
+  - {fileID: -2270935540716331777}
+  IsStream: 1
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 2050
 --- !u!114 &5064979736456223085
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -785,6 +893,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 3000
+--- !u!114 &6039001309490139745
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Filler
+  m_EditorClassIdentifier: 
+  Path: event:/Filler
+  Guid:
+    Data1: 146885560
+    Data2: 1165909555
+    Data3: 1359162522
+    Data4: -1686596501
+  Banks:
+  - {fileID: -2270935540716331777}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 225
 --- !u!114 &6115495183291914285
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -839,6 +974,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 75
+--- !u!114 &6950294677696651602
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Counter
+  m_EditorClassIdentifier: 
+  Path: event:/Counter
+  Guid:
+    Data1: 1977917517
+    Data2: 1317176871
+    Data3: -12448638
+    Data4: 855820198
+  Banks:
+  - {fileID: -2270935540716331777}
+  IsStream: 1
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 3000
 --- !u!114 &7302317247063283934
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -974,6 +1136,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 2200
+--- !u!114 &8817029387024918730
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Chipser
+  m_EditorClassIdentifier: 
+  Path: event:/Chipser
+  Guid:
+    Data1: 980690155
+    Data2: 1075275218
+    Data3: -150373494
+    Data4: -401390529
+  Banks:
+  - {fileID: -2270935540716331777}
+  IsStream: 1
+  Is3D: 1
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 10125
 --- !u!114 &8929284594969668988
 MonoBehaviour:
   m_ObjectHideFlags: 0
