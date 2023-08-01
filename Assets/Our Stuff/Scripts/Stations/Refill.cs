@@ -69,8 +69,8 @@ public class Refill : MonoBehaviour, Interactable
         _gm.OnPlaceDownSack += () => _notActive = false;
         _gm.OnStartLevel += ResetStation;
         _am = AudioManager.instance;
-        emitter = _am.InitializeEventEmitter(FMODEvents.instance.Chipser,this.gameObject);
-        emitter.Play();
+        //emitter = _am.InitializeEventEmitter(FMODEvents.instance.Chipser,this.gameObject);
+        //emitter.Play();
        // _playerLocation = _gm.Player.transform;
         //_gun = _gm.Player.GetComponent<Gun>();
         //foreach (SOAmmoType i in _gun.AmmoTypes)

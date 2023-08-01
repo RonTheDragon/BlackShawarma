@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 using FMODUnity;
+using FMOD.Studio;
 
 public class Tutorial : MonoBehaviour
 {
@@ -40,8 +41,14 @@ public class Tutorial : MonoBehaviour
 
     private EnemyAI _enemy;
 
-    
-   
+    private int currentStep = 0;
+
+    [SerializeField] private EventReference[] tutorialEvents;
+
+    [SerializeField] private FMODEvents fmodEvents;
+
+    private List<StudioEventEmitter> emitters = new List<StudioEventEmitter>();
+
 
 
     // Events
@@ -49,6 +56,7 @@ public class Tutorial : MonoBehaviour
     public Action<bool> FreezeTimer;
 
     private bool _done;
+    private bool isPlayingSound;
 
     private void Start()
     {
@@ -60,7 +68,14 @@ public class Tutorial : MonoBehaviour
         _gun.StartUsingStation();
         Time.timeScale = 0.0f;
         StartCoroutine("lateStart");
-        
+        // Add all the emitters to the list
+        emitters.AddRange(GetComponentsInChildren<StudioEventEmitter>());
+
+        // Stop all emitters initially
+        foreach (var emitter in emitters)
+        {
+            emitter.Stop();
+        }
     }
 
 
@@ -76,8 +91,28 @@ public class Tutorial : MonoBehaviour
     void Update()
     {
         _currentTutorialStage?.Invoke();
+        if (isPlayingSound)
+        {
+            Debug.Log("Yes!!");
+            // If a sound is playing, check if it has finished playing
+            StudioEventEmitter currentEmitter = emitters[currentStep];
 
-       
+            if (!currentEmitter.IsPlaying())
+            {
+
+               
+                // Sound has finished playing, move to the next step
+                currentStep++;
+
+                // Set the flag to indicate that no sound is playing now
+                isPlayingSound = false;
+
+                // Play the sound for the next step
+                PlayNextSound();
+            }
+
+
+        }
     }
     public void SkipTutorial()
     {
@@ -107,6 +142,7 @@ public class Tutorial : MonoBehaviour
         _bo.EmptyAll();
         _suppliesInteractable.NotActive = true;
         _gun.CantUseStations = true;
+       
     }
 
 
@@ -118,7 +154,11 @@ public class Tutorial : MonoBehaviour
         // Update Content Here
         if (Input.GetKeyDown(KeyCode.Space)) // Finish Stage Requirement
         {
-       
+            // Move to the next step
+           
+
+            // Play the sound for the next step
+            
             _currentTutorialStage = TutorialStage2;
             _tutorialStages[1].gameObject.SetActive(false);
             _tutorialStages[2].gameObject.SetActive(true);
@@ -320,5 +360,18 @@ public class Tutorial : MonoBehaviour
     private void EventDone()
     {
         _done = true;
+    }
+    private void PlayNextSound()
+    {
+        if (currentStep < emitters.Count)
+        {
+            StudioEventEmitter currentEmitter = emitters[currentStep];
+
+            // Play the current step sound
+            currentEmitter.Play();
+
+            // Set a flag to indicate that sound is playing
+            isPlayingSound = true;
+        }
     }
 }
