@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using FMODUnity;
 using FMOD.Studio;
+using System.Collections;
 
 public class Tutorial : MonoBehaviour
 {
@@ -25,8 +26,8 @@ public class Tutorial : MonoBehaviour
 
     //UI image
 
-    [SerializeField] private GameObject[] FoodImages ;
-    
+    [SerializeField] private GameObject[] FoodImages;
+
     // refs
 
     [SerializeField] private Supplies _suppliesInteractable;
@@ -47,7 +48,7 @@ public class Tutorial : MonoBehaviour
 
     [SerializeField] private FMODEvents fmodEvents;
 
-    private List<StudioEventEmitter> emitters = new List<StudioEventEmitter>();
+    private StudioEventEmitter tutorialEmitter;
 
 
 
@@ -68,14 +69,10 @@ public class Tutorial : MonoBehaviour
         _gun.StartUsingStation();
         Time.timeScale = 0.0f;
         StartCoroutine("lateStart");
-        // Add all the emitters to the list
-        emitters.AddRange(GetComponentsInChildren<StudioEventEmitter>());
+        tutorialEmitter = GetComponent<StudioEventEmitter>();
+        PlayNextSound();
 
-        // Stop all emitters initially
-        foreach (var emitter in emitters)
-        {
-            emitter.Stop();
-        }
+
     }
 
 
@@ -93,14 +90,9 @@ public class Tutorial : MonoBehaviour
         _currentTutorialStage?.Invoke();
         if (isPlayingSound)
         {
-            Debug.Log("Yes!!");
-            // If a sound is playing, check if it has finished playing
-            StudioEventEmitter currentEmitter = emitters[currentStep];
-
-            if (!currentEmitter.IsPlaying())
+            // If the current sound is not playing anymore
+            if (!tutorialEmitter.IsPlaying())
             {
-
-               
                 // Sound has finished playing, move to the next step
                 currentStep++;
 
@@ -110,9 +102,8 @@ public class Tutorial : MonoBehaviour
                 // Play the sound for the next step
                 PlayNextSound();
             }
-
-
         }
+
     }
     public void SkipTutorial()
     {
@@ -134,7 +125,7 @@ public class Tutorial : MonoBehaviour
         {
             ammoType.CurrentAmmo = 0;
         }
-        
+
         _gm.OnAmmoUpdate?.Invoke();
         FreezeTimer?.Invoke(true);
         _tutorialStages[1].gameObject.SetActive(true);
@@ -142,7 +133,9 @@ public class Tutorial : MonoBehaviour
         _bo.EmptyAll();
         _suppliesInteractable.NotActive = true;
         _gun.CantUseStations = true;
-       
+
+        
+
     }
 
 
@@ -150,15 +143,15 @@ public class Tutorial : MonoBehaviour
 
     private void TutorialStage1() //movement
     {
-        
+
         // Update Content Here
         if (Input.GetKeyDown(KeyCode.Space)) // Finish Stage Requirement
         {
             // Move to the next step
-           
+
 
             // Play the sound for the next step
-            
+
             _currentTutorialStage = TutorialStage2;
             _tutorialStages[1].gameObject.SetActive(false);
             _tutorialStages[2].gameObject.SetActive(true);
@@ -221,10 +214,10 @@ public class Tutorial : MonoBehaviour
     private void TutorialStage5() // shoot him calm
     {
         if (_enemy == null) return;
-        
+
         _tutorialPointer.gameObject.SetActive(true);
         _tutorialPointer.position = _enemy.transform.position + Vector3.up * 3;
-        
+
 
         if (_enemy.CalmEnoughToEat()) // Finish Stage Requirement
         {
@@ -342,7 +335,7 @@ public class Tutorial : MonoBehaviour
                 FoodImages[i].gameObject.SetActive(false);
 
             }
-            
+
         }
         return allFoodIsFilled;
     }
@@ -363,15 +356,26 @@ public class Tutorial : MonoBehaviour
     }
     private void PlayNextSound()
     {
-        if (currentStep < emitters.Count)
+        if (currentStep < tutorialEvents.Length)
         {
-            StudioEventEmitter currentEmitter = emitters[currentStep];
+            // If a sound is already playing, stop it before playing the next sound
+            if (isPlayingSound)
+            {
+                tutorialEmitter.Stop();
+            }
+
+            // Get the event reference for the current step
+            EventReference currentEvent = tutorialEvents[currentStep];
+
+            // Assign the event reference to the StudioEventEmitter
+            tutorialEmitter.EventReference = currentEvent;
 
             // Play the current step sound
-            currentEmitter.Play();
+            tutorialEmitter.Play();
 
             // Set a flag to indicate that sound is playing
             isPlayingSound = true;
         }
     }
+
 }
