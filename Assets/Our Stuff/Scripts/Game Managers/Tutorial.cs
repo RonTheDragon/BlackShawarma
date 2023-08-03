@@ -42,9 +42,9 @@ public class Tutorial : MonoBehaviour
 
     private EnemyAI _enemy;
 
-    private int currentStep = 0;
+    private int currentStep = -1;
 
-    [SerializeField] private EventReference[] tutorialEvents;
+
 
     [SerializeField] private FMODEvents fmodEvents;
 
@@ -70,7 +70,7 @@ public class Tutorial : MonoBehaviour
         Time.timeScale = 0.0f;
         StartCoroutine("lateStart");
         tutorialEmitter = GetComponent<StudioEventEmitter>();
-        PlayNextSound();
+        
 
 
     }
@@ -88,21 +88,7 @@ public class Tutorial : MonoBehaviour
     void Update()
     {
         _currentTutorialStage?.Invoke();
-        if (isPlayingSound)
-        {
-            // If the current sound is not playing anymore
-            if (!tutorialEmitter.IsPlaying())
-            {
-                // Sound has finished playing, move to the next step
-                currentStep++;
-
-                // Set the flag to indicate that no sound is playing now
-                isPlayingSound = false;
-
-                // Play the sound for the next step
-                PlayNextSound();
-            }
-        }
+       
 
     }
     public void SkipTutorial()
@@ -133,8 +119,8 @@ public class Tutorial : MonoBehaviour
         _bo.EmptyAll();
         _suppliesInteractable.NotActive = true;
         _gun.CantUseStations = true;
+        PlayNextSound();
 
-        
 
     }
 
@@ -147,10 +133,7 @@ public class Tutorial : MonoBehaviour
         // Update Content Here
         if (Input.GetKeyDown(KeyCode.Space)) // Finish Stage Requirement
         {
-            // Move to the next step
-
-
-            // Play the sound for the next step
+            PlayNextSound();
 
             _currentTutorialStage = TutorialStage2;
             _tutorialStages[1].gameObject.SetActive(false);
@@ -163,6 +146,7 @@ public class Tutorial : MonoBehaviour
         // Update Content Here
         if (Input.GetKeyDown(KeyCode.Space)) // Finish Stage Requirement
         {
+            PlayNextSound();
             _currentTutorialStage = TutorialStage3;
             _tutorialStages[2].gameObject.SetActive(false);
             _tutorialStages[3].gameObject.SetActive(true);
@@ -174,6 +158,7 @@ public class Tutorial : MonoBehaviour
         // Update Content Here
         if (Input.GetKeyDown(KeyCode.Space)) // Finish Stage Requirement
         {
+            PlayNextSound();
             _currentTutorialStage = TutorialStage4;
             _tutorialStages[3].gameObject.SetActive(false);
             _tutorialStages[4].gameObject.SetActive(true);
@@ -191,6 +176,7 @@ public class Tutorial : MonoBehaviour
 
         if (IsAllAmmoRefilled()) // Finish Stage Requirement
         {
+            PlayNextSound();
             _tutorialStages[4].gameObject.SetActive(false);
             _tutorialStages[5].gameObject.SetActive(true);
             _enemySpawner.ChangeMaxEnemiesInGame(1);
@@ -221,6 +207,7 @@ public class Tutorial : MonoBehaviour
 
         if (_enemy.CalmEnoughToEat()) // Finish Stage Requirement
         {
+            PlayNextSound();
             _tutorialStages[5].gameObject.SetActive(false);
             _tutorialStages[6].gameObject.SetActive(true);
             _currentTutorialStage = TutorialStage6;
@@ -236,6 +223,7 @@ public class Tutorial : MonoBehaviour
 
         if (_done) // Finish Stage Requirement
         {
+            PlayNextSound();
             // Update Content Here
 
             _done = false;
@@ -258,6 +246,7 @@ public class Tutorial : MonoBehaviour
 
         if (_done) // Finish Stage Requirement
         {
+            PlayNextSound();
             _done = false;
             _suppliesInteractable.Used -= EventDone;
             _tutorialStages[7].gameObject.SetActive(false);
@@ -273,6 +262,7 @@ public class Tutorial : MonoBehaviour
 
         if (_enemy.CheckIfPitaCorrect(_gun.GetPita())) // Finish Stage Requirement
         {
+            PlayNextSound();
             _tutorialStages[8].gameObject.SetActive(false);
             _tutorialStages[9].gameObject.SetActive(true);
             _enemy.SetCurrentRage(50);
@@ -284,7 +274,7 @@ public class Tutorial : MonoBehaviour
     private void TutorialStage9() // Calm Him Again
     {
         // Update Content Here
-
+        PlayNextSound();
         if (_enemy.CalmEnoughToEat()) // Finish Stage Requirement
         {
             _tutorialStages[9].gameObject.SetActive(false);
@@ -299,6 +289,7 @@ public class Tutorial : MonoBehaviour
 
         if (_enemy.SideOrder == null) // Finish Stage Requirement
         {
+            PlayNextSound();
             _tutorialStages[10].gameObject.SetActive(false);
             _tutorialStages[11].gameObject.SetActive(true);
             _currentTutorialStage = TutorialStage11;
@@ -312,6 +303,7 @@ public class Tutorial : MonoBehaviour
 
         if (!_enemy.gameObject.activeSelf) // Finish Stage Requirement
         {
+            PlayNextSound();
             _tutorialStages[11].gameObject.SetActive(false);
             _currentTutorialStage = null;
             FreezeTimer?.Invoke(false);
@@ -356,20 +348,26 @@ public class Tutorial : MonoBehaviour
     }
     private void PlayNextSound()
     {
-        if (currentStep < tutorialEvents.Length)
+        currentStep++;
+        if (currentStep < fmodEvents.Tutorial.Length)
         {
             // If a sound is already playing, stop it before playing the next sound
             if (isPlayingSound)
             {
                 tutorialEmitter.Stop();
+                
             }
 
+            Destroy(tutorialEmitter);
+            tutorialEmitter =gameObject.AddComponent<StudioEventEmitter>();
             // Get the event reference for the current step
-            EventReference currentEvent = tutorialEvents[currentStep];
-
+            EventReference currentEvent = fmodEvents.Tutorial[currentStep];
+            Debug.Log(currentEvent.Path);
+            Debug.Log(currentStep);
             // Assign the event reference to the StudioEventEmitter
+            
             tutorialEmitter.EventReference = currentEvent;
-
+            Debug.Log(tutorialEmitter.EventReference.Path);
             // Play the current step sound
             tutorialEmitter.Play();
 
