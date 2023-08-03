@@ -2,56 +2,56 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
-using TMPro;
 using Random = System.Random;
 
 public class EnemyAI : MonoBehaviour
 {
-    [SerializeField]         float          _currentRage, _maxRage, _calmEnoughToEat , _startingRage;
-    [SerializeField]         float          _angerSmokeAmount = 1;
-    [SerializeField]         ParticleSystem _angerSmoke;
+
+    [SerializeField] float _currentRage, _maxRage, _calmEnoughToEat, _startingRage;
+    [SerializeField] float _angerSmokeAmount = 1;
+    [SerializeField] ParticleSystem _angerSmoke;
     [SerializeField] private ParticleSystem _veryAngrySmoke;
     [SerializeField] private ParticleSystem _happy;
     [SerializeField] private ParticleSystem _veryHappy;
-                     public  int            PlaceInLane, WhichLane;
-    [SerializeField] public  float            ChiliMultiplier = 2;
+    public int PlaceInLane, WhichLane;
+    [SerializeField] public float ChiliMultiplier = 2;
 
     public bool PassesInLines;
     public bool CantBePassed;
     public bool Old;
 
-    public            Sprite         HappyPicture;
-    public            Sprite         AngryPicture;
-    public            Sprite         SideOrderPanel;
-    public            Sprite         RequestedFood;
-    public            Sprite         RequestedFoodBG;
-    public            int            CustomerNumber;
-    [ReadOnly] public float          LevelRageMultiplier = 1;
-    public            float          CharacterRageMultiplier = 1;
-    [ReadOnly] public float          TempRageMultiplier = 1;
+    public Sprite HappyPicture;
+    public Sprite AngryPicture;
+    public Sprite SideOrderPanel;
+    public Sprite RequestedFood;
+    public Sprite RequestedFoodBG;
+    public int CustomerNumber;
+    [ReadOnly] public float LevelRageMultiplier = 1;
+    public float CharacterRageMultiplier = 1;
+    [ReadOnly] public float TempRageMultiplier = 1;
     private float _calmerTime;
 
-    [SerializeField]                 bool            _falefelEater, _eggplantEater, _friesEater;
-    [SerializeField]                GameObject       _canvas;
-    [SerializeField] private        List<GameObject> _orderFillers;
-    [SerializeField] private        GameObject      _theOrder;
-    [SerializeField] private        GameObject      _theFood;
-    [SerializeField] private        GameObject      _thePita;
-    [SerializeField] private        GameObject      _theFoodTopLeft;
-    [SerializeField]                float            _minTime       = 60;
-    [SerializeField]                float            _maxTime       = 180;
-    [SerializeField]                Vector2          _randompayment = new Vector2(10,25);
+    [SerializeField] bool _falefelEater, _eggplantEater, _friesEater;
+    [SerializeField] GameObject _canvas;
+    [SerializeField] private List<GameObject> _orderFillers;
+    [SerializeField] private GameObject _theOrder;
+    [SerializeField] private GameObject _theFood;
+    [SerializeField] private GameObject _thePita;
+    [SerializeField] private GameObject _theFoodTopLeft;
+    [SerializeField] float _minTime = 60;
+    [SerializeField] float _maxTime = 180;
+    [SerializeField] Vector2 _randompayment = new Vector2(10, 25);
 
-              NavMeshAgent _agent => GetComponent<NavMeshAgent>();
+    NavMeshAgent _agent => GetComponent<NavMeshAgent>();
     protected EnemySpawner _spawner;
-              Action       _onRage;
-              Vector3      _destination;
-              int          _enemyMaxPayment, _enemyMinPayment;
-              float        _time;
-              float        _f;
-              public int   CurrentPayment;
-    public    SideOrderUI  SideOrder;
-    public    int          EnemyDamage = 1;
+    Action _onRage;
+    Vector3 _destination;
+    int _enemyMaxPayment, _enemyMinPayment;
+    float _time;
+    float _f;
+    public int CurrentPayment;
+    public SideOrderUI SideOrder;
+    public int EnemyDamage = 1;
 
     [HideInInspector] public bool InfrontOfLine;
 
@@ -63,42 +63,44 @@ public class EnemyAI : MonoBehaviour
 
     private Action Loop;
 
-    public Action<float,bool> OnRageAmountChange;
-    public Action             OnBeingShot;
+    public Action<float, bool> OnRageAmountChange;
+    public Action OnBeingShot;
 
     [HideInInspector] public List<BuildOrder.Fillers> Order = new List<BuildOrder.Fillers>();
 
-    private bool   _done;
+    private bool _done;
     protected bool _coffee;
 
     private Vector3 PreviousPos;
 
-
-    virtual public void Spawn(EnemySpawner spawner,int num)
+    protected EnemySound _enemySound => GetComponent<EnemySound>();
+    virtual public void Spawn(EnemySpawner spawner, int num)
     {
-        _currentRage   = _startingRage;
-        _time          = 0;
-        _spawner       = spawner;
-        _done          = false;
+        _currentRage = _startingRage;
+        _time = 0;
+        _spawner = spawner;
+        _done = false;
         _agent.enabled = true;
-        CustomerNumber= num;
+        CustomerNumber = num;
         _theOrder.SetActive(false);
         _theFood.SetActive(true);
         _thePita.SetActive(false);
         _theFoodTopLeft.SetActive(true);
         SetEnemyPayment();
-        GenerateRandomOrder();   
+        GenerateRandomOrder();
         _spawner.SortLanes();
+        StartCoroutine("HelloSoundDelay");
+        
     }
 
 
     private void Start()
     {
         _onRage += MadCustomer;
-        Loop    += Movement;
-        Loop    += Rage;
-        Loop    += ShowOrder;
-        Loop    += EnemyTimer;
+        Loop += Movement;
+        Loop += Rage;
+        Loop += ShowOrder;
+        Loop += EnemyTimer;
     }
 
 
@@ -128,15 +130,15 @@ public class EnemyAI : MonoBehaviour
         }
         else
         {
-            
+
             _anim.SetBool("Walk", false);
-            float  angleDistance = Quaternion.Angle(transform.rotation, _spawner.transform.rotation);
+            float angleDistance = Quaternion.Angle(transform.rotation, _spawner.transform.rotation);
             if (angleDistance > 0.1f)
             {
                 float Angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, _spawner.transform.eulerAngles.y, ref _f, 0.2f);
                 transform.rotation = Quaternion.Euler(0, Angle, 0);
             }
-            
+
         }
         PreviousPos = transform.position;
     }
@@ -145,10 +147,10 @@ public class EnemyAI : MonoBehaviour
     private void Rage()
     {
         ParticleSystem.EmissionModule emission = _angerSmoke.emission;
-        if (_done) 
+        if (_done)
         {
             emission.rateOverTime = 0;
-            return; 
+            return;
         }
 
         if (_calmerTime > 0)
@@ -170,8 +172,8 @@ public class EnemyAI : MonoBehaviour
             if (!_done)
             {
                 _currentRage += LevelRageMultiplier * CharacterRageMultiplier * TempRageMultiplier
-                    * Time.deltaTime / (InfrontOfLine ? 1: _gm.EnemiesBehindCalmerBy
-                    / (_currentRage>_calmEnoughToEat? 1 : _gm.CalmEnemiesStayCalmBy));
+                    * Time.deltaTime / (InfrontOfLine ? 1 : _gm.EnemiesBehindCalmerBy
+                    / (_currentRage > _calmEnoughToEat ? 1 : _gm.CalmEnemiesStayCalmBy));
             }
         }
         else
@@ -182,15 +184,15 @@ public class EnemyAI : MonoBehaviour
                 _onRage?.Invoke();
             }
         }
-        OnRageAmountChange?.Invoke(1 -(_currentRage / _maxRage), _currentRage > _calmEnoughToEat);
+        OnRageAmountChange?.Invoke(1 - (_currentRage / _maxRage), _currentRage > _calmEnoughToEat);
     }
 
-    private void ShowOrder() 
+    private void ShowOrder()
     {
         if (CalmEnoughToEat() && !_done) //if calm enough to eat
         {
             if (_canvas.activeSelf == false)
-            _canvas.gameObject.SetActive(true);
+                _canvas.gameObject.SetActive(true);
             _canvas.transform.LookAt(PlayerCamera.transform.position);
             if (_theOrder.activeSelf == false)
             {
@@ -226,7 +228,8 @@ public class EnemyAI : MonoBehaviour
     }
 
     public void Eat(Edible.Food f)
-    {if (_done) return;
+    {
+        if (_done) return;
         if (CanIEat(f))
         {
             MakeHappier(_gm.FoodCalmingEffect);
@@ -288,16 +291,18 @@ public class EnemyAI : MonoBehaviour
     #region CustomerReaction
     virtual protected void HappyCustomer()
     {
+        _enemySound.PlayExitSound();
         _gm.CM.AddCombo();
         _gm.AddMoney(CurrentPayment);
         RemoveCustomer();
+        
     }
 
     virtual protected void MadCustomer()
     {
         _veryAngrySmoke.Emit(1);
         _gm.TazdokTakeDamage(1);
-
+        _enemySound.PlayAngrySound();
         RemoveCustomer();
     }
 
@@ -308,8 +313,8 @@ public class EnemyAI : MonoBehaviour
         _spawner.RemoveEnemy(this);
 
         OnRageAmountChange = null;
-        if (SideOrder!=null)
-        Destroy(SideOrder.gameObject);
+        if (SideOrder != null)
+            Destroy(SideOrder.gameObject);
     }
     #endregion
 
@@ -323,7 +328,7 @@ public class EnemyAI : MonoBehaviour
     public void InstantlyRemoveCustomer()
     {
         if (gameObject.activeSelf)
-        StartCoroutine("DeletingEnemy");
+            StartCoroutine("DeletingEnemy");
     }
 
     private System.Collections.IEnumerator DeletingEnemy()
@@ -365,8 +370,8 @@ public class EnemyAI : MonoBehaviour
     {
         List<BuildOrder.Fillers> RandomOrder = new List<BuildOrder.Fillers>();
 
-        int FillerAmount = UnityEngine.Random.Range(1, _gm.MaxFillers+1);
-        int count        = Enum.GetValues(typeof(BuildOrder.Fillers)).Length;
+        int FillerAmount = UnityEngine.Random.Range(1, _gm.MaxFillers + 1);
+        int count = Enum.GetValues(typeof(BuildOrder.Fillers)).Length;
 
         for (int i = 0; i < FillerAmount; i++)
         {
@@ -390,33 +395,33 @@ public class EnemyAI : MonoBehaviour
         //}
         //_orderText.text = orderInText;
 
-        foreach(GameObject go in _orderFillers)
+        foreach (GameObject go in _orderFillers)
         {
             go.SetActive(false);
         }
 
         for (int i = 0; i < Order.Count; i++)
-        {          
-            _orderFillers[(int)Order[i]].SetActive(true); 
+        {
+            _orderFillers[(int)Order[i]].SetActive(true);
         }
 
     }
 
     void SetEnemyPayment()
     {
-        Random random    = new Random();
-        _enemyMaxPayment = random.Next((int)_randompayment.x,(int)_randompayment.y);
+        Random random = new Random();
+        _enemyMaxPayment = random.Next((int)_randompayment.x, (int)_randompayment.y);
         _enemyMinPayment = _enemyMaxPayment / 2;
-        CurrentPayment   = _enemyMaxPayment;
+        CurrentPayment = _enemyMaxPayment;
     }
 
     void EnemyTimer()
     {
         _time += Time.deltaTime;
         if (_time > _minTime && _time < _maxTime)
-        {         
+        {
             float n = (1 - (_time - _minTime) / (_maxTime - _minTime));//min and max of the time for the payment 
-            CurrentPayment = (int)Mathf.Lerp(_enemyMinPayment,_enemyMaxPayment, n);
+            CurrentPayment = (int)Mathf.Lerp(_enemyMinPayment, _enemyMaxPayment, n);
 
         }
     }
@@ -425,12 +430,12 @@ public class EnemyAI : MonoBehaviour
     {
         if (_gm.UsedChili)
         {
-           _currentRage -= amount * ChiliMultiplier;
+            _currentRage -= amount * ChiliMultiplier;
 
         }
         else
         {
-           _currentRage -= amount ;
+            _currentRage -= amount;
         }
         _happy.Emit(1);
     }
@@ -445,7 +450,7 @@ public class EnemyAI : MonoBehaviour
     public void SetTempRage(float time, float amount)
     {
         TempRageMultiplier = amount;
-        _calmerTime        = time;
+        _calmerTime = time;
     }
 
     public float GetCurrentRage()
@@ -456,5 +461,10 @@ public class EnemyAI : MonoBehaviour
     public void SetCurrentRage(float rage)
     {
         _currentRage = rage;
+    }
+    private System.Collections.IEnumerator HelloSoundDelay()
+    {
+        yield return null;
+        _enemySound.PlayEnterSound();
     }
 }

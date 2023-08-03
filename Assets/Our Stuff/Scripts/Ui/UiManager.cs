@@ -119,7 +119,6 @@ public class UiManager : MonoBehaviour
         _gm.OnEndLevel       += EndLevel;
         _gm.OnOrderMaximize  += SetMaximizedOrder;
         _tutorial.FreezeTimer += FreezeTimer;
-        _loop += OpenEnemyInfo;
         _loop += SetMaximizedOrderBar;
         _gm.OnAmmoUpdate += UpdateAmmoCounter;
         _gm.CM.AddEvent += ComboIncrease;
@@ -367,15 +366,7 @@ public class UiManager : MonoBehaviour
                 break;
         }
     }
-    private void OpenEnemyInfo()
-    {
-        if (Input.GetKeyDown(KeyCode.Tab) && Time.timeScale != 0)
-        { 
-          _enemyInfoUi.gameObject.SetActive(!_enemyInfoUi.gameObject.activeSelf);
-        }
-        
-       
-    }
+   
     //ui.Fillers, ui.GetPanel(), ui.GetPfp(),ui.GetFoodBG(),ui.OnUpdateBar,ui.GetNumber()
     private void SetMaximizedOrder(SideOrderUI ui)
     {

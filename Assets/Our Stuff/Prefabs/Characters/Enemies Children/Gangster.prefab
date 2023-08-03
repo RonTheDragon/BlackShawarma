@@ -596,6 +596,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8155300945580377533, guid: 397ddbb5c45285c4d80728a808fd65f6, type: 3}
+      propertyPath: _currentEnemy
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 8332920823170148712, guid: 397ddbb5c45285c4d80728a808fd65f6, type: 3}
       propertyPath: m_Height
       value: 2.358498
@@ -760,6 +764,7 @@ MonoBehaviour:
   _veryHappy: {fileID: 3007773273187076086}
   PlaceInLane: 0
   WhichLane: 0
+  ChiliMultiplier: 2
   PassesInLines: 1
   CantBePassed: 1
   Old: 0

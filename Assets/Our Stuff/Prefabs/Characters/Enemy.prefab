@@ -21380,6 +21380,7 @@ GameObject:
   - component: {fileID: 8332920823170148712}
   - component: {fileID: -1553048235065165026}
   - component: {fileID: -75605627221871459}
+  - component: {fileID: 8155300945580377533}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Untagged
@@ -21513,6 +21514,7 @@ MonoBehaviour:
   _veryHappy: {fileID: 7029901860964469181}
   PlaceInLane: 0
   WhichLane: 0
+  ChiliMultiplier: 2
   PassesInLines: 0
   CantBePassed: 0
   Old: 0
@@ -21551,3 +21553,20 @@ MonoBehaviour:
   InfrontOfLine: 0
   _anim: {fileID: 0}
   Order: 
+--- !u!114 &8155300945580377533
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8332920823170148713}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb5ada50ac21ca949bf591c8e61afcf5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _fMODEvents: {fileID: 0}
+  _currentEnemy: 0
+  _enterEmitter: {fileID: 0}
+  _angryEmitter: {fileID: 0}
+  _exitEmitter: {fileID: 0}

@@ -40,8 +40,10 @@ public class Soldier : EnemyAI
 
     protected override void HappyCustomer()
     {
+        _enemySound.PlayExitSound();
         _spawner.CalmEveryone(10,transform.position,5);
         _gm.CM.AddCombo();
         RemoveCustomer();
+        
     }
 }
