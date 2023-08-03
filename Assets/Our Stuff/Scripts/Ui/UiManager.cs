@@ -73,7 +73,7 @@ public class UiManager : MonoBehaviour
     [SerializeField] private GameObject _shootPitaPanel;
     [SerializeField] private GameObject _shootLafaPanel;
 
-    [SerializeField] private GameObject _outOfAmmo;
+    [SerializeField] private GameObject[] _outOfAmmos = new GameObject[3];
 
     [Header("Combo")]
     [SerializeField] private GameObject _comboPanel;
@@ -128,7 +128,7 @@ public class UiManager : MonoBehaviour
         _movement.OnStamina += StaminaUI;
         _levelManager.OnLevelTutorialUpdate += LevelTutorials;
         UpdateMoney();
-        _outOfAmmo.SetActive(false);
+        UpdateOutOfAmmo(-1);
     }
 
     private void Update()
@@ -148,9 +148,17 @@ public class UiManager : MonoBehaviour
         Info.text = string.Empty;
     }
 
-    void UpdateOutOfAmmo(bool b)
+    void UpdateOutOfAmmo(int i)
     {
-        _outOfAmmo.SetActive(b);
+        foreach (GameObject item in _outOfAmmos)
+        {
+            item.SetActive(false);
+            
+        }
+        if (i >= 0 && i<=2)
+        {
+            _outOfAmmos[i].SetActive(true);
+        }
     }
 
     void SwitchAmmoType(SOAmmoType a)
@@ -493,11 +501,20 @@ public class UiManager : MonoBehaviour
     {
         foreach (Transform item in _levelTutorial)
         {
-            item.gameObject.SetActive(false);
+            if (item.gameObject.activeSelf)
+            {
+                item.gameObject.SetActive(false);
+                _gun.StopUsingStation();
+
+                Time.timeScale = 1;
+            }
+            
         }
         if (_levelTutorial.childCount > tutorial && tutorial>=0)
         {
             _levelTutorial.GetChild(tutorial).gameObject.SetActive(true);
+            _gun.StartUsingStation();
+            Time.timeScale = 0;
         }
     }
 

@@ -88,7 +88,7 @@ public class Gun : MonoBehaviour
     public Action<string> infoUpdate;
     public Action<string> infoUpdateNA;
 
-    public Action<bool> OutOfAmmo;
+    public Action<int> OutOfAmmo;
 
     public Action<GameObject> OnUse;
 
@@ -205,7 +205,7 @@ public class Gun : MonoBehaviour
                 {
                     //play the empty gun sound, if the sound is not playing already.
                     
-                    OutOfAmmo?.Invoke(true);
+                    OutOfAmmo?.Invoke(_currentAmmo);
                     _outOfAmmoShowTime = 1;
                     _am.PlayOneShot(FMODEvents.instance.OutOfAmmo, transform.position);
                     _cd = _coffeeBuff ? CoffeeCD : CoolDown;
@@ -651,7 +651,7 @@ public class Gun : MonoBehaviour
         else if (_outOfAmmoShowTime <0)
         {
             _outOfAmmoShowTime = 0;
-            OutOfAmmo?.Invoke(false);
+            OutOfAmmo?.Invoke(-1);
         }
     }
 

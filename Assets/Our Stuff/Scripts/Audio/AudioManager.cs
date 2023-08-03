@@ -15,7 +15,7 @@ public class AudioManager : MonoBehaviour
     public float ambienceVolume = 1;
     [Range(0, 1)]
     public float SFXVolume = 1;
-
+    
     //private Bus masterBus;
     //private Bus musicBus;
     //private Bus ambienceBus;
@@ -28,6 +28,8 @@ public class AudioManager : MonoBehaviour
     private EventInstance FillerEventInstance;
     //private EventInstance musicEventInstance;
     private EventInstance ChipserEventInstance;
+    private bool isPlayingSound;
+    private StudioEventEmitter tutorialEmitter;
 
     public static AudioManager instance { get; private set; }
 
@@ -153,4 +155,5 @@ public class AudioManager : MonoBehaviour
     {
         CleanUp();
     }
+  
 }

@@ -1,5 +1,7 @@
+using FMODUnity;
 using System;
 using UnityEngine;
+
 
 public class FoodStation : MonoBehaviour , HoldInteractable
 {
@@ -33,6 +35,7 @@ public class FoodStation : MonoBehaviour , HoldInteractable
     public string NotActiveInfo { get => _notActiveInfo; set => _notActiveInfo = value; }
     private string _notActiveInfo;
 
+    private StudioEventEmitter CounterEmitter =>GetComponent<StudioEventEmitter>();
     private void Start()
     {
         _am = AudioManager.instance;
@@ -60,7 +63,8 @@ public class FoodStation : MonoBehaviour , HoldInteractable
                 if (!_gun.UsingUI)
                 {
                     _gun.StartUsingStation();
-                   _am.PlayOneShot(FMODEvents.instance.Counter, transform.position);
+                    CounterEmitter.Stop();
+                    CounterEmitter.Play();
                 }
                 else
                 {

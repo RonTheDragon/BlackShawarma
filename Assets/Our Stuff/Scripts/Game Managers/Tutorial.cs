@@ -94,9 +94,9 @@ public class Tutorial : MonoBehaviour
     public void SkipTutorial()
     {
         Time.timeScale = 1.0f;
+        _gun.StopUsingStation();
         _tutorialStages[0].gameObject.SetActive(false);
         _levelManager.NextLevel();
-        _gun.StopUsingStation();
     }
 
     public void StartTutorial()
