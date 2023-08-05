@@ -18,6 +18,7 @@ public class Supplies : MonoBehaviour, HoldInteractable
     public float UseDuration { get => _useDuration; set => _useDuration = value; }
 
     private GameManager _gm;
+    private AudioManager _am;
 
     public string NotActiveInfo { get => _notActiveInfo; set => _notActiveInfo = value; }
     private string _notActiveInfo;
@@ -26,6 +27,7 @@ public class Supplies : MonoBehaviour, HoldInteractable
     private void Start()
     {
         _gm = GameManager.Instance;
+        _am = AudioManager.instance;
         _gm.OnPlaceDownSack += () => _notActive = false;
         _notActiveInfo = _whyCantUse;
     }
@@ -38,6 +40,7 @@ public class Supplies : MonoBehaviour, HoldInteractable
 
         if (b != null)
         {
+            _am.PlayOneShot(FMODEvents.instance.Pick, transform.position);
             b.HasSupplies = true;
             b.Sack.SetActive(true);
             _notActive = true;

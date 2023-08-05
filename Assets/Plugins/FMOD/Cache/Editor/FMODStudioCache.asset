@@ -54,33 +54,6 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 1363
---- !u!114 &-8458010194511898561
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/Music
-  m_EditorClassIdentifier: 
-  Path: event:/Music
-  Guid:
-    Data1: 975579611
-    Data2: 1095101453
-    Data3: 951179658
-    Data4: -761641735
-  Banks:
-  - {fileID: -3120544268882370365}
-  IsStream: 1
-  Is3D: 1
-  IsOneShot: 0
-  Parameters: []
-  MinDistance: 1
-  MaxDistance: 20
-  Length: 139090
 --- !u!114 &-8168341208784388713
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -312,10 +285,10 @@ MonoBehaviour:
   Path: TzadokFmod/FmodTzadok/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 638268341920909466
+  lastModified: 638268461807933576
   FileSizes:
   - Name: Desktop
-    Value: 2744
+    Value: 2948
   Exists: 1
 --- !u!114 &-3802534943463271742
 MonoBehaviour:
@@ -413,10 +386,10 @@ MonoBehaviour:
   Path: TzadokFmod/FmodTzadok/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 638268341920899466
+  lastModified: 638268461807918040
   FileSizes:
   - Name: Desktop
-    Value: 1036
+    Value: 1340
   Exists: 1
 --- !u!114 &-3235560442003140318
 MonoBehaviour:
@@ -460,7 +433,7 @@ MonoBehaviour:
   Path: TzadokFmod/FmodTzadok/Build/Desktop/Ambience.bank
   Name: Ambience
   StudioPath: bank:/Ambience
-  lastModified: 638268342786276778
+  lastModified: 638268362322749602
   FileSizes:
   - Name: Desktop
     Value: 2265472
@@ -507,10 +480,10 @@ MonoBehaviour:
   Path: TzadokFmod/FmodTzadok/Build/Desktop/Sfx.bank
   Name: Sfx
   StudioPath: bank:/Sfx
-  lastModified: 638268349278021215
+  lastModified: 638268461808885562
   FileSizes:
   - Name: Desktop
-    Value: 2760544
+    Value: 2838624
   Exists: 1
 --- !u!114 &-2163308691842376796
 MonoBehaviour:
@@ -620,6 +593,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 2200
+--- !u!114 &-1082846339069206556
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/AmbienceEvent
+  m_EditorClassIdentifier: 
+  Path: event:/AmbienceEvent
+  Guid:
+    Data1: -652135658
+    Data2: 1135487865
+    Data3: 304023424
+    Data4: -2118562192
+  Banks:
+  - {fileID: -3120544268882370365}
+  IsStream: 1
+  Is3D: 1
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 34257
 --- !u!114 &-884498712384801029
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -746,7 +746,6 @@ MonoBehaviour:
   - {fileID: -3548891573795014346}
   - {fileID: -2270935540716331777}
   EditorEvents:
-  - {fileID: 7873035665433478397}
   - {fileID: -3235560442003140318}
   - {fileID: 8929284594969668988}
   - {fileID: 497117174454930390}
@@ -770,7 +769,6 @@ MonoBehaviour:
   - {fileID: 5174340142037136}
   - {fileID: 9152636128425634765}
   - {fileID: 2112101840111315510}
-  - {fileID: -8458010194511898561}
   - {fileID: 8301691408841305499}
   - {fileID: 7562687630900921305}
   - {fileID: -1566024253548278661}
@@ -792,12 +790,17 @@ MonoBehaviour:
   - {fileID: -224935277908836974}
   - {fileID: 2837909798929867789}
   - {fileID: -8535631111496975102}
+  - {fileID: -1082846339069206556}
+  - {fileID: 6187340939183530205}
+  - {fileID: 2431598969718442540}
+  - {fileID: 4761288694430940917}
+  - {fileID: 3854838972402867861}
   EditorParameters: []
   MasterBanks:
   - {fileID: -3548891573795014346}
   StringsBanks:
   - {fileID: -4833356068048070517}
-  cacheTime: 638268349278021215
+  cacheTime: 638268461808885562
   cacheVersion: 131605
 --- !u!114 &5174340142037136
 MonoBehaviour:
@@ -1042,6 +1045,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 34257
+--- !u!114 &2431598969718442540
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Sfx/Picking
+  m_EditorClassIdentifier: 
+  Path: event:/Sfx/Picking
+  Guid:
+    Data1: 629895826
+    Data2: 1150869771
+    Data3: -1497877065
+    Data4: -1119276542
+  Banks:
+  - {fileID: -2270935540716331777}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 300
 --- !u!114 &2837909798929867789
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1096,6 +1126,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 20225
+--- !u!114 &3854838972402867861
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/HpDown
+  m_EditorClassIdentifier: 
+  Path: event:/HpDown
+  Guid:
+    Data1: 1076913149
+    Data2: 1331219735
+    Data3: 1996429475
+    Data4: 1740181690
+  Banks:
+  - {fileID: -2270935540716331777}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 1104
 --- !u!114 &4613152894637241449
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1150,6 +1207,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 4286
+--- !u!114 &4761288694430940917
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Shooting
+  m_EditorClassIdentifier: 
+  Path: event:/Shooting
+  Guid:
+    Data1: -276637382
+    Data2: 1288943729
+    Data3: 1400739489
+    Data4: -315534819
+  Banks:
+  - {fileID: -2270935540716331777}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 1000
 --- !u!114 &5064979736456223085
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1204,6 +1288,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 1732
+--- !u!114 &6187340939183530205
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/MusicEvent
+  m_EditorClassIdentifier: 
+  Path: event:/MusicEvent
+  Guid:
+    Data1: 975579611
+    Data2: 1095101453
+    Data3: 951179658
+    Data4: -761641735
+  Banks:
+  - {fileID: -3120544268882370365}
+  IsStream: 1
+  Is3D: 1
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 139090
 --- !u!114 &6389337970147413013
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1285,33 +1396,6 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 2000
---- !u!114 &7873035665433478397
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/Ambience
-  m_EditorClassIdentifier: 
-  Path: event:/Ambience
-  Guid:
-    Data1: -652135658
-    Data2: 1135487865
-    Data3: 304023424
-    Data4: -2118562192
-  Banks:
-  - {fileID: -3120544268882370365}
-  IsStream: 1
-  Is3D: 1
-  IsOneShot: 0
-  Parameters: []
-  MinDistance: 1
-  MaxDistance: 20
-  Length: 34257
 --- !u!114 &8023848147531218279
 MonoBehaviour:
   m_ObjectHideFlags: 0

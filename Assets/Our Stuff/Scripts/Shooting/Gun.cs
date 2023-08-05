@@ -199,6 +199,7 @@ public class Gun : MonoBehaviour
                 {
                     
                     StartCoroutine("ShootDelay");
+                    _am.PlayOneShot(FMODEvents.instance.shooting, transform.position);
                 }
                 
                 else

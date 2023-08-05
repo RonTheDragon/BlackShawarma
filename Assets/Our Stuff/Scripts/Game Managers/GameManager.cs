@@ -105,6 +105,7 @@ public class GameManager : MonoBehaviour
 
     public void TazdokTakeDamage(int m)
     {
+        AudioManager.instance.PlayOneShot(FMODEvents.instance.hit, transform.position);
         Debug.Log("pain");
         _tzadokHp -= m;
         TakeDamage?.Invoke();

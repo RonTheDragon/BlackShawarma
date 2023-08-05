@@ -7,11 +7,18 @@ public class FMODEvents : MonoBehaviour
 {
     [field: Header("Ambience")]
     [field: SerializeField] public EventReference ambience { get; private set; }
+
+    [field: Header("Shooting")]
+    [field: SerializeField] public EventReference shooting { get; private set; }
     [field: Header("Filler")]
     [field: SerializeField] public EventReference Filler { get; private set; }
+    [field: Header("Hit")]
+    [field: SerializeField] public EventReference hit { get; private set; }
+    [field: Header("Pick")]
+    [field: SerializeField] public EventReference Pick { get; private set; }
     [field: Header("Chipser")]
     [field: SerializeField] public EventReference Chipser { get; private set; }
-    [field: Header("ChipserUse")]
+  
     [field: SerializeField] public EventReference ChipserUse { get; private set; }
 
     [field: Header("OutOfAmmo")]
