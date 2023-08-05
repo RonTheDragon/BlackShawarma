@@ -246,13 +246,15 @@ public class Tutorial : MonoBehaviour
 
         if (_done) // Finish Stage Requirement
         {
-            PlayNextSound();
+            
             _done = false;
             _suppliesInteractable.Used -= EventDone;
             _tutorialStages[7].gameObject.SetActive(false);
             _tutorialStages[8].gameObject.SetActive(true);
             _currentTutorialStage = TutorialStage8;
             _tutorialPointer.position = _counterInteractable.transform.position + Vector3.up * 2;
+            
+
         }
     }
 
@@ -274,9 +276,10 @@ public class Tutorial : MonoBehaviour
     private void TutorialStage9() // Calm Him Again
     {
         // Update Content Here
-        PlayNextSound();
+        
         if (_enemy.CalmEnoughToEat()) // Finish Stage Requirement
         {
+            PlayNextSound();
             _tutorialStages[9].gameObject.SetActive(false);
             _tutorialStages[10].gameObject.SetActive(true);
             _currentTutorialStage = TutorialStage10;
