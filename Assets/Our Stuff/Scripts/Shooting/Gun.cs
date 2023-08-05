@@ -541,6 +541,7 @@ public class Gun : MonoBehaviour
         _cd = CoolDown;
         _gunAnimator.SetTrigger("Hamsa");
         StartCoroutine("PitaShootDelay");
+        _am.PlayOneShot(FMODEvents.instance.shootingPita, transform.position);
     }
 
     private void LafaShoot()

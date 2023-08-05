@@ -97,6 +97,7 @@ public class Tutorial : MonoBehaviour
         _gun.StopUsingStation();
         _tutorialStages[0].gameObject.SetActive(false);
         _levelManager.NextLevel();
+        AudioManager.instance.PlayOneShot(fmodEvents.music, _gun.transform.position);
     }
 
     public void StartTutorial()

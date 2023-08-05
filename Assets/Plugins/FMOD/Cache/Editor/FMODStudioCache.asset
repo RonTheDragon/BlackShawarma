@@ -216,6 +216,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 4636
+--- !u!114 &-5774735943106498333
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/ShotingPitaEvent
+  m_EditorClassIdentifier: 
+  Path: event:/ShotingPitaEvent
+  Guid:
+    Data1: -1727729327
+    Data2: 1282868048
+    Data3: 863069601
+    Data4: -1645064917
+  Banks:
+  - {fileID: -2270935540716331777}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 425
 --- !u!114 &-5661809117768692467
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -285,10 +312,10 @@ MonoBehaviour:
   Path: TzadokFmod/FmodTzadok/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 638268461807933576
+  lastModified: 638268685492250284
   FileSizes:
   - Name: Desktop
-    Value: 2948
+    Value: 3004
   Exists: 1
 --- !u!114 &-3802534943463271742
 MonoBehaviour:
@@ -386,7 +413,7 @@ MonoBehaviour:
   Path: TzadokFmod/FmodTzadok/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 638268461807918040
+  lastModified: 638268685492230256
   FileSizes:
   - Name: Desktop
     Value: 1340
@@ -433,7 +460,7 @@ MonoBehaviour:
   Path: TzadokFmod/FmodTzadok/Build/Desktop/Ambience.bank
   Name: Ambience
   StudioPath: bank:/Ambience
-  lastModified: 638268362322749602
+  lastModified: 638268713497822680
   FileSizes:
   - Name: Desktop
     Value: 2265472
@@ -480,10 +507,10 @@ MonoBehaviour:
   Path: TzadokFmod/FmodTzadok/Build/Desktop/Sfx.bank
   Name: Sfx
   StudioPath: bank:/Sfx
-  lastModified: 638268461808885562
+  lastModified: 638268685494590729
   FileSizes:
   - Name: Desktop
-    Value: 2838624
+    Value: 2845376
   Exists: 1
 --- !u!114 &-2163308691842376796
 MonoBehaviour:
@@ -795,12 +822,13 @@ MonoBehaviour:
   - {fileID: 2431598969718442540}
   - {fileID: 4761288694430940917}
   - {fileID: 3854838972402867861}
+  - {fileID: -5774735943106498333}
   EditorParameters: []
   MasterBanks:
   - {fileID: -3548891573795014346}
   StringsBanks:
   - {fileID: -4833356068048070517}
-  cacheTime: 638268461808885562
+  cacheTime: 638268713497822680
   cacheVersion: 131605
 --- !u!114 &5174340142037136
 MonoBehaviour:

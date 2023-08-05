@@ -10,6 +10,8 @@ public class FMODEvents : MonoBehaviour
 
     [field: Header("Shooting")]
     [field: SerializeField] public EventReference shooting { get; private set; }
+    [field: Header("ShootingPita")]
+    [field: SerializeField] public EventReference shootingPita { get; private set; }
     [field: Header("Filler")]
     [field: SerializeField] public EventReference Filler { get; private set; }
     [field: Header("Hit")]
@@ -41,9 +43,9 @@ public class FMODEvents : MonoBehaviour
     [field: SerializeField] public EventReference[] MobsterTalk { get; private set; }
     [field: Header("Tutorial")]
     [field: SerializeField] public EventReference[] Tutorial { get; private set; }
-    //[field: Header("Music")]
-    //[field: Header("Music")]
-    //[field: SerializeField] public EventReference music { get; private set; }
+    [field: Header("Music")]
+    [field: Header("Music")]
+    [field: SerializeField] public EventReference music { get; private set; }
 
     //[field: Header("Player SFX")]
     //[field: SerializeField] public EventReference playerFootsteps { get; private set; }
