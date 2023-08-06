@@ -366,12 +366,11 @@ public class Tutorial : MonoBehaviour
             tutorialEmitter =gameObject.AddComponent<StudioEventEmitter>();
             // Get the event reference for the current step
             EventReference currentEvent = fmodEvents.Tutorial[currentStep];
-            Debug.Log(currentEvent.Path);
-            Debug.Log(currentStep);
+            
             // Assign the event reference to the StudioEventEmitter
             
             tutorialEmitter.EventReference = currentEvent;
-            Debug.Log(tutorialEmitter.EventReference.Path);
+           
             // Play the current step sound
             tutorialEmitter.Play();
 

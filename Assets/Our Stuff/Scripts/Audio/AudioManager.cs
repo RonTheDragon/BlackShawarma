@@ -96,30 +96,7 @@ public class AudioManager : MonoBehaviour
         RuntimeManager.PlayOneShot(sound, worldPos);
         
     }
-    public void PlayOneShotUnique(EventReference sound, Vector3 worldPos)
-    {
-        string soundPath = sound.Path;
-        if (soundInstances.ContainsKey(soundPath))
-        {
-            EventInstance existingInstance = soundInstances[soundPath];
-            PLAYBACK_STATE state;
-            existingInstance.getPlaybackState(out state);
-
-            if (state != PLAYBACK_STATE.PLAYING)
-            {
-                soundInstances.Remove(soundPath);
-            }
-            else
-            {
-                // Sound is already playing, do not play it again.
-                return;
-            }
-        }
-
-        EventInstance eventInstance = CreateInstance(sound);
-        soundInstances[soundPath] = eventInstance;
-        eventInstance.start();
-    }
+   
 
     public EventInstance CreateInstance(EventReference eventReference)
     {
