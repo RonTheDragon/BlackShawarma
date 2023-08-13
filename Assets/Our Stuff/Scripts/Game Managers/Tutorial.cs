@@ -82,6 +82,7 @@ public class Tutorial : MonoBehaviour
         yield return null;
         yield return null;
         Time.timeScale = 0.0f;
+        _gun.StartUsingStation();
     }
 
     // Update is called once per frame
