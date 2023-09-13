@@ -120,6 +120,7 @@ public class UiManager : MonoBehaviour
         _gm.OnOrderMaximize  += SetMaximizedOrder;
         _tutorial.FreezeTimer += FreezeTimer;
         _loop += SetMaximizedOrderBar;
+        _loop += ClosePauseMenuWithInput;
         _gm.OnAmmoUpdate += UpdateAmmoCounter;
         _gm.CM.AddEvent += ComboIncrease;
         _gm.CM.ResetEvent += ResetCombo;
@@ -459,16 +460,32 @@ public class UiManager : MonoBehaviour
 
     private void OpenPauseMenu()
     {
-        _pauseMenu.SetActive(true);
-        _gun.StartUsingStation();
-        Time.timeScale = 0;
+        if (_pauseMenu.activeSelf == false)
+        {
+            _pauseMenu.SetActive(true);
+            _gun.StartUsingStation();
+            Time.timeScale = 0;
+        }
+    }
+
+    private void ClosePauseMenuWithInput()
+    {
+        if (_pauseMenu.activeSelf == true && Input.GetKeyDown(KeyCode.Escape))
+        {
+           ClosePauseMenu();
+        }
     }
 
     public void ClosePauseMenu()
     {
         Time.timeScale= 1;
-        _pauseMenu.SetActive(false);
+        Invoke("ClosingPauseMenu", 0.01f);
         _gun.StopUsingStation();
+    }
+
+    private void ClosingPauseMenu()
+    {
+        _pauseMenu.SetActive(false);
     }
 
     public void OpenShop(bool Open)

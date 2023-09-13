@@ -19,13 +19,17 @@ public class MainMenuButtons : MonoBehaviour
 
     //[SerializeField] private Vector2 _menuSensitivity = new Vector2(1, 10);
 
+    public Transform CursorHand;
+
     private void Start()
     {
         MouseSetUp();
+        Cursor.visible = false;
     }
 
     private void Update()
     {
+        DrawCursor();
         EventSystem.current.pixelDragThreshold = 100000000;
     }
 
@@ -79,5 +83,10 @@ public class MainMenuButtons : MonoBehaviour
             Menus[i].gameObject.SetActive(false);
         }
         Menus[menuNum].SetActive(true);
+    }
+
+    private void DrawCursor()
+    {
+        CursorHand.position = Input.mousePosition;
     }
 }

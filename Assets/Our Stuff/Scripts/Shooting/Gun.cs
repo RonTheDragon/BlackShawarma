@@ -106,6 +106,8 @@ public class Gun : MonoBehaviour
 
     public Action OnLafaShoot;
 
+    private Action _onAimAtFinishedTurning;
+
     List<BuildOrder.Fillers> _currentPita = new List<BuildOrder.Fillers>();
 
     [SerializeField] Material PitaTrajectoryMaterial;
@@ -185,6 +187,8 @@ public class Gun : MonoBehaviour
 
         if (Input.GetMouseButton(0) && _cd <= 0 && !UsingUI) // When shoot
         {
+            tpm.StopFreeRoaming();
+
             if (_hasLafa && isAiming)
             {
                 LafaShoot();
@@ -214,7 +218,7 @@ public class Gun : MonoBehaviour
                 }
             }
 
-            tpm.StopFreeRoaming();
+            
         }
 
         if (_cd > 0)
@@ -228,6 +232,7 @@ public class Gun : MonoBehaviour
     {
         _cd = _coffeeBuff ? CoffeeCD : CoolDown;
         yield return new WaitForSeconds(0.01f);
+        yield return null;
         yield return null;
 
         GameObject bullet = ObjectPooler.Instance.SpawnFromPool(CurrentAmmoType.AmmoTag, barrel.position, barrel.rotation);
@@ -243,7 +248,8 @@ public class Gun : MonoBehaviour
     private void AimAt(Vector3 pos)
     {
         barrel.LookAt(pos);
-        _aimAt.position = Vector3.MoveTowards(_aimAt.position, pos, Vector3.Distance(_aimAt.position, pos) * _aimAtSpeed * Time.deltaTime);
+        _aimAt.position = Vector3.MoveTowards(_aimAt.position, pos, Vector3.Distance(_aimAt.position, pos)
+            * _aimAtSpeed * Time.deltaTime);
     }
     private void UseStationRaycast()
     {
@@ -489,20 +495,7 @@ public class Gun : MonoBehaviour
         else OnUse = null;
     }
 
-    /*
-    public void ToggleUsingStation()
-    {
-        OnStation = !OnStation;
-        cinemachine.enabled = !cinemachine.enabled;
-        tpm.enabled = !tpm.enabled;
-        if (Cursor.lockState == CursorLockMode.Locked)
-            Cursor.lockState = CursorLockMode.None;
-        else Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = !Cursor.visible;
-        infoUpdate?.Invoke(string.Empty);
-    }
-    */ // replaced due to causing too many bugs.
-
+    
     public void StartUsingStation()
     {
         UsingUI = true;
